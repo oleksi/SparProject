@@ -1,0 +1,17 @@
+c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\TestConsoleClient\bin\Debug\TestConsoleClient.exe.config
+c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\TestConsoleClient\bin\Debug\Mappings\Gym.hbm.xml
+c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\TestConsoleClient\bin\Debug\Mappings\Fighter.hbm.xml
+c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\TestConsoleClient\bin\Debug\TestConsoleClient.exe
+c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\TestConsoleClient\bin\Debug\TestConsoleClient.pdb
+c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\TestConsoleClient\bin\Debug\SparData.dll
+c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\TestConsoleClient\bin\Debug\SparModel.dll
+c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\TestConsoleClient\bin\Debug\NHibernate.dll
+c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\TestConsoleClient\bin\Debug\Iesi.Collections.dll
+c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\TestConsoleClient\bin\Debug\SparData.pdb
+c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\TestConsoleClient\bin\Debug\SparModel.pdb
+c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\TestConsoleClient\bin\Debug\NHibernate.xml
+c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\TestConsoleClient\bin\Debug\Iesi.Collections.xml
+c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\TestConsoleClient\obj\Debug\TestConsoleClient.csprojResolveAssemblyReference.cache
+c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\TestConsoleClient\obj\Debug\TestConsoleClient.exe
+c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\TestConsoleClient\obj\Debug\TestConsoleClient.pdb
+c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\TestConsoleClient\bin\Debug\hibernate.cfg.xml
