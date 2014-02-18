@@ -1,5 +1,0 @@
-c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\SparModel\obj\Debug\SparModel.csprojResolveAssemblyReference.cache
-c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\SparModel\bin\Debug\SparModel.dll
-c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\SparModel\bin\Debug\SparModel.pdb
-c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\SparModel\obj\Debug\SparModel.dll
-c:\users\shevchukevycho\documents\visual studio 2013\Projects\SparProject\SparModel\obj\Debug\SparModel.pdb
