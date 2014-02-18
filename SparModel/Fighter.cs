@@ -10,6 +10,7 @@ namespace SparModel
     {
 		public virtual int? Id { get; set; }
 		public virtual string Name { get; set; }
+		public virtual string Email { get; set; }
 		public virtual bool Sex { get; set; } //1 - Male; 0 - Female
 		public virtual DateTime DateOfBirth { get; set; }
 		public virtual double Height { get; set; }

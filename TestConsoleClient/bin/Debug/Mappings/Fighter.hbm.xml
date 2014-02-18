@@ -9,6 +9,7 @@
 			<generator class="identity"></generator>
 		</id>
 		<property name="Name" column="Name" not-null="true"></property>
+		<property name="Email" column="Email" not-null="true"></property>
 		<property name="Sex" column="Sex" not-null="true"></property>
 		<property name="DateOfBirth" column="DateOfBirth" not-null="true"></property>
 		<property name="Height" column="Height" not-null="true"></property>

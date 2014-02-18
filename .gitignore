@@ -1,4 +1,7 @@
-
+[Dd]ebug*/
+[Pp]ackages
+*.suo
+*.dgml
 
 #ignore thumbnails created by windows
 Thumbs.db
@@ -13,7 +16,6 @@ Thumbs.db
 *_i.c
 *_p.c
 *.ncb
-*.suo
 *.tlb
 *.tlh
 *.bak
@@ -21,11 +23,9 @@ Thumbs.db
 *.ilk
 *.log
 [Bb]in
-[Dd]ebug*/
 *.lib
 *.sbr
 obj/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
-SparProject.v12.suo
