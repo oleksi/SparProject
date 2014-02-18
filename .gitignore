@@ -1,6 +1,7 @@
 [Dd]ebug*/
 [Pp]ackages
 *.suo
+*.v12.suo
 *.dgml
 
 #ignore thumbnails created by windows
