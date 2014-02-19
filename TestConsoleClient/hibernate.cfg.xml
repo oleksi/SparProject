@@ -5,7 +5,7 @@
 	<session-factory name="NHibernate.Test">
 		<property name="connection.driver_class">NHibernate.Driver.SqlClientDriver</property>
 		<property name="connection.connection_string">
-			Server=TRNYC-SHEVCHO-W\SQLEXPRESS;initial catalog=SparProject;User Id=sparprojectadmin;Password=P@ssw0rd;Integrated Security=True;MultipleActiveResultSets=True
+			Server=TRNYC-SHEVCHO-W\SQLEXPRESS;initial catalog=SparProject;User Id=sparprojectadmin;Password=P@ssw0rd;Integrated Security=False;MultipleActiveResultSets=True
 		</property>
 		<property name="dialect">NHibernate.Dialect.MsSql2008Dialect</property>
 		<!--<property name="hbm2ddl.auto">create</property>-->
