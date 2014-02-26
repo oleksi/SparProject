@@ -188,3 +188,23 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 *.csproj.user
+packages/EntityFramework.6.0.2/content/App.config.transform
+packages/EntityFramework.6.0.2/content/Web.config.transform
+packages/EntityFramework.6.0.2/EntityFramework.6.0.2.nupkg
+packages/EntityFramework.6.0.2/EntityFramework.6.0.2.nuspec
+packages/EntityFramework.6.0.2/lib/net40/EntityFramework.dll
+packages/EntityFramework.6.0.2/lib/net40/EntityFramework.SqlServer.dll
+packages/EntityFramework.6.0.2/lib/net40/EntityFramework.SqlServer.xml
+packages/EntityFramework.6.0.2/lib/net40/EntityFramework.xml
+packages/EntityFramework.6.0.2/lib/net45/EntityFramework.dll
+packages/EntityFramework.6.0.2/lib/net45/EntityFramework.SqlServer.dll
+packages/EntityFramework.6.0.2/lib/net45/EntityFramework.SqlServer.xml
+packages/EntityFramework.6.0.2/lib/net45/EntityFramework.xml
+packages/EntityFramework.6.0.2/tools/about_EntityFramework.help.txt
+packages/EntityFramework.6.0.2/tools/EntityFramework.PowerShell.dll
+packages/EntityFramework.6.0.2/tools/EntityFramework.PowerShell.Utility.dll
+packages/EntityFramework.6.0.2/tools/EntityFramework.psd1
+packages/EntityFramework.6.0.2/tools/EntityFramework.psm1
+packages/EntityFramework.6.0.2/tools/init.ps1
+packages/EntityFramework.6.0.2/tools/install.ps1
+packages/EntityFramework.6.0.2/tools/migrate.exe

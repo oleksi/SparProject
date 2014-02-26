@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" 
+                   assembly="SparModel" 
+                   namespace="SparModel">
+ 
+  <class name="SparIdentityUser" table="AspNetUsers">
+		<id name="Id" column="Id" type="string">
+			<generator class="assigned"></generator>
+		</id>
+		<property name="UserName" column="UserName" not-null="true"></property>
+		<property name="PasswordHash" column="PasswordHash" not-null="true"></property>
+		<property name="SecurityStamp" column="SecurityStamp" not-null="false"></property>
+		<property name="Discriminator" column="Discriminator" not-null="true"></property>
+	</class>
+  
+</hibernate-mapping>
