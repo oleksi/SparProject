@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections;
 
 namespace SparModel
 {
@@ -22,5 +23,7 @@ namespace SparModel
 				m_Discriminator = value;
 			}
 		}
+
+		public virtual ICollection<SparUserLoginInfo> Logins { get; set; }
 	}
 }

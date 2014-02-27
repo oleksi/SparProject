@@ -12,6 +12,12 @@
 		<property name="PasswordHash" column="PasswordHash" not-null="true"></property>
 		<property name="SecurityStamp" column="SecurityStamp" not-null="false"></property>
 		<property name="Discriminator" column="Discriminator" not-null="true"></property>
+		<set name="Logins" cascade="save-update" lazy="false">
+			<key>
+				<column name="UserId"></column>
+			</key>
+			<one-to-many class="SparUserLoginInfo" />
+		</set>
 	</class>
   
 </hibernate-mapping>

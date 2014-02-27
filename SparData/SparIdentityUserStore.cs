@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity;
 
 namespace SparData
 {
-	public class SparIdentityUserStore<TUser> : IUserStore<TUser>, IUserPasswordStore<TUser>, IUserSecurityStampStore<TUser>, IDisposable where TUser : global::Microsoft.AspNet.Identity.EntityFramework.IdentityUser
+	public class SparIdentityUserStore<TUser> : IUserStore<TUser>, IUserPasswordStore<TUser>, IUserSecurityStampStore<TUser>, IUserLoginStore<TUser>, IDisposable where TUser : SparIdentityUser
 	{
 		private static ISession getSession()
 		{
@@ -115,6 +115,33 @@ namespace SparData
 		{
 			user.SecurityStamp = stamp;
 			return Task.FromResult<Object>(null);
+		}
+
+		public Task AddLoginAsync(TUser user, UserLoginInfo login)
+		{
+			SparUserLoginInfo loginInfo = new SparUserLoginInfo() { UserLoginInfoIdentifier = new UserLoginInfoIdentifier(login) };
+			loginInfo.UserLoginInfoIdentifier.UserId = user.Id;
+
+			if (user.Logins == null)
+				user.Logins = new List<SparUserLoginInfo>();
+			user.Logins.Add(loginInfo);
+
+			return UpdateAsync(user);
+		}
+
+		public Task<TUser> FindAsync(UserLoginInfo login)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<IList<UserLoginInfo>> GetLoginsAsync(TUser user)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task RemoveLoginAsync(TUser user, UserLoginInfo login)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
