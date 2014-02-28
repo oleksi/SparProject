@@ -5,11 +5,11 @@
                    namespace="SparModel">
  
   <class name="SparUserLoginInfo" table="AspNetUserLogins">
-		<id name="UserId" column="UserId" type="string">
-			<generator class="assigned"></generator>
-		</id>
-		<property name="LoginProvider" column="LoginProvider" not-null="true"></property>
-		<property name="ProviderKey" column="ProviderKey" not-null="true"></property>
+		<composite-id name="UserLoginInfoIdentifier" class="UserLoginInfoIdentifier">
+			<key-property name="UserId" column="UserId"></key-property>
+			<key-property name="LoginProvider" column="LoginProvider"></key-property>
+			<key-property name="ProviderKey" column="ProviderKey"></key-property>
+		</composite-id>
 	</class>
   
 </hibernate-mapping>

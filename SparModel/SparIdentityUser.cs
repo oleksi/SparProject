@@ -24,6 +24,6 @@ namespace SparModel
 			}
 		}
 
-		public virtual SparUserLoginInfo Login { get; set; }
+		public virtual ICollection<SparUserLoginInfo> Logins { get; set; }
 	}
 }

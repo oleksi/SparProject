@@ -119,20 +119,19 @@ namespace SparData
 
 		public Task AddLoginAsync(TUser user, UserLoginInfo login)
 		{
-			SparUserLoginInfo loginInfo = new SparUserLoginInfo(login);
-			loginInfo.UserId = user.Id;
-			user.Login = loginInfo;
+			SparUserLoginInfo loginInfo = new SparUserLoginInfo() { UserLoginInfoIdentifier = new UserLoginInfoIdentifier(login) };
+			loginInfo.UserLoginInfoIdentifier.UserId = user.Id;
+
+			if (user.Logins == null)
+				user.Logins = new List<SparUserLoginInfo>();
+			user.Logins.Add(loginInfo);
 
 			return UpdateAsync(user);
 		}
 
 		public Task<TUser> FindAsync(UserLoginInfo login)
 		{
-			using (var session = getSession())
-			{
-				TUser user = session.QueryOver<TUser>().Where(u => u.Login.ProviderKey == login.ProviderKey && u.Login.LoginProvider == login.LoginProvider).SingleOrDefault<TUser>();
-				return Task.FromResult<TUser>(user);
-			}
+			throw new NotImplementedException();
 		}
 
 		public Task<IList<UserLoginInfo>> GetLoginsAsync(TUser user)
