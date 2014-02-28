@@ -66,7 +66,7 @@ namespace SparData
 			{
 				using (var transaction = session.BeginTransaction())
 				{
-					session.Update(user);
+					session.SaveOrUpdate(user);
 					transaction.Commit();
 				}
 			}
@@ -131,17 +131,36 @@ namespace SparData
 
 		public Task<TUser> FindAsync(UserLoginInfo login)
 		{
-			throw new NotImplementedException();
+			using (var session = getSession())
+			{
+				string userId = session.QueryOver<SparUserLoginInfo>().Where(li => li.UserLoginInfoIdentifier.LoginProvider == login.LoginProvider && li.UserLoginInfoIdentifier.ProviderKey == login.ProviderKey).Select(li => li.UserLoginInfoIdentifier.UserId).SingleOrDefault<string>();
+				if (String.IsNullOrEmpty(userId) == false)
+					return FindByIdAsync(userId);
+				else
+					return Task.FromResult<TUser>(null);
+			}
 		}
 
 		public Task<IList<UserLoginInfo>> GetLoginsAsync(TUser user)
 		{
-			throw new NotImplementedException();
+			List<UserLoginInfo> logins = new List<UserLoginInfo>();
+
+			foreach (SparUserLoginInfo sparUserLoginInfo in user.Logins)
+				logins.Add(new UserLoginInfo(sparUserLoginInfo.UserLoginInfoIdentifier.LoginProvider, sparUserLoginInfo.UserLoginInfoIdentifier.ProviderKey));
+
+			return Task.FromResult<IList<UserLoginInfo>>(logins);
 		}
 
 		public Task RemoveLoginAsync(TUser user, UserLoginInfo login)
 		{
-			throw new NotImplementedException();
+			SparUserLoginInfo sparUserLoginInfo = user.Logins.FirstOrDefault(li => li.UserLoginInfoIdentifier.LoginProvider == login.LoginProvider && li.UserLoginInfoIdentifier.ProviderKey == login.ProviderKey);
+			if (sparUserLoginInfo == null)
+				return Task.FromResult<Object>(null);
+
+			user.Logins.Remove(sparUserLoginInfo);
+			UpdateAsync(user);
+
+			return Task.FromResult<Object>(null);
 		}
 	}
 }

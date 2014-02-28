@@ -12,7 +12,7 @@
 		<property name="PasswordHash" column="PasswordHash" not-null="true"></property>
 		<property name="SecurityStamp" column="SecurityStamp" not-null="false"></property>
 		<property name="Discriminator" column="Discriminator" not-null="true"></property>
-		<set name="Logins" cascade="save-update" lazy="false">
+		<set name="Logins" cascade="all-delete-orphan" lazy="false" inverse="true">
 			<key>
 				<column name="UserId"></column>
 			</key>

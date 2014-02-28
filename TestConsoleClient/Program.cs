@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SparModel;
 using SparData;
+using Microsoft.AspNet.Identity;
 
 namespace TestConsoleClient
 {
@@ -26,8 +27,12 @@ namespace TestConsoleClient
 			SparIdentityUserStore<SparIdentityUser> store = new SparIdentityUserStore<SparIdentityUser>();
 			SparIdentityUser user = store.FindByIdAsync("89c2eba2-2e52-4a84-9dd4-417538b3b9c0").Result;
 
-			user.Logins.Add(new SparUserLoginInfo() { UserLoginInfoIdentifier = new UserLoginInfoIdentifier() { UserId = user.Id, LoginProvider = "eeeeeee", ProviderKey = "fffff" } });
-			store.UpdateAsync(user);
+			store.RemoveLoginAsync(user, new UserLoginInfo("gggggg", "hhhhhhhh"));
+
+			//user.Logins.Add(new SparUserLoginInfo() { UserLoginInfoIdentifier = new UserLoginInfoIdentifier() { UserId = user.Id, LoginProvider = "gggggg", ProviderKey = "hhhhhhhh" } });
+			//IList<UserLoginInfo> list = store.GetLoginsAsync(user).Result;
+
+			//store.UpdateAsync(user);
 		}
 	}
 }
