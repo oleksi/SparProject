@@ -24,10 +24,11 @@ namespace TestConsoleClient
 			//fighterRepo.SaveFighter(newFighter);
 
 			SparIdentityUserStore<SparIdentityUser> store = new SparIdentityUserStore<SparIdentityUser>();
-			SparIdentityUser user = store.FindByIdAsync("89c2eba2-2e52-4a84-9dd4-417538b3b9c0").Result;
+			//SparIdentityUser user = store.FindByIdAsync("89c2eba2-2e52-4a84-9dd4-417538b3b9c0").Result;
 
-			user.Logins.Add(new SparUserLoginInfo() { UserLoginInfoIdentifier = new UserLoginInfoIdentifier() { UserId = user.Id, LoginProvider = "eeeeeee", ProviderKey = "fffff" } });
-			store.UpdateAsync(user);
+			//user.Login = new SparUserLoginInfo() { UserId = user.Id, LoginProvider = "eeeeeee", ProviderKey = "fffff" };
+			//store.UpdateAsync(user);
+			SparIdentityUser user = store.FindAsync(new Microsoft.AspNet.Identity.UserLoginInfo("eeeeeee", "fffff")).Result;
 		}
 	}
 }
