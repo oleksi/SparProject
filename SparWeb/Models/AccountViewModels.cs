@@ -31,7 +31,9 @@ namespace SparWeb.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "User name")]
+		[DataType(DataType.EmailAddress)]
+		[EmailAddress]
+		[Display(Name = "Email")]
         public string UserName { get; set; }
 
         [Required]
@@ -46,7 +48,9 @@ namespace SparWeb.Models
     public class RegisterViewModel
     {
         [Required]
-        [Display(Name = "User name")]
+		[DataType(DataType.EmailAddress)]
+		[EmailAddress]
+        [Display(Name = "Email")]
         public string UserName { get; set; }
 
         [Required]

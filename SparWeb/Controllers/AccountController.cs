@@ -25,6 +25,11 @@ namespace SparWeb.Controllers
         public AccountController(UserManager<SparIdentityUser> userManager)
         {
             UserManager = userManager;
+			
+			//#OS# allowing UserName to have email address as a value
+			var userValidator = userManager.UserValidator as UserValidator<SparIdentityUser>;
+			if (userValidator != null)
+				userValidator.AllowOnlyAlphanumericUserNames = false;
         }
 
         public UserManager<SparIdentityUser> UserManager { get; private set; }
