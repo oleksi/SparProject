@@ -85,10 +85,17 @@ namespace SparWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new SparIdentityUser() { UserName = model.UserName };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var user = new SparIdentityUser() { UserName = model.UserName };                
+				var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+					GymRepository gymRepo = new GymRepository();
+					Gym gleasonsGym = gymRepo.GetGymById(1);
+					FighterRepository fighterRepo = new FighterRepository();
+					Fighter fighter = new Fighter() { Name = "Oleksiy Shevchukevych", Sex = true, DateOfBirth = DateTime.Parse("4/19/1978"), Height = 5.10, Weight = 176, NumberOfFights = 3, Gym = gleasonsGym };
+					fighter.SparIdentityUser = user;
+					fighterRepo.SaveFighter(fighter);
+
                     await SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }

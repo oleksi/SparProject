@@ -18,5 +18,6 @@ namespace SparModel
 		public virtual Gym Gym { get; set; }
 		public virtual DateTime InsertDate { get; set; }
 		public virtual DateTime UpdateDate { get; set; }
+		public virtual SparIdentityUser SparIdentityUser { get; set; }
 	}
 }
