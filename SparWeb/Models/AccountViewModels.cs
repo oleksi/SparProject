@@ -68,6 +68,7 @@ namespace SparWeb.Models
 		public string Name { get; set; }
 
 		[Required]
+		[Display(Name="Gender")]
 		public bool Sex { get; set; }
     }
 }

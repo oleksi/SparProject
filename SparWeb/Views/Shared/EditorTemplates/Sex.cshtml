@@ -1,0 +1,12 @@
+﻿@model  Boolean
+
+@if (Model == true)
+{
+    @:Male: @Html.RadioButtonFor(m => m, true, new { @checked = "checked"})
+    @:Female: @Html.RadioButtonFor(m => m, false)
+}
+else
+{
+    @:Male: @Html.RadioButtonFor(m => m, true)
+    @:Female: @Html.RadioButtonFor(m => m, false, new { @checked = "checked" })    
+}
