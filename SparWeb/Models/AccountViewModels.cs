@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SparWeb.Models
 {
@@ -70,5 +71,27 @@ namespace SparWeb.Models
 		[Required]
 		[Display(Name="Gender")]
 		public bool Sex { get; set; }
+
+		[Required]
+		[Display(Name="Date of birth")]
+		public virtual DateOfBirth DateOfBirth { get; set; }
     }
+
+	public class DateOfBirth
+	{
+		[Required]
+		[Display(Name = "MM")]
+		[Range(1, 31, ErrorMessage = "Please enter a month as a number from 1 to 12")]
+		public int Month { get; set; }
+
+		[Required]
+		[Display(Name = "DD")]
+		[Range(1, 31, ErrorMessage = "Please enter a day as a number from 1 to 31")]
+		public int Day { get; set; }
+
+		[Required]
+		[Display(Name = "YYYY")]
+		[RegularExpression(@"^\d{4}$", ErrorMessage = "Pleas enter a year as 4 digit number")]
+		public int Year { get; set; }
+	}
 }

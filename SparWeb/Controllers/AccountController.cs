@@ -85,6 +85,13 @@ namespace SparWeb.Controllers
         {
             if (ModelState.IsValid)
             {
+				DateTime dob = DateTime.MinValue;
+				if (DateTime.TryParse(String.Format("{0}/{1}/{2}", model.DateOfBirth.Month, model.DateOfBirth.Day, model.DateOfBirth.Year), out dob) == false)
+				{
+					ModelState.AddModelError("DateOfBirth", "Date of birth is not valid");
+					return View(model);
+				}
+
                 var user = new SparIdentityUser() { UserName = model.UserName };                
 				var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -92,7 +99,7 @@ namespace SparWeb.Controllers
 					GymRepository gymRepo = new GymRepository();
 					Gym gleasonsGym = gymRepo.GetGymById(1);
 					FighterRepository fighterRepo = new FighterRepository();
-					Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = DateTime.Parse("4/19/1978"), Height = 5.10, Weight = 176, NumberOfFights = 3, Gym = gleasonsGym };
+					Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, Height = 5.10, Weight = 176, NumberOfFights = 3, Gym = gleasonsGym };
 					fighter.SparIdentityUser = user;
 					fighterRepo.SaveFighter(fighter);
 
