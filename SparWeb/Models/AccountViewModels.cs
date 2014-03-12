@@ -87,7 +87,7 @@ namespace SparWeb.Models
 
 		[Required]
 		[Display(Name = "Number of fights")]
-		public virtual int NumberOfFights { get; set; }
+		public virtual int? NumberOfFights { get; set; }
     }
 
 	public class DateOfBirth
