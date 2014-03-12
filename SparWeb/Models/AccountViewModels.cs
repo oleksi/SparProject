@@ -80,6 +80,14 @@ namespace SparWeb.Models
 		[Required]
 		[Display(Name="Height")]
 		public virtual double Height { get; set; }
+
+		[Required]
+		[Display(Name = "Weight class")]
+		public virtual double Weight { get; set; }
+
+		[Required]
+		[Display(Name = "Number of fights")]
+		public virtual int NumberOfFights { get; set; }
     }
 
 	public class DateOfBirth

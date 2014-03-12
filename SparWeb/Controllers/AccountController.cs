@@ -99,7 +99,7 @@ namespace SparWeb.Controllers
 					GymRepository gymRepo = new GymRepository();
 					Gym gleasonsGym = gymRepo.GetGymById(1);
 					FighterRepository fighterRepo = new FighterRepository();
-					Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, Height = 5.10, Weight = 176, NumberOfFights = 3, Gym = gleasonsGym };
+					Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, Height = model.Height, Weight = model.Weight, NumberOfFights = model.NumberOfFights, Gym = gleasonsGym };
 					fighter.SparIdentityUser = user;
 					fighterRepo.SaveFighter(fighter);
 

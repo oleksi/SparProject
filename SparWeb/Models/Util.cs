@@ -7,7 +7,8 @@ namespace SparWeb.Models
 {
 	public class Util
 	{
-		public static Dictionary<double, string> HeightToCentimetersMap = new Dictionary<double, string>() {
+		public static Dictionary<double, string> HeightToCentimetersMap = new Dictionary<double, string>() 
+		{
 			{1, "less than 4'8\""},
 			{142, "4'8\""},
 			{144.5, "4'9\""},
@@ -29,7 +30,22 @@ namespace SparWeb.Models
 			{185.5, "6'1\""},
 			{188, "6'2\""},
 			{190.5, "6'3\""},
-			{1000, "greater than 6'3\""},
+			{1000, "greater than 6'3\""}
+		};
+
+		public static Dictionary<double, string> WeightClassMap = new Dictionary<double, string>()
+		{
+			{106, "below 106 lbs: Light Flyweight"},
+			{112, "112 lbs: Flyweight"},
+			{119, "119 lbs: Bantamweight"},
+			{125, "125 lbs: Featherweight"},
+			{132, "132 lbs: Lightweight"},
+			{141, "141 lbs: Light Welterweight"},
+			{152, "152 lbs: Welterweight"},
+			{165, "165 lbs: Middleweight"},
+			{178, "178 lbs: Light Heavyweight"},
+			{201, "201 lbs: Heavyweight"},
+			{1000, "over 201 lbs: Super Heavyweight"}
 		};
 	}
 }
