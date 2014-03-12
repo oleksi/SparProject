@@ -79,7 +79,7 @@ namespace SparWeb.Models
 
 		[Required]
 		[Display(Name="Height")]
-		public virtual Height Height { get; set; }
+		public virtual double Height { get; set; }
     }
 
 	public class DateOfBirth

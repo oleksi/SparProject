@@ -56,7 +56,11 @@
             </div>
             <div class="row">
                 <div class="col-md-12">@Html.ValidationMessageFor(m => m.DateOfBirth.Month)</div>
+            </div>
+            <div class="row">
                 <div class="col-md-12">@Html.ValidationMessageFor(m => m.DateOfBirth.Day)</div>
+            </div>
+            <div class="row">
                 <div class="col-md-12">@Html.ValidationMessageFor(m => m.DateOfBirth.Year)</div>
             </div>
         </div>
@@ -69,13 +73,16 @@
                     <div class="row">
                         <div class="col-md-6">
                             @Html.LabelFor(m => m.Height, new { @class = "control-label" })
-                            @Html.EditorFor(m => m.Height, "Height")
+                            @Html.DropDownListFor(m => m.Height, (new SelectList(SparWeb.Models.Util.HeightToCentimetersMap, "Key", "Value", Model.Height)), "", new { @class = "form-control" })
                         </div>
                         <div class="col-md-6">
-                            BBB
+                            Weight
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">@Html.ValidationMessageFor(m => m.Height)</div>
             </div>
         </div>
     </div>
