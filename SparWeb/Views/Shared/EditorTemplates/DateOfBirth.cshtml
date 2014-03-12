@@ -1,6 +1,6 @@
 ﻿@model SparWeb.Models.DateOfBirth
 
-<div class="col-md-4">
+<div class="row">
     <div class="col-md-3">
         @Html.LabelFor(m => m.Month) @Html.TextBoxFor(m => m.Month, new { @class = "form-control" })
     </div>
@@ -10,4 +10,5 @@
     <div class="col-md-5">
         @Html.LabelFor(m => m.Year)  @Html.TextBoxFor(m => m.Year, new { @class = "form-control" })
     </div>
-</div>
+ </div>
+

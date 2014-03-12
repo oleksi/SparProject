@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SparModel;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SparWeb.Models
@@ -75,6 +76,10 @@ namespace SparWeb.Models
 		[Required]
 		[Display(Name="Date of birth")]
 		public virtual DateOfBirth DateOfBirth { get; set; }
+
+		[Required]
+		[Display(Name="Height")]
+		public virtual Height Height { get; set; }
     }
 
 	public class DateOfBirth
