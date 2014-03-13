@@ -73,6 +73,16 @@ namespace SparWeb.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+			ViewBag.HeightToCentimetersMap = SparWeb.Models.Util.HeightToCentimetersMap;
+			ViewBag.WeightClassMap = SparWeb.Models.Util.WeightClassMap;
+
+			//#OS# geting a list of all gyms
+			GymRepository gymRepo = new GymRepository();
+			Dictionary<int, string> allGyms = new Dictionary<int, string>();
+			foreach(Gym gym in gymRepo.GetAllGyms())
+				allGyms[gym.Id.Value] = gym.Name;
+			ViewBag.AllGyms = allGyms;
+
 			return View(new RegisterViewModel() { Sex = true });
         }
 
@@ -96,10 +106,13 @@ namespace SparWeb.Controllers
 				var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-					GymRepository gymRepo = new GymRepository();
-					Gym gleasonsGym = gymRepo.GetGymById(1);
+
+					Gym gym = null;
+					if (model.GymId.HasValue == true)
+						gym = new Gym() { Id = model.GymId.Value };
+
 					FighterRepository fighterRepo = new FighterRepository();
-					Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, Height = model.Height, Weight = model.Weight, NumberOfFights = model.NumberOfFights.Value, Gym = gleasonsGym };
+					Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, Height = model.Height, Weight = model.Weight, NumberOfFights = model.NumberOfFights.Value, Gym = gym };
 					fighter.SparIdentityUser = user;
 					fighterRepo.SaveFighter(fighter);
 

@@ -26,6 +26,17 @@ namespace SparData
 			return gym;
 		}
 
+		public IList<Gym> GetAllGyms()
+		{
+			IList<Gym> allGyms = null;
+			using (var session = getSession())
+			{
+				allGyms = session.QueryOver<Gym>().List();
+			}
+
+			return allGyms;
+		}
+
 		public void SaveGym(Gym gym)
 		{
 			using (var session = getSession())
