@@ -37,6 +37,17 @@ namespace SparData
 			return fighter;
 		}
 
+		public Fighter GetFighterByIdentityUserId(string identityUserId)
+		{
+			Fighter fighter = null;
+			using (var session = getSession())
+			{
+				fighter = session.QueryOver<Fighter>().Where(m => m.SparIdentityUser.Id == identityUserId).SingleOrDefault();
+			}
+
+			return fighter;
+		}
+
 		public void SaveFighter(Fighter fighter)
 		{
 			using (var session = getSession())

@@ -21,7 +21,8 @@ namespace TestConsoleClient
 			//Gym gleasonsGym = gymRepo.GetGymById(1);
 
 			FighterRepository fighterRepo = new FighterRepository();
-			Fighter fighter = fighterRepo.GetFighterById(9);
+			Fighter fighter = fighterRepo.GetFighterByIdentityUserId("bc625cdf-371b-4599-9783-480ce472f995");
+			//Fighter fighter = fighterRepo.GetFighterById(9);
 			//Fighter newFighter = new Fighter() { Name = "Oleksiy Shevchukevych", Email="cheetah@gmail.com", Sex = true, DateOfBirth = DateTime.Parse("4/19/1978"), Height = 5.10, Weight = 176, NumberOfFights = 3, Gym = gleasonsGym };
 			//fighterRepo.SaveFighter(newFighter);
 

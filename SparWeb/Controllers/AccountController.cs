@@ -77,14 +77,20 @@ namespace SparWeb.Controllers
 			ViewBag.WeightClassMap = SparWeb.Models.Util.WeightClassMap;
 
 			//#OS# geting a list of all gyms
-			GymRepository gymRepo = new GymRepository();
-			Dictionary<int, string> allGyms = new Dictionary<int, string>();
-			foreach(Gym gym in gymRepo.GetAllGyms())
-				allGyms[gym.Id.Value] = gym.Name;
-			ViewBag.AllGyms = allGyms;
+			ViewBag.AllGyms = getAllGyms();
 
 			return View(new RegisterViewModel() { Sex = true });
         }
+
+		private Dictionary<int, string> getAllGyms()
+		{
+			GymRepository gymRepo = new GymRepository();
+			Dictionary<int, string> allGyms = new Dictionary<int, string>();
+			foreach (Gym gym in gymRepo.GetAllGyms())
+				allGyms[gym.Id.Value] = gym.Name;
+
+			return allGyms;
+		}
 
         //
         // POST: /Account/Register
@@ -117,7 +123,12 @@ namespace SparWeb.Controllers
 					fighterRepo.SaveFighter(fighter);
 
                     await SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+
+					//#OS# geting a list of all gyms
+					ViewBag.AllGyms = getAllGyms();
+
+					return RedirectToAction("Index");
+					//return View("Account", model);
                 }
                 else
                 {
@@ -128,6 +139,19 @@ namespace SparWeb.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+		[Authorize]
+		public ActionResult Index()
+		{
+			FighterRepository fighterRepo = new FighterRepository();
+			Fighter fighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
+
+			AccountViewModel model = null;
+			if (fighter != null)
+				model = new AccountViewModel() { Name = fighter.Name, DateOfBirth = new DateOfBirth() { Day = fighter.DateOfBirth.Day, Month = fighter.DateOfBirth.Month, Year = fighter.DateOfBirth.Year }, GymId = fighter.Gym.Id, Height = fighter.Height, NumberOfFights = fighter.NumberOfFights, Sex = fighter.Sex, Weight = fighter.Weight };
+
+			return View("Account", model);
+		}
 
         //
         // POST: /Account/Disassociate

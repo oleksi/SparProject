@@ -47,7 +47,36 @@ namespace SparWeb.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterViewModel
+	public class AccountViewModel
+	{
+		[Required]
+		public string Name { get; set; }
+
+		[Required]
+		[Display(Name = "Gender")]
+		public bool Sex { get; set; }
+
+		[Required]
+		[Display(Name = "Date of birth")]
+		public virtual DateOfBirth DateOfBirth { get; set; }
+
+		[Required]
+		[Display(Name = "Height")]
+		public virtual double Height { get; set; }
+
+		[Required]
+		[Display(Name = "Weight class")]
+		public virtual double Weight { get; set; }
+
+		[Required]
+		[Display(Name = "Number of fights")]
+		public virtual int? NumberOfFights { get; set; }
+
+		[Display(Name = "Your Gym")]
+		public virtual int? GymId { get; set; }
+	}
+
+    public class RegisterViewModel : AccountViewModel
     {
         [Required]
 		[DataType(DataType.EmailAddress)]
@@ -65,32 +94,6 @@ namespace SparWeb.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-
-		[Required]
-		public string Name { get; set; }
-
-		[Required]
-		[Display(Name="Gender")]
-		public bool Sex { get; set; }
-
-		[Required]
-		[Display(Name="Date of birth")]
-		public virtual DateOfBirth DateOfBirth { get; set; }
-
-		[Required]
-		[Display(Name="Height")]
-		public virtual double Height { get; set; }
-
-		[Required]
-		[Display(Name = "Weight class")]
-		public virtual double Weight { get; set; }
-
-		[Required]
-		[Display(Name = "Number of fights")]
-		public virtual int? NumberOfFights { get; set; }
-
-		[Display(Name = "Your Gym")]
-		public virtual int? GymId { get; set; }
     }
 
 	public class DateOfBirth
