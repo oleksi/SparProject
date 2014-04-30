@@ -184,14 +184,28 @@ namespace SparWeb.Controllers
                 : "";
             ViewBag.HasLocalPassword = HasPassword();
             ViewBag.ReturnUrl = Url.Action("Manage");
-            return View();
+
+			FighterRepository fighterRepo = new FighterRepository();
+			Fighter fighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
+
+			AccountViewModel accoumntModel = null;
+			if (fighter != null)
+				accoumntModel = new AccountViewModel() { Name = fighter.Name, DateOfBirth = new DateOfBirth() { Day = fighter.DateOfBirth.Day, Month = fighter.DateOfBirth.Month, Year = fighter.DateOfBirth.Year }, GymId = fighter.Gym.Id, Height = fighter.Height, NumberOfFights = fighter.NumberOfFights, Sex = fighter.Sex, Weight = fighter.Weight };
+
+			ManageUserViewModel model = new ManageUserViewModel() { AccountModel = accoumntModel, ManagePasswordModel = new ManagePasswordViewModel() };
+
+			ViewBag.AllGyms = getAllGyms();
+			ViewBag.HeightToCentimetersMap = SparWeb.Models.Util.HeightToCentimetersMap;
+			ViewBag.WeightClassMap = SparWeb.Models.Util.WeightClassMap;
+
+			return View(model);
         }
 
         //
         // POST: /Account/Manage
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Manage(ManageUserViewModel model)
+		public async Task<ActionResult> Manage(ManagePasswordViewModel model)
         {
             bool hasPassword = HasPassword();
             ViewBag.HasLocalPassword = hasPassword;
