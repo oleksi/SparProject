@@ -141,6 +141,22 @@ namespace SparWeb.Controllers
         }
 
 		[Authorize]
+		public string GetLoggedInUserName()
+		{
+			string userName = "";
+			if (Session["UserName"] == null)
+			{
+				FighterRepository fighterRepo = new FighterRepository();
+				Fighter fighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
+				Session["UserName"] = userName = fighter.Name;
+			}
+			else
+				userName = Session["UserName"].ToString();
+
+			return userName;
+		}
+
+		[Authorize]
 		public ActionResult Index()
 		{
 			FighterRepository fighterRepo = new FighterRepository();
