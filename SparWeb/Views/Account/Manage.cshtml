@@ -1,4 +1,4 @@
-﻿@model SparWeb.Models.ManageUserViewModel 
+﻿@model SparWeb.Models.ManagePasswordViewModel 
 @using SparWeb.Models;
 @using Microsoft.AspNet.Identity;
 
@@ -11,17 +11,9 @@
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div class="row">
     <div class="col-md-12">
-        @using (Html.BeginForm("Manage", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-        {
-            @Html.Partial("_AccountPartial", Model.AccountModel)
-        }
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
         @if (ViewBag.HasLocalPassword)
         {
-            @Html.Partial("_ChangePasswordPartial", Model.ManagePasswordModel)
+            @Html.Partial("_ChangePasswordPartial", Model)
         }
         else
         {

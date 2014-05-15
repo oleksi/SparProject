@@ -4,7 +4,46 @@
     <div class="col-md-3">
         <img src="~/Content/Images/anonymous-photo.jpg" />
     </div>
-    <div class="col-md-9">
-        @Html.ValueFor(m => m.Name)
+    <div class="col-md-5">
+        <span class="fighterName">@Html.ValueFor(m => m.Name)</span>
+        <div class="row">
+            <div class="col-md-12">
+                from <span class="gymName">@Html.ValueFor(m => m.GymName)</span>
+            </div>
+        </div>
+        <div class="well top-buffer">
+            <div class="row">
+                <div class="col-md-4">
+                    @Html.LabelFor(m => m.DateOfBirth):
+                </div>
+                <div class="col-md-8">
+                    @Html.ValueFor(m => m.DateOfBirth)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    @Html.LabelFor(m => m.Height):
+                </div>
+                <div class="col-md-8">
+                    @Html.ValueFor(m => m.Height)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    @Html.LabelFor(m => m.Weight):
+                </div>
+                <div class="col-md-8">
+                    @Html.ValueFor(m => m.Weight)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    @Html.LabelFor(m => m.NumberOfFights):
+                </div>
+                <div class="col-md-8">
+                    @Html.ValueFor(m => m.NumberOfFights)
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -30,12 +30,6 @@ namespace SparWeb.Models
 		public string ConfirmPassword { get; set; }
 	}
 
-	public class ManageUserViewModel
-    {
-		public AccountViewModel AccountModel { get; set; }
-		public ManagePasswordViewModel ManagePasswordModel { get; set; }
-    }
-
     public class LoginViewModel
     {
         [Required]
@@ -53,8 +47,8 @@ namespace SparWeb.Models
         public bool RememberMe { get; set; }
     }
 
-	public class AccountViewModel
-	{
+    public class RegisterViewModel
+    {
 		[Required]
 		public string Name { get; set; }
 
@@ -80,10 +74,7 @@ namespace SparWeb.Models
 
 		[Display(Name = "Your Gym")]
 		public virtual int? GymId { get; set; }
-	}
 
-    public class RegisterViewModel : AccountViewModel
-    {
         [Required]
 		[DataType(DataType.EmailAddress)]
 		[EmailAddress]
@@ -101,6 +92,25 @@ namespace SparWeb.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
+
+	public class AccountViewModel
+	{
+		public string Name { get; set; }
+
+		public string GymName { get; set; }
+
+		[Display(Name = "Date of birth")]
+		public string DateOfBirth { get; set; }
+
+		[Display(Name = "Height")]
+		public string Height { get; set; }
+
+		[Display(Name = "Weight class")]
+		public double Weight { get; set; }
+
+		[Display(Name = "Number of fights")]
+		public int NumberOfFights { get; set; }
+	}
 
 	public class DateOfBirth
 	{

@@ -7,6 +7,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+	padding-top: 15px;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
@@ -39,4 +40,18 @@ input[type="checkbox"].input-validation-error {
 
 .validation-summary-valid {
     display: none;
+}
+
+.fighterName {
+	font-size: 40px;
+	font-weight: bold;
+}
+
+.gymName {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.top-buffer { 
+	margin-top:20px; 
 }

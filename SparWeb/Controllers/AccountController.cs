@@ -164,7 +164,7 @@ namespace SparWeb.Controllers
 
 			AccountViewModel model = null;
 			if (fighter != null)
-				model = new AccountViewModel() { Name = fighter.Name, DateOfBirth = new DateOfBirth() { Day = fighter.DateOfBirth.Day, Month = fighter.DateOfBirth.Month, Year = fighter.DateOfBirth.Year }, GymId = fighter.Gym.Id, Height = fighter.Height, NumberOfFights = fighter.NumberOfFights, Sex = fighter.Sex, Weight = fighter.Weight };
+				model = new AccountViewModel() { Name = fighter.Name, GymName = fighter.Gym.Name, DateOfBirth = fighter.DateOfBirth.ToShortDateString(), Height = Util.HeightToCentimetersMap[fighter.Height], Weight = fighter.Weight, NumberOfFights = fighter.NumberOfFights };
 
 			return View("Account", model);
 		}
@@ -201,20 +201,7 @@ namespace SparWeb.Controllers
             ViewBag.HasLocalPassword = HasPassword();
             ViewBag.ReturnUrl = Url.Action("Manage");
 
-			FighterRepository fighterRepo = new FighterRepository();
-			Fighter fighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
-
-			AccountViewModel accoumntModel = null;
-			if (fighter != null)
-				accoumntModel = new AccountViewModel() { Name = fighter.Name, DateOfBirth = new DateOfBirth() { Day = fighter.DateOfBirth.Day, Month = fighter.DateOfBirth.Month, Year = fighter.DateOfBirth.Year }, GymId = fighter.Gym.Id, Height = fighter.Height, NumberOfFights = fighter.NumberOfFights, Sex = fighter.Sex, Weight = fighter.Weight };
-
-			ManageUserViewModel model = new ManageUserViewModel() { AccountModel = accoumntModel, ManagePasswordModel = new ManagePasswordViewModel() };
-
-			ViewBag.AllGyms = getAllGyms();
-			ViewBag.HeightToCentimetersMap = SparWeb.Models.Util.HeightToCentimetersMap;
-			ViewBag.WeightClassMap = SparWeb.Models.Util.WeightClassMap;
-
-			return View(model);
+			return View();
         }
 
         //
@@ -378,6 +365,9 @@ namespace SparWeb.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
+
+			Session["UserName"] = null;
+
             return RedirectToAction("Index", "Home");
         }
 
