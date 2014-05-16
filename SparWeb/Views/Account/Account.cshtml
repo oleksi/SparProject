@@ -55,19 +55,32 @@
     @Scripts.Render("~/bundles/dropzone")
 
     <script type="text/javascript">
-        $(function() {
+        //Dropzone.autoDiscover = false;
+        $(function () {
+            //initializing DropZone
             $(".profilePicture").dropzone({
                 url: "@Url.Action("UploadProfilePicture", "Account")",
                 thumbnailWidth: 180,
-                thumbnailHeight: 180
+                thumbnailHeight: 180,
+                init: function () {
+                    this.on("thumbnail", function (file) { alert("Added file."); });
+                }
             });
 
+            //making sure we text passes click events to dropzone div
             $(".profileUploadPicAction").click(function () {
                 $(this).parent().parent().trigger("click");
             });
             $(".profileUploadPicHeader").click(function () {
                 $(this).parent().trigger("click");
             });
+
+            //attaching the events
+            //var myDropzone = new Dropzone(".profilePicture");
+            //myDropzone.on("addedfile", function (file) {
+            //    alert("Added file.");
+            //});
+
         });
     </script>
 }
