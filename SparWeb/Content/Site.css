@@ -55,3 +55,24 @@ input[type="checkbox"].input-validation-error {
 .top-buffer { 
 	margin-top:20px; 
 }
+
+.profilePicture {
+	width: 280px;
+	height: 250px;
+	background-image: url("Images/anonymous-photo.jpg");
+    background-position: 0 0;
+    background-repeat: no-repeat;
+	cursor: pointer;
+	text-align: center;
+	padding-top: 55px;
+}
+
+.profileUploadPicHeader {
+	font-size: 34px;
+	font-weight: bold;
+}
+
+.profileUploadPicSubeader {
+	font-size: 18px;
+	font-weight: bold;
+}

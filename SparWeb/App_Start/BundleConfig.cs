@@ -23,6 +23,11 @@ namespace SparWeb
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+			bundles.Add(new ScriptBundle("~/bundles/dropzone").Include(
+					  "~/Scripts/dropzone.js"));
+			bundles.Add(new StyleBundle("~/Content/css/dropzone").Include(
+					  "~/Content/dropzone.css"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));

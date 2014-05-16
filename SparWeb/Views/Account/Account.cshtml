@@ -2,7 +2,10 @@
 
 <div class="row">
     <div class="col-md-3">
-        <img src="~/Content/Images/anonymous-photo.jpg" />
+        <div class="profilePicture dropzone">
+            <p class="profileUploadPicHeader">Upload your picture now!</p> 
+            <p class="profileUploadPicSubeader"><a class="profileUploadPicAction" href="#">(drop file here or click)</a></p>
+    </div>
     </div>
     <div class="col-md-5">
         <span class="fighterName">@Html.ValueFor(m => m.Name)</span>
@@ -47,3 +50,24 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/dropzone")
+
+    <script type="text/javascript">
+        $(function() {
+            $(".profilePicture").dropzone({
+                url: "@Url.Action("UploadProfilePicture", "Account")",
+                thumbnailWidth: 280,
+                thumbnailHeight: 250
+            });
+
+            $(".profileUploadPicAction").click(function () {
+                $(this).parent().parent().trigger("click");
+            });
+            $(".profileUploadPicHeader").click(function () {
+                $(this).parent().trigger("click");
+            });
+        });
+    </script>
+}

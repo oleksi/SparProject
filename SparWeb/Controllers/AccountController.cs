@@ -169,6 +169,12 @@ namespace SparWeb.Controllers
 			return View("Account", model);
 		}
 
+		[HttpPost]
+		public ActionResult UploadProfilePicture(HttpPostedFileBase file)
+		{
+			return null;
+		}
+
         //
         // POST: /Account/Disassociate
         [HttpPost]
