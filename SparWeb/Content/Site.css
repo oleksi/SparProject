@@ -56,7 +56,7 @@ input[type="checkbox"].input-validation-error {
 	margin-top:20px; 
 }
 
-.profilePicture {
+.profilePictureDefault {
 	width: 280px;
 	height: 250px;
 	background-image: url("Images/anonymous-photo.jpg");

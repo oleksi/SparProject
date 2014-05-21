@@ -2,10 +2,13 @@
 
 <div class="row">
     <div class="col-md-3">
-        <div class="profilePicture dropzone">
+        <div class="profilePictureDefault dropzone">
             <p class="profileUploadPicHeader">Upload your picture now!</p> 
             <p class="profileUploadPicSubeader"><a class="profileUploadPicAction" href="#">(drop file here or click)</a></p>
-    </div>
+        </div>
+        <div class="profilePicture" style="display:none;">
+            <img height="250"/>
+        </div>
     </div>
     <div class="col-md-5">
         <span class="fighterName">@Html.ValueFor(m => m.Name)</span>
@@ -58,12 +61,20 @@
         //Dropzone.autoDiscover = false;
         $(function () {
             //initializing DropZone
-            $(".profilePicture").dropzone({
+            $(".profilePictureDefault").dropzone({
                 url: "@Url.Action("UploadProfilePicture", "Account")",
-                thumbnailWidth: 180,
-                thumbnailHeight: 180,
+                thumbnailWidth: 150,
+                thumbnailHeight: 150,
                 init: function () {
-                    this.on("thumbnail", function (file) { alert("Added file."); });
+                    this.on("complete", function (data) {
+                        var res = eval('(' + data.xhr.responseText + ')');
+                        if (res.Message != "Error") {
+                            $('.profilePictureDefault').hide();
+                            $('.dz-preview').hide();
+                            $('.profilePicture').find('img').attr("src", '@Url.Content("~/Content/Images/ProfilePics/")' + res.Message);
+                            $('.profilePicture').show();
+                        }
+                    });
                 }
             });
 
@@ -74,13 +85,6 @@
             $(".profileUploadPicHeader").click(function () {
                 $(this).parent().trigger("click");
             });
-
-            //attaching the events
-            //var myDropzone = new Dropzone(".profilePicture");
-            //myDropzone.on("addedfile", function (file) {
-            //    alert("Added file.");
-            //});
-
         });
     </script>
 }

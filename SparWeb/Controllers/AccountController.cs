@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using SparModel;
 using SparData;
 using SparWeb.Models;
+using System.IO;
 
 namespace SparWeb.Controllers
 {
@@ -146,8 +147,7 @@ namespace SparWeb.Controllers
 			string userName = "";
 			if (Session["UserName"] == null)
 			{
-				FighterRepository fighterRepo = new FighterRepository();
-				Fighter fighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
+				Fighter fighter = getLoggedInFighter();
 				Session["UserName"] = userName = fighter.Name;
 			}
 			else
@@ -159,8 +159,7 @@ namespace SparWeb.Controllers
 		[Authorize]
 		public ActionResult Index()
 		{
-			FighterRepository fighterRepo = new FighterRepository();
-			Fighter fighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
+			Fighter fighter = getLoggedInFighter();
 
 			AccountViewModel model = null;
 			if (fighter != null)
@@ -169,10 +168,47 @@ namespace SparWeb.Controllers
 			return View("Account", model);
 		}
 
+		private Fighter getLoggedInFighter()
+		{
+			FighterRepository fighterRepo = new FighterRepository();
+			Fighter fighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
+			return fighter;
+		}
+
 		[HttpPost]
 		public ActionResult UploadProfilePicture(HttpPostedFileBase file)
 		{
-			return null;
+			bool fileSavedSuccessfully = true;
+			string fileName = "";
+			try
+			{
+				var originalDirectory = new DirectoryInfo(string.Format("{0}\\Content\\Images", Server.MapPath(@"..")));
+				string pathString = System.IO.Path.Combine(originalDirectory.ToString(), "ProfilePics");
+
+				bool isExists = System.IO.Directory.Exists(pathString);
+				if (!isExists)
+					System.IO.Directory.CreateDirectory(pathString);
+
+				Fighter fighter = getLoggedInFighter();
+				string fileExtension = file.FileName.Substring(file.FileName.LastIndexOf('.'));
+				fileName = String.Format("{0}{1}", fighter.SparIdentityUser.Id, fileExtension);
+
+				var path = string.Format("{0}\\{1}", pathString, fileName);
+				file.SaveAs(path);
+			}
+			catch
+			{
+				fileSavedSuccessfully = false;
+			}
+
+			if (fileSavedSuccessfully)
+			{
+				return Json(new { Message = fileName });
+			}
+			else
+			{
+				return Json(new { Message = "Error" });
+			}
 		}
 
         //
