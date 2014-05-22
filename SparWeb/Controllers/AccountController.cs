@@ -119,7 +119,7 @@ namespace SparWeb.Controllers
 						gym = new Gym() { Id = model.GymId.Value };
 
 					FighterRepository fighterRepo = new FighterRepository();
-					Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, Height = model.Height, Weight = model.Weight, NumberOfFights = model.NumberOfFights.Value, Gym = gym };
+					Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, Height = model.Height, Weight = model.Weight, NumberOfFights = model.NumberOfFights.Value, Gym = gym, ProfilePictureUploaded = false };
 					fighter.SparIdentityUser = user;
 					fighterRepo.SaveFighter(fighter);
 
@@ -165,6 +165,9 @@ namespace SparWeb.Controllers
 			if (fighter != null)
 				model = new AccountViewModel() { Name = fighter.Name, GymName = fighter.Gym.Name, DateOfBirth = fighter.DateOfBirth.ToShortDateString(), Height = Util.HeightToCentimetersMap[fighter.Height], Weight = fighter.Weight, NumberOfFights = fighter.NumberOfFights };
 
+			if (fighter.ProfilePictureUploaded == true)
+				model.ProfilePictureFile = String.Format("{0}.jpg", fighter.SparIdentityUser.Id);
+
 			return View("Account", model);
 		}
 
@@ -194,7 +197,14 @@ namespace SparWeb.Controllers
 				fileName = String.Format("{0}{1}", fighter.SparIdentityUser.Id, fileExtension);
 
 				var path = string.Format("{0}\\{1}", pathString, fileName);
+
+				//ToDo: resize and convert file into JPG
+
 				file.SaveAs(path);
+
+				fighter.ProfilePictureUploaded = true;
+				FighterRepository fighterRepo = new FighterRepository();
+				fighterRepo.SaveFighter(fighter);
 			}
 			catch
 			{

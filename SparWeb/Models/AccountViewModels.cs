@@ -110,6 +110,8 @@ namespace SparWeb.Models
 
 		[Display(Name = "Number of fights")]
 		public int NumberOfFights { get; set; }
+
+		public string ProfilePictureFile { get; set; }
 	}
 
 	public class DateOfBirth

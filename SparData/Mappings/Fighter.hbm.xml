@@ -16,6 +16,7 @@
 		<property name="NumberOfFights" column="NumberOfFights" not-null="true"></property>
 		<many-to-one class="Gym" name="Gym" column="GymId" not-null="false" lazy="false" />
 		<many-to-one class="SparIdentityUser" name="SparIdentityUser" column="AspNetUserId" cascade="save-update"></many-to-one>
+		<property name="ProfilePictureUploaded" column="ProfilePictureUploaded" not-null="true"></property>
 		<property name="InsertDate" column="InsertDate" not-null="true"></property>
 		<property name="UpdateDate" column="UpdateDate" not-null="true"></property>
 	</class>

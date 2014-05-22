@@ -19,5 +19,6 @@ namespace SparModel
 		public virtual DateTime InsertDate { get; set; }
 		public virtual DateTime UpdateDate { get; set; }
 		public virtual SparIdentityUser SparIdentityUser { get; set; }
+		public virtual bool ProfilePictureUploaded { get; set; }
 	}
 }
