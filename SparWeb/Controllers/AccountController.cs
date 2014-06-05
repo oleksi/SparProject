@@ -12,6 +12,10 @@ using SparModel;
 using SparData;
 using SparWeb.Models;
 using System.IO;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Auth;
+using Microsoft.WindowsAzure.Storage.Blob;
+using System.Configuration;
 
 namespace SparWeb.Controllers
 {
@@ -185,22 +189,25 @@ namespace SparWeb.Controllers
 			string fileName = "";
 			try
 			{
-				var originalDirectory = new DirectoryInfo(string.Format("{0}\\Content\\Images", Server.MapPath(@"..")));
-				string pathString = System.IO.Path.Combine(originalDirectory.ToString(), "ProfilePics");
-
-				bool isExists = System.IO.Directory.Exists(pathString);
-				if (!isExists)
-					System.IO.Directory.CreateDirectory(pathString);
+				CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["SparStorage"].ConnectionString);
+				CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+				
+				CloudBlobContainer container = blobClient.GetContainerReference("images");
+				if (container.Exists() == false)
+				{
+					container.CreateIfNotExists();
+					container.SetPermissions(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob }); 					
+				}
 
 				Fighter fighter = getLoggedInFighter();
 				string fileExtension = file.FileName.Substring(file.FileName.LastIndexOf('.'));
-				fileName = String.Format("{0}{1}", fighter.SparIdentityUser.Id, fileExtension);
+				fileName = String.Format("ProfilePics/{0}{1}", fighter.SparIdentityUser.Id, fileExtension);
 
-				var path = string.Format("{0}\\{1}", pathString, fileName);
-
-				//ToDo: resize and convert file into JPG
-
-				file.SaveAs(path);
+				CloudBlockBlob blockBlob = container.GetBlockBlobReference(fileName);
+				using (Stream fileStream = file.InputStream)
+				{
+					blockBlob.UploadFromStream(fileStream);
+				}
 
 				fighter.ProfilePictureUploaded = true;
 				FighterRepository fighterRepo = new FighterRepository();

@@ -99,7 +99,7 @@
         });
 
         function showProfilePicture(pictureFileName) {
-            $('.profilePicture').find('img').attr("src", '@Url.Content("~/Content/Images/ProfilePics/")' + pictureFileName);
+            $('.profilePicture').find('img').attr("src", '@System.Configuration.ConfigurationManager.AppSettings["ProfilePicsUrl"]' + pictureFileName);
             $('.profilePicture').show();
         }
     </script>
