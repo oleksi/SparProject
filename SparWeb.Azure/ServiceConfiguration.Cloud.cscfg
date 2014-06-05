@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="SparWeb.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2014-01.2.3">
+  <Role name="SparWeb">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=twitterproject;AccountKey=V1vUbvp/Uhz+sH4xU3U5IRjaU/0wUQHcj7QYBeMOq19VVViwQ7SDpmYOAVry3X7RQ61IB2gMAlNZWlK1Gwvtiw==" />
+    </ConfigurationSettings>
+  </Role>
+</ServiceConfiguration>
