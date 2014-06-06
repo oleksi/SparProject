@@ -16,6 +16,8 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.Configuration;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace SparWeb.Controllers
 {
@@ -200,13 +202,27 @@ namespace SparWeb.Controllers
 				}
 
 				Fighter fighter = getLoggedInFighter();
-				string fileExtension = file.FileName.Substring(file.FileName.LastIndexOf('.'));
-				fileName = String.Format("{0}{1}", fighter.SparIdentityUser.Id, fileExtension);
+				fileName = String.Format("{0}.jpg", fighter.SparIdentityUser.Id);
 
 				CloudBlockBlob blockBlob = container.GetBlockBlobReference(String.Format("ProfilePics/{0}", fileName));
-				using (Stream fileStream = file.InputStream)
+
+				//converting to JPG
+				Bitmap bitmap = new Bitmap(file.InputStream);
+				ImageCodecInfo jgpEncoder = getEncoder(ImageFormat.Jpeg);
+				EncoderParameters myEncoderParameters = new EncoderParameters(1);
+				myEncoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, 70L);
+				byte[] byteArray = null;
+				using (MemoryStream memoryStream = new MemoryStream())
 				{
-					blockBlob.UploadFromStream(fileStream);
+					bitmap.Save(memoryStream, jgpEncoder, myEncoderParameters);
+					memoryStream.Close();
+					byteArray = memoryStream.ToArray();
+				}
+
+				//saving to the blob storage
+				using (MemoryStream memoryStream = new MemoryStream(byteArray))
+				{
+					blockBlob.UploadFromStream(memoryStream);
 				}
 
 				fighter.ProfilePictureUploaded = true;
@@ -226,6 +242,22 @@ namespace SparWeb.Controllers
 			{
 				return Json(new { Message = "Error" });
 			}
+		}
+
+		private ImageCodecInfo getEncoder(ImageFormat format)
+		{
+			ImageCodecInfo encoder = null;
+			ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
+
+			foreach (ImageCodecInfo codec in codecs)
+			{
+				if (codec.FormatID == format.Guid)
+				{
+					encoder = codec;
+					break;
+				}
+			}
+			return encoder;
 		}
 
         //
