@@ -201,9 +201,9 @@ namespace SparWeb.Controllers
 
 				Fighter fighter = getLoggedInFighter();
 				string fileExtension = file.FileName.Substring(file.FileName.LastIndexOf('.'));
-				fileName = String.Format("ProfilePics/{0}{1}", fighter.SparIdentityUser.Id, fileExtension);
+				fileName = String.Format("{0}{1}", fighter.SparIdentityUser.Id, fileExtension);
 
-				CloudBlockBlob blockBlob = container.GetBlockBlobReference(fileName);
+				CloudBlockBlob blockBlob = container.GetBlockBlobReference(String.Format("ProfilePics/{0}", fileName));
 				using (Stream fileStream = file.InputStream)
 				{
 					blockBlob.UploadFromStream(fileStream);
