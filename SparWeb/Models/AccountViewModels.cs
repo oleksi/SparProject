@@ -1,5 +1,6 @@
 ﻿using SparModel;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SparWeb.Models
@@ -130,5 +131,55 @@ namespace SparWeb.Models
 		[Display(Name = "YYYY")]
 		[RegularExpression(@"^\d{4}$", ErrorMessage = "Pleas enter a year as 4 digit number")]
 		public int Year { get; set; }
+	}
+
+	public class VerifyCodeViewModel
+	{
+		[Required]
+		public string Provider { get; set; }
+
+		[Required]
+		[Display(Name = "Code")]
+		public string Code { get; set; }
+		public string ReturnUrl { get; set; }
+
+		[Display(Name = "Remember this browser?")]
+		public bool RememberBrowser { get; set; }
+	}
+
+	public class ForgotPasswordViewModel
+	{
+		[Required]
+		[EmailAddress]
+		[Display(Name = "Email")]
+		public string Email { get; set; }
+	}
+
+	public class ResetPasswordViewModel
+	{
+		[Required]
+		[EmailAddress]
+		[Display(Name = "Email")]
+		public string Email { get; set; }
+
+		[Required]
+		[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+		[DataType(DataType.Password)]
+		[Display(Name = "Password")]
+		public string Password { get; set; }
+
+		[DataType(DataType.Password)]
+		[Display(Name = "Confirm password")]
+		[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+		public string ConfirmPassword { get; set; }
+
+		public string Code { get; set; }
+	}
+
+	public class SendCodeViewModel
+	{
+		public string SelectedProvider { get; set; }
+		public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
+		public string ReturnUrl { get; set; }
 	}
 }

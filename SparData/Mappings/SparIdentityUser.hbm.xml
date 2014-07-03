@@ -8,16 +8,17 @@
 		<id name="Id" column="Id" type="string">
 			<generator class="assigned"></generator>
 		</id>
-		<property name="UserName" column="UserName" not-null="true"></property>
-		<property name="PasswordHash" column="PasswordHash" not-null="true"></property>
+		<property name="Email" column="Email" not-null="false"></property>
+		<property name="EmailConfirmed" column="EmailConfirmed" not-null="true"></property>
+		<property name="PasswordHash" column="PasswordHash" not-null="false"></property>
 		<property name="SecurityStamp" column="SecurityStamp" not-null="false"></property>
-		<property name="Discriminator" column="Discriminator" not-null="true"></property>
-		<set name="Logins" cascade="all-delete-orphan" lazy="false" inverse="true">
-			<key>
-				<column name="UserId"></column>
-			</key>
-			<one-to-many class="SparUserLoginInfo" />
-		</set>
+		<property name="PhoneNumber" column="PhoneNumber" not-null="false"></property>
+		<property name="PhoneNumberConfirmed" column="PhoneNumberConfirmed" not-null="true"></property>
+		<property name="TwoFactorEnabled" column="TwoFactorEnabled" not-null="true"></property>
+		<property name="LockoutEndDateUtc" column="LockoutEndDateUtc" not-null="false"></property>
+		<property name="LockoutEnabled" column="LockoutEnabled" not-null="true"></property>
+		<property name="AccessFailedCount" column="AccessFailedCount" not-null="true"></property>
+		<property name="UserName" column="UserName" not-null="true"></property>
 	</class>
   
 </hibernate-mapping>
