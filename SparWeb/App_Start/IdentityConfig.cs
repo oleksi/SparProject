@@ -7,10 +7,12 @@ using SparData;
 using SparModel;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 
 namespace SparWeb.Models
 {
@@ -89,13 +91,13 @@ namespace SparWeb.Models
 		{
 			try
 			{
-				//WebMail.SmtpServer = ConfigurationManager.AppSettings["SmtpServer"];
-				//WebMail.UserName = ConfigurationManager.AppSettings["SmtpUserName"];
-				//WebMail.Password = ConfigurationManager.AppSettings["SmtpPassword"];
-				//WebMail.SmtpPort = Convert.ToInt32(ConfigurationManager.AppSettings["SmtpPort"]);
-				//WebMail.From = ConfigurationManager.AppSettings["SmtpFrom"];
+				WebMail.SmtpServer = ConfigurationManager.AppSettings["SmtpServer"];
+				WebMail.UserName = ConfigurationManager.AppSettings["SmtpUserName"];
+				WebMail.Password = ConfigurationManager.AppSettings["SmtpPassword"];
+				WebMail.SmtpPort = Convert.ToInt32(ConfigurationManager.AppSettings["SmtpPort"]);
+				WebMail.From = ConfigurationManager.AppSettings["SmtpFrom"];
 
-				//WebMail.Send(message.Destination, message.Subject, message.Body);
+				WebMail.Send(message.Destination, message.Subject, message.Body);
 			}
 			catch
 			{ }

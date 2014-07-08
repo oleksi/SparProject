@@ -214,6 +214,10 @@ namespace SparWeb.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+			ViewBag.HeightToCentimetersMap = SparWeb.Models.Util.HeightToCentimetersMap;
+			ViewBag.WeightClassMap = SparWeb.Models.Util.WeightClassMap;
+			ViewBag.AllGyms = getAllGyms();
+
             return View(model);
         }
 
