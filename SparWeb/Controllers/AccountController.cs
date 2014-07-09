@@ -194,7 +194,20 @@ namespace SparWeb.Controllers
 
 					Gym gym = null;
 					if (model.GymId.HasValue == true)
-						gym = new Gym() { Id = model.GymId.Value };
+					{
+						//checking if it's a newly added gym
+						if (model.GymId.Value == -1)
+						{
+							//ToDo: alert admin that new gym was added
+							gym = new Gym() { Name = model.NewGymName };
+							GymRepository gymRepo = new GymRepository();
+							gymRepo.SaveGym(gym);
+						}
+						else
+						{
+							gym = new Gym() { Id = model.GymId.Value };
+						}
+					}
 
 					FighterRepository fighterRepo = new FighterRepository();
 					Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, Height = model.Height, Weight = model.Weight, NumberOfFights = model.NumberOfFights.Value, Gym = gym, ProfilePictureUploaded = false };
@@ -254,9 +267,11 @@ namespace SparWeb.Controllers
 		{
 			Fighter fighter = getLoggedInFighter();
 
+			string gymName = (fighter.Gym != null) ? fighter.Gym.Name : "Unknown Gym";
+
 			AccountViewModel model = null;
 			if (fighter != null)
-				model = new AccountViewModel() { Name = fighter.Name, GymName = fighter.Gym.Name, DateOfBirth = fighter.DateOfBirth.ToShortDateString(), Height = Util.HeightToCentimetersMap[fighter.Height], Weight = fighter.Weight, NumberOfFights = fighter.NumberOfFights };
+				model = new AccountViewModel() { Name = fighter.Name, GymName = gymName, DateOfBirth = fighter.DateOfBirth.ToShortDateString(), Height = Util.HeightToCentimetersMap[fighter.Height], Weight = fighter.Weight, NumberOfFights = fighter.NumberOfFights };
 
 			if (fighter.ProfilePictureUploaded == true)
 				model.ProfilePictureFile = fighter.getProfileThumbnailFileName(250);

@@ -78,12 +78,13 @@
         <div class="col-md-10">
             <div class="row">
                 <div class="col-md-4">
-                    @Html.DropDownListFor(m => m.GymId, (new SelectList(ViewBag.AllGyms, "Key", "Value", Model.GymId)), "Please select your gym", new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.GymId, (new SelectList(ViewBag.AllGyms, "Key", "Value", Model.GymId)), "Please select your gym (optional)", new { @class = "form-control" })
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    Can't find your gym? <a href="#">Click here</a> to add!
+                    Can't find your gym? <a href="#newGymModal" data-toggle="modal">Click here</a> to add!
+                    @Html.HiddenFor(m => m.NewGymName)
                 </div>
             </div>
         </div>
@@ -131,8 +132,50 @@
             <input type="submit" class="btn btn-default btn-primary btn-lg" value="Register" />
         </div>
     </div>
+
+<!-- Modal -->
+    <div class="modal fade" id="newGymModal" tabindex="-1" role="dialog" aria-labelledby="newGymModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="newGymModalLabel">Add Your Gym</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <label class="col-md-3 control-label" for="txtNewGymName">Gym Name:</label>
+                        <div class="col-md-9">
+                            <input type="text" id="txtNewGymName" name="txtNewGymName" class="form-control" placeholder="Enter your gym name" data-val-required="The gym name is required." data-val="true" />
+                            <span class="field-validation-valid" data-valmsg-replace="true" data-valmsg-for="txtNewGymName"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="addGymButton">Add Gym</button>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    
+    <script type="text/javascript">
+        $(function () {
+            $('#addGymButton').click(function () {
+                var validator = $("form").validate();
+                if(validator.element("#txtNewGymName"))
+                {
+                    $('#GymId option[value="-1"]').remove();
+                    $('#GymId option:first').after($('<option />', { "value": '-1', text: $('#txtNewGymName').val() }));
+                    $('#NewGymName').val($('#txtNewGymName').val());
+                    $('#txtNewGymName').val('');
+                    $('#GymId').val('-1');
+                    $('#newGymModal').modal('hide');
+                }
+            });
+        });
+    </script>
 }

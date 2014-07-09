@@ -31,7 +31,7 @@ namespace SparData
 			IList<Gym> allGyms = null;
 			using (var session = getSession())
 			{
-				allGyms = session.QueryOver<Gym>().List();
+				allGyms = session.QueryOver<Gym>().OrderBy(gg => gg.Name).Asc.List();
 			}
 
 			return allGyms;
