@@ -20,5 +20,10 @@ namespace SparModel
 		public virtual DateTime UpdateDate { get; set; }
 		public virtual SparIdentityUser SparIdentityUser { get; set; }
 		public virtual bool ProfilePictureUploaded { get; set; }
+
+		public virtual string getProfileThumbnailFileName(int thumbSize)
+		{
+			return String.Format("{0}-250X250.jpg", this.SparIdentityUser.Id);
+		}
 	}
 }

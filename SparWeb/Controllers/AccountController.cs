@@ -259,7 +259,7 @@ namespace SparWeb.Controllers
 				model = new AccountViewModel() { Name = fighter.Name, GymName = fighter.Gym.Name, DateOfBirth = fighter.DateOfBirth.ToShortDateString(), Height = Util.HeightToCentimetersMap[fighter.Height], Weight = fighter.Weight, NumberOfFights = fighter.NumberOfFights };
 
 			if (fighter.ProfilePictureUploaded == true)
-				model.ProfilePictureFile = String.Format("{0}.jpg", fighter.SparIdentityUser.Id);
+				model.ProfilePictureFile = fighter.getProfileThumbnailFileName(250);
 
 			return View("Account", model);
 		}
@@ -289,28 +289,24 @@ namespace SparWeb.Controllers
 				}
 
 				Fighter fighter = getLoggedInFighter();
-				fileName = String.Format("{0}.jpg", fighter.SparIdentityUser.Id);
 
-				CloudBlockBlob blockBlob = container.GetBlockBlobReference(String.Format("ProfilePics/{0}", fileName));
-
-				//converting to JPG
+				//optimizing and saving uploaded pic in full size
+				fileName = String.Format("{0}-orig.jpg", fighter.SparIdentityUser.Id);				
 				Bitmap bitmap = new Bitmap(file.InputStream);
-				ImageCodecInfo jgpEncoder = getEncoder(ImageFormat.Jpeg);
-				EncoderParameters myEncoderParameters = new EncoderParameters(1);
-				myEncoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, 70L);
-				byte[] byteArray = null;
-				using (MemoryStream memoryStream = new MemoryStream())
-				{
-					bitmap.Save(memoryStream, jgpEncoder, myEncoderParameters);
-					memoryStream.Close();
-					byteArray = memoryStream.ToArray();
-				}
+				saveProfilePic(bitmap, fileName, container);
 
-				//saving to the blob storage
-				using (MemoryStream memoryStream = new MemoryStream(byteArray))
-				{
-					blockBlob.UploadFromStream(memoryStream);
-				}
+				//cropping the pic into square
+				Rectangle cropRect = Rectangle.Empty;
+				if (bitmap.Width > bitmap.Height)
+					cropRect = new Rectangle((int)(bitmap.Width - bitmap.Height) / 2, 0, bitmap.Height, bitmap.Height);
+				else
+					cropRect = new Rectangle(0, (int)(bitmap.Height - bitmap.Width) / 2, bitmap.Width, bitmap.Width);
+				bitmap = cropImage(bitmap, cropRect);
+				
+				//resizing and saving account thumbnail version
+				bitmap = new Bitmap(bitmap, 250, 250);
+				fileName = fighter.getProfileThumbnailFileName(250);
+				saveProfilePic(bitmap, fileName, container);
 
 				fighter.ProfilePictureUploaded = true;
 				FighterRepository fighterRepo = new FighterRepository();
@@ -331,6 +327,29 @@ namespace SparWeb.Controllers
 			}
 		}
 
+		private void saveProfilePic(Bitmap bitmap, string fileName, CloudBlobContainer container)
+		{
+			CloudBlockBlob blockBlob = container.GetBlockBlobReference(String.Format("ProfilePics/{0}", fileName));
+
+			//converting to JPG
+			ImageCodecInfo jgpEncoder = getEncoder(ImageFormat.Jpeg);
+			EncoderParameters myEncoderParameters = new EncoderParameters(1);
+			myEncoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, 70L);
+			byte[] byteArray = null;
+			using (MemoryStream memoryStream = new MemoryStream())
+			{
+				bitmap.Save(memoryStream, jgpEncoder, myEncoderParameters);
+				memoryStream.Close();
+				byteArray = memoryStream.ToArray();
+			}
+
+			//saving to the blob storage
+			using (MemoryStream memoryStream = new MemoryStream(byteArray))
+			{
+				blockBlob.UploadFromStream(memoryStream);
+			}
+		}
+
 		private ImageCodecInfo getEncoder(ImageFormat format)
 		{
 			ImageCodecInfo encoder = null;
@@ -345,6 +364,20 @@ namespace SparWeb.Controllers
 				}
 			}
 			return encoder;
+		}
+
+		private Bitmap cropImage(Bitmap src, Rectangle cropRect)
+		{
+			Bitmap target = new Bitmap(cropRect.Width, cropRect.Height);
+
+			using(Graphics g = Graphics.FromImage(target))
+			{
+			   g.DrawImage(src, new Rectangle(0, 0, target.Width, target.Height), 
+								cropRect,                        
+								GraphicsUnit.Pixel);
+			}
+
+			return target;
 		}
 
 		//
