@@ -18,7 +18,14 @@ namespace SparData
 
 		public Task CreateAsync(TUser user)
 		{
-			saveOrUpdateUser(user);
+			using (var session = getSession())
+			{
+				using (var transaction = session.BeginTransaction())
+				{
+					session.Save(user);
+					transaction.Commit();
+				}
+			}
 
 			return Task.FromResult<Object>(null);
 		}
@@ -55,21 +62,16 @@ namespace SparData
 
 		public Task UpdateAsync(TUser user)
 		{
-			saveOrUpdateUser(user);
-
-			return Task.FromResult<Object>(null);
-		}
-
-		private void saveOrUpdateUser(TUser user)
-		{
 			using (var session = getSession())
 			{
 				using (var transaction = session.BeginTransaction())
 				{
-					session.SaveOrUpdate(user);
+					session.Update(user);
 					transaction.Commit();
 				}
 			}
+
+			return Task.FromResult<Object>(null);
 		}
 
 		public void Dispose()
@@ -79,64 +81,46 @@ namespace SparData
 
 		public Task<int> GetAccessFailedCountAsync(TUser user)
 		{
-			using (var session = getSession())
-			{
-				int accessFailedCount = session.QueryOver<TUser>().Where(u => u.Id == user.Id).Select(u => u.AccessFailedCount).SingleOrDefault<int>();
-				return Task.FromResult<int>(accessFailedCount);
-			}
+			return Task.FromResult<int>(user.AccessFailedCount);
 		}
 
 		public Task<bool> GetLockoutEnabledAsync(TUser user)
 		{
-			using (var session = getSession())
-			{
-				bool lockoutEnabled = session.QueryOver<TUser>().Where(u => u.Id == user.Id).Select(u => u.LockoutEnabled).SingleOrDefault<bool>();
-				return Task.FromResult<bool>(lockoutEnabled);
-			}
+			return Task.FromResult<bool>(user.LockoutEnabled);
 		}
 
 		public Task<DateTimeOffset> GetLockoutEndDateAsync(TUser user)
 		{
-			using (var session = getSession())
-			{
-				DateTimeOffset? lockoutEndDate = session.QueryOver<TUser>().Where(u => u.Id == user.Id).Select(u => u.LockoutEndDateUtc).SingleOrDefault<DateTimeOffset?>();
-				return Task.FromResult<DateTimeOffset>(lockoutEndDate.HasValue ? lockoutEndDate.Value : DateTime.Now.AddMinutes(-1));
-			}
+			return Task.FromResult<DateTimeOffset>(user.LockoutEndDateUtc.HasValue ? user.LockoutEndDateUtc.Value : DateTime.Now.AddMinutes(-1));
 		}
 
 		public Task<int> IncrementAccessFailedCountAsync(TUser user)
 		{
 			user.AccessFailedCount++;
-			UpdateAsync(user);
-
 			return Task.FromResult<int>(user.AccessFailedCount);
 		}
 
 		public Task ResetAccessFailedCountAsync(TUser user)
 		{
 			user.AccessFailedCount = 0;
-			return UpdateAsync(user);
+			return Task.FromResult<Object>(null);
 		}
 
 		public Task SetLockoutEnabledAsync(TUser user, bool enabled)
 		{
 			user.LockoutEnabled = enabled;
-			return UpdateAsync(user);
+			return Task.FromResult<Object>(null);
 		}
 
 		public Task SetLockoutEndDateAsync(TUser user, DateTimeOffset lockoutEnd)
 		{
 			user.LockoutEndDateUtc = lockoutEnd.UtcDateTime;
-			return UpdateAsync(user);
+			return Task.FromResult<Object>(null);
 		}
 
 		public Task<string> GetPasswordHashAsync(TUser user)
 		{
-			using (var session = getSession())
-			{
-				string passwordHash = session.QueryOver<TUser>().Where(u => u.Id == user.Id).Select(u => u.PasswordHash).SingleOrDefault<string>();
-				return Task.FromResult<string>(passwordHash);
-			}
+			return Task.FromResult<string>(user.PasswordHash);
 		}
 
 		public Task<bool> HasPasswordAsync(TUser user)
@@ -150,52 +134,40 @@ namespace SparData
 		public Task SetPasswordHashAsync(TUser user, string passwordHash)
 		{
 			user.PasswordHash = passwordHash;
-			return UpdateAsync(user);
+			return Task.FromResult<Object>(null);
 		}
 
 		public Task<bool> GetTwoFactorEnabledAsync(TUser user)
 		{
-			using (var session = getSession())
-			{
-				bool twoFactorEnabled = session.QueryOver<TUser>().Where(u => u.Id == user.Id).Select(u => u.TwoFactorEnabled).SingleOrDefault<bool>();
-				return Task.FromResult<bool>(twoFactorEnabled);
-			}
+			return Task.FromResult<bool>(user.TwoFactorEnabled);
 		}
 
 		public Task SetTwoFactorEnabledAsync(TUser user, bool enabled)
 		{
 			user.TwoFactorEnabled = enabled;
-			return UpdateAsync(user);
+			return Task.FromResult<Object>(null);
 		}
 
 		public Task<string> GetPhoneNumberAsync(TUser user)
 		{
-			using (var session = getSession())
-			{
-				string phoneNumber = session.QueryOver<TUser>().Where(u => u.Id == user.Id).Select(u => u.PhoneNumber).SingleOrDefault<string>();
-				return Task.FromResult<string>(phoneNumber);
-			}
+			return Task.FromResult<string>(user.PhoneNumber);
 		}
 
 		public Task<bool> GetPhoneNumberConfirmedAsync(TUser user)
 		{
-			using (var session = getSession())
-			{
-				bool phoneNumberConfirmed = session.QueryOver<TUser>().Where(u => u.Id == user.Id).Select(u => u.PhoneNumberConfirmed).SingleOrDefault<bool>();
-				return Task.FromResult<bool>(phoneNumberConfirmed);
-			}
+			return Task.FromResult<bool>(user.PhoneNumberConfirmed);
 		}
 
 		public Task SetPhoneNumberAsync(TUser user, string phoneNumber)
 		{
 			user.PhoneNumber = phoneNumber;
-			return UpdateAsync(user);
+			return Task.FromResult<Object>(null);
 		}
 
 		public Task SetPhoneNumberConfirmedAsync(TUser user, bool confirmed)
 		{
 			user.PhoneNumberConfirmed = confirmed;
-			return UpdateAsync(user);
+			return Task.FromResult<Object>(null);
 		}
 
 		public Task AddLoginAsync(TUser user, UserLoginInfo login)
@@ -230,47 +202,35 @@ namespace SparData
 
 		public Task<string> GetEmailAsync(TUser user)
 		{
-			using (var session = getSession())
-			{
-				string email = session.QueryOver<TUser>().Where(u => u.Id == user.Id).Select(u => u.Email).SingleOrDefault<string>();
-				return Task.FromResult<string>(email);
-			}
+			return Task.FromResult<string>(user.Email);
 		}
 
 		public Task<bool> GetEmailConfirmedAsync(TUser user)
 		{
-			using (var session = getSession())
-			{
-				bool emailConfirmed = session.QueryOver<TUser>().Where(u => u.Id == user.Id).Select(u => u.EmailConfirmed).SingleOrDefault<bool>();
-				return Task.FromResult<bool>(emailConfirmed);
-			}
+			return Task.FromResult<bool>(user.EmailConfirmed);
 		}
 
 		public Task SetEmailAsync(TUser user, string email)
 		{
 			user.Email = email;
-			return UpdateAsync(user);
+			return Task.FromResult<Object>(null);
 		}
 
 		public Task SetEmailConfirmedAsync(TUser user, bool confirmed)
 		{
 			user.EmailConfirmed = confirmed;
-			return UpdateAsync(user);
+			return Task.FromResult<Object>(null);
 		}
 
 		public Task<string> GetSecurityStampAsync(TUser user)
 		{
-			using (var session = getSession())
-			{
-				string securityStamp = session.QueryOver<TUser>().Where(u => u.Id == user.Id).Select(u => u.SecurityStamp).SingleOrDefault<string>();
-				return Task.FromResult<string>(securityStamp);
-			}
+			return Task.FromResult<string>(user.SecurityStamp);
 		}
 
 		public Task SetSecurityStampAsync(TUser user, string stamp)
 		{
 			user.SecurityStamp = stamp;
-			return UpdateAsync(user);
+			return Task.FromResult<Object>(null);
 		}
 
 		//======================= not supported interfaces ===============================

@@ -176,14 +176,6 @@ namespace SparWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-				var user = UserManager.FindByName(model.UserName);
-				if (user != null)
-				{
-					ModelState.AddModelError("UserName", "User with this email address already exist!");
-					popualateRegistrationDropdowns();
-					return View(model);
-				}
-
 				DateTime dob = DateTime.MinValue;
 				if (DateTime.TryParse(String.Format("{0}/{1}/{2}", model.DateOfBirth.Month, model.DateOfBirth.Day, model.DateOfBirth.Year), out dob) == false)
 				{
@@ -192,7 +184,7 @@ namespace SparWeb.Controllers
 					return View(model);
 				}
 
-                user = new SparIdentityUser() { UserName = model.UserName, Email = model.UserName };                
+                var user = new SparIdentityUser() { UserName = model.UserName, Email = model.UserName };                
 				var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
