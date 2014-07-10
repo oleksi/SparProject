@@ -152,11 +152,7 @@ namespace SparWeb.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-			ViewBag.HeightToCentimetersMap = SparWeb.Models.Util.HeightToCentimetersMap;
-			ViewBag.WeightClassMap = SparWeb.Models.Util.WeightClassMap;
-
-			//#OS# geting a list of all gyms
-			ViewBag.AllGyms = getAllGyms();
+			popualateRegistrationDropdowns();
 
 			return View(new RegisterViewModel() { Sex = true });
         }
@@ -180,14 +176,23 @@ namespace SparWeb.Controllers
         {
             if (ModelState.IsValid)
             {
+				var user = UserManager.FindByName(model.UserName);
+				if (user != null)
+				{
+					ModelState.AddModelError("UserName", "User with this email address already exist!");
+					popualateRegistrationDropdowns();
+					return View(model);
+				}
+
 				DateTime dob = DateTime.MinValue;
 				if (DateTime.TryParse(String.Format("{0}/{1}/{2}", model.DateOfBirth.Month, model.DateOfBirth.Day, model.DateOfBirth.Year), out dob) == false)
 				{
 					ModelState.AddModelError("DateOfBirth", "Date of birth is not valid");
+					popualateRegistrationDropdowns();
 					return View(model);
 				}
 
-                var user = new SparIdentityUser() { UserName = model.UserName, Email = model.UserName };                
+                user = new SparIdentityUser() { UserName = model.UserName, Email = model.UserName };                
 				var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -227,12 +232,16 @@ namespace SparWeb.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+			popualateRegistrationDropdowns();
+            return View(model);
+        }
+
+		private void popualateRegistrationDropdowns()
+		{
 			ViewBag.HeightToCentimetersMap = SparWeb.Models.Util.HeightToCentimetersMap;
 			ViewBag.WeightClassMap = SparWeb.Models.Util.WeightClassMap;
 			ViewBag.AllGyms = getAllGyms();
-
-            return View(model);
-        }
+		}
 
 		//
 		// GET: /Account/ConfirmEmail
