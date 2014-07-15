@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SparData;
+using SparModel;
+using SparWeb.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +13,17 @@ namespace SparWeb.Controllers
 	{
 		public ActionResult Index()
 		{
-			return View();
+			FighterRepository fighterRepo = new FighterRepository();
+			IList<Fighter> fightersList = fighterRepo.GetAllFighters();
+
+			List<AccountViewModel> fightersAccountViewModelList = new List<AccountViewModel>();
+			foreach( Fighter currFightiner in fightersList)
+				fightersAccountViewModelList.Add(Util.GetAccountViewModelForFighter(currFightiner, 150));
+
+			HomeViewModel model = new HomeViewModel();
+			model.FightersList = fightersAccountViewModelList;
+
+			return View(model);
 		}
 
 		public ActionResult About()

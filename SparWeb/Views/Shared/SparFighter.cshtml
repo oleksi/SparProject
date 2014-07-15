@@ -1,0 +1,51 @@
+﻿@model SparWeb.Models.AccountViewModel
+
+<div class="row well well-sm spar-fighter">
+    <div class="col-md-3">
+        <div class="profilePicture">
+            <img height="150" src="@String.Format("{0}{1}", System.Configuration.ConfigurationManager.AppSettings["ProfilePicsUrl"], Model.ProfilePictureFile)" />
+        </div>
+    </div>
+    <div class="col-md-6">
+        <span class="fighterNameSmall">@Html.ValueFor(m => m.Name)</span>
+        <div class="row">
+            <div class="col-md-12">
+                from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
+            </div>
+        </div>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Age):
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Age)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Height):
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Height)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Weight):
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Weight) lb
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NumberOfFights) :
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NumberOfFights) 
+            </dd>
+        </dl>
+    </div>
+</div>
+

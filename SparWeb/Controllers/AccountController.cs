@@ -268,16 +268,7 @@ namespace SparWeb.Controllers
 		{
 			Fighter fighter = getLoggedInFighter();
 
-			string gymName = (fighter.Gym != null) ? fighter.Gym.Name : "Unknown Gym";
-
-			AccountViewModel model = null;
-			if (fighter != null)
-				model = new AccountViewModel() { Name = fighter.Name, GymName = gymName, DateOfBirth = fighter.DateOfBirth.ToShortDateString(), Height = Util.HeightToCentimetersMap[fighter.Height], Weight = fighter.Weight, NumberOfFights = fighter.NumberOfFights };
-
-			if (fighter.ProfilePictureUploaded == true)
-				model.ProfilePictureFile = fighter.getProfileThumbnailFileName(250);
-
-			return View("Account", model);
+			return View("Account", Util.GetAccountViewModelForFighter(fighter, 250));
 		}
 
 		private Fighter getLoggedInFighter()
@@ -307,9 +298,9 @@ namespace SparWeb.Controllers
 				Fighter fighter = getLoggedInFighter();
 
 				//optimizing and saving uploaded pic in full size
-				fileName = String.Format("{0}-orig.jpg", fighter.SparIdentityUser.Id);				
+				string origFileName = String.Format("{0}-orig.jpg", fighter.SparIdentityUser.Id);				
 				Bitmap bitmap = new Bitmap(file.InputStream);
-				saveProfilePic(bitmap, fileName, container);
+				saveProfilePic(bitmap, origFileName, container);
 
 				//cropping the pic into square
 				Rectangle cropRect = Rectangle.Empty;
@@ -323,6 +314,9 @@ namespace SparWeb.Controllers
 				bitmap = new Bitmap(bitmap, 250, 250);
 				fileName = fighter.getProfileThumbnailFileName(250);
 				saveProfilePic(bitmap, fileName, container);
+
+				bitmap = new Bitmap(bitmap, 150, 150);
+				saveProfilePic(bitmap, fighter.getProfileThumbnailFileName(150), container);
 
 				fighter.ProfilePictureUploaded = true;
 				FighterRepository fighterRepo = new FighterRepository();

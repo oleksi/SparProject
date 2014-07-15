@@ -47,8 +47,18 @@ input[type="checkbox"].input-validation-error {
 	font-weight: bold;
 }
 
+.fighterNameSmall {
+	font-size: 22px;
+	font-weight: bold;
+}
+
 .gymName {
 	font-size: 18px;
+	font-weight: bold;
+}
+
+.gymNameSmall {
+	font-size: 14px;
 	font-weight: bold;
 }
 
@@ -79,4 +89,8 @@ input[type="checkbox"].input-validation-error {
 
 .profilePicture {
 	text-align: right;
+}
+
+.spar-fighter .dl-horizontal dt {
+	text-align: left;
 }

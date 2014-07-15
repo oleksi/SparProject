@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SparModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -47,5 +48,19 @@ namespace SparWeb.Models
 			{201, "201 lbs: Heavyweight"},
 			{1000, "over 201 lbs: Super Heavyweight"}
 		};
+
+		public static AccountViewModel GetAccountViewModelForFighter(Fighter fighter, int thumbnailSize)
+		{
+			string gymName = (fighter.Gym != null) ? fighter.Gym.Name : "Unknown Gym";
+
+			AccountViewModel model = null;
+			if (fighter != null)
+				model = new AccountViewModel() { Name = fighter.Name, GymName = gymName, Age = fighter.getFighterAge(), Height = Util.HeightToCentimetersMap[fighter.Height], Weight = fighter.Weight, NumberOfFights = fighter.NumberOfFights };
+
+			if (fighter.ProfilePictureUploaded == true)
+				model.ProfilePictureFile = fighter.getProfileThumbnailFileName(thumbnailSize);
+
+			return model;
+		}
 	}
 }

@@ -102,8 +102,8 @@ namespace SparWeb.Models
 
 		public string GymName { get; set; }
 
-		[Display(Name = "Date of birth")]
-		public string DateOfBirth { get; set; }
+		[Display(Name = "Age")]
+		public int Age { get; set; }
 
 		[Display(Name = "Height")]
 		public string Height { get; set; }

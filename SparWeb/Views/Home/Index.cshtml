@@ -1,4 +1,6 @@
-﻿@{
+﻿@model SparWeb.Models.HomeViewModel
+
+@{
     ViewBag.Title = "Find Boxing Sparring Partner";
 }
 
@@ -7,4 +9,17 @@
     <h2>Find boxing sparring partner in New York</h2>
     <p class="lead">SparGym is the ultimate resource for finding boxing sparring partners in New York. Register now to become a part of our boxing community and to schedule your next spar!</p>
     <p><a href="@Url.Content("~/Account/Register")" class="btn btn-primary btn-large">Register &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-8">
+        @foreach (var currModel in Model.FightersList)
+        {
+            @Html.Partial("SparFighter", currModel)
+        }
+    </div>
+    <div class="col-md-2">
+    </div>
 </div>
