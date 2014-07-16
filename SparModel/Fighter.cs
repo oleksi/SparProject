@@ -23,7 +23,8 @@ namespace SparModel
 
 		public virtual string getProfileThumbnailFileName(int thumbSize)
 		{
-			return String.Format("{0}-{1}X{1}.jpg", this.SparIdentityUser.Id, thumbSize);
+			string profileThumbnailFileName = (ProfilePictureUploaded == true) ? this.SparIdentityUser.Id : "anonymous-photo";
+			return String.Format("{0}-{1}X{1}.jpg", profileThumbnailFileName, thumbSize);
 		}
 
 		public virtual int getFighterAge()

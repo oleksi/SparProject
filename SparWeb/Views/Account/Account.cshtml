@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col-md-3">
-        @if (String.IsNullOrEmpty(Model.ProfilePictureFile) == true) {
+        @if (Model.ProfilePictureUploaded == false) {
         <div class="profilePictureDefault dropzone">
             <p class="profileUploadPicHeader">Upload your picture now!</p> 
             <p class="profileUploadPicSubeader"><a class="profileUploadPicAction" href="#">(drop file here or click)</a></p>
@@ -62,7 +62,8 @@
     <script type="text/javascript">
         //Dropzone.autoDiscover = false;
         $(function () {
-            @if (String.IsNullOrEmpty(Model.ProfilePictureFile) == true) {
+            @if (Model.ProfilePictureUploaded == false)
+            {
             <text>
             //initializing DropZone
             $(".profilePictureDefault").dropzone({
@@ -99,7 +100,7 @@
         });
 
         function showProfilePicture(pictureFileName) {
-            $('.profilePicture').find('img').attr("src", '@System.Configuration.ConfigurationManager.AppSettings["ProfilePicsUrl"]' + pictureFileName);
+            $('.profilePicture').find('img').attr("src", pictureFileName);
             $('.profilePicture').show();
         }
     </script>

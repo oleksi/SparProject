@@ -115,6 +115,8 @@ namespace SparWeb.Models
 		public int NumberOfFights { get; set; }
 
 		public string ProfilePictureFile { get; set; }
+
+		public bool ProfilePictureUploaded { get; set; }
 	}
 
 	public class DateOfBirth

@@ -55,10 +55,16 @@ namespace SparWeb.Models
 
 			AccountViewModel model = null;
 			if (fighter != null)
-				model = new AccountViewModel() { Name = fighter.Name, GymName = gymName, Age = fighter.getFighterAge(), Height = Util.HeightToCentimetersMap[fighter.Height], Weight = fighter.Weight, NumberOfFights = fighter.NumberOfFights };
-
-			if (fighter.ProfilePictureUploaded == true)
-				model.ProfilePictureFile = fighter.getProfileThumbnailFileName(thumbnailSize);
+				model = new AccountViewModel() { 
+					Name = fighter.Name, 
+					GymName = gymName, 
+					Age = fighter.getFighterAge(), 
+					Height = Util.HeightToCentimetersMap[fighter.Height], 
+					Weight = fighter.Weight, 
+					NumberOfFights = fighter.NumberOfFights, 
+					ProfilePictureUploaded = fighter.ProfilePictureUploaded,
+					ProfilePictureFile = String.Format("{0}{1}", (fighter.ProfilePictureUploaded == true) ? System.Configuration.ConfigurationManager.AppSettings["ProfilePicsUrl"] : VirtualPathUtility.ToAbsolute("~/Content/Images/"), fighter.getProfileThumbnailFileName(thumbnailSize))
+				};
 
 			return model;
 		}
