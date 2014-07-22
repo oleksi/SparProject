@@ -94,3 +94,9 @@ input[type="checkbox"].input-validation-error {
 .spar-fighter .dl-horizontal dt {
 	text-align: left;
 }
+
+.vAlignCenter {
+	float:none !important;
+    display:inline-block !important;
+    vertical-align:middle !important;
+}

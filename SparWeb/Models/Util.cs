@@ -56,6 +56,7 @@ namespace SparWeb.Models
 			AccountViewModel model = null;
 			if (fighter != null)
 				model = new AccountViewModel() { 
+					ID = fighter.SparIdentityUser.Id,
 					Name = fighter.Name, 
 					GymName = gymName, 
 					Age = fighter.getFighterAge(), 
@@ -63,7 +64,8 @@ namespace SparWeb.Models
 					Weight = fighter.Weight, 
 					NumberOfFights = fighter.NumberOfFights, 
 					ProfilePictureUploaded = fighter.ProfilePictureUploaded,
-					ProfilePictureFile = String.Format("{0}{1}", (fighter.ProfilePictureUploaded == true) ? System.Configuration.ConfigurationManager.AppSettings["ProfilePicsUrl"] : VirtualPathUtility.ToAbsolute("~/Content/Images/"), fighter.getProfileThumbnailFileName(thumbnailSize))
+					ProfilePictureFile = String.Format("{0}{1}", (fighter.ProfilePictureUploaded == true) ? System.Configuration.ConfigurationManager.AppSettings["ProfilePicsUrl"] : VirtualPathUtility.ToAbsolute("~/Content/Images/"), fighter.getProfileThumbnailFileName(thumbnailSize)),
+					IsMale = fighter.Sex
 				};
 
 			return model;

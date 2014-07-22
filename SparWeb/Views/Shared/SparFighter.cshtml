@@ -1,12 +1,12 @@
 ﻿@model SparWeb.Models.AccountViewModel
 
 <div class="row well well-sm spar-fighter">
-    <div class="col-md-3">
+    <div class="col-md-3 vAlignCenter">
         <div class="profilePicture">
             <img height="150" src="@Model.ProfilePictureFile" />
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 vAlignCenter">
         <span class="fighterNameSmall">@Html.ValueFor(m => m.Name)</span>
         <div class="row">
             <div class="col-md-12">
@@ -43,9 +43,18 @@
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.NumberOfFights) 
+                @Html.DisplayFor(model => model.NumberOfFights)
             </dd>
         </dl>
+    </div>
+    <div class="col-md-2 vAlignCenter">
+        @{
+            string himOrHerSufix = Model.IsMale ? "Him" : "Her";
+        }
+        @using (Html.BeginForm("SparConfirmation", "Fighter", new { ID = Model.ID }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+        <input class="btn btn-default btn-danger btn-lg" type="submit" value="Spar @himOrHerSufix">
+        }
     </div>
 </div>
 

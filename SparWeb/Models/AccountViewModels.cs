@@ -98,6 +98,8 @@ namespace SparWeb.Models
 
 	public class AccountViewModel
 	{
+		public string ID { get; set; }
+
 		public string Name { get; set; }
 
 		public string GymName { get; set; }
@@ -117,6 +119,8 @@ namespace SparWeb.Models
 		public string ProfilePictureFile { get; set; }
 
 		public bool ProfilePictureUploaded { get; set; }
+
+		public bool IsMale { get; set; }
 	}
 
 	public class DateOfBirth
