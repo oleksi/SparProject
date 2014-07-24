@@ -15,9 +15,11 @@ namespace SparWeb.Controllers
             return View();
         }
 
-		[HttpPost]
+		[Authorize]
 		public ActionResult SparConfirmation(string ID)
 		{
+			string aaa = ID;
+
 			return View();
 		}
 	}

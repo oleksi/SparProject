@@ -11,6 +11,7 @@
 {
     @Html.AntiForgeryToken()
     <h4>Create a new account.</h4>
+    <p>Have an account already? @Html.ActionLink("Click Here to login", "Login", "Account")</p>
     <hr />
     <div class="form-group">
         <div class="col-md-10-offset-2">
