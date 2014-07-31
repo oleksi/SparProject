@@ -51,7 +51,7 @@
         @{
             string himOrHerSufix = Model.IsMale ? "Him" : "Her";
         }
-        @Html.ActionLink("Spar " + himOrHerSufix, "SparConfirmation", "Fighter", new { ID = Model.ID }, new { @class = "btn btn-default btn-danger btn-lg" } )
+        @Html.ActionLink("Spar " + himOrHerSufix, "SparConfirmation", "Spar", new { ID = Model.ID }, new { @class = "btn btn-default btn-danger btn-lg" } )
     </div>
 </div>
 

@@ -1,0 +1,44 @@
+﻿@model SparWeb.Models.SparConfirmationViewModel
+
+@{
+    ViewBag.Title = "Spar Confirmation";
+}
+
+<div class="row">
+    <div class="col-md-5 vAlignCenter">
+        <div class="row sparConfirmationRow">
+            <span class="fighterName">@Model.ThisFighterName</span>
+        </div>
+        <div class="row sparConfirmationGymRow">
+            from <span class="gymName">@Model.ThisFighterGymName</span>
+        </div>
+        <div class="row sparConfirmationRow">
+            <div class="sparConfirmationProfilePicture">
+                <img height="250" src="@Model.ThisProfilePictureFile" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1 vAlignCenter">
+        <div class="row sparConfirmationRow">
+            <h1><b>VS</b></h1>
+        </div>
+    </div>
+    <div class="col-md-5 vAlignCenter">
+        <div class="row sparConfirmationRow">
+            <span class="fighterName">@Model.OpponentFighterName</span>
+        </div>
+        <div class="row sparConfirmationGymRow">
+            from <span class="gymName">@Model.OpponentFighterGymName</span>
+        </div>
+        <div class="row sparConfirmationRow">
+            <div class="sparConfirmationProfilePicture">
+                <img height="250" src="@Model.OpponentProfilePictureFile" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row sparConfirmationCommandRow">
+    <div class="col-md-11">
+        @Html.ActionLink("Confirm Spar Request", "SparConfirmation", "Spar", new { ID = Model.OpponentFighterID }, new { @class = "btn btn-default btn-danger btn-lg" })
+    </div>
+</div>
