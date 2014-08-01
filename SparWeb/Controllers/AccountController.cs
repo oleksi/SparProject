@@ -312,11 +312,11 @@ namespace SparWeb.Controllers
 				
 				//resizing and saving account thumbnail version
 				bitmap = new Bitmap(bitmap, 250, 250);
-				fileName = fighter.getProfileThumbnailFileName(250);
+				fileName = fighter.getProfileThumbnailFileName(250, true);
 				saveProfilePic(bitmap, fileName, container);
 
 				bitmap = new Bitmap(bitmap, 150, 150);
-				saveProfilePic(bitmap, fighter.getProfileThumbnailFileName(150), container);
+				saveProfilePic(bitmap, fighter.getProfileThumbnailFileName(150, true), container);
 
 				fighter.ProfilePictureUploaded = true;
 				FighterRepository fighterRepo = new FighterRepository();
