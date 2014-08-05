@@ -7,15 +7,15 @@
 <div class="row">
     <div class="col-md-5 vAlignCenter">
         <div class="row sparConfirmationRow">
+            <div class="sparConfirmationProfilePicture">
+                <img height="250" src="@Model.ThisProfilePictureFile" />
+            </div>
+        </div>
+        <div class="row sparConfirmationRow">
             <span class="fighterName">@Model.ThisFighterName</span>
         </div>
         <div class="row sparConfirmationGymRow">
             from <span class="gymName">@Model.ThisFighterGymName</span>
-        </div>
-        <div class="row sparConfirmationRow">
-            <div class="sparConfirmationProfilePicture">
-                <img height="250" src="@Model.ThisProfilePictureFile" />
-            </div>
         </div>
     </div>
     <div class="col-md-1 vAlignCenter">
@@ -25,20 +25,25 @@
     </div>
     <div class="col-md-5 vAlignCenter">
         <div class="row sparConfirmationRow">
+            <div class="sparConfirmationProfilePicture">
+                <img height="250" src="@Model.OpponentProfilePictureFile" />
+            </div>
+        </div>
+        <div class="row sparConfirmationRow">
             <span class="fighterName">@Model.OpponentFighterName</span>
         </div>
         <div class="row sparConfirmationGymRow">
             from <span class="gymName">@Model.OpponentFighterGymName</span>
         </div>
-        <div class="row sparConfirmationRow">
-            <div class="sparConfirmationProfilePicture">
-                <img height="250" src="@Model.OpponentProfilePictureFile" />
-            </div>
-        </div>
     </div>
 </div>
 <div class="row sparConfirmationCommandRow">
-    <div class="col-md-11">
+    <div class="col-md-4"></div>
+    <div class="col-md-1">
+        <a href="javascript:window.history.back();" class="btn btn-default btn-lg">Cancel</a>
+    </div>
+    <div class="col-md-3">
         @Html.ActionLink("Confirm Spar Request", "SparConfirmation", "Spar", new { ID = Model.OpponentFighterID }, new { @class = "btn btn-default btn-danger btn-lg" })
     </div>
+    <div class="col-md-4"></div>
 </div>
