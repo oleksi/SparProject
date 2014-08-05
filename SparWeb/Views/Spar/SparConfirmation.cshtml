@@ -4,11 +4,11 @@
     ViewBag.Title = "Spar Confirmation";
 }
 
-<div class="row">
+<div class="row sparConfirmationRow">
     <h2>Please, confirm that you want to spar @Model.OpponentFighterName.</h2>
-    <h3>After you click "Confirm Spar Request" button, a notification will be emailed to @Model.OpponentFighterName</h3>
+    <h4>After you click "Confirm Spar Request" button, a notification will be emailed to @Model.OpponentFighterName. </h4>
 </div>
-<div class="row">
+<div class="row sparConfirmationSectionRow">
     <div class="col-md-5 vAlignCenter">
         <div class="row sparConfirmationRow">
             <div class="sparConfirmationProfilePicture">
@@ -41,7 +41,7 @@
         </div>
     </div>
 </div>
-<div class="row sparConfirmationCommandRow">
+<div class="row sparConfirmationSectionRow">
     <div class="col-md-4"></div>
     <div class="col-md-1">
         <a href="javascript:window.history.back();" class="btn btn-default btn-lg">Cancel</a>
