@@ -6,6 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace SparWeb.Controllers
 {
@@ -14,10 +18,16 @@ namespace SparWeb.Controllers
 		public ActionResult Index()
 		{
 			FighterRepository fighterRepo = new FighterRepository();
+
+			int loggedInFighterId = -1;
+			if (User.Identity.GetUserId() != null)
+				loggedInFighterId = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId()).Id.Value;
+
 			IList<Fighter> fightersList = fighterRepo.GetAllFighters();
 
 			List<AccountViewModel> fightersAccountViewModelList = new List<AccountViewModel>();
 			foreach( Fighter currFightiner in fightersList)
+				if (loggedInFighterId == -1 || loggedInFighterId != currFightiner.Id)
 				fightersAccountViewModelList.Add(Util.GetAccountViewModelForFighter(currFightiner, 150));
 
 			HomeViewModel model = new HomeViewModel();
