@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" 
+                   assembly="SparModel" 
+                   namespace="SparModel">
+ 
+  <class name="SparRequest" table="SparRequests">
+		<id name="Id" column="Id" type="string">
+			<generator class="assigned"></generator>
+		</id>
+		<property name="Status" column="StatusId" not-null="false"></property>
+		<many-to-one class="Fighter" name="RequestorFighter" column="RequestorFighterId" not-null="false" lazy="false" cascade="save-update" />
+		<property name="RequestDate" column="RequestDate" not-null="false"></property>
+		<many-to-one class="Fighter" name="OpponentFighter" column="OpponentFighterId" not-null="false" lazy="false" cascade="save-update" />
+	</class>
+  
+</hibernate-mapping>

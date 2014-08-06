@@ -120,7 +120,7 @@ namespace SparWeb.Models
 
 		public bool ProfilePictureUploaded { get; set; }
 
-		public bool IsMale { get; set; }
+		public string HimOrHer { get; set; }
 	}
 
 	public class DateOfBirth

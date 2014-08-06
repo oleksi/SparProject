@@ -91,13 +91,7 @@ namespace SparWeb.Models
 		{
 			try
 			{
-				WebMail.SmtpServer = ConfigurationManager.AppSettings["SmtpServer"];
-				WebMail.UserName = ConfigurationManager.AppSettings["SmtpUserName"];
-				WebMail.Password = ConfigurationManager.AppSettings["SmtpPassword"];
-				WebMail.SmtpPort = Convert.ToInt32(ConfigurationManager.AppSettings["SmtpPort"]);
-				WebMail.From = ConfigurationManager.AppSettings["SmtpFrom"];
-
-				WebMail.Send(message.Destination, message.Subject, message.Body);
+				SparWeb.Util.SendEmail(message.Destination, message.Subject, message.Body);
 			}
 			catch
 			{ }

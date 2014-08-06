@@ -55,6 +55,7 @@
     <Compile Include="Fighter.cs" />
     <Compile Include="Gym.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SparRequest.cs" />
     <Compile Include="SparIdentityUser.cs" />
     <Compile Include="SparUserLoginInfo.cs" />
   </ItemGroup>

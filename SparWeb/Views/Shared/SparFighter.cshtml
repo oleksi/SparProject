@@ -48,10 +48,7 @@
         </dl>
     </div>
     <div class="col-md-2 vAlignCenter">
-        @{
-            string himOrHerSufix = Model.IsMale ? "Him" : "Her";
-        }
-        @Html.ActionLink("Spar " + himOrHerSufix, "SparConfirmation", "Spar", new { ID = Model.ID }, new { @class = "btn btn-default btn-danger btn-lg" } )
+        @Html.ActionLink("Spar " + Model.HimOrHer, "SparConfirmation", "Spar", new { ID = Model.ID }, new { @class = "btn btn-default btn-danger btn-lg" } )
     </div>
 </div>
 

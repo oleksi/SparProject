@@ -68,6 +68,7 @@
     <Compile Include="SessionProvider.cs" />
     <Compile Include="SparIdentityRoleStore.cs" />
     <Compile Include="SparIdentityUserStore.cs" />
+    <Compile Include="SparRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -99,6 +100,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Mappings\SparUserLoginInfo.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\SparRequest.hbm.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

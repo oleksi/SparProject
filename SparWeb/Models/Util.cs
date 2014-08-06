@@ -1,12 +1,13 @@
 ﻿using SparModel;
+using SparWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SparWeb.Models
+namespace SparWeb
 {
-	public class Util
+	public partial class Util
 	{
 		public static Dictionary<double, string> HeightToCentimetersMap = new Dictionary<double, string>() 
 		{
@@ -65,7 +66,7 @@ namespace SparWeb.Models
 					NumberOfFights = fighter.NumberOfFights, 
 					ProfilePictureUploaded = fighter.ProfilePictureUploaded,
 					ProfilePictureFile = String.Format("{0}{1}", (fighter.ProfilePictureUploaded == true) ? System.Configuration.ConfigurationManager.AppSettings["ProfilePicsUrl"] : VirtualPathUtility.ToAbsolute("~/Content/Images/"), fighter.getProfileThumbnailFileName(thumbnailSize)),
-					IsMale = fighter.Sex
+					HimOrHer = fighter.GetHimOrHer(true)
 				};
 
 			return model;

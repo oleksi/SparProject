@@ -36,5 +36,13 @@ namespace SparModel
 		{
 			return Convert.ToInt32(((double)(DateTime.Now - this.DateOfBirth).Days / 365.2425));
 		}
+
+		public virtual string GetHimOrHer(bool useTitleCase)
+		{
+			if (useTitleCase == true)
+				return (Sex == true) ? "Him" : "Her";
+			else
+				return (Sex == true) ? "him" : "her";
+		}
 	}
 }

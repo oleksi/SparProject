@@ -230,8 +230,8 @@ namespace SparWeb.Controllers
 
 		private void popualateRegistrationDropdowns()
 		{
-			ViewBag.HeightToCentimetersMap = SparWeb.Models.Util.HeightToCentimetersMap;
-			ViewBag.WeightClassMap = SparWeb.Models.Util.WeightClassMap;
+			ViewBag.HeightToCentimetersMap = Util.HeightToCentimetersMap;
+			ViewBag.WeightClassMap = Util.WeightClassMap;
 			ViewBag.AllGyms = getAllGyms();
 		}
 

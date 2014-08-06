@@ -49,5 +49,43 @@ namespace SparWeb.Controllers
 
 			return View(sparConfirmationViewModel);
 		}
+
+		[Authorize]
+		[HttpPost]
+		public ActionResult ConfirmSpar(string OpponentId)
+		{
+			FighterRepository fighterRepo = new FighterRepository();
+			Fighter thisFighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
+			Fighter opponentFighter = fighterRepo.GetFighterByIdentityUserId(OpponentId);
+
+			SparRequest sparRequest = new SparRequest()
+			{
+				OpponentFighter = opponentFighter,
+				RequestDate = DateTime.Now,
+				RequestorFighter = thisFighter,
+				Status = SparRequestStatus.Requested
+			};
+
+			//saving spar request
+			SparRepository sparRepo = new SparRepository();
+			sparRepo.CreateSparRequest(sparRequest);
+
+			//sending out notification email
+			try
+			{
+				String emailTo = opponentFighter.SparIdentityUser.Email;
+				String emailSubject = String.Format("{0} wants to spar you!", opponentFighter.Name);
+				String emailBody = String.Format("{0} wants to spar you. If you are interested in sparing {1}, please click the link below to confirm the spar and to select date and place:<br /><br /><a href=\"{2}\">{2}</a>", 
+					opponentFighter.Name, 
+					opponentFighter.GetHimOrHer(false),
+					Url.Action("ConfirmSparDetails", "Spar", new System.Web.Routing.RouteValueDictionary() {  { "SparRequestId", sparRequest.Id } }, "http", Request.Url.Host)
+				);
+
+				SparWeb.Util.SendEmail(emailTo, emailSubject, emailBody);
+			}
+			catch {}
+
+			return View();
+		}
 	}
 }
