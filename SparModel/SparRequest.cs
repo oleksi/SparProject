@@ -9,7 +9,10 @@ namespace SparModel
 	public enum SparRequestStatus
 	{
 		Requested = 1,
-		Confirmed = 2
+		DateLocationNegotiation = 2,
+		Confirmed = 3,
+		CanceledByRequestor = 4,
+		CanceledByOpponent = 5
 	}
 
 	public class SparRequest
@@ -19,5 +22,9 @@ namespace SparModel
 		public virtual Fighter RequestorFighter { get; set; }
 		public virtual DateTime RequestDate { get; set; }
 		public virtual Fighter OpponentFighter { get; set; }
+		public virtual DateTime? SparDateTime { get; set; }
+		public virtual Gym SparGym { get; set; }
+		public virtual string SparLocationNotes { get; set; }
+		public virtual Fighter LastNegotiatorFighter { get; set; }
 	}
 }

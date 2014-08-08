@@ -5,13 +5,17 @@
                    namespace="SparModel">
  
   <class name="SparRequest" table="SparRequests">
-		<id name="Id" column="Id" type="string">
+		<id name="Id" column="SparRequestId" type="string">
 			<generator class="assigned"></generator>
 		</id>
-		<property name="Status" column="StatusId" not-null="false"></property>
-		<many-to-one class="Fighter" name="RequestorFighter" column="RequestorFighterId" not-null="false" lazy="false" cascade="save-update" />
-		<property name="RequestDate" column="RequestDate" not-null="false"></property>
-		<many-to-one class="Fighter" name="OpponentFighter" column="OpponentFighterId" not-null="false" lazy="false" cascade="save-update" />
+		<property name="Status" column="StatusId" not-null="true"></property>
+		<many-to-one class="Fighter" name="RequestorFighter" column="RequestorFighterId" not-null="true" lazy="false" cascade="save-update" />
+		<property name="RequestDate" column="RequestDate" not-null="true"></property>
+		<many-to-one class="Fighter" name="OpponentFighter" column="OpponentFighterId" not-null="true" lazy="false" cascade="save-update" />
+		<property name="SparDateTime" column="SparDateTime" not-null="false"></property>
+		<many-to-one class="Gym" name="SparGym" column="SparGymId" not-null="false" lazy="false" cascade="save-update" />
+		<property name="SparLocationNotes" column="SparLocationNotes" not-null="false"></property>
+		<many-to-one class="Fighter" name="LastNegotiatorFighter" column="LastNegotiatorFighterId" not-null="false" lazy="false" cascade="save-update" />
 	</class>
   
 </hibernate-mapping>

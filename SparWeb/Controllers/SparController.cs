@@ -76,8 +76,8 @@ namespace SparWeb.Controllers
 				String emailTo = opponentFighter.SparIdentityUser.Email;
 				String emailSubject = String.Format("{0} wants to spar you!", opponentFighter.Name);
 				String emailBody = String.Format("{0} wants to spar you. If you are interested, please click the link below to select date and place of spar:<br /><br /><a href=\"{2}\">{2}</a>", 
-					opponentFighter.Name, 
-					Url.Action("ConfirmSparDetails", "Spar", new System.Web.Routing.RouteValueDictionary() {  { "SparRequestId", sparRequest.Id } }, "http", Request.Url.Host)
+					opponentFighter.Name,
+					Url.Action("ConfirmSparDetails", "Spar", new System.Web.Routing.RouteValueDictionary() { { "SparRequestId", sparRequest.Id } }, "http", Request.Url.Host)
 				);
 
 				SparWeb.Util.SendEmail(emailTo, emailSubject, emailBody);
