@@ -75,9 +75,8 @@ namespace SparWeb.Controllers
 			{
 				String emailTo = opponentFighter.SparIdentityUser.Email;
 				String emailSubject = String.Format("{0} wants to spar you!", opponentFighter.Name);
-				String emailBody = String.Format("{0} wants to spar you. If you are interested in sparing {1}, please click the link below to confirm the spar and to select date and place:<br /><br /><a href=\"{2}\">{2}</a>", 
+				String emailBody = String.Format("{0} wants to spar you. If you are interested, please click the link below to select date and place of spar:<br /><br /><a href=\"{2}\">{2}</a>", 
 					opponentFighter.Name, 
-					opponentFighter.GetHimOrHer(false),
 					Url.Action("ConfirmSparDetails", "Spar", new System.Web.Routing.RouteValueDictionary() {  { "SparRequestId", sparRequest.Id } }, "http", Request.Url.Host)
 				);
 
