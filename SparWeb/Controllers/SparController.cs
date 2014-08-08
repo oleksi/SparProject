@@ -33,19 +33,7 @@ namespace SparWeb.Controllers
 			Fighter opponentFighter = fighterRepo.GetFighterByIdentityUserId(ID);
 			AccountViewModel opponentFighterAccountViewModel = Util.GetAccountViewModelForFighter(opponentFighter, 250);
 
-			SparConfirmationViewModel sparConfirmationViewModel = new SparConfirmationViewModel()
-			{
-				ThisFighterID = thisFighterAccountViewModel.ID,
-				ThisFighterName = thisFighterAccountViewModel.Name,
-				ThisFighterGymName = thisFighterAccountViewModel.GymName,
-				ThisProfilePictureFile = thisFighterAccountViewModel.ProfilePictureFile,
-				ThisProfilePictureUploaded = thisFighterAccountViewModel.ProfilePictureUploaded,
-				OpponentFighterID = opponentFighterAccountViewModel.ID,
-				OpponentFighterName = opponentFighterAccountViewModel.Name,
-				OpponentFighterGymName = opponentFighterAccountViewModel.GymName,
-				OpponentProfilePictureFile = opponentFighterAccountViewModel.ProfilePictureFile,
-				OpponentProfilePictureUploaded = opponentFighterAccountViewModel.ProfilePictureUploaded
-			};
+			SparConfirmationViewModel sparConfirmationViewModel = getSparConfirmationViewModel(thisFighterAccountViewModel, opponentFighterAccountViewModel);
 
 			return View(sparConfirmationViewModel);
 		}
@@ -75,7 +63,7 @@ namespace SparWeb.Controllers
 			{
 				String emailTo = opponentFighter.SparIdentityUser.Email;
 				String emailSubject = String.Format("{0} wants to spar you!", opponentFighter.Name);
-				String emailBody = String.Format("{0} wants to spar you. If you are interested, please click the link below to select date and place of spar:<br /><br /><a href=\"{2}\">{2}</a>", 
+				String emailBody = String.Format("{0} wants to spar you. If you are interested, please click the link below to select date and place of spar:<br /><br /><a href=\"{1}\">{1}</a>", 
 					opponentFighter.Name,
 					Url.Action("ConfirmSparDetails", "Spar", new System.Web.Routing.RouteValueDictionary() { { "SparRequestId", sparRequest.Id } }, "http", Request.Url.Host)
 				);
@@ -84,7 +72,40 @@ namespace SparWeb.Controllers
 			}
 			catch {}
 
-			return View();
+			return View("ConfirmSpar", (Object)opponentFighter.Name);
+		}
+
+		[Authorize]
+		public ActionResult ConfirmSparDetails(string sparRequestId)
+		{
+			SparRepository sparRepo = new SparRepository();
+			SparRequest sparRequest = sparRepo.GetSparRequestById(sparRequestId);
+
+			AccountViewModel thisFighterAccountViewModel = Util.GetAccountViewModelForFighter(sparRequest.RequestorFighter, 250);
+			AccountViewModel opponentFighterAccountViewModel = Util.GetAccountViewModelForFighter(sparRequest.OpponentFighter, 250);
+
+			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = new ConfirmSparDetailsViewModel(getSparConfirmationViewModel(thisFighterAccountViewModel, opponentFighterAccountViewModel));
+			confirmSparDetailsViewModel.SparRequestId = sparRequestId;
+
+			return View(confirmSparDetailsViewModel);
+		}
+
+		private SparConfirmationViewModel getSparConfirmationViewModel(AccountViewModel thisFighterAccountViewModel, AccountViewModel opponentFighterAccountViewModel)
+		{
+			SparConfirmationViewModel sparConfirmationViewModel = new SparConfirmationViewModel()
+			{
+				ThisFighterID = thisFighterAccountViewModel.ID,
+				ThisFighterName = thisFighterAccountViewModel.Name,
+				ThisFighterGymName = thisFighterAccountViewModel.GymName,
+				ThisProfilePictureFile = thisFighterAccountViewModel.ProfilePictureFile,
+				ThisProfilePictureUploaded = thisFighterAccountViewModel.ProfilePictureUploaded,
+				OpponentFighterID = opponentFighterAccountViewModel.ID,
+				OpponentFighterName = opponentFighterAccountViewModel.Name,
+				OpponentFighterGymName = opponentFighterAccountViewModel.GymName,
+				OpponentProfilePictureFile = opponentFighterAccountViewModel.ProfilePictureFile,
+				OpponentProfilePictureUploaded = opponentFighterAccountViewModel.ProfilePictureUploaded
+			};
+			return sparConfirmationViewModel;
 		}
 	}
 }

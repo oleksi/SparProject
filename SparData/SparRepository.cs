@@ -15,6 +15,14 @@ namespace SparData
 			return SessionProvider.SessionFactory.OpenSession();
 		}
 
+		public SparRequest GetSparRequestById(string SparRequestId)
+		{
+			using (var session = getSession())
+			{
+				return session.Get<SparRequest>(SparRequestId);
+			}
+		}
+
 		public void CreateSparRequest(SparRequest sparRequest)
 		{
 			using (var session = getSession())

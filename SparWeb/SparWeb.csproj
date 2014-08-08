@@ -270,6 +270,8 @@
     <Content Include="Views\Shared\SparFighter.cshtml" />
     <Content Include="Views\Spar\SparConfirmation.cshtml" />
     <Content Include="Views\Spar\ConfirmSpar.cshtml" />
+    <Content Include="Views\Shared\SparConfirmationInfo.cshtml" />
+    <Content Include="Views\Spar\ConfirmSparDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

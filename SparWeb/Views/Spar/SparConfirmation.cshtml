@@ -4,44 +4,16 @@
     ViewBag.Title = "Spar Confirmation";
 }
 
+@{
+    var sparConfirmationInfo = Model;
+}
+
 @using (@Html.BeginForm("ConfirmSpar", "Spar", new { OpponentId = Model.OpponentFighterID }, FormMethod.Post))
 {
 <div class="row sparConfirmationRow">
     <h2>Please, confirm that you want to spar @Model.OpponentFighterName.</h2>
 </div>
-<div class="row sparConfirmationSectionRow">
-    <div class="col-md-5 vAlignCenter">
-        <div class="row sparConfirmationRow">
-            <div class="sparConfirmationProfilePicture">
-                <img height="250" src="@Model.ThisProfilePictureFile" />
-            </div>
-        </div>
-        <div class="row sparConfirmationRow">
-            <span class="fighterName">@Model.ThisFighterName</span>
-        </div>
-        <div class="row sparConfirmationGymRow">
-            from <span class="gymName">@Model.ThisFighterGymName</span>
-        </div>
-    </div>
-    <div class="col-md-1 vAlignCenter">
-        <div class="row sparConfirmationRow">
-            <h1><b>VS</b></h1>
-        </div>
-    </div>
-    <div class="col-md-5 vAlignCenter">
-        <div class="row sparConfirmationRow">
-            <div class="sparConfirmationProfilePicture">
-                <img height="250" src="@Model.OpponentProfilePictureFile" />
-            </div>
-        </div>
-        <div class="row sparConfirmationRow">
-            <span class="fighterName">@Model.OpponentFighterName</span>
-        </div>
-        <div class="row sparConfirmationGymRow">
-            from <span class="gymName">@Model.OpponentFighterGymName</span>
-        </div>
-    </div>
-</div>
+{Html.RenderPartial("SparConfirmationInfo", sparConfirmationInfo);}
 <div class="row sparConfirmationSectionRow">
     <div class="col-md-4"></div>
     <div class="col-md-1">

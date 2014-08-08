@@ -1,0 +1,11 @@
+﻿@model SparWeb.Models.ConfirmSparDetailsViewModel
+
+@{
+    ViewBag.Title = "Spar Confirmation Details";
+}
+
+<div class="row sparConfirmationRow">
+    <h2>Please select Date and Location for the following spar:</h2>
+</div>
+
+@{Html.RenderPartial("SparConfirmationInfo", Model);}

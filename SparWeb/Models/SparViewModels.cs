@@ -18,4 +18,25 @@ namespace SparWeb.Models
 		public string OpponentProfilePictureFile { get; set; }
 		public bool OpponentProfilePictureUploaded { get; set; }
 	}
+
+	public class ConfirmSparDetailsViewModel : SparConfirmationViewModel
+	{
+		public ConfirmSparDetailsViewModel() { }
+		public ConfirmSparDetailsViewModel(SparConfirmationViewModel sparConfirmationViewModel)
+		{
+			this.ThisFighterID = sparConfirmationViewModel.ThisFighterID;
+			this.ThisFighterName = sparConfirmationViewModel.ThisFighterName;
+			this.ThisFighterGymName = sparConfirmationViewModel.ThisFighterGymName;
+			this.ThisProfilePictureFile = sparConfirmationViewModel.ThisProfilePictureFile;
+			this.ThisProfilePictureUploaded = sparConfirmationViewModel.ThisProfilePictureUploaded;
+			this.OpponentFighterID = sparConfirmationViewModel.OpponentFighterID;
+			this.OpponentFighterName = sparConfirmationViewModel.OpponentFighterName;
+			this.OpponentFighterGymName = sparConfirmationViewModel.OpponentFighterGymName;
+			this.OpponentProfilePictureFile = sparConfirmationViewModel.OpponentProfilePictureFile;
+			this.OpponentProfilePictureUploaded = sparConfirmationViewModel.OpponentProfilePictureUploaded;
+		}
+
+		public string SparRequestId { get; set; }
+
+	}
 }
