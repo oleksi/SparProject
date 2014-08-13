@@ -7,5 +7,32 @@
 <div class="row sparConfirmationRow">
     <h2>Please select Date and Location for the following spar:</h2>
 </div>
+@using (Html.BeginForm("ConfirmSparDetails", "Spar", FormMethod.Post))
+{
+    @Html.EditorFor(m => m.SparRequestId)
+    
+    { Html.RenderPartial("SparConfirmationInfo", Model); }
 
-@{Html.RenderPartial("SparConfirmationInfo", Model);}
+    <div class="row sparConfirmationSectionRow">
+        <div class="form-group">
+            <div class="col-md-3"></div>
+            @Html.LabelFor(m => m.SparDateTime, new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Html.TextBoxFor(m => m.SparDateTime, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.SparDateTime) })
+                @Html.ValidationMessageFor(m => m.SparDateTime)
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+    
+   <div class="row sparConfirmationSectionRow">
+    <div class="col-md-4"></div>
+    <div class="col-md-1">
+        @Html.ActionLink("Cancel", "Index", "Account", null, new { @class = "btn btn-default btn-lg" })
+    </div>
+    <div class="col-md-3">
+        <input type="submit" value="Respond to Spar Request" class="btn btn-default btn-danger btn-lg" />
+    </div>
+    <div class="col-md-4"></div>
+</div>   
+}

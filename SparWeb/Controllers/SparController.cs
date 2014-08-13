@@ -90,6 +90,13 @@ namespace SparWeb.Controllers
 			return View(confirmSparDetailsViewModel);
 		}
 
+		[Authorize]
+		[HttpPost]
+		public ActionResult ConfirmSparDetails(ConfirmSparDetailsViewModel model)
+		{
+			return View(model);
+		}
+
 		private SparConfirmationViewModel getSparConfirmationViewModel(AccountViewModel thisFighterAccountViewModel, AccountViewModel opponentFighterAccountViewModel)
 		{
 			SparConfirmationViewModel sparConfirmationViewModel = new SparConfirmationViewModel()

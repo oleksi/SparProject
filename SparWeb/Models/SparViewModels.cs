@@ -1,7 +1,10 @@
-﻿using System;
+﻿using SparModel;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace SparWeb.Models
 {
@@ -36,7 +39,13 @@ namespace SparWeb.Models
 			this.OpponentProfilePictureUploaded = sparConfirmationViewModel.OpponentProfilePictureUploaded;
 		}
 
+		[HiddenInput(DisplayValue = false)]
 		public string SparRequestId { get; set; }
 
+		[Required]
+		[Display(Name = "Spar Date")]
+		public DateTime? SparDateTime { get; set; }
+
+		//public virtual int? SparGymId { get; set; }
 	}
 }
