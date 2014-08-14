@@ -20,6 +20,7 @@ namespace SparWeb.Models
 		public string OpponentFighterGymName { get; set; }
 		public string OpponentProfilePictureFile { get; set; }
 		public bool OpponentProfilePictureUploaded { get; set; }
+		public int ProfilePictureSize { get; set; }
 	}
 
 	public class ConfirmSparDetailsViewModel : SparConfirmationViewModel
@@ -37,6 +38,7 @@ namespace SparWeb.Models
 			this.OpponentFighterGymName = sparConfirmationViewModel.OpponentFighterGymName;
 			this.OpponentProfilePictureFile = sparConfirmationViewModel.OpponentProfilePictureFile;
 			this.OpponentProfilePictureUploaded = sparConfirmationViewModel.OpponentProfilePictureUploaded;
+			this.ProfilePictureSize = sparConfirmationViewModel.ProfilePictureSize;
 		}
 
 		[HiddenInput(DisplayValue = false)]
@@ -44,8 +46,23 @@ namespace SparWeb.Models
 
 		[Required]
 		[Display(Name = "Spar Date")]
-		public DateTime? SparDateTime { get; set; }
+		public DateTime? SparDate { get; set; }
+
+		[Display(Name = "Spar Time")]
+		public SparTime SparTime { get; set; }
 
 		//public virtual int? SparGymId { get; set; }
+	}
+
+	public class SparTime
+	{
+		[Display(Name = "HH")]
+		public int Hours { get; set; }
+
+		[Display(Name = "MM")]
+		public int Minutes { get; set; }
+
+		[Display(Name = "AM/PM")]
+		public int IsAM { get; set; }
 	}
 }

@@ -33,7 +33,7 @@ namespace SparWeb.Controllers
 			Fighter opponentFighter = fighterRepo.GetFighterByIdentityUserId(ID);
 			AccountViewModel opponentFighterAccountViewModel = Util.GetAccountViewModelForFighter(opponentFighter, 250);
 
-			SparConfirmationViewModel sparConfirmationViewModel = getSparConfirmationViewModel(thisFighterAccountViewModel, opponentFighterAccountViewModel);
+			SparConfirmationViewModel sparConfirmationViewModel = getSparConfirmationViewModel(thisFighterAccountViewModel, opponentFighterAccountViewModel, 250);
 
 			return View(sparConfirmationViewModel);
 		}
@@ -81,10 +81,10 @@ namespace SparWeb.Controllers
 			SparRepository sparRepo = new SparRepository();
 			SparRequest sparRequest = sparRepo.GetSparRequestById(sparRequestId);
 
-			AccountViewModel thisFighterAccountViewModel = Util.GetAccountViewModelForFighter(sparRequest.RequestorFighter, 250);
-			AccountViewModel opponentFighterAccountViewModel = Util.GetAccountViewModelForFighter(sparRequest.OpponentFighter, 250);
+			AccountViewModel thisFighterAccountViewModel = Util.GetAccountViewModelForFighter(sparRequest.RequestorFighter, 150);
+			AccountViewModel opponentFighterAccountViewModel = Util.GetAccountViewModelForFighter(sparRequest.OpponentFighter, 150);
 
-			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = new ConfirmSparDetailsViewModel(getSparConfirmationViewModel(thisFighterAccountViewModel, opponentFighterAccountViewModel));
+			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = new ConfirmSparDetailsViewModel(getSparConfirmationViewModel(thisFighterAccountViewModel, opponentFighterAccountViewModel, 150));
 			confirmSparDetailsViewModel.SparRequestId = sparRequestId;
 
 			return View(confirmSparDetailsViewModel);
@@ -97,7 +97,7 @@ namespace SparWeb.Controllers
 			return View(model);
 		}
 
-		private SparConfirmationViewModel getSparConfirmationViewModel(AccountViewModel thisFighterAccountViewModel, AccountViewModel opponentFighterAccountViewModel)
+		private SparConfirmationViewModel getSparConfirmationViewModel(AccountViewModel thisFighterAccountViewModel, AccountViewModel opponentFighterAccountViewModel, int profilePictureSize)
 		{
 			SparConfirmationViewModel sparConfirmationViewModel = new SparConfirmationViewModel()
 			{
@@ -110,7 +110,8 @@ namespace SparWeb.Controllers
 				OpponentFighterName = opponentFighterAccountViewModel.Name,
 				OpponentFighterGymName = opponentFighterAccountViewModel.GymName,
 				OpponentProfilePictureFile = opponentFighterAccountViewModel.ProfilePictureFile,
-				OpponentProfilePictureUploaded = opponentFighterAccountViewModel.ProfilePictureUploaded
+				OpponentProfilePictureUploaded = opponentFighterAccountViewModel.ProfilePictureUploaded,
+				ProfilePictureSize = profilePictureSize
 			};
 			return sparConfirmationViewModel;
 		}

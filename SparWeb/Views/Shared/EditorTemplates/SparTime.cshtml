@@ -1,0 +1,35 @@
+﻿@model SparWeb.Models.SparTime
+
+<div class="row">
+    <div class="col-md-3">        
+        @Html.DropDownListFor(m => m.Hours, new List<SelectListItem>() { 
+                        new SelectListItem() { Text = "12", Value = "12" },
+                        new SelectListItem() { Text = "01", Value = "1" },
+                        new SelectListItem() { Text = "02", Value = "2" },
+                        new SelectListItem() { Text = "03", Value = "3" },
+                        new SelectListItem() { Text = "04", Value = "4" },
+                        new SelectListItem() { Text = "05", Value = "5" },
+                        new SelectListItem() { Text = "06", Value = "6" },
+                        new SelectListItem() { Text = "07", Value = "7" },
+                        new SelectListItem() { Text = "08", Value = "8" },
+                        new SelectListItem() { Text = "09", Value = "9" },
+                        new SelectListItem() { Text = "10", Value = "10" },
+                        new SelectListItem() { Text = "11", Value = "11" },                        
+        }, Html.DisplayNameFor(m => m.Hours).ToString(), new { @class = "form-control" })
+
+    </div>
+    <div class="col-md-3">
+        @Html.DropDownListFor(m => m.Minutes, new List<SelectListItem>() {
+                        new SelectListItem() { Text = "00", Value = "0" },
+                        new SelectListItem() { Text = "15", Value = "15" },
+                        new SelectListItem() { Text = "30", Value = "30" },
+                        new SelectListItem() { Text = "46", Value = "45" }
+        }, Html.DisplayNameFor(m => m.Minutes).ToString(), new { @class = "form-control" })
+    </div>
+    <div class="col-md-4">
+        @Html.DropDownListFor(m => m.IsAM, new List<SelectListItem>() {
+                        new SelectListItem() { Text = "AM", Value = "True" },
+                        new SelectListItem() { Text = "PM", Value = "False" }
+        }, Html.DisplayNameFor(m => m.IsAM).ToString(), new { @class = "form-control" })
+    </div>
+</div>

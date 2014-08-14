@@ -25,12 +25,20 @@ namespace SparWeb
 
 			bundles.Add(new ScriptBundle("~/bundles/dropzone").Include(
 					  "~/Scripts/dropzone.js"));
-			bundles.Add(new StyleBundle("~/Content/css/dropzone").Include(
-					  "~/Content/dropzone.css"));
+
+			bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+					  "~/Scripts/jquery-ui-{version}.custom.js"));
+
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
-        }
+
+			bundles.Add(new StyleBundle("~/Content/css/dropzone").Include(
+					  "~/Content/dropzone.css"));
+
+			bundles.Add(new StyleBundle("~/Content/css/jqueryui").Include(
+					  "~/Content/ui-lightness/jquery-ui-{version}.custom.css"));		
+		}
     }
 }
