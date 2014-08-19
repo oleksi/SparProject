@@ -27,7 +27,7 @@ namespace SparWeb
 					  "~/Scripts/dropzone.js"));
 
 			bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
-					  "~/Scripts/jquery-ui-{version}.custom.js"));
+					  "~/Scripts/jquery-ui.js"));
 
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -38,7 +38,7 @@ namespace SparWeb
 					  "~/Content/dropzone.css"));
 
 			bundles.Add(new StyleBundle("~/Content/css/jqueryui").Include(
-					  "~/Content/ui-lightness/jquery-ui-{version}.custom.css"));		
+					  "~/Content/jqueryui/jquery-ui*"));		
 		}
     }
 }
