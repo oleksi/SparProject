@@ -13,11 +13,13 @@ namespace SparWeb.Models
 		public string ThisFighterID { get; set; }
 		public string ThisFighterName { get; set; }
 		public string ThisFighterGymName { get; set; }
+		public Gym ThisFighterGym { get; set; }
 		public string ThisProfilePictureFile { get; set; }
 		public bool ThisProfilePictureUploaded { get; set; }
 		public string OpponentFighterID { get; set; }
 		public string OpponentFighterName { get; set; }
 		public string OpponentFighterGymName { get; set; }
+		public Gym OpponentFighterGym { get; set; }
 		public string OpponentProfilePictureFile { get; set; }
 		public bool OpponentProfilePictureUploaded { get; set; }
 		public int ProfilePictureSize { get; set; }
@@ -31,11 +33,13 @@ namespace SparWeb.Models
 			this.ThisFighterID = sparConfirmationViewModel.ThisFighterID;
 			this.ThisFighterName = sparConfirmationViewModel.ThisFighterName;
 			this.ThisFighterGymName = sparConfirmationViewModel.ThisFighterGymName;
+			this.ThisFighterGym = sparConfirmationViewModel.ThisFighterGym;
 			this.ThisProfilePictureFile = sparConfirmationViewModel.ThisProfilePictureFile;
 			this.ThisProfilePictureUploaded = sparConfirmationViewModel.ThisProfilePictureUploaded;
 			this.OpponentFighterID = sparConfirmationViewModel.OpponentFighterID;
 			this.OpponentFighterName = sparConfirmationViewModel.OpponentFighterName;
 			this.OpponentFighterGymName = sparConfirmationViewModel.OpponentFighterGymName;
+			this.OpponentFighterGym = sparConfirmationViewModel.OpponentFighterGym;
 			this.OpponentProfilePictureFile = sparConfirmationViewModel.OpponentProfilePictureFile;
 			this.OpponentProfilePictureUploaded = sparConfirmationViewModel.OpponentProfilePictureUploaded;
 			this.ProfilePictureSize = sparConfirmationViewModel.ProfilePictureSize;
@@ -51,7 +55,15 @@ namespace SparWeb.Models
 		[Display(Name = "Spar Time")]
 		public SparTime SparTime { get; set; }
 
-		//public virtual int? SparGymId { get; set; }
+		public Gym YourGym { get; set; }
+
+		public Gym OpponentGym { get; set; }
+
+		public int SparGymID { get; set; }
+
+		[Display(Name = "Notes")]
+		[StringLength(1024)]
+		public string SparNotes { get; set; }
 	}
 
 	public class SparTime

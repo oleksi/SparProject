@@ -24,7 +24,7 @@ namespace SparModel
 		public virtual Fighter OpponentFighter { get; set; }
 		public virtual DateTime? SparDateTime { get; set; }
 		public virtual Gym SparGym { get; set; }
-		public virtual string SparLocationNotes { get; set; }
+		public virtual string SparNotes { get; set; }
 		public virtual Fighter LastNegotiatorFighter { get; set; }
 	}
 }

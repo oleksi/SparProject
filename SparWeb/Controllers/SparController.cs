@@ -81,11 +81,27 @@ namespace SparWeb.Controllers
 			SparRepository sparRepo = new SparRepository();
 			SparRequest sparRequest = sparRepo.GetSparRequestById(sparRequestId);
 
-			AccountViewModel thisFighterAccountViewModel = Util.GetAccountViewModelForFighter(sparRequest.RequestorFighter, 150);
-			AccountViewModel opponentFighterAccountViewModel = Util.GetAccountViewModelForFighter(sparRequest.OpponentFighter, 150);
+			//figuring out who is who
+			Fighter thisFighter = null;
+			Fighter opponentFighter = null;
+			if (sparRequest.RequestorFighter.SparIdentityUser.Id == User.Identity.GetUserId())
+			{
+				thisFighter = sparRequest.RequestorFighter;
+				opponentFighter = sparRequest.OpponentFighter;
+			}
+			else
+			{
+				thisFighter = sparRequest.OpponentFighter;
+				opponentFighter = sparRequest.RequestorFighter; ;
+			}
+
+			AccountViewModel thisFighterAccountViewModel = Util.GetAccountViewModelForFighter(thisFighter, 150);
+			AccountViewModel opponentFighterAccountViewModel = Util.GetAccountViewModelForFighter(opponentFighter, 150);
 
 			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = new ConfirmSparDetailsViewModel(getSparConfirmationViewModel(thisFighterAccountViewModel, opponentFighterAccountViewModel, 150));
+			
 			confirmSparDetailsViewModel.SparRequestId = sparRequestId;
+
 
 			return View(confirmSparDetailsViewModel);
 		}
@@ -104,11 +120,13 @@ namespace SparWeb.Controllers
 				ThisFighterID = thisFighterAccountViewModel.ID,
 				ThisFighterName = thisFighterAccountViewModel.Name,
 				ThisFighterGymName = thisFighterAccountViewModel.GymName,
+				ThisFighterGym = thisFighterAccountViewModel.Gym,
 				ThisProfilePictureFile = thisFighterAccountViewModel.ProfilePictureFile,
 				ThisProfilePictureUploaded = thisFighterAccountViewModel.ProfilePictureUploaded,
 				OpponentFighterID = opponentFighterAccountViewModel.ID,
 				OpponentFighterName = opponentFighterAccountViewModel.Name,
 				OpponentFighterGymName = opponentFighterAccountViewModel.GymName,
+				OpponentFighterGym = opponentFighterAccountViewModel.Gym,
 				OpponentProfilePictureFile = opponentFighterAccountViewModel.ProfilePictureFile,
 				OpponentProfilePictureUploaded = opponentFighterAccountViewModel.ProfilePictureUploaded,
 				ProfilePictureSize = profilePictureSize

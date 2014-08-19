@@ -59,7 +59,8 @@ namespace SparWeb
 				model = new AccountViewModel() { 
 					ID = fighter.SparIdentityUser.Id,
 					Name = fighter.Name, 
-					GymName = gymName, 
+					GymName = gymName,
+					Gym = fighter.Gym, 
 					Age = fighter.getFighterAge(), 
 					Height = Util.HeightToCentimetersMap[fighter.Height], 
 					Weight = fighter.Weight, 

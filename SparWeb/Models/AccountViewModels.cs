@@ -103,6 +103,7 @@ namespace SparWeb.Models
 		public string Name { get; set; }
 
 		public string GymName { get; set; }
+		public Gym Gym { get; set; }
 
 		[Display(Name = "Age")]
 		public int Age { get; set; }
