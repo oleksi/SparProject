@@ -5,6 +5,7 @@
 }
 
 @section head {
+    @Scripts.Render("~/bundles/jqueryval")
     @Styles.Render("~/Content/css/jqueryui")
     @Scripts.Render("~/bundles/jqueryui")
 }
@@ -12,11 +13,10 @@
 <div class="row sparConfirmationRow">
     <h2>Please select Date and Location for the following spar:</h2>
 </div>
-@using (Html.BeginForm("ConfirmSparDetails", "Spar", FormMethod.Post, new { @class = "form-horizontal" }))
-{
+<form id="formSparDetails" method="post" action="@Url.Action("ConfirmSparDetails", "Spar")" class="form-horizontal">
     @Html.EditorFor(m => m.SparRequestId)
-    
-    { Html.RenderPartial("SparConfirmationInfo", Model); }
+
+    @{Html.RenderPartial("SparConfirmationInfo", Model);}
 
     <div class="row sparConfirmationSectionRow">
         <div class="col-md-3"></div>
@@ -27,7 +27,7 @@
                     <div class="inner-addon left-addon">
                         <i class="glyphicon glyphicon-calendar"></i>
                         @Html.TextBoxFor(m => m.SparDate, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.SparDate) })
-                        @Html.ValidationMessageFor(m => m.SparDate)
+                        @Html.ValidationMessageFor(m => m.SparDate, null, new { @class = "pull-left" })
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
         </div>
         <div class="col-md-3"></div>
     </div>
-    
+
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
@@ -57,49 +57,49 @@
                 <div class="col-md-9">
                     @if (Model.ThisFighterGym != null && Model.OpponentFighterGym != null && Model.ThisFighterGym.Id != Model.OpponentFighterGym.Id)
                     {
-                    <div class="radio">
-                        <label>
-                            @Html.RadioButtonFor(m => m.SparGymID, Model.ThisFighterGym.Id, new { @checked = "checked" })
-                            <b>Your gym</b> (@Model.ThisFighterGymName)
-                        </label>
-                    </div>
-                    <div class="radio">
-                        <label>
-                            @Html.RadioButtonFor(m => m.SparGymID, Model.OpponentFighterGym.Id)
-                            <b>@Model.OpponentFighterName's gym</b> (@Model.OpponentFighterGymName)
-                        </label>
-                    </div>
+                        <div class="radio">
+                            <label>
+                                @Html.RadioButtonFor(m => m.SparGymID, Model.ThisFighterGym.Id, new { @checked = "checked" })
+                                <b>Your gym</b> (@Model.ThisFighterGymName)
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                @Html.RadioButtonFor(m => m.SparGymID, Model.OpponentFighterGym.Id)
+                                <b>@Model.OpponentFighterName's gym</b> (@Model.OpponentFighterGymName)
+                            </label>
+                        </div>
                     }
                     else if ((Model.ThisFighterGym != null && Model.OpponentFighterGym != null && Model.ThisFighterGym.Id == Model.OpponentFighterGym.Id) || (Model.ThisFighterGym != null && Model.OpponentFighterGym == null))
                     {
-                    <div class="radio">
-                        <label>
-                            @Html.RadioButtonFor(m => m.SparGymID, Model.ThisFighterGym.Id)
-                            <b>Your gym</b> (@Model.ThisFighterGymName)
-                        </label>
-                    </div>
+                        <div class="radio">
+                            <label>
+                                @Html.RadioButtonFor(m => m.SparGymID, Model.ThisFighterGym.Id)
+                                <b>Your gym</b> (@Model.ThisFighterGymName)
+                            </label>
+                        </div>
                     }
-                    else if (Model.OpponentFighterGym != null && Model.ThisFighterGym == null )
+                    else if (Model.OpponentFighterGym != null && Model.ThisFighterGym == null)
                     {
-                    <div class="radio">
-                        <label>
-                            @Html.RadioButtonFor(m => m.SparGymID, Model.OpponentFighterGym.Id)
-                            <b>@Model.OpponentFighterName's gym</b> (@Model.OpponentFighterGymName)
-                        </label>
-                    </div>
+                        <div class="radio">
+                            <label>
+                                @Html.RadioButtonFor(m => m.SparGymID, Model.OpponentFighterGym.Id)
+                                <b>@Model.OpponentFighterName's gym</b> (@Model.OpponentFighterGymName)
+                            </label>
+                        </div>
                     }
                     <div class="radio">
                         <label>
                             @Html.RadioButtonFor(m => m.SparGymID, -1)
                             <b>Other place</b> (please specify in the notes)
                         </label>
-                    </div>                                        
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-3"></div>
     </div>
-    
+
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
@@ -114,25 +114,39 @@
             </div>
         </div>
         <div class="col-md-3"></div>
-    </div>    
-        
-<div class="row sparConfirmationSectionRow">
-    <div class="col-md-4"></div>
-    <div class="col-md-1">
-        @Html.ActionLink("Cancel", "Index", "Account", null, new { @class = "btn btn-default btn-lg" })
     </div>
-    <div class="col-md-3">
-        <input type="submit" value="Respond to Spar Request" class="btn btn-default btn-danger btn-lg" />
+
+    <div class="row sparConfirmationSectionRow">
+        <div class="col-md-4"></div>
+        <div class="col-md-1">
+            @Html.ActionLink("Cancel", "Index", "Account", null, new { @class = "btn btn-default btn-lg" })
+        </div>
+        <div class="col-md-3">
+            <input type="submit" onclick="return submitSparDetails();" value="Respond to Spar Request" class="btn btn-default btn-danger btn-lg" />
+        </div>
+        <div class="col-md-4"></div>
     </div>
-    <div class="col-md-4"></div>
-</div>   
-}
+</form>
 
-@section scripts {
-    <script>
-        $(function () {
-            $('#SparDate').datepicker();
-        });
-    </script>
+    @section scripts {
+        <script>
+            $(function () {
+                $('#SparDate').datepicker();
+                $('#formSparDetails').validate();
+            });
 
-}
+            function submitSparDetails() {
+
+
+                if ($('#formSparDetails').valid() == false) {
+                    $('#SparDate').datepicker('hide');
+                    return false;
+                }
+                else {
+                    $('#formSparDetails').submit();
+                }
+
+                return true;
+            }
+        </script>
+    }

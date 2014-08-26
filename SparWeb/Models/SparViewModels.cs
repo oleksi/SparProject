@@ -75,6 +75,6 @@ namespace SparWeb.Models
 		public int Minutes { get; set; }
 
 		[Display(Name = "AM/PM")]
-		public int IsAM { get; set; }
+		public bool IsAM { get; set; }
 	}
 }

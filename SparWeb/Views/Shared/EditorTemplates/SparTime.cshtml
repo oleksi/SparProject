@@ -15,7 +15,7 @@
                         new SelectListItem() { Text = "09", Value = "9" },
                         new SelectListItem() { Text = "10", Value = "10" },
                         new SelectListItem() { Text = "11", Value = "11" },                        
-        }, Html.DisplayNameFor(m => m.Hours).ToString(), new { @class = "form-control" })
+        }, new { @class = "form-control" })
 
     </div>
     <div class="col-md-3">
@@ -24,12 +24,12 @@
                         new SelectListItem() { Text = "15", Value = "15" },
                         new SelectListItem() { Text = "30", Value = "30" },
                         new SelectListItem() { Text = "46", Value = "45" }
-        }, Html.DisplayNameFor(m => m.Minutes).ToString(), new { @class = "form-control" })
+        }, new { @class = "form-control" })
     </div>
     <div class="col-md-4">
         @Html.DropDownListFor(m => m.IsAM, new List<SelectListItem>() {
-                        new SelectListItem() { Text = "AM", Value = "True" },
-                        new SelectListItem() { Text = "PM", Value = "False" }
-        }, Html.DisplayNameFor(m => m.IsAM).ToString(), new { @class = "form-control" })
+                        new SelectListItem() { Text = "PM", Value = "False" },
+                        new SelectListItem() { Text = "AM", Value = "True" }
+        }, new { @class = "form-control" })
     </div>
 </div>
