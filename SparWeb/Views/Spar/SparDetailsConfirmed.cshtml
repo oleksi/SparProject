@@ -1,0 +1,64 @@
+﻿@model SparWeb.Models.ConfirmSparDetailsViewModel
+
+@{
+    ViewBag.Title = "Spar Confirmation Details";
+}
+
+<div class="alert alert-success text-center" role="alert">
+    <p><strong>Thanks for confirming the spar.</strong></p>
+    <p>@Model.OpponentFighterName will be notified about date, time and location you proposed. We will let you know if @Model.OpponentFighterName accepts it or proposes another change.</p>
+</div>
+
+@{Html.RenderPartial("SparConfirmationInfo", Model);}
+
+<div class="row sparConfirmationSectionRow">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="row">
+            @Html.LabelFor(m => m.SparDate, new { @class = "col-md-3 control-label" })
+            <div class="col-md-9">
+                @Model.SparDate.Value.ToString("MM/dd/yyyy")        
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+<div class="row sparConfirmationRow">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="row">
+            @Html.LabelFor(m => m.SparTime, new { @class = "col-md-3 control-label" })
+            <div class="col-md-9">
+                @Model.SparTime.Hours : @Model.SparTime.Minutes 
+                @if (Model.SparTime.IsAM)
+                {
+                    @:AM
+                }
+                else
+                {
+                    @:PM
+                }                 
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="row">
+            @Html.LabelFor(m => m.SparNotes, new { @class = "col-md-3 control-label" })
+            <div class="col-md-9">
+                @Html.DisplayFor(m => m.SparNotes)
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+
+

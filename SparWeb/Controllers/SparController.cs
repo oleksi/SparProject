@@ -57,7 +57,7 @@ namespace SparWeb.Controllers
 				String emailSubject = String.Format("{0} wants to spar you!", thisFighter.Name);
 				String emailBody = String.Format("{0} wants to spar you. If you are interested, please click the link below to select date and place of spar:<br /><br /><a href=\"{1}\">{1}</a>",
 					thisFighter.Name,
-					Url.Action("ConfirmSparDetails", "Spar", new System.Web.Routing.RouteValueDictionary() { { "SparRequestId", sparRequest.Id } }, "http", Request.Url.Host)
+					Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", sparRequest.Id } }, "http", Request.Url.Host)
 				);
 
 				SparWeb.Util.SendEmail(emailTo, emailSubject, emailBody);
@@ -69,9 +69,9 @@ namespace SparWeb.Controllers
 		}
 
 		[Authorize]
-		public ActionResult ConfirmSparDetails(string sparRequestId)
+		public ActionResult SparDetailsConfirmation(string ID)
 		{
-			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = getConfirmSparDetailsViewModel(sparRequestId);
+			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = getConfirmSparDetailsViewModel(ID);
 
 			return View(confirmSparDetailsViewModel);
 		}
@@ -82,7 +82,7 @@ namespace SparWeb.Controllers
 		{
 			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = getConfirmSparDetailsViewModel(model.SparRequestId);
 			confirmSparDetailsViewModel.SparDate = model.SparDate;
-			confirmSparDetailsViewModel.SparTime = new SparTime(model.SparDate.Value);
+			confirmSparDetailsViewModel.SparTime = model.SparTime;
 			confirmSparDetailsViewModel.SparGymID = model.SparGymID;
 			confirmSparDetailsViewModel.SparNotes = model.SparNotes;
 
@@ -94,7 +94,7 @@ namespace SparWeb.Controllers
 				return View(confirmSparDetailsViewModel);
 			}
 
-			return View(confirmSparDetailsViewModel);
+			return View("SparDetailsConfirmed", confirmSparDetailsViewModel);
 		}
 
 		private ConfirmSparDetailsViewModel getConfirmSparDetailsViewModel(string sparRequestId)
@@ -129,7 +129,10 @@ namespace SparWeb.Controllers
 				confirmSparDetailsViewModel.SparTime = new SparTime(sparRequest.SparDateTime.Value);
 			}
 
+			if (sparRequest.SparGym != null)
+				confirmSparDetailsViewModel.SparGymID = sparRequest.SparGym.Id;
 
+			confirmSparDetailsViewModel.SparNotes = sparRequest.SparNotes;
 
 			return confirmSparDetailsViewModel;
 		}
