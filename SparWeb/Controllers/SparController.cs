@@ -78,6 +78,34 @@ namespace SparWeb.Controllers
 		[Authorize]
 		public ActionResult ConfirmSparDetails(string sparRequestId)
 		{
+			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = getConfirmSparDetailsViewModel(sparRequestId);
+
+			return View(confirmSparDetailsViewModel);
+		}
+		
+		[Authorize]
+		[HttpPost]
+		public ActionResult ConfirmSparDetails(ConfirmSparDetailsViewModel model)
+		{
+			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = getConfirmSparDetailsViewModel(model.SparRequestId);
+			confirmSparDetailsViewModel.SparDate = model.SparDate;
+			confirmSparDetailsViewModel.SparTime = new SparTime(model.SparDate.Value);
+			confirmSparDetailsViewModel.SparGymID = model.SparGymID;
+			confirmSparDetailsViewModel.SparNotes = model.SparNotes;
+
+			if (ModelState.IsValid == false || model.SparDate <= DateTime.Now)
+			{
+				if (model.SparDate <= DateTime.Now)
+					ModelState.AddModelError("SparDate", "Spar Date must be in a future");
+
+				return View(confirmSparDetailsViewModel);
+			}
+
+			return View(confirmSparDetailsViewModel);
+		}
+
+		private ConfirmSparDetailsViewModel getConfirmSparDetailsViewModel(string sparRequestId)
+		{
 			SparRepository sparRepo = new SparRepository();
 			SparRequest sparRequest = sparRepo.GetSparRequestById(sparRequestId);
 
@@ -99,18 +127,18 @@ namespace SparWeb.Controllers
 			AccountViewModel opponentFighterAccountViewModel = Util.GetAccountViewModelForFighter(opponentFighter, 150);
 
 			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = new ConfirmSparDetailsViewModel(getSparConfirmationViewModel(thisFighterAccountViewModel, opponentFighterAccountViewModel, 150));
-			
+
 			confirmSparDetailsViewModel.SparRequestId = sparRequestId;
 
+			if (sparRequest.SparDateTime.HasValue == true)
+			{
+				confirmSparDetailsViewModel.SparDate = sparRequest.SparDateTime.Value.Date;
+				confirmSparDetailsViewModel.SparTime = new SparTime(sparRequest.SparDateTime.Value);
+			}
 
-			return View(confirmSparDetailsViewModel);
-		}
 
-		[Authorize]
-		[HttpPost]
-		public ActionResult ConfirmSparDetails(ConfirmSparDetailsViewModel model)
-		{
-			return View(model);
+
+			return confirmSparDetailsViewModel;
 		}
 
 		private SparConfirmationViewModel getSparConfirmationViewModel(AccountViewModel thisFighterAccountViewModel, AccountViewModel opponentFighterAccountViewModel, int profilePictureSize)

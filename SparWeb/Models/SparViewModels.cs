@@ -59,7 +59,7 @@ namespace SparWeb.Models
 
 		public Gym OpponentGym { get; set; }
 
-		public int SparGymID { get; set; }
+		public int? SparGymID { get; set; }
 
 		[Display(Name = "Notes")]
 		[StringLength(1024)]
@@ -76,5 +76,16 @@ namespace SparWeb.Models
 
 		[Display(Name = "AM/PM")]
 		public bool IsAM { get; set; }
+
+		public SparTime()
+		{
+		}
+
+		public SparTime(DateTime dateTime)
+		{
+			Hours = Convert.ToInt32(dateTime.ToString("hh"));
+			Minutes = dateTime.Minute;
+			IsAM = (dateTime.ToString("tt") == "AM");
+		}
 	}
 }
