@@ -1,0 +1,11 @@
+﻿@model SparWeb.Models.SparConfirmationViewModel
+
+@{
+    ViewBag.Title = "Spar Confirmation";
+}
+
+<div class="alert alert-success text-center" role="alert">
+    <strong>Thanks for requesting a spar.</strong> If @Model.OpponentFighterName is interested, you'll be notified by email with proposed date and location of the spar.
+</div>
+
+@{Html.RenderPartial("SparConfirmationInfo", Model);}

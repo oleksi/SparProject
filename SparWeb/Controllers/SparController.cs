@@ -25,15 +25,7 @@ namespace SparWeb.Controllers
 		[Authorize]
 		public ActionResult SparConfirmation(string ID)
 		{
-			FighterRepository fighterRepo = new FighterRepository();
-			
-			Fighter thisFighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
-			AccountViewModel thisFighterAccountViewModel = Util.GetAccountViewModelForFighter(thisFighter, 250);
-
-			Fighter opponentFighter = fighterRepo.GetFighterByIdentityUserId(ID);
-			AccountViewModel opponentFighterAccountViewModel = Util.GetAccountViewModelForFighter(opponentFighter, 250);
-
-			SparConfirmationViewModel sparConfirmationViewModel = getSparConfirmationViewModel(thisFighterAccountViewModel, opponentFighterAccountViewModel, 250);
+			SparConfirmationViewModel sparConfirmationViewModel = getSparConfirmationViewModelForOpponent(ID);
 
 			return View(sparConfirmationViewModel);
 		}
@@ -72,7 +64,8 @@ namespace SparWeb.Controllers
 			}
 			catch {}
 
-			return View("ConfirmSpar", (Object)opponentFighter.Name);
+			SparConfirmationViewModel sparConfirmationViewModel = getSparConfirmationViewModelForOpponent(OpponentId);
+			return View("SparConfirmed", sparConfirmationViewModel);
 		}
 
 		[Authorize]
@@ -139,6 +132,19 @@ namespace SparWeb.Controllers
 
 
 			return confirmSparDetailsViewModel;
+		}
+
+		private SparConfirmationViewModel getSparConfirmationViewModelForOpponent(string opponentId)
+		{
+			FighterRepository fighterRepo = new FighterRepository();
+
+			Fighter thisFighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
+			AccountViewModel thisFighterAccountViewModel = Util.GetAccountViewModelForFighter(thisFighter, 250);
+
+			Fighter opponentFighter = fighterRepo.GetFighterByIdentityUserId(opponentId);
+			AccountViewModel opponentFighterAccountViewModel = Util.GetAccountViewModelForFighter(opponentFighter, 250);
+
+			return getSparConfirmationViewModel(thisFighterAccountViewModel, opponentFighterAccountViewModel, 250);
 		}
 
 		private SparConfirmationViewModel getSparConfirmationViewModel(AccountViewModel thisFighterAccountViewModel, AccountViewModel opponentFighterAccountViewModel, int profilePictureSize)
