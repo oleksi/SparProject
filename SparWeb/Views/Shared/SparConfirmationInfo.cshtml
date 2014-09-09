@@ -1,12 +1,16 @@
 ﻿@model SparWeb.Models.SparConfirmationViewModel
 
-<div class="row text-center">
+<div class="row">
     <div class="col-md-5 vAlignCenter">
-        <div class="pull-right thumbnail">
-            <img height="@Model.ProfilePictureSize" src="@Model.ThisProfilePictureFile" class="thumbnail" />
-            <div class="caption">
-                <div><span class="fighterName">@Model.ThisFighterName</span></div>
-                <div>from <span class="gymName">@Model.ThisFighterGymName</span></div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="media">
+                    <img height="@Model.ProfilePictureSize" src="@Model.ThisProfilePictureFile" class="media-object img-thumbnail pull-left" />
+                    <div class="media-body">
+                        <h2 class="media-heading">@Model.ThisFighterName</h2>
+                        <p>from <strong>@Model.ThisFighterGymName</strong></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -16,12 +20,15 @@
         </div>
     </div>
     <div class="col-md-5 vAlignCenter">
-        <div class="pull-left thumbnail">
-            <img height="@Model.ProfilePictureSize" src="@Model.OpponentProfilePictureFile" class="thumbnail" />
-
-            <div class="caption">
-                <div><span class="fighterName">@Model.OpponentFighterName</span></div>
-                <div>from <span class="gymName">@Model.OpponentFighterGymName</span></div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="media">
+                    <img height="@Model.ProfilePictureSize" src="@Model.OpponentProfilePictureFile" class="media-object img-thumbnail pull-left" />
+                    <div class="media-body">
+                        <h2 class="media-heading">@Model.OpponentFighterName</h2>
+                        <p>from <strong>@Model.OpponentFighterGymName</strong></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -142,12 +142,12 @@ namespace SparWeb.Controllers
 			FighterRepository fighterRepo = new FighterRepository();
 
 			Fighter thisFighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
-			AccountViewModel thisFighterAccountViewModel = Util.GetAccountViewModelForFighter(thisFighter, 250);
+			AccountViewModel thisFighterAccountViewModel = Util.GetAccountViewModelForFighter(thisFighter, 150);
 
 			Fighter opponentFighter = fighterRepo.GetFighterByIdentityUserId(opponentId);
-			AccountViewModel opponentFighterAccountViewModel = Util.GetAccountViewModelForFighter(opponentFighter, 250);
+			AccountViewModel opponentFighterAccountViewModel = Util.GetAccountViewModelForFighter(opponentFighter, 150);
 
-			return getSparConfirmationViewModel(thisFighterAccountViewModel, opponentFighterAccountViewModel, 250);
+			return getSparConfirmationViewModel(thisFighterAccountViewModel, opponentFighterAccountViewModel, 150);
 		}
 
 		private SparConfirmationViewModel getSparConfirmationViewModel(AccountViewModel thisFighterAccountViewModel, AccountViewModel opponentFighterAccountViewModel, int profilePictureSize)
