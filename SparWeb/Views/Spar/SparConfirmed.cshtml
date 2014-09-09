@@ -4,8 +4,14 @@
     ViewBag.Title = "Spar Confirmation";
 }
 
-<div class="alert alert-success text-center" role="alert">
-    <strong>Thanks for requesting a spar.</strong> If @Model.OpponentFighterName is interested, you'll be notified by email with proposed date and location of the spar.
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="alert alert-success text-center" role="alert">
+            <strong>Thanks for requesting a spar.</strong> If @Model.OpponentFighterName is interested, you'll be notified by email with proposed date and location of the spar.
+        </div>
+    </div>
+    <div class="col-md-1"></div>
 </div>
 
 @{Html.RenderPartial("SparConfirmationInfo", Model);}
