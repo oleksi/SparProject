@@ -1,34 +1,22 @@
 ﻿@model SparWeb.Models.SparConfirmationViewModel
 
 <div class="row">
-    <div class="col-md-5 vAlignCenter">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="media">
-                    <img height="@Model.ProfilePictureSize" src="@Model.ThisProfilePictureFile" class="media-object img-thumbnail pull-left" />
-                    <div class="media-body">
-                        <h2 class="media-heading">@Model.ThisFighterName</h2>
-                        <p>from <strong>@Model.ThisFighterGymName</strong></p>
-                    </div>
-                </div>
+    <div class="col-md-6">
+        <div class="thumbnail fighterCard pull-right">
+            <img height="@Model.ProfilePictureSize" src="@Model.ThisProfilePictureFile" class="img-thumbnail" />
+            <div class="caption">
+                <h3 class="media-heading">@Model.ThisFighterName</h3>
+                <p>from <strong>@Model.ThisFighterGymName</strong></p>
             </div>
         </div>
     </div>
-    <div class="col-md-1 vAlignCenter">
-        <div class="row sparConfirmationRow">
-            <h1><b>VS</b></h1>
-        </div>
-    </div>
-    <div class="col-md-5 vAlignCenter">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="media">
-                    <img height="@Model.ProfilePictureSize" src="@Model.OpponentProfilePictureFile" class="media-object img-thumbnail pull-left" />
-                    <div class="media-body">
-                        <h2 class="media-heading">@Model.OpponentFighterName</h2>
-                        <p>from <strong>@Model.OpponentFighterGymName</strong></p>
-                    </div>
-                </div>
+
+    <div class="col-md-6">
+        <div class="thumbnail fighterCard pull-left">
+            <img height="@Model.ProfilePictureSize" src="@Model.OpponentProfilePictureFile" class="img-thumbnail" />
+            <div class="caption">
+                <h3 class="media-heading">@Model.OpponentFighterName</h3>
+                <p>from <strong>@Model.OpponentFighterGymName</strong></p>
             </div>
         </div>
     </div>
