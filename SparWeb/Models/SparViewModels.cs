@@ -87,5 +87,10 @@ namespace SparWeb.Models
 			Minutes = dateTime.Minute;
 			IsAM = (dateTime.ToString("tt") == "AM");
 		}
+
+		public override string ToString()
+		{
+			return String.Format("{0} : {1} {2}", Hours, Minutes.ToString("00"), IsAM ? "AM" : "PM");
+		}
 	}
 }

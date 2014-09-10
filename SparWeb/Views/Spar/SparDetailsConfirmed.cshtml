@@ -17,52 +17,30 @@
 
 @{Html.RenderPartial("SparConfirmationInfo", Model);}
 
-<div class="row sparConfirmationSectionRow">
+<div class="row sparInformation">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-        <div class="row">
-            @Html.LabelFor(m => m.SparDate, new { @class = "col-md-6 control-label" })
-            <div class="col-md-6">
-                @Model.SparDate.Value.ToString("MM/dd/yyyy")        
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1 class="panel-title"><span class="glyphicon glyphicon-info-sign"></span> Spar Information</h1>
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>@Html.LabelFor(m => m.SparDate, new { @class = "control-label" }):</dt>
+                    <dd>@Model.SparDate.Value.ToString("dddd, MMMM d, yyyy")</dd>
+                    <dt>@Html.LabelFor(m => m.SparTime, new { @class = "control-label" }):</dt>
+                    <dd>@Model.SparTime</dd>
+                    <dt>@Html.LabelFor(m => m.SparNotes, new { @class = "control-label" }):</dt>
+                    <dd>@Html.DisplayFor(m => m.SparNotes)</dd>
+                </dl>
             </div>
         </div>
     </div>
     <div class="col-md-3"></div>
 </div>
 
-<div class="row sparConfirmationRow">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
-        <div class="row">
-            @Html.LabelFor(m => m.SparTime, new { @class = "col-md-6 control-label" })
-            <div class="col-md-6">
-                @Model.SparTime.Hours : @Model.SparTime.Minutes 
-                @if (Model.SparTime.IsAM)
-                {
-                    @:AM
-                }
-                else
-                {
-                    @:PM
-                }                 
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3"></div>
-</div>
 
-<div class="row sparConfirmationRow">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
-        <div class="row">
-            @Html.LabelFor(m => m.SparNotes, new { @class = "col-md-6 control-label" })
-            <div class="col-md-6">
-                @Html.DisplayFor(m => m.SparNotes)
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3"></div>
-</div>
+
 
 
 
