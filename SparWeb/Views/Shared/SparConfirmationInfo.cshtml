@@ -1,7 +1,7 @@
 ﻿@model SparWeb.Models.SparConfirmationViewModel
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-5">
         <div class="thumbnail fighterCard pull-right">
             <img height="@Model.ProfilePictureSize" src="@Model.ThisProfilePictureFile" class="img-thumbnail" />
             <div class="caption">
@@ -10,8 +10,10 @@
             </div>
         </div>
     </div>
-
-    <div class="col-md-6">
+    <div class="col-md-2 text-center">
+        <img src="@Url.Content("~/Content/Images/boxing-spar-sign.jpg")" class="boxingSparSign" />
+    </div>
+    <div class="col-md-5">
         <div class="thumbnail fighterCard pull-left">
             <img height="@Model.ProfilePictureSize" src="@Model.OpponentProfilePictureFile" class="img-thumbnail" />
             <div class="caption">
