@@ -83,13 +83,20 @@ namespace SparWeb.Controllers
 			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = getConfirmSparDetailsViewModel(model.SparRequestId);
 			confirmSparDetailsViewModel.SparDate = model.SparDate;
 			confirmSparDetailsViewModel.SparTime = model.SparTime;
+			
 			confirmSparDetailsViewModel.SparGymID = model.SparGymID;
+			if (model.SparGymID > 0)
+			{
+				GymRepository gymRepo = new GymRepository();
+				confirmSparDetailsViewModel.SparGym = gymRepo.GetGymById(model.SparGymID);
+			}
+			
 			confirmSparDetailsViewModel.SparNotes = model.SparNotes;
 
 			if (ModelState.IsValid == false || model.SparDate <= DateTime.Now)
 			{
 				if (model.SparDate <= DateTime.Now)
-					ModelState.AddModelError("SparDate", "Spar Date must be in a future");
+					ModelState.AddModelError("SparDate", "Spar Date must be in the future");
 
 				return View(confirmSparDetailsViewModel);
 			}
@@ -130,7 +137,10 @@ namespace SparWeb.Controllers
 			}
 
 			if (sparRequest.SparGym != null)
-				confirmSparDetailsViewModel.SparGymID = sparRequest.SparGym.Id;
+			{
+				confirmSparDetailsViewModel.SparGymID = sparRequest.SparGym.Id.Value;
+				confirmSparDetailsViewModel.SparGym = sparRequest.SparGym;
+			}
 
 			confirmSparDetailsViewModel.SparNotes = sparRequest.SparNotes;
 

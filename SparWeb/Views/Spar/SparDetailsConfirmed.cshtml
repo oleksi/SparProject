@@ -30,6 +30,15 @@
                     <dd>@Model.SparDate.Value.ToString("dddd, MMMM d, yyyy")</dd>
                     <dt>@Html.LabelFor(m => m.SparTime, new { @class = "control-label" }):</dt>
                     <dd>@Model.SparTime</dd>
+                    <dt>@Html.LabelFor(m => m.SparGym, new { @class = "control-label" }):</dt>
+                    @if (Model.SparGym != null)
+                    {
+                        <dd>@Model.SparGym.Name</dd>
+                    }
+                    else
+                    {
+                        <dd>N/A</dd>
+                    }
                     <dt>@Html.LabelFor(m => m.SparNotes, new { @class = "control-label" }):</dt>
                     <dd>@Html.DisplayFor(m => m.SparNotes)</dd>
                 </dl>

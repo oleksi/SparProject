@@ -59,7 +59,10 @@ namespace SparWeb.Models
 
 		public Gym OpponentGym { get; set; }
 
-		public int? SparGymID { get; set; }
+		public int SparGymID { get; set; }
+
+		[Display(Name = "Spar Location")]
+		public Gym SparGym { get; set; }
 
 		[Display(Name = "Notes")]
 		[StringLength(1024)]
@@ -90,7 +93,7 @@ namespace SparWeb.Models
 
 		public override string ToString()
 		{
-			return String.Format("{0} : {1} {2}", Hours, Minutes.ToString("00"), IsAM ? "AM" : "PM");
+			return String.Format("{0}:{1} {2}", Hours, Minutes.ToString("00"), IsAM ? "AM" : "PM");
 		}
 	}
 }
