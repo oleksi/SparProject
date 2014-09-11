@@ -101,6 +101,19 @@ namespace SparWeb.Controllers
 				return View(confirmSparDetailsViewModel);
 			}
 
+			//updating spar request
+			SparRepository sparRepo = new SparRepository();
+			SparRequest sparRequest = sparRepo.GetSparRequestById(model.SparRequestId);
+			sparRequest.SparDateTime = DateTime.Parse(String.Format("{0} {1}", model.SparDate.Value.ToString("MM/dd/yyyy"), model.SparTime.ToString()));
+			if (model.SparGymID > 0)
+				sparRequest.SparGym = confirmSparDetailsViewModel.SparGym;
+			sparRequest.SparNotes = model.SparNotes;
+			sparRequest.LastNegotiatorFighter = (sparRequest.RequestorFighter.SparIdentityUser.Id == User.Identity.GetUserId()) ? sparRequest.RequestorFighter : sparRequest.OpponentFighter;
+			
+			sparRepo.SaveSparRequest(sparRequest);
+
+			//ToDo: send email to spar requestor
+
 			return View("SparDetailsConfirmed", confirmSparDetailsViewModel);
 		}
 

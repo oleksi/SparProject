@@ -36,5 +36,17 @@ namespace SparData
 				}
 			}
 		}
+
+		public void SaveSparRequest(SparRequest sparRequest)
+		{
+			using (var session = getSession())
+			{
+				using (var transaction = session.BeginTransaction())
+				{
+					session.Update(sparRequest);
+					transaction.Commit();
+				}
+			}
+		}
 	}
 }
