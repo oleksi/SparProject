@@ -39,8 +39,11 @@
                     {
                         <dd>N/A</dd>
                     }
+                    @if (String.IsNullOrEmpty(Model.SparNotes) == false)
+                    { 
                     <dt>@Html.LabelFor(m => m.SparNotes, new { @class = "control-label" }):</dt>
                     <dd>@Html.DisplayFor(m => m.SparNotes)</dd>
+                    }
                 </dl>
             </div>
         </div>
