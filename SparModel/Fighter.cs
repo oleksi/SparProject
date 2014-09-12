@@ -44,5 +44,13 @@ namespace SparModel
 			else
 				return (Sex == true) ? "him" : "her";
 		}
+
+		public virtual string GetHeOrShe(bool useTitleCase)
+		{
+			if (useTitleCase == true)
+				return (Sex == true) ? "He" : "She";
+			else
+				return (Sex == true) ? "he" : "she";
+		}
 	}
 }

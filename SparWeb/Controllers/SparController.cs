@@ -57,7 +57,7 @@ namespace SparWeb.Controllers
 				String emailSubject = String.Format("{0} wants to spar you!", thisFighter.Name);
 				String emailBody = String.Format("{0} wants to spar you. If you are interested, please click the link below to select date and place of spar:<br /><br /><a href=\"{1}\">{1}</a>",
 					thisFighter.Name,
-					Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", sparRequest.Id } }, "http", Request.Url.Host)
+					Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", sparRequest.Id }, { "editMode", "1" } }, "http", Request.Url.Host)
 				);
 
 				SparWeb.Util.SendEmail(emailTo, emailSubject, emailBody);
@@ -69,7 +69,7 @@ namespace SparWeb.Controllers
 		}
 
 		[Authorize]
-		public ActionResult SparDetailsConfirmation(string ID)
+		public ActionResult SparDetailsConfirmation(string ID, string editMode)
 		{
 			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = getConfirmSparDetailsViewModel(ID);
 
@@ -104,15 +104,58 @@ namespace SparWeb.Controllers
 			//updating spar request
 			SparRepository sparRepo = new SparRepository();
 			SparRequest sparRequest = sparRepo.GetSparRequestById(model.SparRequestId);
-			sparRequest.SparDateTime = DateTime.Parse(String.Format("{0} {1}", model.SparDate.Value.ToString("MM/dd/yyyy"), model.SparTime.ToString()));
+
+			//who is who
+			Fighter thisFighter = null;
+			Fighter opponentFighter = null;
+			if (sparRequest.RequestorFighter.SparIdentityUser.Id == User.Identity.GetUserId())
+			{
+				thisFighter = sparRequest.RequestorFighter;
+				opponentFighter = sparRequest.OpponentFighter;
+			}
+			else
+			{
+				thisFighter = sparRequest.OpponentFighter;
+				opponentFighter = sparRequest.RequestorFighter;
+			}
+
+
+				sparRequest.SparDateTime = DateTime.Parse(String.Format("{0} {1}", model.SparDate.Value.ToString("MM/dd/yyyy"), model.SparTime.ToString()));
 			if (model.SparGymID > 0)
 				sparRequest.SparGym = confirmSparDetailsViewModel.SparGym;
 			sparRequest.SparNotes = model.SparNotes;
-			sparRequest.LastNegotiatorFighter = (sparRequest.RequestorFighter.SparIdentityUser.Id == User.Identity.GetUserId()) ? sparRequest.RequestorFighter : sparRequest.OpponentFighter;
-			
+			sparRequest.LastNegotiatorFighter = thisFighter;
+			sparRequest.Status = SparRequestStatus.DateLocationNegotiation;
+
 			sparRepo.SaveSparRequest(sparRequest);
 
-			//ToDo: send email to spar requestor
+			//send email to spar requestor
+			try
+			{
+				String emailTo = opponentFighter.SparIdentityUser.Email;
+				String emailSubject = String.Format("{0} has confirmed your spar request!", thisFighter.Name);
+				String emailBody = String.Format(@"{0} has confirmed your spar request. {1} proposes the following date, time and location for the spar:
+<br /><br />
+Date: {2}<br />
+Time: {3}<br />
+Location: {4}<br />
+{5} 
+<br /><br />
+Please click the link below to confirm spar or change the details:
+<br /><br />
+<a href=""{6}\"">{6}</a>",
+					thisFighter.Name,
+					thisFighter.GetHeOrShe(true),
+					model.SparDate.Value.ToString("MM/dd/yyyy"),
+					model.SparTime.ToString(),
+					(model.SparGymID > 0)? sparRequest.SparGym.Name: "N/A",
+					(String.IsNullOrEmpty(model.SparNotes) == false)? String.Format("Notes: {0}<br />", model.SparNotes) : "",
+					Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", sparRequest.Id }, { "editMode", "0" } }, "http", Request.Url.Host)
+				);
+
+				SparWeb.Util.SendEmail(emailTo, emailSubject, emailBody);
+			}
+			catch { }
 
 			return View("SparDetailsConfirmed", confirmSparDetailsViewModel);
 		}
