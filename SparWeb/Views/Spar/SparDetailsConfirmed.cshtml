@@ -15,11 +15,9 @@
     <div class="col-md-1"></div>
 </div>
 
-@{Html.RenderPartial("SparConfirmationInfo", Model);}
-
 <div class="row sparInformation">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h1 class="panel-title"><span class="glyphicon glyphicon-info-sign"></span> Spar Information</h1>
@@ -40,16 +38,19 @@
                         <dd>N/A</dd>
                     }
                     @if (String.IsNullOrEmpty(Model.SparNotes) == false)
-                    { 
-                    <dt>@Html.LabelFor(m => m.SparNotes, new { @class = "control-label" }):</dt>
-                    <dd>@Html.DisplayFor(m => m.SparNotes)</dd>
+                    {
+                        <dt>@Html.LabelFor(m => m.SparNotes, new { @class = "control-label" }):</dt>
+                        <dd>@Html.DisplayFor(m => m.SparNotes)</dd>
                     }
                 </dl>
             </div>
         </div>
     </div>
-    <div class="col-md-3"></div>
+    <div class="col-md-2"></div>
 </div>
+
+@{Html.RenderPartial("SparConfirmationInfo", Model);}
+
 
 
 
