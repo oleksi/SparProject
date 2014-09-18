@@ -1,0 +1,35 @@
+﻿@model SparWeb.Models.ConfirmSparDetailsViewModel
+
+<div class="row sparInformation">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1 class="panel-title"><span class="glyphicon glyphicon-info-sign"></span> Spar Information</h1>
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>@Html.LabelFor(m => m.SparDate):</dt>
+                    <dd>@Model.SparDate.Value.ToString("dddd, MMMM d, yyyy")</dd>
+                    <dt>@Html.LabelFor(m => m.SparTime):</dt>
+                    <dd>@Model.SparTime</dd>
+                    <dt>@Html.LabelFor(m => m.SparGym):</dt>
+                    @if (Model.SparGym != null)
+                    {
+                        <dd>@Model.SparGym.Name</dd>
+                    }
+                    else
+                    {
+                        <dd>N/A</dd>
+                    }
+                    @if (String.IsNullOrEmpty(Model.SparNotes) == false)
+                    {
+                        <dt>@Html.LabelFor(m => m.SparNotes):</dt>
+                        <dd>@Html.DisplayFor(m => m.SparNotes)</dd>
+                    }
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>

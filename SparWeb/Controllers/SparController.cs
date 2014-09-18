@@ -57,7 +57,7 @@ namespace SparWeb.Controllers
 				String emailSubject = String.Format("{0} wants to spar you!", thisFighter.Name);
 				String emailBody = String.Format("{0} wants to spar you. If you are interested, please click the link below to select date and place of spar:<br /><br /><a href=\"{1}\">{1}</a>",
 					thisFighter.Name,
-					Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", sparRequest.Id }, { "editMode", "1" } }, "http", Request.Url.Host)
+					Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", sparRequest.Id } }, "http", Request.Url.Host)
 				);
 
 				SparWeb.Util.SendEmail(emailTo, emailSubject, emailBody);
@@ -69,9 +69,15 @@ namespace SparWeb.Controllers
 		}
 
 		[Authorize]
-		public ActionResult SparDetailsConfirmation(string ID, string editMode)
+		public ActionResult SparDetailsConfirmation(string ID)
 		{
-			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = getConfirmSparDetailsViewModel(ID);
+			SparRepository sparRepo = new SparRepository();
+			SparRequest sparRequest = sparRepo.GetSparRequestById(ID);
+
+			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = getConfirmSparDetailsViewModel(sparRequest); 
+			
+			if (sparRequest.LastNegotiatorFighter == null || sparRequest.LastNegotiatorFighter.SparIdentityUser.Id == User.Identity.GetUserId())
+				confirmSparDetailsViewModel.IsEditMode = true;
 
 			return View(confirmSparDetailsViewModel);
 		}
@@ -165,6 +171,11 @@ Please click the link below to confirm spar or change the details:
 			SparRepository sparRepo = new SparRepository();
 			SparRequest sparRequest = sparRepo.GetSparRequestById(sparRequestId);
 
+			return getConfirmSparDetailsViewModel(sparRequest);
+		}
+
+		private ConfirmSparDetailsViewModel getConfirmSparDetailsViewModel(SparRequest sparRequest)
+		{
 			//figuring out who is who
 			Fighter thisFighter = null;
 			Fighter opponentFighter = null;
@@ -184,7 +195,7 @@ Please click the link below to confirm spar or change the details:
 
 			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = new ConfirmSparDetailsViewModel(getSparConfirmationViewModel(thisFighterAccountViewModel, opponentFighterAccountViewModel, 250));
 
-			confirmSparDetailsViewModel.SparRequestId = sparRequestId;
+			confirmSparDetailsViewModel.SparRequestId = sparRequest.Id;
 
 			if (sparRequest.SparDateTime.HasValue == true)
 			{

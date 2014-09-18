@@ -295,6 +295,7 @@
     <Content Include="Views\Spar\SparDetailsConfirmation.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\SparTime.cshtml" />
     <Content Include="Views\Spar\SparDetailsConfirmed.cshtml" />
+    <Content Include="Views\Shared\SparInformation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

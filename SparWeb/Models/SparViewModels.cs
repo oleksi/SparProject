@@ -67,6 +67,8 @@ namespace SparWeb.Models
 		[Display(Name = "Notes")]
 		[StringLength(1024)]
 		public string SparNotes { get; set; }
+
+		public bool IsEditMode { get; set; }
 	}
 
 	public class SparTime
