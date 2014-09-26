@@ -104,7 +104,9 @@ namespace SparWeb.Controllers
 				if (model.SparDate <= DateTime.Now)
 					ModelState.AddModelError("SparDate", "Spar Date must be in the future");
 
-				return View(confirmSparDetailsViewModel);
+				confirmSparDetailsViewModel.IsEditMode = true;
+
+				return View("SparDetailsConfirmation", confirmSparDetailsViewModel);
 			}
 
 			//updating spar request
@@ -190,10 +192,7 @@ Please click the link below to confirm spar or change the details:
 				opponentFighter = sparRequest.RequestorFighter; ;
 			}
 
-			AccountViewModel thisFighterAccountViewModel = Util.GetAccountViewModelForFighter(thisFighter, 250);
-			AccountViewModel opponentFighterAccountViewModel = Util.GetAccountViewModelForFighter(opponentFighter, 250);
-
-			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = new ConfirmSparDetailsViewModel(getSparConfirmationViewModel(thisFighterAccountViewModel, opponentFighterAccountViewModel, 250));
+			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = new ConfirmSparDetailsViewModel(getSparConfirmationViewModel(thisFighter, opponentFighter, 250));
 
 			confirmSparDetailsViewModel.SparRequestId = sparRequest.Id;
 
@@ -219,30 +218,17 @@ Please click the link below to confirm spar or change the details:
 			FighterRepository fighterRepo = new FighterRepository();
 
 			Fighter thisFighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
-			AccountViewModel thisFighterAccountViewModel = Util.GetAccountViewModelForFighter(thisFighter, 250);
-
 			Fighter opponentFighter = fighterRepo.GetFighterByIdentityUserId(opponentId);
-			AccountViewModel opponentFighterAccountViewModel = Util.GetAccountViewModelForFighter(opponentFighter, 250);
 
-			return getSparConfirmationViewModel(thisFighterAccountViewModel, opponentFighterAccountViewModel, 250);
+			return getSparConfirmationViewModel(thisFighter, opponentFighter, 250);
 		}
 
-		private SparConfirmationViewModel getSparConfirmationViewModel(AccountViewModel thisFighterAccountViewModel, AccountViewModel opponentFighterAccountViewModel, int profilePictureSize)
+		private SparConfirmationViewModel getSparConfirmationViewModel(Fighter thisFighter, Fighter opponentFighter, int profilePictureSize)
 		{
 			SparConfirmationViewModel sparConfirmationViewModel = new SparConfirmationViewModel()
 			{
-				ThisFighterID = thisFighterAccountViewModel.ID,
-				ThisFighterName = thisFighterAccountViewModel.Name,
-				ThisFighterGymName = thisFighterAccountViewModel.GymName,
-				ThisFighterGym = thisFighterAccountViewModel.Gym,
-				ThisProfilePictureFile = thisFighterAccountViewModel.ProfilePictureFile,
-				ThisProfilePictureUploaded = thisFighterAccountViewModel.ProfilePictureUploaded,
-				OpponentFighterID = opponentFighterAccountViewModel.ID,
-				OpponentFighterName = opponentFighterAccountViewModel.Name,
-				OpponentFighterGymName = opponentFighterAccountViewModel.GymName,
-				OpponentFighterGym = opponentFighterAccountViewModel.Gym,
-				OpponentProfilePictureFile = opponentFighterAccountViewModel.ProfilePictureFile,
-				OpponentProfilePictureUploaded = opponentFighterAccountViewModel.ProfilePictureUploaded,
+				ThisFighter = thisFighter,
+				OpponentFighter = opponentFighter,
 				ProfilePictureSize = profilePictureSize
 			};
 			return sparConfirmationViewModel;

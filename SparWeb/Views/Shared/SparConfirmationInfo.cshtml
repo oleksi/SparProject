@@ -3,10 +3,10 @@
 <div class="row">
     <div class="col-md-5">
         <div class="thumbnail fighterCard pull-right">
-            <img height="@Model.ProfilePictureSize" src="@Model.ThisProfilePictureFile" class="img-thumbnail" />
+            <img height="@Model.ProfilePictureSize" src="@Util.GetProfilePictureFileForFighter(Model.ThisFighter, Model.ProfilePictureSize)" class="img-thumbnail" />
             <div class="caption text-center">
-                <h3 class="media-heading">@Model.ThisFighterName</h3>
-                <p>from <strong>@Model.ThisFighterGymName</strong></p>
+                <h3 class="media-heading">@Model.ThisFighter.Name</h3>
+                <p>from <strong>@Model.ThisFighter.Gym.Name</strong></p>
             </div>
         </div>
     </div>
@@ -15,10 +15,10 @@
     </div>
     <div class="col-md-5">
         <div class="thumbnail fighterCard pull-left">
-            <img height="@Model.ProfilePictureSize" src="@Model.OpponentProfilePictureFile" class="img-thumbnail" />
+            <img height="@Model.ProfilePictureSize" src="@Util.GetProfilePictureFileForFighter(Model.OpponentFighter, Model.ProfilePictureSize)" class="img-thumbnail" />
             <div class="caption text-center">
-                <h3 class="media-heading">@Model.OpponentFighterName</h3>
-                <p>from <strong>@Model.OpponentFighterGymName</strong></p>
+                <h3 class="media-heading">@Model.OpponentFighter.Name</h3>
+                <p>from <strong>@Model.OpponentFighter.Gym.Name</strong></p>
             </div>
         </div>
     </div>

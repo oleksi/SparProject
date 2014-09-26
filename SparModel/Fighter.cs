@@ -32,6 +32,11 @@ namespace SparModel
 			return String.Format("{0}-{1}X{1}.jpg", profileThumbnailFileName, thumbSize);
 		}
 
+		public virtual string GetProfilePictureFile(int thumbnailSize, string profilePicsUrl, string defaultImagesUrl)
+		{
+			return String.Format("{0}{1}", (this.ProfilePictureUploaded == true) ? profilePicsUrl : defaultImagesUrl, this.getProfileThumbnailFileName(thumbnailSize));
+		}
+
 		public virtual int getFighterAge()
 		{
 			return Convert.ToInt32(((double)(DateTime.Now - this.DateOfBirth).Days / 365.2425));

@@ -17,7 +17,7 @@
     }
     else
     {
-        <h2>@Model.OpponentFighterName agreed to spar you! Please confirm or propose a change ...</h2>
+        <h2>@Model.OpponentFighter.Name agreed to spar you! Please confirm or propose a change ...</h2>
     }
 </div>
 
@@ -66,36 +66,36 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">Location</label>
                     <div class="col-md-9">
-                        @if (Model.ThisFighterGym != null && Model.OpponentFighterGym != null && Model.ThisFighterGym.Id != Model.OpponentFighterGym.Id)
+                        @if (Model.ThisFighter.Gym != null && Model.OpponentFighter.Gym != null && Model.ThisFighter.Gym.Id != Model.OpponentFighter.Gym.Id)
                         {
                             <div class="radio">
                                 <label>
-                                    @Html.RadioButtonFor(m => m.SparGymID, Model.ThisFighterGym.Id, new { @checked = "checked" })
-                                    <b>Your gym</b> (@Model.ThisFighterGymName)
+                                    @Html.RadioButtonFor(m => m.SparGymID, Model.ThisFighter.Gym.Id, new { @checked = "checked" })
+                                    <b>Your gym</b> (@Model.ThisFighter.Gym.Name)
                                 </label>
                             </div>
                             <div class="radio">
                                 <label>
-                                    @Html.RadioButtonFor(m => m.SparGymID, Model.OpponentFighterGym.Id)
-                                    <b>@Model.OpponentFighterName's gym</b> (@Model.OpponentFighterGymName)
-                                </label>
-                            </div>
-                        }
-                        else if ((Model.ThisFighterGym != null && Model.OpponentFighterGym != null && Model.ThisFighterGym.Id == Model.OpponentFighterGym.Id) || (Model.ThisFighterGym != null && Model.OpponentFighterGym == null))
-                        {
-                            <div class="radio">
-                                <label>
-                                    @Html.RadioButtonFor(m => m.SparGymID, Model.ThisFighterGym.Id)
-                                    <b>Your gym</b> (@Model.ThisFighterGymName)
+                                    @Html.RadioButtonFor(m => m.SparGymID, Model.OpponentFighter.Gym.Id)
+                                    <b>@Model.OpponentFighter.Name's gym</b> (@Model.OpponentFighter.Gym.Name)
                                 </label>
                             </div>
                         }
-                        else if (Model.OpponentFighterGym != null && Model.ThisFighterGym == null)
+                        else if ((Model.ThisFighter.Gym != null && Model.OpponentFighter.Gym != null && Model.ThisFighter.Gym.Id == Model.OpponentFighter.Gym.Id) || (Model.ThisFighter.Gym != null && Model.OpponentFighter.Gym == null))
                         {
                             <div class="radio">
                                 <label>
-                                    @Html.RadioButtonFor(m => m.SparGymID, Model.OpponentFighterGym.Id)
-                                    <b>@Model.OpponentFighterName's gym</b> (@Model.OpponentFighterGymName)
+                                    @Html.RadioButtonFor(m => m.SparGymID, Model.ThisFighter.Gym.Id)
+                                    <b>Your gym</b> (@Model.ThisFighter.Gym.Name)
+                                </label>
+                            </div>
+                        }
+                        else if (Model.OpponentFighter.Gym != null && Model.ThisFighter.Gym == null)
+                        {
+                            <div class="radio">
+                                <label>
+                                    @Html.RadioButtonFor(m => m.SparGymID, Model.OpponentFighter.Gym.Id)
+                                    <b>@Model.OpponentFighter.Name's gym</b> (@Model.OpponentFighter.Gym.Name)
                                 </label>
                             </div>
                         }

@@ -10,18 +10,8 @@ namespace SparWeb.Models
 {
 	public class SparConfirmationViewModel
 	{
-		public string ThisFighterID { get; set; }
-		public string ThisFighterName { get; set; }
-		public string ThisFighterGymName { get; set; }
-		public Gym ThisFighterGym { get; set; }
-		public string ThisProfilePictureFile { get; set; }
-		public bool ThisProfilePictureUploaded { get; set; }
-		public string OpponentFighterID { get; set; }
-		public string OpponentFighterName { get; set; }
-		public string OpponentFighterGymName { get; set; }
-		public Gym OpponentFighterGym { get; set; }
-		public string OpponentProfilePictureFile { get; set; }
-		public bool OpponentProfilePictureUploaded { get; set; }
+		public Fighter ThisFighter { get; set; }
+		public Fighter OpponentFighter { get; set; }
 		public int ProfilePictureSize { get; set; }
 	}
 
@@ -30,18 +20,8 @@ namespace SparWeb.Models
 		public ConfirmSparDetailsViewModel() { }
 		public ConfirmSparDetailsViewModel(SparConfirmationViewModel sparConfirmationViewModel)
 		{
-			this.ThisFighterID = sparConfirmationViewModel.ThisFighterID;
-			this.ThisFighterName = sparConfirmationViewModel.ThisFighterName;
-			this.ThisFighterGymName = sparConfirmationViewModel.ThisFighterGymName;
-			this.ThisFighterGym = sparConfirmationViewModel.ThisFighterGym;
-			this.ThisProfilePictureFile = sparConfirmationViewModel.ThisProfilePictureFile;
-			this.ThisProfilePictureUploaded = sparConfirmationViewModel.ThisProfilePictureUploaded;
-			this.OpponentFighterID = sparConfirmationViewModel.OpponentFighterID;
-			this.OpponentFighterName = sparConfirmationViewModel.OpponentFighterName;
-			this.OpponentFighterGymName = sparConfirmationViewModel.OpponentFighterGymName;
-			this.OpponentFighterGym = sparConfirmationViewModel.OpponentFighterGym;
-			this.OpponentProfilePictureFile = sparConfirmationViewModel.OpponentProfilePictureFile;
-			this.OpponentProfilePictureUploaded = sparConfirmationViewModel.OpponentProfilePictureUploaded;
+			this.ThisFighter = sparConfirmationViewModel.ThisFighter;
+			this.OpponentFighter = sparConfirmationViewModel.OpponentFighter;
 			this.ProfilePictureSize = sparConfirmationViewModel.ProfilePictureSize;
 		}
 
