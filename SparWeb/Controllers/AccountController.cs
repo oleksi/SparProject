@@ -283,6 +283,7 @@ namespace SparWeb.Controllers
 		{
 			bool fileSavedSuccessfully = true;
 			string fileName = "";
+			Fighter fighter = null;
 			try
 			{
 				CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["SparStorage"].ConnectionString);
@@ -295,7 +296,7 @@ namespace SparWeb.Controllers
 					container.SetPermissions(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob }); 					
 				}
 
-				Fighter fighter = getLoggedInFighter();
+				fighter = getLoggedInFighter();
 
 				//optimizing and saving uploaded pic in full size
 				string origFileName = String.Format("{0}-orig.jpg", fighter.SparIdentityUser.Id);				
@@ -329,7 +330,7 @@ namespace SparWeb.Controllers
 
 			if (fileSavedSuccessfully)
 			{
-				return Json(new { Message = fileName });
+				return Json(new { Message = Util.GetProfilePictureFileForFighter(fighter, 250) });
 			}
 			else
 			{

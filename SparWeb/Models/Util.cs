@@ -66,11 +66,16 @@ namespace SparWeb
 					Weight = fighter.Weight, 
 					NumberOfFights = fighter.NumberOfFights, 
 					ProfilePictureUploaded = fighter.ProfilePictureUploaded,
-					ProfilePictureFile = String.Format("{0}{1}", (fighter.ProfilePictureUploaded == true) ? System.Configuration.ConfigurationManager.AppSettings["ProfilePicsUrl"] : VirtualPathUtility.ToAbsolute("~/Content/Images/"), fighter.getProfileThumbnailFileName(thumbnailSize)),
+					ProfilePictureFile = GetProfilePictureFileForFighter(fighter, thumbnailSize),
 					HimOrHer = fighter.GetHimOrHer(true)
 				};
 
 			return model;
+		}
+
+		public static string GetProfilePictureFileForFighter(Fighter fighter, int thumbnailSize)
+		{
+			return String.Format("{0}{1}", (fighter.ProfilePictureUploaded == true) ? System.Configuration.ConfigurationManager.AppSettings["ProfilePicsUrl"] : VirtualPathUtility.ToAbsolute("~/Content/Images/"), fighter.getProfileThumbnailFileName(thumbnailSize));
 		}
 	}
 }
