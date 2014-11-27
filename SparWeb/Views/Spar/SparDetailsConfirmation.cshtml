@@ -11,7 +11,7 @@
 }
 
 <div class="row text-center">
-    @if (Model.IsEditMode == true)
+    @if (Model.IsFirstResponse == true)
     { 
         <h2>Please select Date and Location for the following spar:</h2>
     }
@@ -22,159 +22,189 @@
 </div>
 
 <div class="sparConfirmationInstructionRow">
-    <form id="formSparDetails" method="post" action="@Url.Action("ConfirmSparDetails", "Spar")" class="form-horizontal">
+    <form id="formSparDetails" method="post" action="@Url.Action("ChangeSparDetails", "Spar")" class="form-horizontal">
         @Html.HiddenFor(m => m.SparRequestId)
 
         @{Html.RenderPartial("SparConfirmationInfo", Model);}
 
-        @if (Model.IsEditMode == true)
-        {
-        <div class="row sparConfirmationSectionRow">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.SparDate, new { @class = "col-md-3 control-label" })
-                    <div class="col-md-9">
-                        <div class="inner-addon left-addon">
-                            <i class="glyphicon glyphicon-calendar"></i>
-                            @Html.TextBoxFor(m => m.SparDate, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.SparDate) })
-                            @Html.ValidationMessageFor(m => m.SparDate, null, new { @class = "pull-left" })
+        <div id="sparDetailsEdit" class="hidden">
+            <div class="row sparConfirmationSectionRow">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.SparDate, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            <div class="inner-addon left-addon">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                                @Html.TextBoxFor(m => m.SparDate, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.SparDate) })
+                                @Html.ValidationMessageFor(m => m.SparDate, null, new { @class = "pull-left" })
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-3"></div>
             </div>
-            <div class="col-md-3"></div>
-        </div>
 
-        <div class="row sparConfirmationRow">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.SparTime, new { @class = "col-md-3 control-label" })
-                    <div class="col-md-9">
-                        @Html.EditorFor(m => m.SparTime, "SparTime")
-                        @Html.ValidationMessageFor(m => m.SparTime)
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3"></div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label class="col-md-3 control-label">Location</label>
-                    <div class="col-md-9">
-                        @if (Model.ThisFighter.Gym != null && Model.OpponentFighter.Gym != null && Model.ThisFighter.Gym.Id != Model.OpponentFighter.Gym.Id)
-                        {
-                            <div class="radio">
-                                <label>
-                                    @Html.RadioButtonFor(m => m.SparGymID, Model.ThisFighter.Gym.Id, new { @checked = "checked" })
-                                    <b>Your gym</b> (@Model.ThisFighter.Gym.Name)
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    @Html.RadioButtonFor(m => m.SparGymID, Model.OpponentFighter.Gym.Id)
-                                    <b>@Model.OpponentFighter.Name's gym</b> (@Model.OpponentFighter.Gym.Name)
-                                </label>
-                            </div>
-                        }
-                        else if ((Model.ThisFighter.Gym != null && Model.OpponentFighter.Gym != null && Model.ThisFighter.Gym.Id == Model.OpponentFighter.Gym.Id) || (Model.ThisFighter.Gym != null && Model.OpponentFighter.Gym == null))
-                        {
-                            <div class="radio">
-                                <label>
-                                    @Html.RadioButtonFor(m => m.SparGymID, Model.ThisFighter.Gym.Id)
-                                    <b>Your gym</b> (@Model.ThisFighter.Gym.Name)
-                                </label>
-                            </div>
-                        }
-                        else if (Model.OpponentFighter.Gym != null && Model.ThisFighter.Gym == null)
-                        {
-                            <div class="radio">
-                                <label>
-                                    @Html.RadioButtonFor(m => m.SparGymID, Model.OpponentFighter.Gym.Id)
-                                    <b>@Model.OpponentFighter.Name's gym</b> (@Model.OpponentFighter.Gym.Name)
-                                </label>
-                            </div>
-                        }
-                        <div class="radio">
-                            <label>
-                                @Html.RadioButtonFor(m => m.SparGymID, 0)
-                                <b>Other place</b> (please specify in the notes)
-                            </label>
+            <div class="row sparConfirmationRow">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.SparTime, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(m => m.SparTime, "SparTime")
+                            @Html.ValidationMessageFor(m => m.SparTime)
                         </div>
                     </div>
                 </div>
+                <div class="col-md-3"></div>
             </div>
-            <div class="col-md-3"></div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.SparNotes, new { @class = "col-md-3 control-label" })
-                    <div class="col-md-9">
-                        <div class="inner-addon left-addon">
-                            @Html.TextAreaFor(m => m.SparNotes, 3, 4, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.SparNotes) })
-                            @Html.ValidationMessageFor(m => m.SparNotes)
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Location</label>
+                        <div class="col-md-9">
+                            @if (Model.ThisFighter.Gym != null && Model.OpponentFighter.Gym != null && Model.ThisFighter.Gym.Id != Model.OpponentFighter.Gym.Id)
+                            {
+                                <div class="radio">
+                                    <label>
+                                        @Html.RadioButtonFor(m => m.SparGymID, Model.ThisFighter.Gym.Id, new { @checked = "checked" })
+                                        <b>Your gym</b> (@Model.ThisFighter.Gym.Name)
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        @Html.RadioButtonFor(m => m.SparGymID, Model.OpponentFighter.Gym.Id)
+                                        <b>@Model.OpponentFighter.Name's gym</b> (@Model.OpponentFighter.Gym.Name)
+                                    </label>
+                                </div>
+                            }
+                            else if ((Model.ThisFighter.Gym != null && Model.OpponentFighter.Gym != null && Model.ThisFighter.Gym.Id == Model.OpponentFighter.Gym.Id) || (Model.ThisFighter.Gym != null && Model.OpponentFighter.Gym == null))
+                            {
+                                <div class="radio">
+                                    <label>
+                                        @Html.RadioButtonFor(m => m.SparGymID, Model.ThisFighter.Gym.Id)
+                                        <b>Your gym</b> (@Model.ThisFighter.Gym.Name)
+                                    </label>
+                                </div>
+                            }
+                            else if (Model.OpponentFighter.Gym != null && Model.ThisFighter.Gym == null)
+                            {
+                                <div class="radio">
+                                    <label>
+                                        @Html.RadioButtonFor(m => m.SparGymID, Model.OpponentFighter.Gym.Id)
+                                        <b>@Model.OpponentFighter.Name's gym</b> (@Model.OpponentFighter.Gym.Name)
+                                    </label>
+                                </div>
+                            }
+                            <div class="radio">
+                                <label>
+                                    @Html.RadioButtonFor(m => m.SparGymID, 0)
+                                    <b>Other place</b> (please specify in the notes)
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-3"></div>
             </div>
-            <div class="col-md-3"></div>
+
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.SparNotes, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            <div class="inner-addon left-addon">
+                                @Html.TextAreaFor(m => m.SparNotes, 3, 4, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.SparNotes) })
+                                @Html.ValidationMessageFor(m => m.SparNotes)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+
+            <div class="row sparConfirmationSectionRow">
+                <div class="col-md-4"></div>
+                <div class="col-md-1">
+                @if (Model.IsFirstResponse == false)
+                {
+                    <input type="button" class="btn btn-default btn-lg" value="Cancel" onclick="return showSparDetailsInfo();" />
+                }
+                else
+                {
+                    @Html.ActionLink("Cancel", "Index", "Account", null, new { @class = "btn btn-default btn-lg" })
+                }                 
+                </div>
+                <div class="col-md-3">
+                    <input type="submit" onclick="return submitSparDetails();" value="Respond to Spar Request" class="btn btn-default btn-danger btn-lg" />
+                </div>
+                <div class="col-md-4"></div>
+            </div>
         </div>
 
-        <div class="row sparConfirmationSectionRow">
-            <div class="col-md-4"></div>
-            <div class="col-md-1">
-                @Html.ActionLink("Cancel", "Index", "Account", null, new { @class = "btn btn-default btn-lg" })
+        @if (Model.IsFirstResponse == false)
+        { 
+        <div id="sparDetailsInfo" class="hidden">
+            @{ Html.RenderPartial("SparInformation", Model); }
+
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-2">
+                    <input type="button" class="btn btn-default btn-lg" value="Change Details" onclick="showSparDetailsEdit();" />
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" onclick="return submitSparDetails();" value="Confirm Spar" class="btn btn-default btn-danger btn-lg" />
+                </div>
+                <div class="col-md-4"></div>
             </div>
-            <div class="col-md-3">
-                <input type="submit" onclick="return submitSparDetails();" value="Respond to Spar Request" class="btn btn-default btn-danger btn-lg" />
-            </div>
-            <div class="col-md-4"></div>
         </div>
         }
-        else
-        {
-        Html.RenderPartial("SparInformation", Model);
-            
-        <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-2">
-                <input type="button" class="btn btn-default btn-lg" value="Change Details" />
-            </div>
-            <div class="col-md-2">
-                <input type="submit" onclick="return submitSparDetails();" value="Confirm Spar" class="btn btn-default btn-danger btn-lg" />
-            </div>
-            <div class="col-md-4"></div>
-        </div>            
-        }
+
     </form>
 </div>
 
     @section scripts {
         <script>
-            $(function () {
-                $('#SparDate').datepicker();
-                $('#formSparDetails').validate();
-            });
+    $(function () {
+        $('#SparDate').datepicker();
+        $('#formSparDetails').validate();
 
-            function submitSparDetails() {
+        @if (Model.IsFirstResponse == true)
+        {
+        @:showSparDetailsEdit();
+        }
+        else
+        {
+        @:showSparDetailsInfo();
+        }
+    });
+
+    function submitSparDetails() {
 
 
-                if ($('#formSparDetails').valid() == false) {
-                    $('#SparDate').datepicker('hide');
-                    return false;
-                }
-                else {
-                    $('#formSparDetails').submit();
-                }
+        if ($('#formSparDetails').valid() == false) {
+            $('#SparDate').datepicker('hide');
+            return false;
+        }
+        else {
+            $('#formSparDetails').submit();
+        }
 
-                return true;
-            }
-        </script>
+        return true;
+    }
+
+    function showSparDetailsInfo() {
+        $('#sparDetailsInfo').removeClass('hidden');
+        $('#sparDetailsEdit').addClass('hidden');
+    }
+
+    function showSparDetailsEdit() {
+        $('#sparDetailsEdit').removeClass('hidden');
+        $('#sparDetailsInfo').addClass('hidden');
+    }
+
+    </script>
     }

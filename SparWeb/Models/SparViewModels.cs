@@ -48,7 +48,7 @@ namespace SparWeb.Models
 		[StringLength(1024)]
 		public string SparNotes { get; set; }
 
-		public bool IsEditMode { get; set; }
+		public bool IsFirstResponse { get; set; }
 	}
 
 	public class SparTime
