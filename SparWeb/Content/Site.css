@@ -159,3 +159,8 @@ input[type="checkbox"].input-validation-error {
 .sparConfirmationInstructionRow {
 	margin-top: 10px;
 }
+
+.sparDetailsStatus {
+    padding-bottom: 20px;
+    padding-top: 10px;
+}

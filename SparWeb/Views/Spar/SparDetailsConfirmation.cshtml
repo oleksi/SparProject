@@ -13,17 +13,18 @@
 <div class="row text-center">
     @if (Model.IsFirstResponse == true)
     { 
-        <h2>Please select Date and Location for the following spar:</h2>
+        <h2 class="sparDetailsStatus">Please select Date and Location for the following spar:</h2>
     }
     else
     {
-        <h2>@Model.OpponentFighter.Name agreed to spar you! Please confirm or propose a change ...</h2>
+        <h2 class="sparDetailsStatus">@Model.OpponentFighter.Name agreed to spar you! Please confirm or propose a change ...</h2>
     }
 </div>
 
 <div class="sparConfirmationInstructionRow">
     <form id="formSparDetails" method="post" action="@Url.Action("ChangeSparDetails", "Spar")" class="form-horizontal">
         @Html.HiddenFor(m => m.SparRequestId)
+        @Html.HiddenFor(m => m.SparIsConfirmed)
 
         @{Html.RenderPartial("SparConfirmationInfo", Model);}
 
@@ -139,7 +140,7 @@
                 }                 
                 </div>
                 <div class="col-md-3">
-                    <input type="submit" onclick="return submitSparDetails();" value="Respond to Spar Request" class="btn btn-default btn-danger btn-lg" />
+                    <input type="submit" onclick="return submitSparDetails(false);" value="Respond to Spar Request" class="btn btn-default btn-danger btn-lg" />
                 </div>
                 <div class="col-md-4"></div>
             </div>
@@ -156,7 +157,7 @@
                     <input type="button" class="btn btn-default btn-lg" value="Change Details" onclick="showSparDetailsEdit();" />
                 </div>
                 <div class="col-md-2">
-                    <input type="submit" onclick="return submitSparDetails();" value="Confirm Spar" class="btn btn-default btn-danger btn-lg" />
+                    <input type="submit" onclick="return submitSparDetails(true);" value="Confirm Spar" class="btn btn-default btn-danger btn-lg" />
                 </div>
                 <div class="col-md-4"></div>
             </div>
@@ -182,14 +183,16 @@
         }
     });
 
-    function submitSparDetails() {
-
+    function submitSparDetails(sparIsConfirmed) {
 
         if ($('#formSparDetails').valid() == false) {
             $('#SparDate').datepicker('hide');
             return false;
         }
         else {
+            if (sparIsConfirmed == true)
+                $('#SparIsConfirmed').val('True');
+
             $('#formSparDetails').submit();
         }
 
