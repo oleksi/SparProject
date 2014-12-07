@@ -89,6 +89,7 @@ namespace SparWeb.Controllers
 			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = getConfirmSparDetailsViewModel(model.SparRequestId);
 			confirmSparDetailsViewModel.SparDate = model.SparDate;
 			confirmSparDetailsViewModel.SparTime = model.SparTime;
+			confirmSparDetailsViewModel.SparIsConfirmed = model.SparIsConfirmed;
 			
 			confirmSparDetailsViewModel.SparGymID = model.SparGymID;
 			if (model.SparGymID > 0)

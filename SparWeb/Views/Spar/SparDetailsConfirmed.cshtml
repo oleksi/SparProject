@@ -9,7 +9,14 @@
     <div class="col-md-10">
         <div class="alert alert-success text-center" role="alert">
             <p><strong>Thanks for confirming the spar.</strong></p>
-            <p>@Model.OpponentFighter.Name will be notified about date, time and location you proposed. We will let you know if @Model.OpponentFighter.Name accepts it or proposes another change.</p>
+            @if (Model.SparIsConfirmed == false)
+            { 
+            <p>@Model.OpponentFighter.Name will be notified with the date, time and location you proposed. We will let you know if @Model.OpponentFighter.Name accepts it or proposes another change.</p>
+            }
+            else
+            {
+                <p>@Model.OpponentFighter.Name will be notified with the date, time and location of the spar. Stay safe!</p>
+            }
         </div>
     </div>
     <div class="col-md-1"></div>
