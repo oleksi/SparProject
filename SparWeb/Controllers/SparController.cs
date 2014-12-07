@@ -75,9 +75,6 @@ namespace SparWeb.Controllers
 			SparRequest sparRequest = sparRepo.GetSparRequestById(ID);
 
 			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = getConfirmSparDetailsViewModel(sparRequest); 
-			
-			if (sparRequest.LastNegotiatorFighter == null)
-				confirmSparDetailsViewModel.IsFirstResponse = true;
 
 			return View(confirmSparDetailsViewModel);
 		}
@@ -86,10 +83,12 @@ namespace SparWeb.Controllers
 		[HttpPost]
 		public ActionResult ChangeSparDetails(ConfirmSparDetailsViewModel model)
 		{
-			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = getConfirmSparDetailsViewModel(model.SparRequestId);
+			SparRepository sparRepo = new SparRepository();
+			SparRequest sparRequest = sparRepo.GetSparRequestById(model.SparRequestId);
+
+			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = getConfirmSparDetailsViewModel(sparRequest);
 			confirmSparDetailsViewModel.SparDate = model.SparDate;
 			confirmSparDetailsViewModel.SparTime = model.SparTime;
-			confirmSparDetailsViewModel.SparIsConfirmed = model.SparIsConfirmed;
 			
 			confirmSparDetailsViewModel.SparGymID = model.SparGymID;
 			if (model.SparGymID > 0)
@@ -105,14 +104,10 @@ namespace SparWeb.Controllers
 				if (model.SparDate <= DateTime.Now)
 					ModelState.AddModelError("SparDate", "Spar Date must be in the future");
 
-				confirmSparDetailsViewModel.IsFirstResponse = true;
-
 				return View("SparDetailsConfirmation", confirmSparDetailsViewModel);
 			}
 
-			//updating spar request
-			SparRepository sparRepo = new SparRepository();
-			SparRequest sparRequest = sparRepo.GetSparRequestById(model.SparRequestId);
+			confirmSparDetailsViewModel.SparRequesStatus = model.SparRequesStatus;
 
 			//who is who
 			Fighter thisFighter = null;
@@ -129,14 +124,18 @@ namespace SparWeb.Controllers
 			}
 
 			//checking if it's 1st response to the spar request
-			bool isFirstResponse = (sparRequest.Status == SparRequestStatus.Requested); 
+			bool isFirstResponse = (sparRequest.Status == SparRequestStatus.Requested);
 
-			sparRequest.SparDateTime = DateTime.Parse(String.Format("{0} {1}", model.SparDate.Value.ToString("MM/dd/yyyy"), model.SparTime.ToString()));
-			if (model.SparGymID > 0)
-				sparRequest.SparGym = confirmSparDetailsViewModel.SparGym;
-			sparRequest.SparNotes = model.SparNotes;
+			//updating spar request
+			if (model.SparRequesStatus == SparRequestStatus.DateLocationNegotiation)
+			{
+				sparRequest.SparDateTime = DateTime.Parse(String.Format("{0} {1}", model.SparDate.Value.ToString("MM/dd/yyyy"), model.SparTime.ToString()));
+				if (model.SparGymID > 0)
+					sparRequest.SparGym = confirmSparDetailsViewModel.SparGym;
+				sparRequest.SparNotes = model.SparNotes;
+			}
 			sparRequest.LastNegotiatorFighter = thisFighter;
-			sparRequest.Status = (model.SparIsConfirmed == false)? SparRequestStatus.DateLocationNegotiation : SparRequestStatus.Confirmed;
+			sparRequest.Status = model.SparRequesStatus;
 
 			sparRepo.SaveSparRequest(sparRequest);
 
@@ -171,7 +170,7 @@ Please click the link below to confirm spar or change the details:
 <br /><br />
 ";
 				}
-				else if (model.SparIsConfirmed == false) // spar negotiation
+				else if (model.SparRequesStatus == SparRequestStatus.DateLocationNegotiation) // spar negotiation
 				{
 					emailSubject = String.Format("{0} updated spar details", thisFighter.Name);
 					emailBody = String.Format("{0} proposes the following date, time and location for the spar: ", thisFighter.Name);
@@ -181,17 +180,28 @@ Please click the link below to confirm spar or change the details:
 <br /><br />
 ";
 				}
-				else // spar is confirmed
+				else if (model.SparRequesStatus == SparRequestStatus.Confirmed) // spar is confirmed
 				{
 					emailSubject = String.Format("{0} has confirmed the spar", thisFighter.Name);
-					emailBody = String.Format(@"{0} has confirmed the spar. Here are date, time and location for the spar: ", thisFighter.Name, thisFighter.GetHeOrShe(true));
+					emailBody = String.Format(@"{0} has confirmed the spar. Here are date, time and location for the spar: ", thisFighter.Name);
 					emailBody += emailBodySparDetails;
 					emailBody += @"
 If you ever want to cancel the spar, please use the link below:
 <br /><br />
 ";
 				}
-				emailBody += String.Format(@"<a href=""{0}\"">{0}</a>",	Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", sparRequest.Id } }, "http", Request.Url.Host));
+				else if (model.SparRequesStatus == SparRequestStatus.Canceled) // spar is canceled
+				{
+					emailSubject = String.Format("{0} has canceled the spar", thisFighter.Name);
+					emailBody = String.Format(@"{0} has canceled the following spar: ", thisFighter.Name);
+					emailBody += emailBodySparDetails;
+					emailBody += @"
+<br /><br />
+";
+				}
+
+				if (model.SparRequesStatus != SparRequestStatus.Canceled)
+					emailBody += String.Format(@"<a href=""{0}\"">{0}</a>",	Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", sparRequest.Id } }, "http", Request.Url.Host));
 
 				SparWeb.Util.SendEmail(emailTo, emailSubject, emailBody);
 			}
@@ -241,6 +251,7 @@ If you ever want to cancel the spar, please use the link below:
 			}
 
 			confirmSparDetailsViewModel.SparNotes = sparRequest.SparNotes;
+			confirmSparDetailsViewModel.SparRequesStatus = sparRequest.Status;
 
 			return confirmSparDetailsViewModel;
 		}

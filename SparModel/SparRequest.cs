@@ -11,8 +11,7 @@ namespace SparModel
 		Requested = 1,
 		DateLocationNegotiation = 2,
 		Confirmed = 3,
-		CanceledByRequestor = 4,
-		CanceledByOpponent = 5
+		Canceled = 4
 	}
 
 	public class SparRequest

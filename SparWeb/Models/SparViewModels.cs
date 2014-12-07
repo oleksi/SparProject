@@ -48,9 +48,7 @@ namespace SparWeb.Models
 		[StringLength(1024)]
 		public string SparNotes { get; set; }
 
-		public bool IsFirstResponse { get; set; }
-
-		public bool SparIsConfirmed { get; set; }
+		public SparRequestStatus SparRequesStatus { get; set; }
 	}
 
 	public class SparTime

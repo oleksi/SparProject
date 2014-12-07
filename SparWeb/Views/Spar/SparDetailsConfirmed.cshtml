@@ -8,14 +8,20 @@
     <div class="col-md-1"></div>
     <div class="col-md-10">
         <div class="alert alert-success text-center" role="alert">
-            <p><strong>Thanks for confirming the spar.</strong></p>
-            @if (Model.SparIsConfirmed == false)
-            { 
-            <p>@Model.OpponentFighter.Name will be notified with the date, time and location you proposed. We will let you know if @Model.OpponentFighter.Name accepts it or proposes another change.</p>
-            }
-            else
+            @if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation)
             {
-                <p>@Model.OpponentFighter.Name will be notified with the date, time and location of the spar. Stay safe!</p>
+                <p><strong>Thanks for scheduling the spar.</strong></p>
+                <p>@Model.OpponentFighter.Name will be notified with the date, time and location you proposed. We will let you know if @Model.OpponentFighter.Name accepts it or proposes another change.</p>
+            }
+            else if (Model.SparRequesStatus == SparModel.SparRequestStatus.Confirmed)
+            {
+                <p><strong>Thanks for confirming the spar.</strong></p>
+                <p>@Model.OpponentFighter.Name will be notified with the date, time and location of the spar. Be safe!</p>
+            }
+            else if (Model.SparRequesStatus == SparModel.SparRequestStatus.Canceled)
+            {
+                <p><strong>Thanks for canceling the spar.</strong></p>
+                <p>@Model.OpponentFighter.Name will be notified about spar cancelation.</p>
             }
         </div>
     </div>
