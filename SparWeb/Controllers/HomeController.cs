@@ -26,9 +26,9 @@ namespace SparWeb.Controllers
 			IList<Fighter> fightersList = fighterRepo.GetAllFighters();
 
 			List<AccountViewModel> fightersAccountViewModelList = new List<AccountViewModel>();
-			foreach( Fighter currFightiner in fightersList)
-				if (loggedInFighterId == -1 || loggedInFighterId != currFightiner.Id)
-				fightersAccountViewModelList.Add(Util.GetAccountViewModelForFighter(currFightiner, 150));
+			foreach( Fighter currFighter in fightersList)
+				if (loggedInFighterId == -1 || loggedInFighterId != currFighter.Id)
+				fightersAccountViewModelList.Add(Util.GetAccountViewModelForFighter(currFighter, 150));
 
 			HomeViewModel model = new HomeViewModel();
 			model.FightersList = fightersAccountViewModelList;
