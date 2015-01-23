@@ -122,6 +122,23 @@ namespace SparWeb.Models
 		public bool ProfilePictureUploaded { get; set; }
 
 		public string HimOrHer { get; set; }
+
+		public IList<SparRequest> SparRequests { get; set; }
+
+		public SparRequest GetSparRequestForFighter(int fighterId)
+		{
+			SparRequest sparRequest = null;
+			foreach (SparRequest currSparRequest in SparRequests)
+			{
+				if (currSparRequest.RequestorFighter.Id == fighterId || currSparRequest.OpponentFighter.Id == fighterId)
+				{
+					sparRequest = currSparRequest;
+					break;
+				}
+			}
+
+			return sparRequest;
+		}
 	}
 
 	public class DateOfBirth

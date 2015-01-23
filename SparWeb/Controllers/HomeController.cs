@@ -18,6 +18,7 @@ namespace SparWeb.Controllers
 		public ActionResult Index()
 		{
 			FighterRepository fighterRepo = new FighterRepository();
+			SparRepository sparRepo = new SparRepository();
 
 			int loggedInFighterId = -1;
 			if (User.Identity.GetUserId() != null)
@@ -26,9 +27,15 @@ namespace SparWeb.Controllers
 			IList<Fighter> fightersList = fighterRepo.GetAllFighters();
 
 			List<AccountViewModel> fightersAccountViewModelList = new List<AccountViewModel>();
-			foreach( Fighter currFighter in fightersList)
+			foreach(Fighter currFighter in fightersList)
+			{
 				if (loggedInFighterId == -1 || loggedInFighterId != currFighter.Id)
-				fightersAccountViewModelList.Add(Util.GetAccountViewModelForFighter(currFighter, 150));
+				{
+					AccountViewModel accountViewModel = Util.GetAccountViewModelForFighter(currFighter, 150);
+					accountViewModel.SparRequests = sparRepo.GetSparRequestsForFighter(currFighter.Id.Value);
+					fightersAccountViewModelList.Add(accountViewModel);
+				}
+			}
 
 			HomeViewModel model = new HomeViewModel();
 			model.FightersList = fightersAccountViewModelList;

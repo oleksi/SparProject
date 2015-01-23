@@ -48,5 +48,17 @@ namespace SparData
 				}
 			}
 		}
+
+		public IList<SparRequest> GetSparRequestsForFighter(int fighterId)
+		{
+			IList<SparRequest> sparRequests = null;
+
+			using (var session = getSession())
+			{
+				sparRequests = session.QueryOver<SparRequest>().Where(sr => (sr.RequestorFighter.Id == fighterId || sr.OpponentFighter.Id == fighterId) && sr.Status == SparRequestStatus.Confirmed && sr.SparDateTime > DateTime.Now).List();
+			}
+
+			return sparRequests;
+		}
 	}
 }
