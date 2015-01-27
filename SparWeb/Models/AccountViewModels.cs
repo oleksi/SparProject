@@ -123,21 +123,11 @@ namespace SparWeb.Models
 
 		public string HimOrHer { get; set; }
 
-		public IList<SparRequest> SparRequests { get; set; }
+		public IList<ConfirmSparDetailsViewModel> SparRequests { get; set; }
 
-		public SparRequest GetSparRequestForFighter(int fighterId)
+		public AccountViewModel()
 		{
-			SparRequest sparRequest = null;
-			foreach (SparRequest currSparRequest in SparRequests)
-			{
-				if (currSparRequest.RequestorFighter.Id == fighterId || currSparRequest.OpponentFighter.Id == fighterId)
-				{
-					sparRequest = currSparRequest;
-					break;
-				}
-			}
-
-			return sparRequest;
+			SparRequests = new List<ConfirmSparDetailsViewModel>();
 		}
 	}
 

@@ -74,7 +74,7 @@ namespace SparWeb.Controllers
 			SparRepository sparRepo = new SparRepository();
 			SparRequest sparRequest = sparRepo.GetSparRequestById(ID);
 
-			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = getConfirmSparDetailsViewModel(sparRequest); 
+			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = Util.GetConfirmSparDetailsViewModel(sparRequest, 250, User.Identity.GetUserId()); 
 
 			return View(confirmSparDetailsViewModel);
 		}
@@ -86,7 +86,7 @@ namespace SparWeb.Controllers
 			SparRepository sparRepo = new SparRepository();
 			SparRequest sparRequest = sparRepo.GetSparRequestById(model.SparRequestId);
 
-			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = getConfirmSparDetailsViewModel(sparRequest);
+			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = Util.GetConfirmSparDetailsViewModel(sparRequest, 250, User.Identity.GetUserId());
 			confirmSparDetailsViewModel.SparDate = model.SparDate;
 			confirmSparDetailsViewModel.SparTime = model.SparTime;
 			
@@ -215,45 +215,7 @@ If you ever want to cancel the spar, please use the link below:
 			SparRepository sparRepo = new SparRepository();
 			SparRequest sparRequest = sparRepo.GetSparRequestById(sparRequestId);
 
-			return getConfirmSparDetailsViewModel(sparRequest);
-		}
-
-		private ConfirmSparDetailsViewModel getConfirmSparDetailsViewModel(SparRequest sparRequest)
-		{
-			//figuring out who is who
-			Fighter thisFighter = null;
-			Fighter opponentFighter = null;
-			if (sparRequest.RequestorFighter.SparIdentityUser.Id == User.Identity.GetUserId())
-			{
-				thisFighter = sparRequest.RequestorFighter;
-				opponentFighter = sparRequest.OpponentFighter;
-			}
-			else
-			{
-				thisFighter = sparRequest.OpponentFighter;
-				opponentFighter = sparRequest.RequestorFighter; ;
-			}
-
-			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = new ConfirmSparDetailsViewModel(getSparConfirmationViewModel(thisFighter, opponentFighter, 250));
-
-			confirmSparDetailsViewModel.SparRequestId = sparRequest.Id;
-
-			if (sparRequest.SparDateTime.HasValue == true)
-			{
-				confirmSparDetailsViewModel.SparDate = sparRequest.SparDateTime.Value.Date;
-				confirmSparDetailsViewModel.SparTime = new SparTime(sparRequest.SparDateTime.Value);
-			}
-
-			if (sparRequest.SparGym != null)
-			{
-				confirmSparDetailsViewModel.SparGymID = sparRequest.SparGym.Id.Value;
-				confirmSparDetailsViewModel.SparGym = sparRequest.SparGym;
-			}
-
-			confirmSparDetailsViewModel.SparNotes = sparRequest.SparNotes;
-			confirmSparDetailsViewModel.SparRequesStatus = sparRequest.Status;
-
-			return confirmSparDetailsViewModel;
+			return Util.GetConfirmSparDetailsViewModel(sparRequest, 250, User.Identity.GetUserId());
 		}
 
 		private SparConfirmationViewModel getSparConfirmationViewModelForOpponent(string opponentId)
@@ -263,18 +225,7 @@ If you ever want to cancel the spar, please use the link below:
 			Fighter thisFighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
 			Fighter opponentFighter = fighterRepo.GetFighterByIdentityUserId(opponentId);
 
-			return getSparConfirmationViewModel(thisFighter, opponentFighter, 250);
-		}
-
-		private SparConfirmationViewModel getSparConfirmationViewModel(Fighter thisFighter, Fighter opponentFighter, int profilePictureSize)
-		{
-			SparConfirmationViewModel sparConfirmationViewModel = new SparConfirmationViewModel()
-			{
-				ThisFighter = thisFighter,
-				OpponentFighter = opponentFighter,
-				ProfilePictureSize = profilePictureSize
-			};
-			return sparConfirmationViewModel;
+			return Util.GetSparConfirmationViewModel(thisFighter, opponentFighter, 250);
 		}
 	}
 }

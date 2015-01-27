@@ -35,10 +35,6 @@ namespace SparWeb.Models
 		[Display(Name = "Spar Time")]
 		public SparTime SparTime { get; set; }
 
-		public Gym YourGym { get; set; }
-
-		public Gym OpponentGym { get; set; }
-
 		public int SparGymID { get; set; }
 
 		[Display(Name = "Spar Location")]

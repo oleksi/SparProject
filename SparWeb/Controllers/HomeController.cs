@@ -32,7 +32,6 @@ namespace SparWeb.Controllers
 				if (loggedInFighterId == -1 || loggedInFighterId != currFighter.Id)
 				{
 					AccountViewModel accountViewModel = Util.GetAccountViewModelForFighter(currFighter, 150);
-					accountViewModel.SparRequests = sparRepo.GetSparRequestsForFighter(currFighter.Id.Value);
 					fightersAccountViewModelList.Add(accountViewModel);
 				}
 			}

@@ -266,9 +266,13 @@ namespace SparWeb.Controllers
 		[Authorize]
 		public ActionResult Index()
 		{
-			Fighter fighter = getLoggedInFighter();
+			Fighter fighter = getLoggedInFighter();			
+			AccountViewModel accountViewModel = Util.GetAccountViewModelForFighter(fighter, 250);
 
-			return View("Account", Util.GetAccountViewModelForFighter(fighter, 250));
+			SparRepository sparRepo = new SparRepository();
+			accountViewModel.SparRequests = sparRepo.GetSparRequestsForFighter(fighter.Id.Value).Select(sr => Util.GetConfirmSparDetailsViewModel(sr, 150, User.Identity.GetUserId())).ToList();
+
+			return View("Account", accountViewModel);
 		}
 
 		private Fighter getLoggedInFighter()

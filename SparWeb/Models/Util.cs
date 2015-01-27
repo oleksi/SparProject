@@ -77,5 +77,54 @@ namespace SparWeb
 		{
 			return fighter.GetProfilePictureFile(thumbnailSize, System.Configuration.ConfigurationManager.AppSettings["ProfilePicsUrl"], VirtualPathUtility.ToAbsolute("~/Content/Images/"));
 		}
+
+		public static ConfirmSparDetailsViewModel GetConfirmSparDetailsViewModel(SparRequest sparRequest, int profilePictureSize, string currUserId)
+		{
+			//figuring out who is who
+			Fighter thisFighter = null;
+			Fighter opponentFighter = null;
+			if (sparRequest.RequestorFighter.SparIdentityUser.Id == currUserId)
+			{
+				thisFighter = sparRequest.RequestorFighter;
+				opponentFighter = sparRequest.OpponentFighter;
+			}
+			else
+			{
+				thisFighter = sparRequest.OpponentFighter;
+				opponentFighter = sparRequest.RequestorFighter; ;
+			}
+
+			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = new ConfirmSparDetailsViewModel(GetSparConfirmationViewModel(thisFighter, opponentFighter, profilePictureSize));
+
+			confirmSparDetailsViewModel.SparRequestId = sparRequest.Id;
+
+			if (sparRequest.SparDateTime.HasValue == true)
+			{
+				confirmSparDetailsViewModel.SparDate = sparRequest.SparDateTime.Value.Date;
+				confirmSparDetailsViewModel.SparTime = new SparTime(sparRequest.SparDateTime.Value);
+			}
+
+			if (sparRequest.SparGym != null)
+			{
+				confirmSparDetailsViewModel.SparGymID = sparRequest.SparGym.Id.Value;
+				confirmSparDetailsViewModel.SparGym = sparRequest.SparGym;
+			}
+
+			confirmSparDetailsViewModel.SparNotes = sparRequest.SparNotes;
+			confirmSparDetailsViewModel.SparRequesStatus = sparRequest.Status;
+
+			return confirmSparDetailsViewModel;
+		}
+
+		public static SparConfirmationViewModel GetSparConfirmationViewModel(Fighter thisFighter, Fighter opponentFighter, int profilePictureSize)
+		{
+			SparConfirmationViewModel sparConfirmationViewModel = new SparConfirmationViewModel()
+			{
+				ThisFighter = thisFighter,
+				OpponentFighter = opponentFighter,
+				ProfilePictureSize = profilePictureSize
+			};
+			return sparConfirmationViewModel;
+		}
 	}
 }
