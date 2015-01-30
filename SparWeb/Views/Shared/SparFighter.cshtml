@@ -54,7 +54,7 @@
         }
         else
         {
-            <small>Spar is scheduled for @Model.SparRequests[0].SparDate.Value.ToString("dddd, MMMM d, yyyy") at @Model.SparRequests[0].SparTime</small>
+            <small>Spar is scheduled for <b>@Model.SparRequests[0].SparDate.Value.ToString("dddd, MMMM d, yyyy") at @Model.SparRequests[0].SparTime</b></small>
             <br />
             @Html.ActionLink("View Details", "SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", Model.SparRequests[0].SparRequestId } }, null)
         }
