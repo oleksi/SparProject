@@ -47,8 +47,17 @@
             </dd>
         </dl>
     </div>
-    <div class="col-md-2 vAlignCenter">
+    <div class="col-md-2 vAlignCenter sparFighterCTA">
+        @if (Model.SparRequests.Count == 0)
+        { 
         @Html.ActionLink("Spar " + Model.HimOrHer, "SparConfirmation", "Spar", new { ID = Model.ID }, new { @class = "btn btn-default btn-danger btn-lg" } )
+        }
+        else
+        {
+            <small>Spar is scheduled for @Model.SparRequests[0].SparDate.Value.ToString("dddd, MMMM d, yyyy") at @Model.SparRequests[0].SparTime</small>
+            <br />
+            @Html.ActionLink("View Details", "SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", Model.SparRequests[0].SparRequestId } }, null)
+        }
     </div>
 </div>
 

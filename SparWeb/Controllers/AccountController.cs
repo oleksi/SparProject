@@ -270,7 +270,7 @@ namespace SparWeb.Controllers
 			AccountViewModel accountViewModel = Util.GetAccountViewModelForFighter(fighter, 250);
 
 			SparRepository sparRepo = new SparRepository();
-			accountViewModel.SparRequests = sparRepo.GetSparRequestsForFighter(fighter.Id.Value).Select(sr => Util.GetConfirmSparDetailsViewModel(sr, 150, User.Identity.GetUserId())).ToList();
+			accountViewModel.SparRequests = Util.GetSparRequestDetailsForFighter(fighter.Id.Value, User.Identity.GetUserId());
 
 			return View("Account", accountViewModel);
 		}

@@ -164,3 +164,7 @@ input[type="checkbox"].input-validation-error {
     padding-bottom: 20px;
     padding-top: 10px;
 }
+
+.sparFighterCTA {
+	width: 140px;
+}

@@ -55,7 +55,7 @@ namespace SparData
 
 			using (var session = getSession())
 			{
-				sparRequests = session.QueryOver<SparRequest>().Where(sr => (sr.RequestorFighter.Id == fighterId || sr.OpponentFighter.Id == fighterId) && sr.Status == SparRequestStatus.Confirmed && sr.SparDateTime > DateTime.Now).List();
+				sparRequests = session.QueryOver<SparRequest>().Where(sr => (sr.RequestorFighter.Id == fighterId || sr.OpponentFighter.Id == fighterId) && sr.Status == SparRequestStatus.Confirmed && sr.SparDateTime > DateTime.Now).OrderBy(sr => sr.SparDateTime.Value).Asc.List();
 			}
 
 			return sparRequests;

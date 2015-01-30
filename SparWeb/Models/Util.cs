@@ -1,4 +1,5 @@
-﻿using SparModel;
+﻿using SparData;
+using SparModel;
 using SparWeb.Models;
 using System;
 using System.Collections.Generic;
@@ -125,6 +126,12 @@ namespace SparWeb
 				ProfilePictureSize = profilePictureSize
 			};
 			return sparConfirmationViewModel;
+		}
+
+		public static IList<ConfirmSparDetailsViewModel> GetSparRequestDetailsForFighter(int fighterId, string currUserId)
+		{
+			SparRepository sparRepo = new SparRepository();
+			return sparRepo.GetSparRequestsForFighter(fighterId).Select(sr => Util.GetConfirmSparDetailsViewModel(sr, 150, currUserId)).ToList();
 		}
 	}
 }
