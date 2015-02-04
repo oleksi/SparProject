@@ -210,6 +210,14 @@ If you ever want to cancel the spar, please use the link below:
 			return View("SparDetailsConfirmed", confirmSparDetailsViewModel);
 		}
 
+		[Authorize]
+		[HttpPost]
+		public ActionResult CancelSpar(string sparRequestId)
+		{
+
+			return new JsonResult() { Data = new { Result = "Ok" } };
+		}
+
 		private ConfirmSparDetailsViewModel getConfirmSparDetailsViewModel(string sparRequestId)
 		{
 			SparRepository sparRepo = new SparRepository();

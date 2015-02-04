@@ -70,12 +70,12 @@
 </div>
 <div class="row">
     <div class="col-md-1"></div>
-    <div class="col-md-9">
+    <div class="col-md-9 upcomingSpars">
         @if (Model.SparRequests.Count > 0)
         { 
             foreach (SparWeb.Models.ConfirmSparDetailsViewModel currSparRequest in Model.SparRequests)
             {
-                <div class="container">
+                <div class="container" data-saprRequestId="@currSparRequest.SparRequestId">
                     <div class="row well well-sm spar-fighter">
                         <div class="col-md-3 vAlignCenter">
                             <div>
@@ -92,7 +92,7 @@
                             @{ Html.RenderPartial("SparInformation", currSparRequest); }
                         </div>
                         <div class="col-md-2 vAlignCenter">
-                            <input type="submit" value="Cancel Spar" class="btn btn-default btn-danger btn-lg" />
+                            <input type="button" value="Cancel Spar" class="btn btn-default btn-danger btn-lg" onclick="confirmCancelSpar('@currSparRequest.OpponentFighter.Name', '@currSparRequest.SparRequestId');" />
                         </div>
                     </div>
                 </div>
@@ -105,7 +105,24 @@
     </div>
     <div class="col-md-2"></div>
 </div>
-
+<div id="confirmCancelSparyModal" class="modal fade">
+    <input type="hidden" name="cancelSparRequestId" id="cancelSparRequestId" />
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Cancel Spar Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to cancel spar with <span></span> </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" onclick="doCancelSpar();" class="btn btn-primary">Cancel Spar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
     @section scripts{
         @Scripts.Render("~/bundles/dropzone")
@@ -153,6 +170,25 @@
             function showProfilePicture(pictureFileName) {
                 $('.profilePicture').find('img').attr("src", pictureFileName);
                 $('.profilePicture').show();
+            }
+
+            function confirmCancelSpar(opponentFighterName, sparRequestId) {
+                $('#confirmCancelSparyModal').find('p').find('span').text(opponentFighterName);
+                $('#cancelSparRequestId').val(sparRequestId);
+                $('#confirmCancelSparyModal').modal('show');
+            }
+
+            function doCancelSpar() {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("CancelSpar", "Spar")',
+                    data: { sparRequestId: $('#cancelSparRequestId').val() },
+                    success: function (data) {
+                        $('.upcomingSpars').find('.container[data-saprRequestId="' + $('#cancelSparRequestId').val() + '"]').remove();
+                        $('#cancelSparRequestId').val('');
+                        $('#confirmCancelSparyModal').modal('hide');
+                    }
+                });
             }
         </script>
     }
