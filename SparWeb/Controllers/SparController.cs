@@ -109,20 +109,6 @@ namespace SparWeb.Controllers
 
 			confirmSparDetailsViewModel.SparRequesStatus = model.SparRequesStatus;
 
-			//who is who
-			Fighter thisFighter = null;
-			Fighter opponentFighter = null;
-			if (sparRequest.RequestorFighter.SparIdentityUser.Id == User.Identity.GetUserId())
-			{
-				thisFighter = sparRequest.RequestorFighter;
-				opponentFighter = sparRequest.OpponentFighter;
-			}
-			else
-			{
-				thisFighter = sparRequest.OpponentFighter;
-				opponentFighter = sparRequest.RequestorFighter;
-			}
-
 			//checking if it's 1st response to the spar request
 			bool isFirstResponse = (sparRequest.Status == SparRequestStatus.Requested);
 
@@ -134,16 +120,40 @@ namespace SparWeb.Controllers
 					sparRequest.SparGym = confirmSparDetailsViewModel.SparGym;
 				sparRequest.SparNotes = model.SparNotes;
 			}
-			sparRequest.LastNegotiatorFighter = thisFighter;
+			sparRequest.LastNegotiatorFighter = model.ThisFighter;
 			sparRequest.Status = model.SparRequesStatus;
 
 			sparRepo.SaveSparRequest(sparRequest);
 
 			//send email to spar requestor
+			sendEmailForSaprRequest(confirmSparDetailsViewModel, isFirstResponse);
+
+			return View("SparDetailsConfirmed", confirmSparDetailsViewModel);
+		}
+
+		[Authorize]
+		[HttpPost]
+		public ActionResult CancelSpar(string sparRequestId)
+		{
+			var sparRepo = new SparRepository();
+			var sparRequest = sparRepo.GetSparRequestById(sparRequestId);
+
+			sparRequest.Status = SparRequestStatus.Canceled;
+			sparRepo.SaveSparRequest(sparRequest);
+
+			//sending confirmation email
+			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = Util.GetConfirmSparDetailsViewModel(sparRequest, 250, User.Identity.GetUserId());
+			sendEmailForSaprRequest(confirmSparDetailsViewModel, false);
+
+			return new JsonResult() { Data = new { Result = "Ok" } };
+		}
+
+		private void sendEmailForSaprRequest(ConfirmSparDetailsViewModel model, bool isFirstResponse)
+		{
 			try
 			{
-				string emailTo = opponentFighter.SparIdentityUser.Email;
-				
+				string emailTo = model.OpponentFighter.SparIdentityUser.Email;
+
 				string emailSubject = "";
 				string emailBody = "";
 				string emailBodySparDetails = String.Format(@"
@@ -156,14 +166,14 @@ Location: {2}<br />
 ",
 					model.SparDate.Value.ToString("MM/dd/yyyy"),
 					model.SparTime.ToString(),
-					(model.SparGymID > 0) ? sparRequest.SparGym.Name : "N/A",
+					(model.SparGymID > 0) ? model.SparGym.Name : "N/A",
 					(String.IsNullOrEmpty(model.SparNotes) == false) ? String.Format("Notes: {0}<br />", model.SparNotes) : ""
 				);
 
 				if (isFirstResponse == true) // first response
 				{
-					emailSubject = String.Format("{0} has confirmed your spar request", thisFighter.Name);
-					emailBody = String.Format(@"{0} has confirmed your spar request. {1} proposes the following date, time and location for the spar: ", thisFighter.Name, thisFighter.GetHeOrShe(true));
+					emailSubject = String.Format("{0} has confirmed your spar request", model.ThisFighter.Name);
+					emailBody = String.Format(@"{0} has confirmed your spar request. {1} proposes the following date, time and location for the spar: ", model.ThisFighter.Name, model.ThisFighter.GetHeOrShe(true));
 					emailBody += emailBodySparDetails;
 					emailBody += @"
 Please click the link below to confirm spar or change the details:
@@ -172,8 +182,8 @@ Please click the link below to confirm spar or change the details:
 				}
 				else if (model.SparRequesStatus == SparRequestStatus.DateLocationNegotiation) // spar negotiation
 				{
-					emailSubject = String.Format("{0} updated spar details", thisFighter.Name);
-					emailBody = String.Format("{0} proposes the following date, time and location for the spar: ", thisFighter.Name);
+					emailSubject = String.Format("{0} updated spar details", model.ThisFighter.Name);
+					emailBody = String.Format("{0} proposes the following date, time and location for the spar: ", model.ThisFighter.Name);
 					emailBody += emailBodySparDetails;
 					emailBody += @"
 Please click the link below to confirm spar or change the details:
@@ -182,8 +192,8 @@ Please click the link below to confirm spar or change the details:
 				}
 				else if (model.SparRequesStatus == SparRequestStatus.Confirmed) // spar is confirmed
 				{
-					emailSubject = String.Format("{0} has confirmed the spar", thisFighter.Name);
-					emailBody = String.Format(@"{0} has confirmed the spar. Here are date, time and location for the spar: ", thisFighter.Name);
+					emailSubject = String.Format("{0} has confirmed the spar", model.ThisFighter.Name);
+					emailBody = String.Format(@"{0} has confirmed the spar. Here are date, time and location for the spar: ", model.ThisFighter.Name);
 					emailBody += emailBodySparDetails;
 					emailBody += @"
 If you ever want to cancel the spar, please use the link below:
@@ -192,8 +202,8 @@ If you ever want to cancel the spar, please use the link below:
 				}
 				else if (model.SparRequesStatus == SparRequestStatus.Canceled) // spar is canceled
 				{
-					emailSubject = String.Format("{0} has canceled the spar", thisFighter.Name);
-					emailBody = String.Format(@"{0} has canceled the following spar: ", thisFighter.Name);
+					emailSubject = String.Format("{0} has canceled the spar", model.ThisFighter.Name);
+					emailBody = String.Format(@"{0} has canceled the following spar: ", model.ThisFighter.Name);
 					emailBody += emailBodySparDetails;
 					emailBody += @"
 <br /><br />
@@ -201,21 +211,11 @@ If you ever want to cancel the spar, please use the link below:
 				}
 
 				if (model.SparRequesStatus != SparRequestStatus.Canceled)
-					emailBody += String.Format(@"<a href=""{0}\"">{0}</a>",	Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", sparRequest.Id } }, "http", Request.Url.Host));
+					emailBody += String.Format(@"<a href=""{0}\"">{0}</a>", Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", model.SparRequestId } }, "http", Request.Url.Host));
 
 				SparWeb.Util.SendEmail(emailTo, emailSubject, emailBody);
 			}
 			catch { }
-
-			return View("SparDetailsConfirmed", confirmSparDetailsViewModel);
-		}
-
-		[Authorize]
-		[HttpPost]
-		public ActionResult CancelSpar(string sparRequestId)
-		{
-
-			return new JsonResult() { Data = new { Result = "Ok" } };
 		}
 
 		private ConfirmSparDetailsViewModel getConfirmSparDetailsViewModel(string sparRequestId)
