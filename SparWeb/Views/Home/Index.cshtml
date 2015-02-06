@@ -12,14 +12,40 @@
 </div>
 
 <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-4">
+        <div class="well">
+            <h3>Filter fighters by:</h3>
+            @using (Html.BeginForm())
+            {
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AgeRange, new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.AgeRange, (new SelectList(ViewBag.AgeRange, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.AgeRange)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Weight, new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.Weight, (new SelectList(ViewBag.WeightClassMap, "Key", "Value", Model.Weight)), "Please select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Weight)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Height, new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.Height, (new SelectList(ViewBag.HeightToCentimetersMap, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Height)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Sex, new { @class = "control-label" })
+                    <div>
+                        @Html.EditorFor(m => m.Sex, "Sex")
+                        @Html.ValidationMessageFor(m => m.Sex)
+                    </div>
+                </div>
+            }
+        </div>
     </div>
     <div class="col-md-8">
         @foreach (var currModel in Model.FightersList)
         {
             @Html.Partial("SparFighter", currModel)
         }
-    </div>
-    <div class="col-md-2">
     </div>
 </div>

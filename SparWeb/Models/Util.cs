@@ -51,6 +51,17 @@ namespace SparWeb
 			{1000, "over 201 lbs: Super Heavyweight"}
 		};
 
+		public static Dictionary<int, string> AgeRangeMap = new Dictionary<int, string>()
+		{
+			{1, "Below 12"},
+			{2, "Between 12 and 16"},
+			{3, "Between 16 and 20"},
+			{4, "Between 20 and 24"},
+			{5, "Between 24 and 30"},
+			{6, "Between 30 and 36"},
+			{7, "Above 36"}
+		};
+
 		public static AccountViewModel GetAccountViewModelForFighter(Fighter fighter, int thumbnailSize)
 		{
 			string gymName = (fighter.Gym != null) ? fighter.Gym.Name : "Unknown Gym";

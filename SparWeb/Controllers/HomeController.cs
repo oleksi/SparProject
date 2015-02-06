@@ -43,6 +43,10 @@ namespace SparWeb.Controllers
 			HomeViewModel model = new HomeViewModel();
 			model.FightersList = fightersAccountViewModelList;
 
+			ViewBag.AgeRange = Util.AgeRangeMap;
+			ViewBag.WeightClassMap = Util.WeightClassMap;
+			ViewBag.HeightToCentimetersMap = Util.HeightToCentimetersMap;
+
 			return View(model);
 		}
 
