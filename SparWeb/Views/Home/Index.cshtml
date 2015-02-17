@@ -19,24 +19,28 @@
             {
                 <div class="form-group">
                     @Html.LabelFor(m => m.AgeRange, new { @class = "control-label" })
-                    @Html.DropDownListFor(m => m.AgeRange, (new SelectList(ViewBag.AgeRange, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.AgeRange)
+                    @if (Model.AgeRange == 0)
+                    {
+                        @Html.DropDownListFor(m => m.AgeRange, (new SelectList(ViewBag.AgeRange, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control", onchange = "this.form.submit();" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(m => m.AgeRange, (new SelectList(ViewBag.AgeRange, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control", disabled = "disabled" })
+                        <p><a href="#" class="pull-right clearFilter">Clear</a></p>
+                    }
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.Weight, new { @class = "control-label" })
-                    @Html.DropDownListFor(m => m.Weight, (new SelectList(ViewBag.WeightClassMap, "Key", "Value", Model.Weight)), "Please select", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Weight)
+                    @Html.DropDownListFor(m => m.Weight, (new SelectList(ViewBag.WeightClassMap, "Key", "Value", Model.Weight)), "Please select", new { @class = "form-control", onchange = "this.form.submit();" })
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.Height, new { @class = "control-label" })
-                    @Html.DropDownListFor(m => m.Height, (new SelectList(ViewBag.HeightToCentimetersMap, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Height)
+                    @Html.DropDownListFor(m => m.Height, (new SelectList(ViewBag.HeightToCentimetersMap, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control", onchange = "this.form.submit();" })
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.Sex, new { @class = "control-label" })
                     <div>
                         @Html.EditorFor(m => m.Sex, "Sex")
-                        @Html.ValidationMessageFor(m => m.Sex)
                     </div>
                 </div>
             }
@@ -49,3 +53,11 @@
         }
     </div>
 </div>
+<script type="text/javascript">
+    $(function () {
+        $('.clearFilter').click(function () {
+            $(this).siblings('select').val('');
+            $(this).closest('form').submit();
+        });
+    });
+</script>
