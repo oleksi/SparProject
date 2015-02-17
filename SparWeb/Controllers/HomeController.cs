@@ -39,7 +39,8 @@ namespace SparWeb.Controllers
 			FighterRepository fighterRepo = new FighterRepository();
 			IList<Fighter> fightersList = null;
 
-			if (model.AgeRange != null)
+			//filter by age
+			if (model.AgeRange != 0)
 			{
 				if (model.AgeRange == AgeRange.AgeBelow12)
 					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) < 12).ToList();
@@ -55,6 +56,24 @@ namespace SparWeb.Controllers
 					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 30 && getAge(ff.DateOfBirth) < 36).ToList();
 				else if (model.AgeRange == AgeRange.Above36)
 					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 36).ToList();
+			}
+
+			//filter by weight
+			if (model.Weight != 0)
+			{
+				if (fightersList == null)
+					fightersList = fighterRepo.GetAllFighters().Where(ff => ff.Weight == model.Weight).ToList();
+				else
+					fightersList = fightersList.Where(ff => ff.Weight == model.Weight).ToList();
+			}
+
+			//filter by height
+			if (model.Height != 0)
+			{
+				if (fightersList == null)
+					fightersList = fighterRepo.GetAllFighters().Where(ff => ff.Height == model.Height).ToList();
+				else
+					fightersList = fightersList.Where(ff => ff.Height == model.Height).ToList();
 			}
 
 			if (fightersList == null)
