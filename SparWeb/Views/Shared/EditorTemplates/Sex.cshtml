@@ -1,12 +1,20 @@
-﻿@model  Boolean
+﻿@model  Boolean?
 
-@if (Model == true)
+@if (Model.HasValue == true && Model.Value == true)
 {
     @:Male: @Html.RadioButtonFor(m => m, true, new { @checked = "checked"})
+    @:&nbsp;&nbsp;
     @:Female: @Html.RadioButtonFor(m => m, false)
+}
+else if (Model.HasValue == true && Model.Value == false)
+{
+    @:Male: @Html.RadioButtonFor(m => m, true)
+    @:&nbsp;&nbsp;
+    @:Female: @Html.RadioButtonFor(m => m, false, new { @checked = "checked" })    
 }
 else
 {
     @:Male: @Html.RadioButtonFor(m => m, true)
-    @:Female: @Html.RadioButtonFor(m => m, false, new { @checked = "checked" })    
+    @:&nbsp;&nbsp;
+    @:Female: @Html.RadioButtonFor(m => m, false)
 }

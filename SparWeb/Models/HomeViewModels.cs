@@ -31,6 +31,6 @@ namespace SparWeb.Models
 		public virtual double Height { get; set; }
 
 		[Display(Name = "Gender")]
-		public bool Sex { get; set; }
+		public bool? Sex { get; set; }
 	}
 }

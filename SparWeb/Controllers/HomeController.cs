@@ -24,7 +24,6 @@ namespace SparWeb.Controllers
 
 			HomeViewModel model = new HomeViewModel();
 			model.FightersList = getFightersListViewModel(fightersList);
-			model.Sex = true;
 
 			ViewBag.AgeRange = Util.AgeRangeMap;
 			ViewBag.WeightClassMap = Util.WeightClassMap;
@@ -74,6 +73,15 @@ namespace SparWeb.Controllers
 					fightersList = fighterRepo.GetAllFighters().Where(ff => ff.Height == model.Height).ToList();
 				else
 					fightersList = fightersList.Where(ff => ff.Height == model.Height).ToList();
+			}
+
+			//filter by gender
+			if (model.Sex != null)
+			{
+				if (fightersList == null)
+					fightersList = fighterRepo.GetAllFighters().Where(ff => ff.Sex == model.Sex.Value).ToList();
+				else
+					fightersList = fightersList.Where(ff => ff.Sex == model.Sex.Value).ToList();
 			}
 
 			if (fightersList == null)

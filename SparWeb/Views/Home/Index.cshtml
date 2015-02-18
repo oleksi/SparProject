@@ -58,8 +58,12 @@
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.Sex, new { @class = "control-label" })
-                    <div>
+                    <div class="ageFilter">
                         @Html.EditorFor(m => m.Sex, "Sex")
+                        @if (Model.Sex != null)
+                        {
+                            <span><a href="#" class="pull-right clearFilter">Clear</a></span>
+                        }
                     </div>
                 </div>
             }
@@ -74,9 +78,14 @@
 </div>
 <script type="text/javascript">
     $(function () {
+        $('.ageFilter').find('input[type=radio]').click(function () {
+            $(this).closest('form').submit();
+        });
+
         $('.clearFilter').click(function () {
             $(this).parent().siblings('select').val('');
             $(this).parent().siblings('input[type=hidden]').val('');
+            $(this).parent().siblings('input[type=radio]').val('');
             $(this).closest('form').submit();
         });
     });
