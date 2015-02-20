@@ -28,6 +28,7 @@ namespace SparWeb.Controllers
 			ViewBag.AgeRange = Util.AgeRangeMap;
 			ViewBag.WeightClassMap = Util.WeightClassMap;
 			ViewBag.HeightToCentimetersMap = Util.HeightToCentimetersMap;
+			ViewBag.NumberOfFights = Util.NumberOfFights;
 
 			return View(model);
 		}
@@ -75,6 +76,27 @@ namespace SparWeb.Controllers
 					fightersList = fightersList.Where(ff => ff.Height == model.Height).ToList();
 			}
 
+			if (model.NumberOfFights != 0)
+			{
+				if (model.NumberOfFights == NumberOfFights.NoFights)
+					fightersList = (fightersList == null) ? fighterRepo.GetAllFighters().Where(ff => ff.NumberOfFights == 0).ToList() : fightersList.Where(ff => ff.NumberOfFights == 0).ToList();
+				else if (model.NumberOfFights == NumberOfFights.Between1And5Fights)
+					fightersList = (fightersList == null) ? fighterRepo.GetAllFighters().Where(ff => ff.NumberOfFights > 0 && ff.NumberOfFights < 5).ToList() : fightersList.Where(ff => ff.NumberOfFights > 0 && ff.NumberOfFights < 5).ToList();
+				else if (model.NumberOfFights == NumberOfFights.Betwee5nAnd10Fights)
+					fightersList = (fightersList == null) ? fighterRepo.GetAllFighters().Where(ff => ff.NumberOfFights >= 5 && ff.NumberOfFights < 10).ToList() : fightersList.Where(ff => ff.NumberOfFights >= 5 && ff.NumberOfFights < 10).ToList();
+				else if (model.NumberOfFights == NumberOfFights.Between10And15Fights)
+					fightersList = (fightersList == null) ? fighterRepo.GetAllFighters().Where(ff => ff.NumberOfFights >= 10 && ff.NumberOfFights < 15).ToList() : fightersList.Where(ff => ff.NumberOfFights >= 10 && ff.NumberOfFights < 15).ToList();
+				else if (model.NumberOfFights == NumberOfFights.Between15And20Fights)
+					fightersList = (fightersList == null) ? fighterRepo.GetAllFighters().Where(ff => ff.NumberOfFights >= 15 && ff.NumberOfFights < 20).ToList() : fightersList.Where(ff => ff.NumberOfFights >= 15 && ff.NumberOfFights < 20).ToList();
+				else if (model.NumberOfFights == NumberOfFights.Between20And30Fights)
+					fightersList = (fightersList == null) ? fighterRepo.GetAllFighters().Where(ff => ff.NumberOfFights >= 20 && ff.NumberOfFights < 30).ToList() : fightersList.Where(ff => ff.NumberOfFights >= 20 && ff.NumberOfFights < 30).ToList();
+				else if (model.NumberOfFights == NumberOfFights.Between30And40Fights)
+					fightersList = (fightersList == null) ? fighterRepo.GetAllFighters().Where(ff => ff.NumberOfFights >= 30 && ff.NumberOfFights < 40).ToList() : fightersList.Where(ff => ff.NumberOfFights >= 30 && ff.NumberOfFights < 40).ToList();
+				else if (model.NumberOfFights == NumberOfFights.MoreThan40)
+					fightersList = (fightersList == null) ? fighterRepo.GetAllFighters().Where(ff => ff.NumberOfFights >= 40).ToList() : fightersList.Where(ff => ff.NumberOfFights >= 40).ToList();
+
+			}
+
 			//filter by gender
 			if (model.Sex != null)
 			{
@@ -92,6 +114,7 @@ namespace SparWeb.Controllers
 			ViewBag.AgeRange = Util.AgeRangeMap;
 			ViewBag.WeightClassMap = Util.WeightClassMap;
 			ViewBag.HeightToCentimetersMap = Util.HeightToCentimetersMap;
+			ViewBag.NumberOfFights = Util.NumberOfFights;
 
 			return View(model);
 		}

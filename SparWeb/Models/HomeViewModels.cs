@@ -17,6 +17,18 @@ namespace SparWeb.Models
 		Above36 = 7
 	}
 
+	public enum NumberOfFights
+	{
+		NoFights = 1,
+		Between1And5Fights = 2,
+		Betwee5nAnd10Fights = 3,
+		Between10And15Fights = 4,
+		Between15And20Fights = 5,
+		Between20And30Fights = 6,
+		Between30And40Fights = 7,
+		MoreThan40 = 8
+	}
+
 	public class HomeViewModel
 	{
 		public List<AccountViewModel> FightersList { get; set; }
@@ -29,6 +41,9 @@ namespace SparWeb.Models
 
 		[Display(Name = "Height")]
 		public virtual double Height { get; set; }
+
+		[Display(Name = "Number of fights")]
+		public virtual NumberOfFights NumberOfFights { get; set; }
 
 		[Display(Name = "Gender")]
 		public bool? Sex { get; set; }

@@ -62,6 +62,18 @@ namespace SparWeb
 			{7, "Above 36"}
 		};
 
+		public static Dictionary<int, string> NumberOfFights = new Dictionary<int, string>()
+		{
+			{1, "0 fights"},
+			{2, "between 1 and 5 fights"},
+			{3, "between 5 and 10 fights"},
+			{4, "between 10 and 15 fights"},
+			{5, "between 15 and 20 fights"},
+			{6, "between 20 and 30 fights"},
+			{7, "between 30 and 40 fights"},
+			{8, "more than 40 fights"}
+		};
+
 		public static AccountViewModel GetAccountViewModelForFighter(Fighter fighter, int thumbnailSize)
 		{
 			string gymName = (fighter.Gym != null) ? fighter.Gym.Name : "Unknown Gym";
