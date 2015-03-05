@@ -168,3 +168,9 @@ input[type="checkbox"].input-validation-error {
 .sparFighterCTA {
 	width: 140px;
 }
+
+.carousel-caption {
+	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.75);
+	left: 15% !important;
+	right: 15% !important;
+}

@@ -215,6 +215,8 @@
     <Content Include="Content\Images\anonymous-photo-150X150.jpg" />
     <Content Include="Content\Images\anonymous-photo-250X250.jpg" />
     <Content Include="Content\Images\boxing-spar-sign.jpg" />
+    <Content Include="Content\Images\spargym-header1.jpg" />
+    <Content Include="Content\Images\spargym-header2.jpg" />
     <Content Include="Content\jqueryui\images\ui-bg_diagonals-thick_75_f3d8d8_40x40.png" />
     <Content Include="Content\jqueryui\images\ui-bg_dots-small_65_a6a6a6_2x2.png" />
     <Content Include="Content\jqueryui\images\ui-bg_flat_0_333333_40x100.png" />
