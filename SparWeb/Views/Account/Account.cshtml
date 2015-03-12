@@ -141,11 +141,14 @@
                     init: function () {
                         this.on("complete", function (data) {
                             var res = eval('(' + data.xhr.responseText + ')');
-                            if (res.Message != "Error") {
+                            if (res.Message.indexOf("Error:") != 0) {
                                 $('.profilePictureDefault').hide();
                                 $('.dz-preview').hide();
 
                                 showProfilePicture(res.Message);
+                            }
+                            else {
+                                alert(res.Message);
                             }
                         });
                     }

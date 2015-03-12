@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SparWeb.Models;
+using System.Configuration;
 
 namespace SparWeb.Controllers
 {
@@ -60,7 +61,7 @@ namespace SparWeb.Controllers
 					Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", sparRequest.Id } }, "http", Request.Url.Host)
 				);
 
-				SparWeb.Util.SendEmail(emailTo, emailSubject, emailBody);
+				SparWeb.Util.SendEmail(ConfigurationManager.AppSettings["EmailSupport"], emailTo, emailSubject, emailBody);
 			}
 			catch {}
 
@@ -213,7 +214,7 @@ If you ever want to cancel the spar, please use the link below:
 				if (model.SparRequesStatus != SparRequestStatus.Canceled)
 					emailBody += String.Format(@"<a href=""{0}\"">{0}</a>", Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", model.SparRequestId } }, "http", Request.Url.Host));
 
-				SparWeb.Util.SendEmail(emailTo, emailSubject, emailBody);
+				SparWeb.Util.SendEmail(ConfigurationManager.AppSettings["EmailSupport"], emailTo, emailSubject, emailBody);
 			}
 			catch { }
 		}

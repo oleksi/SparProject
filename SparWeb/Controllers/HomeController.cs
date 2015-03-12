@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System.Configuration;
 
 namespace SparWeb.Controllers
 {
@@ -126,6 +127,22 @@ namespace SparWeb.Controllers
 
 		public ActionResult Contact()
 		{
+			return View();
+		}
+
+		[HttpPost]
+		public ActionResult Contact(ContactViewModel model)
+		{
+			if (ModelState.IsValid == false)
+				return View();
+
+			string emailMessage = String.Format("Sender Name: {0}<br /><br />Message: <br /><br />{1}", model.Name, model.Message.Replace("\n", "<br />"));
+
+			SparWeb.Util.SendEmail(model.Email, ConfigurationManager.AppSettings["EmailAdmin"], "SparGym Contact Form", emailMessage);
+			ViewBag.SuccessMessage = "Thanks for sending your message. We'll get back to yiou you within 24 hours.";
+
+			ModelState.Clear();
+
 			return View();
 		}
 

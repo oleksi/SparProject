@@ -1,9 +1,53 @@
-﻿@{
+﻿@model SparWeb.Models.ContactViewModel
+
+@{
     ViewBag.Title = "Contact";
 }
+
+@if (String.IsNullOrEmpty(ViewBag.SuccessMessage) == false)
+{
+    <div class="row">
+        <div class="col-md-8">
+            <div class="alert alert-success" role="alert">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                @ViewBag.SuccessMessage
+            </div>
+        </div>
+    </div>
+}
+
 <h2>@ViewBag.Title.</h2>
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:info@oleksi.com">info@oleksi.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:info@oleksi.com">info@oleksi.com</a>
-</address>
+<div class="row">
+    <div class="col-md-8">
+        <p>
+            Contact us with any questions or suggestions on how to improve our site. Please fill out the form below:
+        </p>
+        <div class="row">
+            <div class="col-md-8">
+                <form method="post">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Name)
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Message)
+                        @Html.TextAreaFor(m => m.Message, new { @class = "form-control", rows = "5" })
+                        @Html.ValidationMessageFor(m => m.Message)
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

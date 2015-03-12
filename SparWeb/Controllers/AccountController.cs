@@ -213,7 +213,7 @@ namespace SparWeb.Controllers
 
 					var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 					var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-					await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+					await UserManager.SendEmailAsync(user.Id, "Welcome to SparGym! Please confirm your account", "Please confirm your SparGym account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
 
 					return View("DisplayEmail");
                 }
@@ -288,6 +288,7 @@ namespace SparWeb.Controllers
 			bool fileSavedSuccessfully = true;
 			string fileName = "";
 			Fighter fighter = null;
+			string errorMessage = "";
 			try
 			{
 				CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["SparStorage"].ConnectionString);
@@ -327,9 +328,10 @@ namespace SparWeb.Controllers
 				FighterRepository fighterRepo = new FighterRepository();
 				fighterRepo.SaveFighter(fighter);
 			}
-			catch
+			catch(Exception ex)
 			{
 				fileSavedSuccessfully = false;
+				errorMessage = ex.Message;
 			}
 
 			if (fileSavedSuccessfully)
@@ -338,7 +340,7 @@ namespace SparWeb.Controllers
 			}
 			else
 			{
-				return Json(new { Message = "Error" });
+				return Json(new { Message = "Error: " + errorMessage  });
 			}
 		}
 
