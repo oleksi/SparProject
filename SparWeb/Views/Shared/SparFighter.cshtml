@@ -48,13 +48,20 @@
         </dl>
     </div>
     <div class="col-md-2 vAlignCenter sparFighterCTA">
-        @if (Model.SparRequests.Count == 0)
+        @if (Model.SparRequests.Count == 0 || Model.SparRequests.Any(sr => (sr.SparRequesStatus == SparModel.SparRequestStatus.Requested || sr.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation || sr.SparRequesStatus == SparModel.SparRequestStatus.Confirmed)) == false)
         { 
         @Html.ActionLink("Spar " + Model.HimOrHer, "SparConfirmation", "Spar", new { ID = Model.ID }, new { @class = "btn btn-default btn-danger btn-lg" } )
         }
         else
         {
+            if (Model.SparRequests[0].SparRequesStatus == SparModel.SparRequestStatus.Confirmed)
+            { 
             <small>Spar is scheduled for <b>@Model.SparRequests[0].SparDate.Value.ToString("dddd, MMMM d, yyyy") at @Model.SparRequests[0].SparTime</b></small>
+            }
+            else if (Model.SparRequests[0].SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation || Model.SparRequests[0].SparRequesStatus == SparModel.SparRequestStatus.Requested)
+            {
+            <small>A spar negotiation is in progress</small>
+            }
             <br />
             @Html.ActionLink("View Details", "SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", Model.SparRequests[0].SparRequestId } }, null)
         }

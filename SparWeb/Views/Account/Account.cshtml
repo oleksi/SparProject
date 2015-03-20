@@ -71,31 +71,34 @@
 <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-9 upcomingSpars">
-        @if (Model.SparRequests.Count > 0)
-        { 
+        @if (Model.SparRequests.Count > 0 && Model.SparRequests.Any(sr => sr.SparRequesStatus == SparModel.SparRequestStatus.Confirmed) == true)
+        {
             foreach (SparWeb.Models.ConfirmSparDetailsViewModel currSparRequest in Model.SparRequests)
             {
-                <div class="container" data-saprRequestId="@currSparRequest.SparRequestId">
-                    <div class="row well well-sm spar-fighter">
-                        <div class="col-md-3 vAlignCenter">
-                            <div>
-                                <img height="@currSparRequest.ProfilePictureSize" src="@Util.GetProfilePictureFileForFighter(currSparRequest.OpponentFighter, currSparRequest.ProfilePictureSize)" />
-                            </div>
-                        </div>
-                        <div class="col-md-6 vAlignCenter">
-                            <span class="fighterNameSmall">@currSparRequest.OpponentFighter.Name</span>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    from <span class="gymNameSmall">@currSparRequest.OpponentFighter.Gym.Name</span>
+                if (currSparRequest.SparRequesStatus == SparModel.SparRequestStatus.Confirmed)
+                {
+                    <div class="container" data-saprrequestid="@currSparRequest.SparRequestId">
+                        <div class="row well well-sm spar-fighter">
+                            <div class="col-md-3 vAlignCenter">
+                                <div>
+                                    <img height="@currSparRequest.ProfilePictureSize" src="@Util.GetProfilePictureFileForFighter(currSparRequest.OpponentFighter, currSparRequest.ProfilePictureSize)" />
                                 </div>
                             </div>
-                            @{ Html.RenderPartial("SparInformation", currSparRequest); }
-                        </div>
-                        <div class="col-md-2 vAlignCenter">
-                            <input type="button" value="Cancel Spar" class="btn btn-default btn-danger btn-lg" onclick="confirmCancelSpar('@currSparRequest.OpponentFighter.Name', '@currSparRequest.SparRequestId');" />
+                            <div class="col-md-6 vAlignCenter">
+                                <span class="fighterNameSmall">@currSparRequest.OpponentFighter.Name</span>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        from <span class="gymNameSmall">@currSparRequest.OpponentFighter.Gym.Name</span>
+                                    </div>
+                                </div>
+                                @{ Html.RenderPartial("SparInformation", currSparRequest); }
+                            </div>
+                            <div class="col-md-2 vAlignCenter">
+                                <input type="button" value="Cancel Spar" class="btn btn-default btn-danger btn-lg" onclick="confirmCancelSpar('@currSparRequest.OpponentFighter.Name', '@currSparRequest.SparRequestId');" />
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             }
         }
         else
