@@ -70,7 +70,7 @@ namespace SparWeb.Models
 		public virtual double Weight { get; set; }
 
 		[Required]
-		[Display(Name = "Number of fights")]
+		[Display(Name = "Number of fights (amateur)")]
 		public virtual int? NumberOfFights { get; set; }
 
 		[Display(Name = "Your Gym")]
