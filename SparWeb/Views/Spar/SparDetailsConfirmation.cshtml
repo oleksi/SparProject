@@ -45,7 +45,7 @@
                         <div class="col-md-9">
                             <div class="inner-addon left-addon">
                                 <i class="glyphicon glyphicon-calendar"></i>
-                                @Html.TextBoxFor(m => m.SparDate, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.SparDate) })
+                                @Html.TextBoxFor(m => m.SparDate, "{0:MM/dd/yyyy}", new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.SparDate) })
                                 @Html.ValidationMessageFor(m => m.SparDate, null, new { @class = "pull-left" })
                             </div>
                         </div>
