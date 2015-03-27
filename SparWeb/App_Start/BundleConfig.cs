@@ -26,8 +26,8 @@ namespace SparWeb
 			bundles.Add(new ScriptBundle("~/bundles/dropzone").Include(
 					  "~/Scripts/dropzone.js"));
 
-			bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
-					  "~/Scripts/jquery-ui.js"));
+			bundles.Add(new ScriptBundle("~/bundles/bootstrap-datepicker").Include(
+					  "~/Scripts/bootstrap-datepicker.js", "~/Scripts/moment*"));
 
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -37,8 +37,8 @@ namespace SparWeb
 			bundles.Add(new StyleBundle("~/Content/css/dropzone").Include(
 					  "~/Content/dropzone.css"));
 
-			bundles.Add(new StyleBundle("~/Content/css/jqueryui").Include(
-					  "~/Content/jqueryui/jquery-ui*"));		
+			bundles.Add(new StyleBundle("~/Content/css/bootstrap-datepicker").Include(
+					  "~/Content/bootstrap-datepicker*"));		
 		}
     }
 }

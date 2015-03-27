@@ -6,8 +6,8 @@
 
 @section head {
     @Scripts.Render("~/bundles/jqueryval")
-    @Styles.Render("~/Content/css/jqueryui")
-    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/css/bootstrap-datepicker")
+    @Scripts.Render("~/bundles/bootstrap-datepicker")
 }
 
 <div class="row text-center">
@@ -206,6 +206,10 @@
         <script>
     $(function () {
         $('#SparDate').datepicker();
+        $('#SparDate').on('changeDate', function (ev) {
+            $(this).datepicker('hide');
+        });
+
         $('#formSparDetails').validate();
 
         @if (Model.SparRequesStatus == SparModel.SparRequestStatus.Requested)
