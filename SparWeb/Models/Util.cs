@@ -134,6 +134,10 @@ namespace SparWeb
 				confirmSparDetailsViewModel.SparGym = sparRequest.SparGym;
 			}
 
+			//if Requested status, setting SparGymId to this fighters gym so current fighte's gym is selected by default
+			if (sparRequest.Status == SparRequestStatus.Requested && thisFighter.Gym != null)
+				confirmSparDetailsViewModel.SparGymID = thisFighter.Gym.Id.Value;
+
 			confirmSparDetailsViewModel.SparNotes = sparRequest.SparNotes;
 			confirmSparDetailsViewModel.SparRequesStatus = sparRequest.Status;
 
