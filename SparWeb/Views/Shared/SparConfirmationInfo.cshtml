@@ -6,7 +6,11 @@
             <img height="@Model.ProfilePictureSize" src="@Util.GetProfilePictureFileForFighter(Model.ThisFighter, Model.ProfilePictureSize)" class="img-thumbnail" />
             <div class="caption text-center">
                 <h3 class="media-heading">@Model.ThisFighter.Name</h3>
-                <p>from <strong>@((Model.ThisFighter.Gym != null)? Model.ThisFighter.Gym.Name : "Unknown Gym")</strong></p>
+                <p>
+                    from <strong>@((Model.ThisFighter.Gym != null)? Model.ThisFighter.Gym.Name : "Unknown Gym")</strong>
+                    <br />
+                    @Model.ThisFighter.City, @Model.ThisFighter.State
+                </p>
             </div>
         </div>
     </div>
@@ -18,7 +22,11 @@
             <img height="@Model.ProfilePictureSize" src="@Util.GetProfilePictureFileForFighter(Model.OpponentFighter, Model.ProfilePictureSize)" class="img-thumbnail" />
             <div class="caption text-center">
                 <h3 class="media-heading">@Model.OpponentFighter.Name</h3>
-                <p>from <strong>@((Model.OpponentFighter.Gym != null) ? Model.OpponentFighter.Gym.Name : "Unknown Gym")</strong></p>
+                <p>
+                    from <strong>@((Model.OpponentFighter.Gym != null) ? Model.OpponentFighter.Gym.Name : "Unknown Gym")</strong>
+                    <br />
+                    @Model.OpponentFighter.City, @Model.OpponentFighter.State
+                </p>
             </div>
         </div>
     </div>

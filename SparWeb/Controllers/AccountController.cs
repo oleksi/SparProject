@@ -207,7 +207,7 @@ namespace SparWeb.Controllers
 					}
 
 					FighterRepository fighterRepo = new FighterRepository();
-					Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, Height = model.Height, Weight = model.Weight, NumberOfFights = model.NumberOfFights.Value, Gym = gym, ProfilePictureUploaded = false };
+					Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, City = model.City, State = model.State, Height = model.Height, Weight = model.Weight, NumberOfFights = model.NumberOfFights.Value, Gym = gym, ProfilePictureUploaded = false };
 					fighter.SparIdentityUser = user;
 					fighterRepo.SaveFighter(fighter);
 
@@ -230,6 +230,7 @@ namespace SparWeb.Controllers
 
 		private void popualateRegistrationDropdowns()
 		{
+			ViewBag.States = Util.States;
 			ViewBag.HeightToCentimetersMap = Util.HeightToCentimetersMap;
 			ViewBag.WeightClassMap = Util.WeightClassMap;
 			ViewBag.AllGyms = getAllGyms();

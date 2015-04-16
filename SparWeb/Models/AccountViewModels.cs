@@ -62,6 +62,12 @@ namespace SparWeb.Models
 		public virtual DateOfBirth DateOfBirth { get; set; }
 
 		[Required]
+		public string City { get; set; }
+
+		[Required]
+		public string State { get; set; }
+
+		[Required]
 		[Display(Name = "Height")]
 		public virtual double Height { get; set; }
 
@@ -104,6 +110,10 @@ namespace SparWeb.Models
 
 		public string GymName { get; set; }
 		public Gym Gym { get; set; }
+
+		public string City { get; set; }
+
+		public string State { get; set; }
 
 		[Display(Name = "Age")]
 		public int Age { get; set; }

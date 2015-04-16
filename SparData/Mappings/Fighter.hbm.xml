@@ -11,6 +11,8 @@
 		<property name="Name" column="Name" not-null="true"></property>
 		<property name="Sex" column="Sex" not-null="true"></property>
 		<property name="DateOfBirth" column="DateOfBirth" not-null="true"></property>
+		<property name="City" column="City" not-null="true"></property>
+		<property name="State" column="State" not-null="true"></property>
 		<property name="Height" column="Height" not-null="true"></property>
 		<property name="Weight" column="Weight" not-null="true"></property>
 		<property name="NumberOfFights" column="NumberOfFights" not-null="true"></property>

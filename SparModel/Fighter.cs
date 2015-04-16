@@ -12,6 +12,8 @@ namespace SparModel
 		public virtual string Name { get; set; }
 		public virtual bool Sex { get; set; } //1 - Male; 0 - Female
 		public virtual DateTime DateOfBirth { get; set; }
+		public virtual string City { get; set; }
+		public virtual string State { get; set; }
 		public virtual double Height { get; set; }
 		public virtual double Weight { get; set; }
 		public virtual int NumberOfFights { get; set; }
