@@ -41,6 +41,14 @@
             </dd>
 
             <dt>
+                @Html.DisplayNameFor(model => model.IsSouthpaw):
+            </dt>
+
+            <dd>
+                @((Model.IsSouthpaw)? "Left-Handed (Southpaw)" : "Right-Handed (Orthodox)")
+            </dd>
+
+            <dt>
                 @Html.DisplayNameFor(model => model.NumberOfFights) :
             </dt>
 

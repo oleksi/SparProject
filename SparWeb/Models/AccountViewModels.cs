@@ -76,6 +76,10 @@ namespace SparWeb.Models
 		public virtual double Weight { get; set; }
 
 		[Required]
+		[Display(Name = "Stance")]
+		public bool IsSouthpaw { get; set; }
+
+		[Required]
 		[Display(Name = "Number of fights (amateur)")]
 		public virtual int? NumberOfFights { get; set; }
 
@@ -123,6 +127,9 @@ namespace SparWeb.Models
 
 		[Display(Name = "Weight class")]
 		public double Weight { get; set; }
+
+		[Display(Name = "Stance")]
+		public bool IsSouthpaw { get; set; }
 
 		[Display(Name = "Number of fights")]
 		public int NumberOfFights { get; set; }

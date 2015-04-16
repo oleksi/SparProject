@@ -145,6 +145,7 @@ namespace SparWeb
 					Age = fighter.getFighterAge(), 
 					Height = Util.HeightToCentimetersMap[fighter.Height], 
 					Weight = fighter.Weight, 
+					IsSouthpaw = fighter.IsSouthpaw,
 					NumberOfFights = fighter.NumberOfFights, 
 					ProfilePictureUploaded = fighter.ProfilePictureUploaded,
 					ProfilePictureFile = GetProfilePictureFileForFighter(fighter, thumbnailSize),

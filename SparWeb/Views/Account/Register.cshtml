@@ -138,6 +138,13 @@
                 </div>
             </div>
             <div class="form-group">
+                @Html.LabelFor(m => m.IsSouthpaw, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.EditorFor(m => m.IsSouthpaw, "IsSouthpaw")
+                    @Html.ValidationMessageFor(m => m.IsSouthpaw)
+                </div>
+            </div>
+            <div class="form-group">
                 @Html.LabelFor(m => m.NumberOfFights, new { @class = "col-md-4 control-label" })
                 <div class="col-md-8">
                     <div class="row">

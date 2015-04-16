@@ -154,7 +154,7 @@ namespace SparWeb.Controllers
         {
 			popualateRegistrationDropdowns();
 
-			return View(new RegisterViewModel() { Sex = true });
+			return View(new RegisterViewModel() { Sex = true, IsSouthpaw = false });
         }
 
 		private Dictionary<int, string> getAllGyms()
@@ -207,7 +207,7 @@ namespace SparWeb.Controllers
 					}
 
 					FighterRepository fighterRepo = new FighterRepository();
-					Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, City = model.City, State = model.State, Height = model.Height, Weight = model.Weight, NumberOfFights = model.NumberOfFights.Value, Gym = gym, ProfilePictureUploaded = false };
+					Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, City = model.City, State = model.State, Height = model.Height, Weight = model.Weight, IsSouthpaw = model.IsSouthpaw, NumberOfFights = model.NumberOfFights.Value, Gym = gym, ProfilePictureUploaded = false };
 					fighter.SparIdentityUser = user;
 					fighterRepo.SaveFighter(fighter);
 

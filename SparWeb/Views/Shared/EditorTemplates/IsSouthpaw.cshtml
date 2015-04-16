@@ -1,0 +1,20 @@
+﻿@model  Boolean?
+
+@if (Model.HasValue == true && Model.Value == false)
+{
+    @Html.RadioButtonFor(m => m, false, new { @checked = "checked" }) @:Right-Handed (Orthodox)
+    <br />
+    @Html.RadioButtonFor(m => m, true) @:Left-Handed (Southpaw)
+}
+else if (Model.HasValue == true && Model.Value == true)
+{
+    @Html.RadioButtonFor(m => m, false) @:Right-Handed (Orthodox)
+    <br />
+    @Html.RadioButtonFor(m => m, true, new { @checked = "checked" }) @:Left-Handed (Southpaw)    
+}
+else
+{
+    @Html.RadioButtonFor(m => m, false) @:Right-Handed (Orthodox)
+    <br />
+    @Html.RadioButtonFor(m => m, true) @:Left-Handed (Southpaw)
+}

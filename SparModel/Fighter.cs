@@ -16,6 +16,7 @@ namespace SparModel
 		public virtual string State { get; set; }
 		public virtual double Height { get; set; }
 		public virtual double Weight { get; set; }
+		public virtual bool IsSouthpaw { get; set; }
 		public virtual int NumberOfFights { get; set; }
 		public virtual Gym Gym { get; set; }
 		public virtual DateTime InsertDate { get; set; }

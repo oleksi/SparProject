@@ -91,6 +91,10 @@ input[type="checkbox"].input-validation-error {
 	text-align: right;
 }
 
+.spar-fighter {
+	padding-left: 4px;
+	padding-right: 4px;
+}
 .spar-fighter .dl-horizontal dt {
 	text-align: left;
 }

@@ -285,6 +285,7 @@
     <Content Include="Views\Spar\SparDetailsConfirmed.cshtml" />
     <Content Include="Views\Shared\SparInformationInfoBox.cshtml" />
     <Content Include="Views\Shared\SparInformation.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\IsSouthpaw.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

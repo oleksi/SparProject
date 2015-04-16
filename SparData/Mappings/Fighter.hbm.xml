@@ -15,6 +15,7 @@
 		<property name="State" column="State" not-null="true"></property>
 		<property name="Height" column="Height" not-null="true"></property>
 		<property name="Weight" column="Weight" not-null="true"></property>
+		<property name="IsSouthpaw" column="IsSouthpaw" not-null="true"></property>
 		<property name="NumberOfFights" column="NumberOfFights" not-null="true"></property>
 		<many-to-one class="Gym" name="Gym" column="GymId" not-null="false" lazy="false" />
 		<many-to-one class="SparIdentityUser" name="SparIdentityUser" column="AspNetUserId" cascade="save-update" lazy="false"></many-to-one>
