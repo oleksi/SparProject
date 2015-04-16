@@ -2,19 +2,19 @@
 
 @if (Model.HasValue == true && Model.Value == true)
 {
-    @:Male: @Html.RadioButtonFor(m => m, true, new { @checked = "checked"})
+    @Html.RadioButtonFor(m => m, true, new { @checked = "checked" }) @:Male
     @:&nbsp;&nbsp;
-    @:Female: @Html.RadioButtonFor(m => m, false)
+    @Html.RadioButtonFor(m => m, false) @:Female
 }
 else if (Model.HasValue == true && Model.Value == false)
 {
-    @:Male: @Html.RadioButtonFor(m => m, true)
+    @Html.RadioButtonFor(m => m, true) @:Male
     @:&nbsp;&nbsp;
-    @:Female: @Html.RadioButtonFor(m => m, false, new { @checked = "checked" })    
+    @Html.RadioButtonFor(m => m, false, new { @checked = "checked" }) @:Female
 }
 else
 {
-    @:Male: @Html.RadioButtonFor(m => m, true)
+    @Html.RadioButtonFor(m => m, true) @:Male
     @:&nbsp;&nbsp;
-    @:Female: @Html.RadioButtonFor(m => m, false)
+    @Html.RadioButtonFor(m => m, false) @:Female
 }

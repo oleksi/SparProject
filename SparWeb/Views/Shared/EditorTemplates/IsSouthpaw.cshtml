@@ -2,19 +2,19 @@
 
 @if (Model.HasValue == true && Model.Value == false)
 {
-    @Html.RadioButtonFor(m => m, false, new { @checked = "checked" }) @:Right-Handed (Orthodox)
-    <br />
-    @Html.RadioButtonFor(m => m, true) @:Left-Handed (Southpaw)
+    @Html.RadioButtonFor(m => m, false, new { @checked = "checked" }) @:Right-Handed
+    @:&nbsp;&nbsp;
+    @Html.RadioButtonFor(m => m, true) @:Left-Handed
 }
 else if (Model.HasValue == true && Model.Value == true)
 {
-    @Html.RadioButtonFor(m => m, false) @:Right-Handed (Orthodox)
-    <br />
-    @Html.RadioButtonFor(m => m, true, new { @checked = "checked" }) @:Left-Handed (Southpaw)    
+    @Html.RadioButtonFor(m => m, false) @:Right-Handed
+    @:&nbsp;&nbsp;
+    @Html.RadioButtonFor(m => m, true, new { @checked = "checked" }) @:Left-Handed
 }
 else
 {
-    @Html.RadioButtonFor(m => m, false) @:Right-Handed (Orthodox)
-    <br />
-    @Html.RadioButtonFor(m => m, true) @:Left-Handed (Southpaw)
+    @Html.RadioButtonFor(m => m, false) @:Right-Handed
+    @:&nbsp;&nbsp;
+    @Html.RadioButtonFor(m => m, true) @:Left-Handed
 }
