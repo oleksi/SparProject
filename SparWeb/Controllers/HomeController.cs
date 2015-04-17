@@ -77,6 +77,15 @@ namespace SparWeb.Controllers
 					fightersList = fightersList.Where(ff => ff.Height == model.Height).ToList();
 			}
 
+			//filter by stance
+			if (model.IsSouthpaw != null)
+			{
+				if (fightersList == null)
+					fightersList = fighterRepo.GetAllFighters().Where(ff => ff.IsSouthpaw == model.IsSouthpaw.Value).ToList();
+				else
+					fightersList = fightersList.Where(ff => ff.IsSouthpaw == model.IsSouthpaw.Value).ToList();
+			}
+
 			if (model.NumberOfFights != 0)
 			{
 				if (model.NumberOfFights == NumberOfFights.NoFights)

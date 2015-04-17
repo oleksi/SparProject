@@ -42,6 +42,9 @@ namespace SparWeb.Models
 		[Display(Name = "Height")]
 		public virtual double Height { get; set; }
 
+		[Display(Name = "Stance")]
+		public bool? IsSouthpaw { get; set; }
+
 		[Display(Name = "Number of fights")]
 		public virtual NumberOfFights NumberOfFights { get; set; }
 
