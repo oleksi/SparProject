@@ -80,8 +80,12 @@ namespace SparWeb.Models
 		public bool IsSouthpaw { get; set; }
 
 		[Required]
-		[Display(Name = "Number of fights (amateur)")]
-		public virtual int? NumberOfFights { get; set; }
+		[Display(Name = "Amateur")]
+		public virtual int NumberOfAmateurFights { get; set; }
+
+		[Required]
+		[Display(Name = "Professional")]
+		public virtual int NumberOfProFights { get; set; }
 
 		[Display(Name = "Your Gym")]
 		public virtual int? GymId { get; set; }
@@ -131,8 +135,11 @@ namespace SparWeb.Models
 		[Display(Name = "Stance")]
 		public bool IsSouthpaw { get; set; }
 
-		[Display(Name = "Number of fights")]
-		public int NumberOfFights { get; set; }
+		[Display(Name = "Number of amateur fights")]
+		public int NumberOfAmateurFights { get; set; }
+
+		[Display(Name = "Number of professional fights")]
+		public int NumberOfProFights { get; set; }
 
 		public string ProfilePictureFile { get; set; }
 

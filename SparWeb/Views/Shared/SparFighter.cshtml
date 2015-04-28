@@ -49,11 +49,15 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.NumberOfFights) :
+                Number of fights :
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.NumberOfFights)
+                @Html.DisplayFor(model => model.NumberOfAmateurFights) amateur
+                @if (Model.NumberOfProFights > 0)
+                {
+                    @:/ <strong>@Html.DisplayFor(model => model.NumberOfProFights) pro</strong>
+                }
             </dd>
         </dl>
     </div>

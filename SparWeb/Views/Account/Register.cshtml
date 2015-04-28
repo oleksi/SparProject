@@ -144,21 +144,31 @@
                     @Html.ValidationMessageFor(m => m.IsSouthpaw)
                 </div>
             </div>
+
             <div class="form-group">
-                @Html.LabelFor(m => m.NumberOfFights, new { @class = "col-md-4 control-label" })
+                <label class="col-md-4 control-label" for="NumberOfAmateurFights">Number of fights</label>
                 <div class="col-md-8">
                     <div class="row">
-                        <div class="col-md-6">
-                            @Html.TextBoxFor(m => m.NumberOfFights, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.NumberOfFights) })
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @Html.LabelFor(m => m.NumberOfAmateurFights) @Html.TextBoxFor(m => m.NumberOfAmateurFights, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.NumberOfAmateurFights) })
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.LabelFor(m => m.NumberOfProFights)  @Html.TextBoxFor(m => m.NumberOfProFights, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.NumberOfProFights) })
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
-                            @Html.ValidationMessageFor(m => m.NumberOfFights)
-                        </div>
+                        <div class="col-md-12">@Html.ValidationMessageFor(m => m.NumberOfAmateurFights)</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">@Html.ValidationMessageFor(m => m.NumberOfProFights)</div>
                     </div>
                 </div>
             </div>
+
             <div class="form-group">
                 <div class="col-md-offset-4 col-md-8">
                     <input type="submit" class="btn btn-default btn-primary btn-lg" value="Register" />

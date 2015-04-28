@@ -51,13 +51,21 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    @Html.LabelFor(m => m.NumberOfFights):
+                    @Html.LabelFor(m => m.NumberOfAmateurFights):
                 </div>
                 <div class="col-md-8">
-                    @Html.ValueFor(m => m.NumberOfFights)
+                    @Html.ValueFor(m => m.NumberOfAmateurFights)
                 </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-md-4">
+                    @Html.LabelFor(m => m.NumberOfProFights):
+                </div>
+                <div class="col-md-8">
+                    @Html.ValueFor(m => m.NumberOfProFights)
+                </div>
+            </div>
+       </div>
     </div>
     <div class="col-md-2"></div>
 </div>

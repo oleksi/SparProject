@@ -146,7 +146,8 @@ namespace SparWeb
 					Height = Util.HeightToCentimetersMap[fighter.Height], 
 					Weight = fighter.Weight, 
 					IsSouthpaw = fighter.IsSouthpaw,
-					NumberOfFights = fighter.NumberOfFights, 
+					NumberOfAmateurFights = fighter.NumberOfAmateurFights, 
+					NumberOfProFights = fighter.NumberOfProFights,
 					ProfilePictureUploaded = fighter.ProfilePictureUploaded,
 					ProfilePictureFile = GetProfilePictureFileForFighter(fighter, thumbnailSize),
 					HimOrHer = fighter.GetHimOrHer(true)

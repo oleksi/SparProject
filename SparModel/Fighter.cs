@@ -17,7 +17,8 @@ namespace SparModel
 		public virtual double Height { get; set; }
 		public virtual double Weight { get; set; }
 		public virtual bool IsSouthpaw { get; set; }
-		public virtual int NumberOfFights { get; set; }
+		public virtual int NumberOfAmateurFights { get; set; }
+		public virtual int NumberOfProFights { get; set; }
 		public virtual Gym Gym { get; set; }
 		public virtual DateTime InsertDate { get; set; }
 		public virtual DateTime UpdateDate { get; set; }
@@ -59,6 +60,11 @@ namespace SparModel
 				return (Sex == true) ? "He" : "She";
 			else
 				return (Sex == true) ? "he" : "she";
+		}
+
+		public virtual int NumberOfFights
+		{
+			get { return this.NumberOfAmateurFights + this.NumberOfProFights; }
 		}
 	}
 }
