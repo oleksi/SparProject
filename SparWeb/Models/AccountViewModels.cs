@@ -67,6 +67,9 @@ namespace SparWeb.Models
 		[Required]
 		public string State { get; set; }
 
+		[Display(Name = "Your Gym")]
+		public string GymName { get; set; }
+
 		[Required]
 		[Display(Name = "Height")]
 		public virtual double Height { get; set; }
@@ -87,9 +90,6 @@ namespace SparWeb.Models
 		[Display(Name = "Professional")]
 		public virtual int NumberOfProFights { get; set; }
 
-		[Display(Name = "Your Gym")]
-		public virtual int? GymId { get; set; }
-
         [Required]
 		[DataType(DataType.EmailAddress)]
 		[EmailAddress]
@@ -106,8 +106,6 @@ namespace SparWeb.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-
-		public string NewGymName { get; set; }
     }
 
 	public class AccountViewModel

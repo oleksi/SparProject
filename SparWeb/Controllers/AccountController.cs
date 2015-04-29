@@ -190,20 +190,12 @@ namespace SparWeb.Controllers
                 {
 
 					Gym gym = null;
-					if (model.GymId.HasValue == true)
+					if (String.IsNullOrEmpty(model.GymName) == false)
 					{
-						//checking if it's a newly added gym
-						if (model.GymId.Value == -1)
-						{
-							//ToDo: alert admin that new gym was added
-							gym = new Gym() { Name = model.NewGymName };
-							GymRepository gymRepo = new GymRepository();
-							gymRepo.SaveGym(gym);
-						}
-						else
-						{
-							gym = new Gym() { Id = model.GymId.Value };
-						}
+						//ToDo: check if gym exists
+						gym = new Gym() { Name = model.GymName };
+						GymRepository gymRepo = new GymRepository();
+						gymRepo.SaveGym(gym);
 					}
 
 					FighterRepository fighterRepo = new FighterRepository();
@@ -233,7 +225,6 @@ namespace SparWeb.Controllers
 			ViewBag.States = Util.States;
 			ViewBag.HeightToCentimetersMap = Util.HeightToCentimetersMap;
 			ViewBag.WeightClassMap = Util.WeightClassMap;
-			ViewBag.AllGyms = getAllGyms();
 		}
 
 		//
