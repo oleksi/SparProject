@@ -56,10 +56,15 @@ namespace SparWeb
 			{1, "Below 12"},
 			{2, "Between 12 and 16"},
 			{3, "Between 16 and 20"},
-			{4, "Between 20 and 24"},
-			{5, "Between 24 and 30"},
-			{6, "Between 30 and 36"},
-			{7, "Above 36"}
+			{4, "Between 20 and 25"},
+			{5, "Between 25 and 30"},
+			{6, "Between 30 and 35"},
+			{7, "Between 35 and 40"},
+			{8, "Between 40 and 45"},
+			{9, "Between 45 and 50"},
+			{10, "Between 50 and 55"},
+			{11, "Between 55 and 60"},
+			{12, "Above 60"}
 		};
 
 		public static Dictionary<int, string> NumberOfFights = new Dictionary<int, string>()

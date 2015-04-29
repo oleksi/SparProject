@@ -11,10 +11,15 @@ namespace SparWeb.Models
 		AgeBelow12 = 1,
 		Between12And16 = 2,
 		Between16And20 = 3,
-		Between20And24 = 4,
-		Between24And30 = 5,
-		Between30And36 = 6,
-		Above36 = 7
+		Between20And25 = 4,
+		Between25And30 = 5,
+		Between30And35 = 6,
+		Between35And40 = 7,
+		Between40And45 = 8,
+		Between45And50 = 9,
+		Between50And55 = 10,
+		Between55And60 = 11,
+		Above60 = 12
 	}
 
 	public enum NumberOfFights

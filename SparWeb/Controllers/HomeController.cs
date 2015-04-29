@@ -49,13 +49,23 @@ namespace SparWeb.Controllers
 					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 12 && getAge(ff.DateOfBirth) < 16).ToList();
 				else if (model.AgeRange == AgeRange.Between16And20)
 					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 16 && getAge(ff.DateOfBirth) < 20).ToList();
-				else if (model.AgeRange == AgeRange.Between20And24)
-					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 20 && getAge(ff.DateOfBirth) < 24).ToList();
-				else if (model.AgeRange == AgeRange.Between24And30)
-					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 24 && getAge(ff.DateOfBirth) < 30).ToList();
-				else if (model.AgeRange == AgeRange.Between30And36)
-					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 30 && getAge(ff.DateOfBirth) < 36).ToList();
-				else if (model.AgeRange == AgeRange.Above36)
+				else if (model.AgeRange == AgeRange.Between20And25)
+					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 20 && getAge(ff.DateOfBirth) < 25).ToList();
+				else if (model.AgeRange == AgeRange.Between25And30)
+					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 25 && getAge(ff.DateOfBirth) < 30).ToList();
+				else if (model.AgeRange == AgeRange.Between30And35)
+					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 30 && getAge(ff.DateOfBirth) < 35).ToList();
+				else if (model.AgeRange == AgeRange.Between35And40)
+					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 35 && getAge(ff.DateOfBirth) < 40).ToList();
+				else if (model.AgeRange == AgeRange.Between40And45)
+					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 40 && getAge(ff.DateOfBirth) < 45).ToList();
+				else if (model.AgeRange == AgeRange.Between45And50)
+					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 45 && getAge(ff.DateOfBirth) < 50).ToList();
+				else if (model.AgeRange == AgeRange.Between50And55)
+					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 50 && getAge(ff.DateOfBirth) < 55).ToList();
+				else if (model.AgeRange == AgeRange.Between55And60)
+					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 55 && getAge(ff.DateOfBirth) < 60).ToList();
+				else if (model.AgeRange == AgeRange.Above60)
 					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 36).ToList();
 			}
 
