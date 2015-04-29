@@ -67,7 +67,7 @@ namespace SparWeb.Models
 		[Required]
 		public string State { get; set; }
 
-		[Display(Name = "Your Gym")]
+		[Display(Name = "Gym name")]
 		public string GymName { get; set; }
 
 		[Required]

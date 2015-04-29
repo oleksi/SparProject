@@ -101,7 +101,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.GymName, new { @class = "col-md-4 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.GymName, new { @class = "form-control", placeholder = "Your gym name (optional)" })
+                    @Html.TextBoxFor(m => m.GymName, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.GymName) + " (optional)" })
                     @Html.ValidationMessageFor(m => m.GymName)
                 </div>
             </div>
