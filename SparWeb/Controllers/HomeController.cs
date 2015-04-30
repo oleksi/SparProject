@@ -26,10 +26,7 @@ namespace SparWeb.Controllers
 			HomeViewModel model = new HomeViewModel();
 			model.FightersList = getFightersListViewModel(fightersList);
 
-			ViewBag.AgeRange = Util.AgeRangeMap;
-			ViewBag.WeightClassMap = Util.WeightClassMap;
-			ViewBag.HeightToCentimetersMap = Util.HeightToCentimetersMap;
-			ViewBag.NumberOfFights = Util.NumberOfFights;
+			populateFilterDropdowns();
 
 			return View(model);
 		}
@@ -126,15 +123,21 @@ namespace SparWeb.Controllers
 					fightersList = fightersList.Where(ff => ff.Sex == model.Sex.Value).ToList();
 			}
 
+			//filter by state
+			if (String.IsNullOrEmpty(model.State) == false)
+			{
+				if (fightersList == null)
+					fightersList = fighterRepo.GetAllFighters().Where(ff => ff.State == model.State).ToList();
+				else
+					fightersList = fightersList.Where(ff => ff.State == model.State).ToList();
+			}
+
 			if (fightersList == null)
 				fightersList = fighterRepo.GetAllFighters();
 
 			model.FightersList = getFightersListViewModel(fightersList);
 
-			ViewBag.AgeRange = Util.AgeRangeMap;
-			ViewBag.WeightClassMap = Util.WeightClassMap;
-			ViewBag.HeightToCentimetersMap = Util.HeightToCentimetersMap;
-			ViewBag.NumberOfFights = Util.NumberOfFights;
+			populateFilterDropdowns();
 
 			return View(model);
 		}
@@ -163,6 +166,15 @@ namespace SparWeb.Controllers
 			ModelState.Clear();
 
 			return View();
+		}
+
+		private void populateFilterDropdowns()
+		{
+			ViewBag.AgeRange = Util.AgeRangeMap;
+			ViewBag.WeightClassMap = Util.WeightClassMap;
+			ViewBag.HeightToCentimetersMap = Util.HeightToCentimetersMap;
+			ViewBag.NumberOfFights = Util.NumberOfFights;
+			ViewBag.States = Util.States;
 		}
 
 		private List<AccountViewModel> getFightersListViewModel(IList<Fighter> fightersList)

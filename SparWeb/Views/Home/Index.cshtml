@@ -123,6 +123,19 @@
                         }
                     </div>
                 </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.State, new { @class = "control-label" })
+                    @if (String.IsNullOrEmpty(Model.State) == true)
+                    {
+                        @Html.DropDownListFor(m => m.State, (new SelectList(ViewBag.States, "Key", "Value", Model.State)), "Please select", new { @class = "form-control", onchange = "this.form.submit();" })
+                    }
+                    else
+                    {
+                        @Html.HiddenFor(m => m.State)
+                        @Html.DropDownListFor(m => m.State, (new SelectList(ViewBag.States, "Key", "Value", Model.State)), "Please select", new { @class = "form-control", disabled = "disabled" })
+                        <p><a href="#" class="pull-right clearFilter">Clear</a></p>
+                    }
+                </div>
             }
         </div>
     </div>

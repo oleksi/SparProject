@@ -42,18 +42,21 @@ namespace SparWeb.Models
 		public AgeRange AgeRange { get; set; }
 
 		[Display(Name = "Weight class")]
-		public virtual double Weight { get; set; }
+		public double Weight { get; set; }
 
 		[Display(Name = "Height")]
-		public virtual double Height { get; set; }
+		public double Height { get; set; }
 
 		[Display(Name = "Stance")]
 		public bool? IsSouthpaw { get; set; }
 
 		[Display(Name = "Number of fights")]
-		public virtual NumberOfFights NumberOfFights { get; set; }
+		public NumberOfFights NumberOfFights { get; set; }
 
 		[Display(Name = "Gender")]
 		public bool? Sex { get; set; }
+
+		[Display(Name = "State")]
+		public string State { get; set; }
 	}
 }
