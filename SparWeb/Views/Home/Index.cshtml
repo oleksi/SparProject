@@ -140,9 +140,16 @@
         </div>
     </div>
     <div class="col-md-8">
-        @foreach (var currModel in Model.FightersList)
+        @if (Model.FightersList.Count > 0)
+        { 
+            foreach (var currModel in Model.FightersList)
+            {
+                @Html.Partial("SparFighter", currModel)
+            }
+        }
+        else
         {
-            @Html.Partial("SparFighter", currModel)
+            <h3>No fighters found ...</h3>
         }
     </div>
 </div>
