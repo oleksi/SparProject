@@ -58,5 +58,8 @@ namespace SparWeb.Models
 
 		[Display(Name = "State")]
 		public string State { get; set; }
+
+		public int PageNumber { get; set; }
+		public int PagesCount { get; set; }
 	}
 }

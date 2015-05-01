@@ -16,23 +16,34 @@ namespace SparWeb.Controllers
 {
 	public class HomeController : Controller
 	{
-		public ActionResult Index()
+		const int PAGE_SIZE = 20;
+
+		public ActionResult Index(int? page)
 		{
 			FighterRepository fighterRepo = new FighterRepository();
 			SparRepository sparRepo = new SparRepository();
 
 			IList<Fighter> fightersList = fighterRepo.GetAllFighters();
+			int pageCount = (int)Math.Ceiling((Convert.ToDecimal(fightersList.Count) / PAGE_SIZE));
+
+			//pagination
+			if (page.HasValue == true)
+				fightersList = fightersList.Skip((page.Value - 1) * PAGE_SIZE).Take(PAGE_SIZE).ToList();
+			else
+				fightersList = fighterRepo.GetAllFighters().Take(PAGE_SIZE).ToList();
 
 			HomeViewModel model = new HomeViewModel();
 			model.FightersList = getFightersListViewModel(fightersList);
+			model.PageNumber = page.HasValue ? page.Value : 1;
+			model.PagesCount = pageCount;
 
 			populateFilterDropdowns();
 
 			return View(model);
 		}
 
-		[HttpPost]
-		public ActionResult Index(HomeViewModel model)
+		[HttpGet]
+		public ActionResult Index(HomeViewModel model, int? page)
 		{
 			FighterRepository fighterRepo = new FighterRepository();
 			IList<Fighter> fightersList = null;
@@ -135,7 +146,17 @@ namespace SparWeb.Controllers
 			if (fightersList == null)
 				fightersList = fighterRepo.GetAllFighters();
 
+			int pageCount = (int)Math.Ceiling((Convert.ToDecimal(fightersList.Count) / PAGE_SIZE));
+
+			//pagination
+			if (page.HasValue == true)
+				fightersList = fightersList.Skip((page.Value - 1) * PAGE_SIZE).Take(PAGE_SIZE).ToList();
+			else
+				fightersList = fightersList.Take(PAGE_SIZE).ToList();
+
 			model.FightersList = getFightersListViewModel(fightersList);
+			model.PageNumber = page.HasValue ? page.Value : 1;
+			model.PagesCount = pageCount;
 
 			populateFilterDropdowns();
 

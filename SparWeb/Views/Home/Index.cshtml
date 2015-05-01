@@ -49,7 +49,7 @@
     <div class="col-md-4">
         <div class="well">
             <h3>Filter fighters by:</h3>
-            @using (Html.BeginForm())
+            @using (Html.BeginForm("Index", "Home", FormMethod.Get))
             {
                 <div class="form-group">
                     @Html.LabelFor(m => m.AgeRange, new { @class = "control-label" })
@@ -142,9 +142,66 @@
     <div class="col-md-8">
         @if (Model.FightersList.Count > 0)
         { 
+            string filterParams = "";
+            if (Model.Height != 0)
+            {
+                filterParams += "&Height=" + Html.Encode(Model.Height);
+            }
+            if (Model.IsSouthpaw.HasValue == true)
+            {
+                filterParams += "&IsSouthpaw=" + Model.IsSouthpaw.Value.ToString();
+            }
+            if (Convert.ToInt32(Model.NumberOfFights) != 0)
+            {
+                filterParams += "&NumberOfFights=" + Model.NumberOfFights;
+            }
+            if (Model.Sex.HasValue == true)
+            {
+                filterParams += "&Sex=" + Model.Sex.ToString();
+            }
+            if (String.IsNullOrEmpty(Model.State) == false)
+            {
+                filterParams += "&State=" + Model.State;
+            }
+            if (Model.Weight > 0)
+            {
+                filterParams += "&Weight=" + Model.Weight;
+            }
+            
             foreach (var currModel in Model.FightersList)
             {
                 @Html.Partial("SparFighter", currModel)
+            }
+            
+            if (Model.PagesCount > 1)
+            {
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <ul class="pagination">
+                            @if (Model.PageNumber > 1)
+                            {
+                                <li><a href="@(Url.Action("Index", new { page = Model.PageNumber - 1}) + filterParams)">&laquo;</a></li>
+                            }
+                            
+                            @for (int i = 1; i <= Model.PagesCount; i++)
+                            {
+                                if (i != Model.PageNumber)
+                                {
+                                    <li><a href="@(Url.Action("Index", new { page = i}) + filterParams)">@i</a></li>
+                                }
+                                else
+                                {
+                                    <li class="active"><a href="#">@i</a></li>
+                                }
+                            }
+
+                            @if (Model.PageNumber < Model.PagesCount)
+                            {
+                                <li><a href="@(Url.Action("Index", new { page = Model.PageNumber + 1}) + filterParams)">&raquo;</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
             }
         }
         else
