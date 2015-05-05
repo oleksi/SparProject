@@ -220,6 +220,7 @@
     <Content Include="Content\Images\boxing-spar-sign.jpg" />
     <Content Include="Content\Images\spargym-header1.jpg" />
     <Content Include="Content\Images\spargym-header2.jpg" />
+    <Content Include="Content\Images\spargym-logo.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

@@ -186,7 +186,20 @@ input[type="checkbox"].input-validation-error {
 }
 
 
+.main-menu {
+	margin-left: 20px;
+	margin-top: 13px;
+}
+
 .main-menu li {
     font-size: 16px;
     font-weight: bold;
+}
+
+.top-right-menu {
+	margin-top: 13px;
+}
+
+.header-bar {
+	height: 70px;
 }
