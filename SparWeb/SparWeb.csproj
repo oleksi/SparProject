@@ -218,6 +218,8 @@
     <Content Include="Content\Images\anonymous-photo-150X150.jpg" />
     <Content Include="Content\Images\anonymous-photo-250X250.jpg" />
     <Content Include="Content\Images\boxing-spar-sign.jpg" />
+    <Content Include="Content\Images\spargym-header-1.jpg" />
+    <Content Include="Content\Images\spargym-header-2.jpg" />
     <Content Include="Content\Images\spargym-header1.jpg" />
     <Content Include="Content\Images\spargym-header2.jpg" />
     <Content Include="Content\Images\spargym-logo.png" />
