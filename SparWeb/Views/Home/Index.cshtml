@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "Find Boxing Sparring Partner";
+    var filterParamsDict = new Dictionary<string, string>();
+    string filterParams = "";
 }
 
 @*<div class="jumbotron">
@@ -47,7 +49,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <div class="well">
+        <div class="well" id="search-filters">
             <h3>Filter fighters by:</h3>
             @using (Html.BeginForm("Index", "Home", FormMethod.Get))
             {
@@ -55,7 +57,7 @@
                     @Html.LabelFor(m => m.AgeRange, new { @class = "control-label" })
                     @if (Model.AgeRange == 0)
                     {
-                        @Html.DropDownListFor(m => m.AgeRange, (new SelectList(ViewBag.AgeRange, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control", onchange = "this.form.submit();" })
+                        @Html.DropDownListFor(m => m.AgeRange, (new SelectList(ViewBag.AgeRange, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control" })
                     }
                     else
                     {
@@ -68,7 +70,7 @@
                     @Html.LabelFor(m => m.Weight, new { @class = "control-label" })
                     @if (Model.Weight == 0)
                     {
-                        @Html.DropDownListFor(m => m.Weight, (new SelectList(ViewBag.WeightClassMap, "Key", "Value", Model.Weight)), "Please select", new { @class = "form-control", onchange = "this.form.submit();" })
+                        @Html.DropDownListFor(m => m.Weight, (new SelectList(ViewBag.WeightClassMap, "Key", "Value", Model.Weight)), "Please select", new { @class = "form-control" })
                     }
                     else
                     {
@@ -81,7 +83,7 @@
                     @Html.LabelFor(m => m.Height, new { @class = "control-label" })
                     @if (Model.Height == 0)
                     {
-                        @Html.DropDownListFor(m => m.Height, (new SelectList(ViewBag.HeightToCentimetersMap, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control", onchange = "this.form.submit();" })
+                        @Html.DropDownListFor(m => m.Height, (new SelectList(ViewBag.HeightToCentimetersMap, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control" })
                     }
                     else
                     {
@@ -104,7 +106,7 @@
                     @Html.LabelFor(m => m.NumberOfFights, new { @class = "control-label" })
                     @if (Model.NumberOfFights == 0)
                     {
-                        @Html.DropDownListFor(m => m.NumberOfFights, (new SelectList(ViewBag.NumberOfFights, "Key", "Value", Model.NumberOfFights)), "Please select", new { @class = "form-control", onchange = "this.form.submit();" })
+                        @Html.DropDownListFor(m => m.NumberOfFights, (new SelectList(ViewBag.NumberOfFights, "Key", "Value", Model.NumberOfFights)), "Please select", new { @class = "form-control" })
                     }
                     else
                     {
@@ -127,7 +129,7 @@
                     @Html.LabelFor(m => m.State, new { @class = "control-label" })
                     @if (String.IsNullOrEmpty(Model.State) == true)
                     {
-                        @Html.DropDownListFor(m => m.State, (new SelectList(ViewBag.States, "Key", "Value", Model.State)), "Please select", new { @class = "form-control", onchange = "this.form.submit();" })
+                        @Html.DropDownListFor(m => m.State, (new SelectList(ViewBag.States, "Key", "Value", Model.State)), "Please select", new { @class = "form-control" })
                     }
                     else
                     {
@@ -142,30 +144,38 @@
     <div class="col-md-8">
         @if (Model.FightersList.Count > 0)
         { 
-            string filterParams = "";
-            if (Model.Height != 0)
+            if (Convert.ToInt32(Model.AgeRange) != 0)
             {
-                filterParams += "&Height=" + Html.Encode(Model.Height);
-            }
-            if (Model.IsSouthpaw.HasValue == true)
-            {
-                filterParams += "&IsSouthpaw=" + Model.IsSouthpaw.Value.ToString();
-            }
-            if (Convert.ToInt32(Model.NumberOfFights) != 0)
-            {
-                filterParams += "&NumberOfFights=" + Model.NumberOfFights;
-            }
-            if (Model.Sex.HasValue == true)
-            {
-                filterParams += "&Sex=" + Model.Sex.ToString();
-            }
-            if (String.IsNullOrEmpty(Model.State) == false)
-            {
-                filterParams += "&State=" + Model.State;
+                filterParamsDict.Add("AgeRange", Convert.ToInt32(Model.AgeRange).ToString());
             }
             if (Model.Weight > 0)
             {
-                filterParams += "&Weight=" + Model.Weight;
+                filterParamsDict.Add("Weight", Model.Weight.ToString());
+            }
+            if (Model.Height != 0)
+            {
+                filterParamsDict.Add("Height", Html.Encode(Model.Height));
+            }
+            if (Model.IsSouthpaw.HasValue == true)
+            {
+                filterParamsDict.Add("IsSouthpaw", Model.IsSouthpaw.Value.ToString());
+            }
+            if (Convert.ToInt32(Model.NumberOfFights) != 0)
+            {
+                filterParamsDict.Add("NumberOfFights", Convert.ToInt32(Model.NumberOfFights).ToString());
+            }
+            if (Model.Sex.HasValue == true)
+            {
+                filterParamsDict.Add("Sex", Model.Sex.ToString());
+            }
+            if (String.IsNullOrEmpty(Model.State) == false)
+            {
+                filterParamsDict.Add("State", Model.State);
+            }
+            
+            foreach(string key in filterParamsDict.Keys)
+            {
+                filterParams += String.Format("&{0}={1}", key, filterParamsDict[key]);
             }
             
             foreach (var currModel in Model.FightersList)
@@ -211,16 +221,47 @@
     </div>
 </div>
 <script type="text/javascript">
+    var filterParamsDict = [];
+    @foreach(string key in filterParamsDict.Keys)
+    {
+    @:filterParamsDict['@key'] = '@filterParamsDict[key]';
+    }
+
     $(function () {
-        $('.radioButtonFilter').find('input[type=radio]').click(function () {
-            $(this).closest('form').submit();
+        $('#search-filters').find('select').change(function () {
+            applyFilter($(this));
+        });
+
+        $('#search-filters').find('.radioButtonFilter').find('input[type=radio]').click(function () {
+            applyFilter($(this));
         });
 
         $('.clearFilter').click(function () {
-            $(this).parent().siblings('select').val('');
-            $(this).parent().siblings('input[type=hidden]').val('');
-            $(this).parent().siblings('input[type=radio]').val('');
-            $(this).closest('form').submit();
+            var id = null;
+            id = $(this).parent().siblings('select').attr('id');
+            if (!id)
+                id = $(this).parent().siblings('input[type=hidden]').attr('id');
+            if (!id)
+                id = $(this).parent().siblings('input[type=radio]').attr('id');
+
+            delete filterParamsDict[id];
+            window.location.href = '@(Url.Action("Index"))' + getFilterParamsQueryString();
         });
     });
+
+    function applyFilter(filterElement) {
+        filterParamsDict[filterElement.attr('id')] = filterElement.val();
+        window.location.href = '@(Url.Action("Index"))' + getFilterParamsQueryString();
+    }
+
+    function getFilterParamsQueryString() {
+        var filterParamsQueryString = '';
+        for (var key in filterParamsDict) {
+            filterParamsQueryString += '&' + key + '=' + filterParamsDict[key];
+        }
+        if (filterParamsQueryString != '')
+            filterParamsQueryString = '?' + filterParamsQueryString.substring(1);
+
+        return filterParamsQueryString;
+    }
 </script>
