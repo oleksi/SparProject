@@ -85,7 +85,7 @@ namespace SparWeb.Controllers
 				else
 					fightersList = fightersList.Where(ff => ff.IsSouthpaw == model.Southpaw.Value).ToList();
 
-				model.FilterParams.Add("IsSouthpaw", model.Southpaw.Value.ToString());
+				model.FilterParams.Add("Southpaw", model.Southpaw.Value.ToString());
 			}
 
 			if (model.NumberOfFights != 0)
@@ -118,7 +118,7 @@ namespace SparWeb.Controllers
 				else
 					fightersList = fightersList.Where(ff => ff.Sex == model.Male.Value).ToList();
 
-				model.FilterParams.Add("Sex", model.Male.ToString());
+				model.FilterParams.Add("Male", model.Male.ToString());
 			}
 
 			//filter by state
