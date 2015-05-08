@@ -18,30 +18,6 @@ namespace SparWeb.Controllers
 	{
 		const int PAGE_SIZE = 20;
 
-		public ActionResult Index(int? page)
-		{
-			FighterRepository fighterRepo = new FighterRepository();
-			SparRepository sparRepo = new SparRepository();
-
-			IList<Fighter> fightersList = fighterRepo.GetAllFighters();
-			int pageCount = (int)Math.Ceiling((Convert.ToDecimal(fightersList.Count) / PAGE_SIZE));
-
-			//pagination
-			if (page.HasValue == true)
-				fightersList = fightersList.Skip((page.Value - 1) * PAGE_SIZE).Take(PAGE_SIZE).ToList();
-			else
-				fightersList = fighterRepo.GetAllFighters().Take(PAGE_SIZE).ToList();
-
-			HomeViewModel model = new HomeViewModel();
-			model.FightersList = getFightersListViewModel(fightersList);
-			model.PageNumber = page.HasValue ? page.Value : 1;
-			model.PagesCount = pageCount;
-
-			populateFilterDropdowns();
-
-			return View(model);
-		}
-
 		[HttpGet]
 		public ActionResult Index(HomeViewModel model, int? page)
 		{
@@ -75,6 +51,8 @@ namespace SparWeb.Controllers
 					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 55 && getAge(ff.DateOfBirth) < 60).ToList();
 				else if (model.AgeRange == AgeRange.Above60)
 					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 60).ToList();
+
+				model.FilterParams.Add("AgeRange", Convert.ToInt32(model.AgeRange).ToString());
 			}
 
 			//filter by weight
@@ -84,6 +62,8 @@ namespace SparWeb.Controllers
 					fightersList = fighterRepo.GetAllFighters().Where(ff => ff.Weight == model.Weight).ToList();
 				else
 					fightersList = fightersList.Where(ff => ff.Weight == model.Weight).ToList();
+
+				model.FilterParams.Add("Weight", model.Weight.ToString());
 			}
 
 			//filter by height
@@ -93,6 +73,8 @@ namespace SparWeb.Controllers
 					fightersList = fighterRepo.GetAllFighters().Where(ff => ff.Height == model.Height).ToList();
 				else
 					fightersList = fightersList.Where(ff => ff.Height == model.Height).ToList();
+
+				model.FilterParams.Add("Height", model.Height.ToString());
 			}
 
 			//filter by stance
@@ -102,6 +84,8 @@ namespace SparWeb.Controllers
 					fightersList = fighterRepo.GetAllFighters().Where(ff => ff.IsSouthpaw == model.IsSouthpaw.Value).ToList();
 				else
 					fightersList = fightersList.Where(ff => ff.IsSouthpaw == model.IsSouthpaw.Value).ToList();
+
+				model.FilterParams.Add("IsSouthpaw", model.IsSouthpaw.Value.ToString());
 			}
 
 			if (model.NumberOfFights != 0)
@@ -123,6 +107,7 @@ namespace SparWeb.Controllers
 				else if (model.NumberOfFights == NumberOfFights.MoreThan40)
 					fightersList = (fightersList == null) ? fighterRepo.GetAllFighters().Where(ff => ff.NumberOfFights >= 40).ToList() : fightersList.Where(ff => ff.NumberOfFights >= 40).ToList();
 
+				model.FilterParams.Add("NumberOfFights", Convert.ToInt32(model.NumberOfFights).ToString());
 			}
 
 			//filter by gender
@@ -132,6 +117,8 @@ namespace SparWeb.Controllers
 					fightersList = fighterRepo.GetAllFighters().Where(ff => ff.Sex == model.Sex.Value).ToList();
 				else
 					fightersList = fightersList.Where(ff => ff.Sex == model.Sex.Value).ToList();
+
+				model.FilterParams.Add("Sex", model.Sex.ToString());
 			}
 
 			//filter by state
@@ -141,6 +128,8 @@ namespace SparWeb.Controllers
 					fightersList = fighterRepo.GetAllFighters().Where(ff => ff.State == model.State).ToList();
 				else
 					fightersList = fightersList.Where(ff => ff.State == model.State).ToList();
+
+				model.FilterParams.Add("State", model.State);
 			}
 
 			if (fightersList == null)

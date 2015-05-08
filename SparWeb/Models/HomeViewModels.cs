@@ -61,5 +61,27 @@ namespace SparWeb.Models
 
 		public int PageNumber { get; set; }
 		public int PagesCount { get; set; }
+
+		public Dictionary<string, string> FilterParams { get; set; }
+
+		public string FilterParamsQueryString
+		{
+			get
+			{
+				string filterParamsQueryString = "";
+				foreach (string key in FilterParams.Keys)
+				{
+					filterParamsQueryString += String.Format("&{0}={1}", key, FilterParams[key]);
+				}
+
+				return filterParamsQueryString;
+			}
+		}
+
+		public HomeViewModel()
+		{
+			FightersList = new List<AccountViewModel>();
+			FilterParams = new Dictionary<string, string>();
+		}
 	}
 }
