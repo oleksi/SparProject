@@ -74,7 +74,7 @@ namespace SparWeb.Controllers
 				else if (model.AgeRange == AgeRange.Between55And60)
 					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 55 && getAge(ff.DateOfBirth) < 60).ToList();
 				else if (model.AgeRange == AgeRange.Above60)
-					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 36).ToList();
+					fightersList = fighterRepo.GetAllFighters().Where(ff => getAge(ff.DateOfBirth) >= 60).ToList();
 			}
 
 			//filter by weight
