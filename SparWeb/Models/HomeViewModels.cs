@@ -48,13 +48,13 @@ namespace SparWeb.Models
 		public double Height { get; set; }
 
 		[Display(Name = "Stance")]
-		public bool? IsSouthpaw { get; set; }
+		public bool? Southpaw { get; set; }
 
 		[Display(Name = "Number of fights")]
 		public NumberOfFights NumberOfFights { get; set; }
 
 		[Display(Name = "Gender")]
-		public bool? Sex { get; set; }
+		public bool? Male { get; set; }
 
 		[Display(Name = "State")]
 		public string State { get; set; }

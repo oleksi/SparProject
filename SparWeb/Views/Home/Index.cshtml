@@ -91,10 +91,10 @@
                     }
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.IsSouthpaw, new { @class = "control-label" })
+                    @Html.LabelFor(m => m.Southpaw, new { @class = "control-label" })
                     <div class="radioButtonFilter">
-                        @Html.EditorFor(m => m.IsSouthpaw, "IsSouthpaw")
-                        @if (Model.IsSouthpaw != null)
+                        @Html.EditorFor(m => m.Southpaw, "IsSouthpaw")
+                        @if (Model.Southpaw != null)
                         {
                             <span><a href="#" class="pull-right clearFilter">Clear</a></span>
                         }
@@ -114,10 +114,10 @@
                     }
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Sex, new { @class = "control-label" })
+                    @Html.LabelFor(m => m.Male, new { @class = "control-label" })
                     <div class="radioButtonFilter">
-                        @Html.EditorFor(m => m.Sex, "Sex")
-                        @if (Model.Sex != null)
+                        @Html.EditorFor(m => m.Male, "Sex")
+                        @if (Model.Male != null)
                         {
                             <span><a href="#" class="pull-right clearFilter">Clear</a></span>
                         }

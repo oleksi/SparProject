@@ -78,14 +78,14 @@ namespace SparWeb.Controllers
 			}
 
 			//filter by stance
-			if (model.IsSouthpaw != null)
+			if (model.Southpaw != null)
 			{
 				if (fightersList == null)
-					fightersList = fighterRepo.GetAllFighters().Where(ff => ff.IsSouthpaw == model.IsSouthpaw.Value).ToList();
+					fightersList = fighterRepo.GetAllFighters().Where(ff => ff.IsSouthpaw == model.Southpaw.Value).ToList();
 				else
-					fightersList = fightersList.Where(ff => ff.IsSouthpaw == model.IsSouthpaw.Value).ToList();
+					fightersList = fightersList.Where(ff => ff.IsSouthpaw == model.Southpaw.Value).ToList();
 
-				model.FilterParams.Add("IsSouthpaw", model.IsSouthpaw.Value.ToString());
+				model.FilterParams.Add("IsSouthpaw", model.Southpaw.Value.ToString());
 			}
 
 			if (model.NumberOfFights != 0)
@@ -111,14 +111,14 @@ namespace SparWeb.Controllers
 			}
 
 			//filter by gender
-			if (model.Sex != null)
+			if (model.Male != null)
 			{
 				if (fightersList == null)
-					fightersList = fighterRepo.GetAllFighters().Where(ff => ff.Sex == model.Sex.Value).ToList();
+					fightersList = fighterRepo.GetAllFighters().Where(ff => ff.Sex == model.Male.Value).ToList();
 				else
-					fightersList = fightersList.Where(ff => ff.Sex == model.Sex.Value).ToList();
+					fightersList = fightersList.Where(ff => ff.Sex == model.Male.Value).ToList();
 
-				model.FilterParams.Add("Sex", model.Sex.ToString());
+				model.FilterParams.Add("Sex", model.Male.ToString());
 			}
 
 			//filter by state
