@@ -280,7 +280,9 @@ namespace SparWeb.Controllers
 			if (ModelState.IsValid == false)
 			{
 				popualateRegistrationDropdowns();
-				return View(model);
+				ViewBag.ShowUpdateProfileModal = true;
+
+				return View("Account", model);
 			}
 
 			var currFighter = getLoggedInFighter();

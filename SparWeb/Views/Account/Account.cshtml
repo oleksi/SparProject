@@ -6,7 +6,7 @@
 
 <div class="row account-info-section">
     <div class="col-md-1"></div>
-    <div class="col-md-3">
+    <div class="col-md-3 profilePictureSection">
         <div class="profilePictureDefault dropzone @((Model.ProfilePictureUploaded == true)? "hidden" : "")">
             <p class="profileUploadPicHeader">Upload your picture now!</p>
             <p class="profileUploadPicSubeader"><a class="profileUploadPicAction" href="#">(drop file here or click)</a></p>
@@ -74,7 +74,7 @@
             </div>
         </div>
         <div class="update-profile-info">
-            <p class="text-right"><a href="#" onclick="$('#updateProfileModel').modal('show');">Update Profile</a></p>
+            <p class="text-right"><a href="#">Update Profile</a></p>
         </div>
     </div>
     <div class="col-md-2"></div>
@@ -155,6 +155,10 @@
 <div id="updateProfileModel" class="modal fade">
     <div class="modal-dialog">
         @Html.BeginForm("UpdateProfileInfo", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" })
+        @Html.HiddenFor(m => m.Name)
+        @Html.HiddenFor(m => m.ProfilePictureUploaded)
+        @Html.HiddenFor(m => m.ProfilePictureFile)
+        @Html.HiddenFor(m => m.Age)
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -271,10 +275,23 @@
             $(this).parent().trigger("click");
         });
 
+        $('.update-profile-info').find('a').click(function () {
+            $('#updateProfileModel').addClass('fade');
+            $('#updateProfileModel').modal('show');
+        });
+
 
         @if (Model.ProfilePictureUploaded == true)
         {
             @:showProfilePicture('@Model.ProfilePictureFile');
+        }
+        
+        @if (ViewBag.ShowUpdateProfileModal != null)
+        {
+            <text>
+            $('#updateProfileModel').removeClass('fade');
+            $('#updateProfileModel').modal('show');
+            </text>
         }
     });
 
