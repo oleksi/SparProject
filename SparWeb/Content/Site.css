@@ -203,3 +203,11 @@ input[type="checkbox"].input-validation-error {
 .header-bar {
 	height: 70px;
 }
+
+.account-info-section {
+	margin-bottom: 30px;
+}
+
+.update-profile-info {
+	margin-top: -15px;
+}

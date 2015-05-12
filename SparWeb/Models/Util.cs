@@ -148,7 +148,7 @@ namespace SparWeb
 					City = fighter.City,
 					State = fighter.State,
 					Age = fighter.getFighterAge(), 
-					Height = Util.HeightToCentimetersMap[fighter.Height], 
+					Height = fighter.Height, 
 					Weight = fighter.Weight, 
 					IsSouthpaw = fighter.IsSouthpaw,
 					NumberOfAmateurFights = fighter.NumberOfAmateurFights, 

@@ -114,28 +114,36 @@ namespace SparWeb.Models
 
 		public string Name { get; set; }
 
+		[Display(Name = "Gym name")]
 		public string GymName { get; set; }
 		public Gym Gym { get; set; }
 
+		[Required]
 		public string City { get; set; }
 
+		[Required]
 		public string State { get; set; }
 
 		[Display(Name = "Age")]
 		public int Age { get; set; }
 
+		[Required]
 		[Display(Name = "Height")]
-		public string Height { get; set; }
+		public double Height { get; set; }
 
+		[Required]
 		[Display(Name = "Weight class")]
 		public double Weight { get; set; }
 
+		[Required]
 		[Display(Name = "Stance")]
 		public bool IsSouthpaw { get; set; }
 
+		[Required]
 		[Display(Name = "Number of amateur fights")]
 		public int NumberOfAmateurFights { get; set; }
 
+		[Required]
 		[Display(Name = "Number of professional fights")]
 		public int NumberOfProFights { get; set; }
 

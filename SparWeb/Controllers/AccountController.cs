@@ -188,18 +188,8 @@ namespace SparWeb.Controllers
 				var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-
-					Gym gym = null;
-					if (String.IsNullOrEmpty(model.GymName) == false)
-					{
-						//ToDo: check if gym exists
-						gym = new Gym() { Name = model.GymName };
-						GymRepository gymRepo = new GymRepository();
-						gymRepo.SaveGym(gym);
-					}
-
 					FighterRepository fighterRepo = new FighterRepository();
-					Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, City = model.City, State = model.State, Height = model.Height, Weight = model.Weight, IsSouthpaw = model.IsSouthpaw, NumberOfAmateurFights = model.NumberOfAmateurFights, NumberOfProFights = model.NumberOfProFights, Gym = gym, ProfilePictureUploaded = false };
+					Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, City = model.City, State = model.State, Height = model.Height, Weight = model.Weight, IsSouthpaw = model.IsSouthpaw, NumberOfAmateurFights = model.NumberOfAmateurFights, NumberOfProFights = model.NumberOfProFights, Gym = createGym(model.GymName), ProfilePictureUploaded = false };
 					fighter.SparIdentityUser = user;
 					fighterRepo.SaveFighter(fighter);
 
@@ -219,6 +209,20 @@ namespace SparWeb.Controllers
 			popualateRegistrationDropdowns();
             return View(model);
         }
+
+		private Gym createGym(string gymName)
+		{
+			Gym gym = null;
+			if (String.IsNullOrEmpty(gymName) == false)
+			{
+				//ToDo: check if gym exists
+				gym = new Gym() { Name = gymName };
+				GymRepository gymRepo = new GymRepository();
+				gymRepo.SaveGym(gym);
+			}
+
+			return gym;
+		}
 
 		private void popualateRegistrationDropdowns()
 		{
@@ -264,7 +268,37 @@ namespace SparWeb.Controllers
 			SparRepository sparRepo = new SparRepository();
 			accountViewModel.SparRequests = Util.GetSparRequestDetailsForFighter(fighter.Id.Value, User.Identity.GetUserId());
 
+			popualateRegistrationDropdowns();
+
 			return View("Account", accountViewModel);
+		}
+
+		[Authorize]
+		[HttpPost]
+		public ActionResult UpdateProfileInfo(AccountViewModel model)
+		{
+			if (ModelState.IsValid == false)
+			{
+				popualateRegistrationDropdowns();
+				return View(model);
+			}
+
+			var currFighter = getLoggedInFighter();
+			currFighter.City = model.City;
+			currFighter.State = model.State;
+			if (currFighter.Gym.Name != model.GymName)
+				currFighter.Gym = createGym(model.GymName);
+			currFighter.Height = model.Height;
+			currFighter.Weight = model.Weight;
+			currFighter.IsSouthpaw = model.IsSouthpaw;
+			currFighter.NumberOfAmateurFights = model.NumberOfAmateurFights;
+			currFighter.NumberOfProFights = model.NumberOfProFights;
+
+			//updating fighter profile info
+			FighterRepository fighterRepo = new FighterRepository();
+			fighterRepo.SaveFighter(currFighter);
+
+			return RedirectToAction("Index");
 		}
 
 		private Fighter getLoggedInFighter()
