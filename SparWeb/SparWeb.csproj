@@ -207,9 +207,10 @@
     <Compile Include="Models\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Util.cs" />
+    <Compile Include="EmailManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\EmailConfirmationTemplate.html" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -218,6 +219,7 @@
     <Content Include="Content\Images\anonymous-photo-150X150.jpg" />
     <Content Include="Content\Images\anonymous-photo-250X250.jpg" />
     <Content Include="Content\Images\boxing-spar-sign.jpg" />
+    <Content Include="Content\Images\spargym-email-logo.jpg" />
     <Content Include="Content\Images\spargym-header-1.jpg" />
     <Content Include="Content\Images\spargym-header-2.jpg" />
     <Content Include="Content\Images\spargym-header1.jpg" />
@@ -290,9 +292,7 @@
     <Content Include="Views\Shared\SparInformation.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\IsSouthpaw.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

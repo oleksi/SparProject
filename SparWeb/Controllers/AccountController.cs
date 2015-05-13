@@ -195,7 +195,12 @@ namespace SparWeb.Controllers
 
 					var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 					var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-					await UserManager.SendEmailAsync(user.Id, "Welcome to SparGym! Please confirm your account", "Please confirm your SparGym account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+
+					var emailPlaceholoders = new Dictionary<string, string>();
+					emailPlaceholoders["[NAME]"] = model.Name;
+					emailPlaceholoders["[CONFIRMATION_URL]"] = callbackUrl;
+
+					EmailManager.SendEmail(EmailManager.EmailTypes.EmailConfirmationTemplate, ConfigurationManager.AppSettings["EmailSupport"], user.UserName, "Welcome to SparGym! Please confirm your account", emailPlaceholoders);
 
 					return View("DisplayEmail");
                 }
@@ -262,7 +267,7 @@ namespace SparWeb.Controllers
 		[Authorize]
 		public ActionResult Index()
 		{
-			Fighter fighter = getLoggedInFighter();			
+			Fighter fighter = getLoggedInFighter();
 			AccountViewModel accountViewModel = Util.GetAccountViewModelForFighter(fighter, 250);
 
 			SparRepository sparRepo = new SparRepository();

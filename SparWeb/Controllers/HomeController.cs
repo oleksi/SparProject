@@ -170,7 +170,7 @@ namespace SparWeb.Controllers
 
 			string emailMessage = String.Format("Sender Name: {0}<br /><br />Message: <br /><br />{1}", model.Name, model.Message.Replace("\n", "<br />"));
 
-			SparWeb.Util.SendEmail(model.Email, ConfigurationManager.AppSettings["EmailAdmin"], "SparGym Contact Form", emailMessage);
+			SparWeb.EmailManager.SendEmail(model.Email, ConfigurationManager.AppSettings["EmailAdmin"], "SparGym Contact Form", emailMessage);
 			ViewBag.SuccessMessage = "Thanks for sending your message. We'll get back to yiou you within 24 hours.";
 
 			ModelState.Clear();

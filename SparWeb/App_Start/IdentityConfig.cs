@@ -91,7 +91,7 @@ namespace SparWeb.Models
 		{
 			try
 			{
-				SparWeb.Util.SendEmail(ConfigurationManager.AppSettings["EmailSupport"], message.Destination, message.Subject, message.Body);
+				SparWeb.EmailManager.SendEmail(ConfigurationManager.AppSettings["EmailSupport"], message.Destination, message.Subject, message.Body);
 			}
 			catch
 			{ }
