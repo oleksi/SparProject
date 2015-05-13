@@ -293,7 +293,7 @@ namespace SparWeb.Controllers
 			var currFighter = getLoggedInFighter();
 			currFighter.City = model.City;
 			currFighter.State = model.State;
-			if (currFighter.Gym.Name != model.GymName)
+			if (currFighter.Gym != null && currFighter.Gym.Name != model.GymName)
 				currFighter.Gym = createGym(model.GymName);
 			currFighter.Height = model.Height;
 			currFighter.Weight = model.Weight;
