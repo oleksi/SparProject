@@ -12,7 +12,12 @@ namespace SparWeb
 	{
 		public enum EmailTypes
 		{
-			EmailConfirmationTemplate = 1
+			EmailConfirmationTemplate = 1,
+			SparRequestInitialTemplate = 2,
+			SparRequestFirstTimeResponseTemplate = 3,
+			SparRequestNegotiationTemplate = 4,
+			SparRequestConfirmedTemplate = 5,
+			SparRequestCancelledTemplate = 6
 		}
 
 		public static void SendEmail(EmailTypes emailType, string fromEmail, string toEmail, string subject, Dictionary<string, string> placeholders)

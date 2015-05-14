@@ -56,12 +56,12 @@ namespace SparWeb.Controllers
 			{
 				String emailTo = opponentFighter.SparIdentityUser.Email;
 				String emailSubject = String.Format("{0} wants to spar you!", thisFighter.Name);
-				String emailBody = String.Format("{0} wants to spar you. If you are interested, please click the link below to select date and place of spar:<br /><br /><a href=\"{1}\">{1}</a>",
-					thisFighter.Name,
-					Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", sparRequest.Id } }, "http", Request.Url.Host)
-				);
+				Dictionary<string, string> emailPlaceholders = new Dictionary<string, string>();
+				emailPlaceholders["[NAME]"] = opponentFighter.Name;
+				emailPlaceholders["[FIGTHER_NAME]"] = thisFighter.Name;
+				emailPlaceholders["[SPAR_CONFIRMATION_URL]"] = Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", sparRequest.Id } }, "http", Request.Url.Host);
 
-				SparWeb.EmailManager.SendEmail(ConfigurationManager.AppSettings["EmailSupport"], emailTo, emailSubject, emailBody);
+				SparWeb.EmailManager.SendEmail(EmailManager.EmailTypes.SparRequestInitialTemplate, ConfigurationManager.AppSettings["EmailSupport"], emailTo, emailSubject, emailPlaceholders);
 			}
 			catch {}
 
@@ -156,65 +156,45 @@ namespace SparWeb.Controllers
 				string emailTo = model.OpponentFighter.SparIdentityUser.Email;
 
 				string emailSubject = "";
-				string emailBody = "";
-				string emailBodySparDetails = String.Format(@"
-<br /><br />
-Date: {0}<br />
-Time: {1}<br />
-Location: {2}<br />
-{3} 
-<br /><br />
-",
-					model.SparDate.Value.ToString("MM/dd/yyyy"),
-					model.SparTime.ToString(),
-					(model.SparGymID > 0) ? model.SparGym.Name : "N/A",
-					(String.IsNullOrEmpty(model.SparNotes) == false) ? String.Format("Notes: {0}<br />", model.SparNotes) : ""
-				);
+				SparWeb.EmailManager.EmailTypes emailType = 0;
 
+				var emailPlaceholoders = new Dictionary<string, string>();
+				emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
+				emailPlaceholoders["[SPAR_DATE]"] = model.SparDate.Value.ToString("MM/dd/yyyy");
+				emailPlaceholoders["[SPAR_TIME]"] = model.SparTime.ToString();
+				emailPlaceholoders["[SPAR_LOCATION]"] = (model.SparGymID > 0) ? model.SparGym.Name : "N/A";
+				emailPlaceholoders["[SPAR_NOTES]"] = (String.IsNullOrEmpty(model.SparNotes) == false) ? String.Format("Notes: {0}<br />", model.SparNotes) : "";
+				
 				if (isFirstResponse == true) // first response
 				{
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailPlaceholoders["[HE_OR_SHE]"] = model.ThisFighter.GetHeOrShe(true);
 					emailSubject = String.Format("{0} has confirmed your spar request", model.ThisFighter.Name);
-					emailBody = String.Format(@"{0} has confirmed your spar request. {1} proposes the following date, time and location for the spar: ", model.ThisFighter.Name, model.ThisFighter.GetHeOrShe(true));
-					emailBody += emailBodySparDetails;
-					emailBody += @"
-Please click the link below to confirm spar or change the details:
-<br /><br />
-";
+					emailType = EmailManager.EmailTypes.SparRequestFirstTimeResponseTemplate;
 				}
 				else if (model.SparRequesStatus == SparRequestStatus.DateLocationNegotiation) // spar negotiation
 				{
 					emailSubject = String.Format("{0} updated spar details", model.ThisFighter.Name);
-					emailBody = String.Format("{0} proposes the following date, time and location for the spar: ", model.ThisFighter.Name);
-					emailBody += emailBodySparDetails;
-					emailBody += @"
-Please click the link below to confirm spar or change the details:
-<br /><br />
-";
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestNegotiationTemplate;
 				}
 				else if (model.SparRequesStatus == SparRequestStatus.Confirmed) // spar is confirmed
 				{
 					emailSubject = String.Format("{0} has confirmed the spar", model.ThisFighter.Name);
-					emailBody = String.Format(@"{0} has confirmed the spar. Here are date, time and location for the spar: ", model.ThisFighter.Name);
-					emailBody += emailBodySparDetails;
-					emailBody += @"
-If you ever want to cancel the spar, please use the link below:
-<br /><br />
-";
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestConfirmedTemplate;
 				}
 				else if (model.SparRequesStatus == SparRequestStatus.Canceled) // spar is canceled
 				{
 					emailSubject = String.Format("{0} has canceled the spar", model.ThisFighter.Name);
-					emailBody = String.Format(@"{0} has canceled the following spar: ", model.ThisFighter.Name);
-					emailBody += emailBodySparDetails;
-					emailBody += @"
-<br /><br />
-";
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestCancelledTemplate;
 				}
 
 				if (model.SparRequesStatus != SparRequestStatus.Canceled)
-					emailBody += String.Format(@"<a href=""{0}\"">{0}</a>", Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", model.SparRequestId } }, "http", Request.Url.Host));
+					emailPlaceholoders["[SPAR_CONFIRMATION_URL]"] = String.Format(@"<a href=""{0}\"">{0}</a>", Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", model.SparRequestId } }, "http", Request.Url.Host));
 
-				SparWeb.EmailManager.SendEmail(ConfigurationManager.AppSettings["EmailSupport"], emailTo, emailSubject, emailBody);
+				SparWeb.EmailManager.SendEmail(emailType, ConfigurationManager.AppSettings["EmailSupport"], emailTo, emailSubject, emailPlaceholoders);
 			}
 			catch { }
 		}

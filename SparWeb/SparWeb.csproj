@@ -210,6 +210,11 @@
     <Compile Include="EmailManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\SparRequestCancelledTemplate.html" />
+    <Content Include="App_Data\SparRequestConfirmedTemplate.html" />
+    <Content Include="App_Data\SparRequestInitialTemplate.html" />
+    <Content Include="App_Data\SparRequestNegotiationTemplate.html" />
+    <Content Include="App_Data\SparRequestFirstTimeResponseTemplate.html" />
     <Content Include="App_Data\EmailConfirmationTemplate.html" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
