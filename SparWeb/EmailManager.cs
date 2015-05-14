@@ -22,17 +22,24 @@ namespace SparWeb
 
 		public static void SendEmail(EmailTypes emailType, string fromEmail, string toEmail, string subject, Dictionary<string, string> placeholders)
 		{
-			string emailBody = "";
-			using (StreamReader sr = new StreamReader(HttpContext.Current.Server.MapPath(String.Format("~/App_Data/{0}.html", emailType.ToString()))))
+			string emailLayout = "";
+			using (StreamReader sr = new StreamReader(HttpContext.Current.Server.MapPath("~/App_Data/EmailTemplates/_LayoutTemplate.html")))
 			{
-				emailBody = sr.ReadToEnd();
+				emailLayout = sr.ReadToEnd();
+			}
+
+			string emailContent = "";
+			using (StreamReader sr = new StreamReader(HttpContext.Current.Server.MapPath(String.Format("~/App_Data/EmailTemplates/{0}.html", emailType.ToString()))))
+			{
+				emailContent = sr.ReadToEnd();
 			}
 
 			foreach (var key in placeholders.Keys)
 			{
-				emailBody = emailBody.Replace(key, placeholders[key]);
+				emailContent = emailContent.Replace(key, placeholders[key]);
 			}
 
+			string emailBody = emailLayout.Replace("[TEMPLATE_CONTENT]", emailContent);
 			SendEmail(fromEmail, toEmail, subject, emailBody);
 		}
 
