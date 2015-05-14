@@ -113,7 +113,7 @@
                                 <span class="fighterNameSmall">@currSparRequest.OpponentFighter.Name</span>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        from <span class="gymNameSmall">@currSparRequest.OpponentFighter.Gym.Name</span>
+                                        from <span class="gymNameSmall">@((currSparRequest.OpponentFighter.Gym != null) ? currSparRequest.OpponentFighter.Gym.Name : "Unknown Gym")</span>
                                     </div>
                                 </div>
                                 @{ Html.RenderPartial("SparInformation", currSparRequest); }
