@@ -168,9 +168,12 @@ namespace SparWeb.Controllers
 			if (ModelState.IsValid == false)
 				return View();
 
-			string emailMessage = String.Format("Sender Name: {0}<br /><br />Message: <br /><br />{1}", model.Name, model.Message.Replace("\n", "<br />"));
+			var emailPlaceholders = new Dictionary<string, string>();
+			emailPlaceholders["[NAME]"] = ConfigurationManager.AppSettings["AdminName"];
+			emailPlaceholders["[SENDER_NAME]"] = model.Name;
+			emailPlaceholders["[MESSAGE]"] = model.Message.Replace("\n", "<br />");
 
-			SparWeb.EmailManager.SendEmail(model.Email, ConfigurationManager.AppSettings["EmailAdmin"], "SparGym Contact Form", emailMessage);
+			SparWeb.EmailManager.SendEmail(EmailManager.EmailTypes.ContactFormTemplate, model.Email, ConfigurationManager.AppSettings["EmailAdmin"], "SparGym Contact Form", emailPlaceholders);
 			ViewBag.SuccessMessage = "Thanks for sending your message. We'll get back to yiou you within 24 hours.";
 
 			ModelState.Clear();

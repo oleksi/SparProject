@@ -17,7 +17,8 @@ namespace SparWeb
 			SparRequestFirstTimeResponseTemplate = 3,
 			SparRequestNegotiationTemplate = 4,
 			SparRequestConfirmedTemplate = 5,
-			SparRequestCancelledTemplate = 6
+			SparRequestCancelledTemplate = 6,
+			ContactFormTemplate = 7
 		}
 
 		public static void SendEmail(EmailTypes emailType, string fromEmail, string toEmail, string subject, Dictionary<string, string> placeholders)
