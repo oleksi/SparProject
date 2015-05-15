@@ -193,14 +193,31 @@ namespace SparWeb.Controllers
 					fighter.SparIdentityUser = user;
 					fighterRepo.SaveFighter(fighter);
 
+					//sending Email Confirmation email
 					var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 					var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
 
 					var emailPlaceholoders = new Dictionary<string, string>();
-					emailPlaceholoders["[NAME]"] = model.Name;
+					emailPlaceholoders["[NAME]"] = ConfigurationManager.AppSettings["AdminName"];
 					emailPlaceholoders["[CONFIRMATION_URL]"] = callbackUrl;
 
 					EmailManager.SendEmail(EmailManager.EmailTypes.EmailConfirmationTemplate, ConfigurationManager.AppSettings["EmailSupport"], user.UserName, "Welcome to SparGym! Please confirm your account", emailPlaceholoders);
+
+					//sending notification email to admin
+					emailPlaceholoders = new Dictionary<string, string>();
+					emailPlaceholoders["[NAME]"] = model.Name;
+					emailPlaceholoders["[GENDER]"] = (model.Sex == true)? "Male" : "Femail";
+					emailPlaceholoders["[DATE_OF_BIRTH]"] = dob.ToShortDateString();
+					emailPlaceholoders["[CITY]"] = model.City;
+					emailPlaceholoders["[STATE]"] = model.State;
+					emailPlaceholoders["[HEIGHT]"] = Util.HeightToCentimetersMap[model.Height];
+					emailPlaceholoders["[WEIGHT]"] = Util.WeightClassMap[model.Weight];
+					emailPlaceholoders["[STANCE]"] = (model.IsSouthpaw)? "Left-handed" : "Right-handed";
+					emailPlaceholoders["[NUMBER_OF_AMATEUR_FIGHTS]"] = model.NumberOfAmateurFights.ToString();
+					emailPlaceholoders["[NUMBER_OF_PRO_FUIGTS]"] = model.NumberOfProFights.ToString();
+					emailPlaceholoders["[GYM]"] = String.IsNullOrEmpty(model.GymName)? "Unknown Gym" : model.GymName;
+
+					EmailManager.SendEmail(EmailManager.EmailTypes.NewMemberNotificationTemplate, ConfigurationManager.AppSettings["EmailSupport"], ConfigurationManager.AppSettings["EmailAdmin"], "New Member Just Signed Up!", emailPlaceholoders);
 
 					return View("DisplayEmail");
                 }
