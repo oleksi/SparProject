@@ -205,6 +205,8 @@ namespace SparWeb
 			confirmSparDetailsViewModel.SparNotes = sparRequest.SparNotes;
 			confirmSparDetailsViewModel.SparRequesStatus = sparRequest.Status;
 
+			confirmSparDetailsViewModel.LastNegotiatorFighterId = sparRequest.LastNegotiatorFighterId;
+
 			return confirmSparDetailsViewModel;
 		}
 

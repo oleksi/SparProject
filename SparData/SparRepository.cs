@@ -41,6 +41,7 @@ namespace SparData
 		{
 			using (var session = getSession())
 			{
+				session.Evict(sparRequest);
 				using (var transaction = session.BeginTransaction())
 				{
 					session.Update(sparRequest);

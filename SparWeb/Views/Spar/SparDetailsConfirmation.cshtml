@@ -11,9 +11,13 @@
 }
 
 <div class="row text-center">
-    @if (Model.SparRequesStatus == SparModel.SparRequestStatus.Requested)
+    @if (Model.SparRequesStatus == SparModel.SparRequestStatus.Requested && Model.IsThisFighterLastNegotiator() == false)
     { 
         <h2 class="sparDetailsStatus">Please select Date and Location for the following spar:</h2>
+    }
+    else if (Model.SparRequesStatus == SparModel.SparRequestStatus.Requested && Model.IsThisFighterLastNegotiator() == true)
+    {
+        <h2 class="sparDetailsStatus">The spar request is already sent. Please wait for response ...</h2>
     }
     else if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation)
     {
@@ -212,7 +216,8 @@
 
         $('#formSparDetails').validate();
 
-        @if (Model.SparRequesStatus == SparModel.SparRequestStatus.Requested)
+        @if ((Model.SparRequesStatus == SparModel.SparRequestStatus.Requested && Model.IsThisFighterLastNegotiator() == false)
+            || (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation && Model.IsThisFighterLastNegotiator() == true))
         {
         @:showSparDetailsEdit();
         }

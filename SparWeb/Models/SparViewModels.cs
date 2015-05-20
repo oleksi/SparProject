@@ -44,7 +44,14 @@ namespace SparWeb.Models
 		[StringLength(1024)]
 		public string SparNotes { get; set; }
 
+		public int LastNegotiatorFighterId { get; set; }
+
 		public SparRequestStatus SparRequesStatus { get; set; }
+
+		public bool IsThisFighterLastNegotiator()
+		{
+			return (LastNegotiatorFighterId == ThisFighter.Id.Value);
+		}
 	}
 
 	public class SparTime

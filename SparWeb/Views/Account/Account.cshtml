@@ -100,7 +100,7 @@
         {
             foreach (SparWeb.Models.ConfirmSparDetailsViewModel currSparRequest in Model.SparRequests)
             {
-                if (currSparRequest.SparRequesStatus == SparModel.SparRequestStatus.Confirmed)
+                if (currSparRequest.SparRequesStatus == SparModel.SparRequestStatus.Confirmed || currSparRequest.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation)
                 {
                     <div data-saprrequestid="@currSparRequest.SparRequestId">
                         <div class="row well well-sm spar-fighter">
@@ -118,9 +118,20 @@
                                 </div>
                                 @{ Html.RenderPartial("SparInformation", currSparRequest); }
                             </div>
+                            @if (currSparRequest.SparRequesStatus == SparModel.SparRequestStatus.Confirmed)
+                            {
                             <div class="col-md-2 vAlignCenter">
                                 <input type="button" value="Cancel Spar" class="btn btn-default btn-danger btn-lg" onclick="confirmCancelSpar('@currSparRequest.OpponentFighter.Name', '@currSparRequest.SparRequestId');" />
                             </div>
+                            }
+                            else if (currSparRequest.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation)
+                            {
+                                <div class="col-md-2 vAlignCenter">
+                                    <small>A spar negotiation is in progress</small>
+                                    <br />
+                                    @Html.ActionLink("View Details", "SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", currSparRequest.SparRequestId } }, null)
+                                </div>
+                            }
                         </div>
                     </div>
                 }

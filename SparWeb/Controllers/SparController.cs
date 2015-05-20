@@ -44,7 +44,8 @@ namespace SparWeb.Controllers
 				OpponentFighter = opponentFighter,
 				RequestDate = DateTime.Now,
 				RequestorFighter = thisFighter,
-				Status = SparRequestStatus.Requested
+				Status = SparRequestStatus.Requested,
+				LastNegotiatorFighterId = thisFighter.Id.Value
 			};
 
 			//saving spar request
@@ -121,7 +122,11 @@ namespace SparWeb.Controllers
 					sparRequest.SparGym = confirmSparDetailsViewModel.SparGym;
 				sparRequest.SparNotes = model.SparNotes;
 			}
-			sparRequest.LastNegotiatorFighter = model.ThisFighter;
+
+			FighterRepository fighterRepo = new FighterRepository();
+			Fighter thisFighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
+			sparRequest.LastNegotiatorFighterId = thisFighter.Id.Value;
+
 			sparRequest.Status = model.SparRequesStatus;
 
 			sparRepo.SaveSparRequest(sparRequest);
