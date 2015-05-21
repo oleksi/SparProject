@@ -144,7 +144,10 @@
                 <div class="col-md-1">
                 @if (Model.SparRequesStatus != SparModel.SparRequestStatus.Requested)
                 {
-                    <input type="button" class="btn btn-default btn-lg" value="Cancel" onclick="return showSparDetailsInfo();" />
+                    if (Model.IsThisFighterLastNegotiator() == false)
+                    { 
+                        <input type="button" class="btn btn-default btn-lg" value="Cancel" onclick="return showSparDetailsInfo();" />
+                    }
                 }
                 else
                 {
