@@ -207,7 +207,7 @@ namespace SparWeb.Controllers
 					AccountViewModel accountViewModel = Util.GetAccountViewModelForFighter(currFighter, 150);
 
 					if (User.Identity.IsAuthenticated == true)
-						accountViewModel.SparRequests = Util.GetSparRequestDetailsForFighter(currFighter.Id.Value, User.Identity.GetUserId()).Where(sr => sr.OpponentFighter.Id == currFighter.Id).ToList();
+						accountViewModel.SparRequests = Util.GetSparRequestDetailsForFighter(currFighter.Id.Value, User.Identity.GetUserId()).Where(sr => (sr.OpponentFighter.Id == loggedInFighterId || sr.ThisFighter.Id == loggedInFighterId)).ToList();
 
 					fightersAccountViewModelList.Add(accountViewModel);
 				}

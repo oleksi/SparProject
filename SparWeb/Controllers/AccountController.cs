@@ -177,7 +177,7 @@ namespace SparWeb.Controllers
             if (ModelState.IsValid)
             {
 				DateTime dob = DateTime.MinValue;
-				if (DateTime.TryParse(String.Format("{0}/{1}/{2}", model.DateOfBirth.Month, model.DateOfBirth.Day, model.DateOfBirth.Year), out dob) == false)
+				if (DateTime.TryParse(String.Format("{0}/{1}/{2}", model.DateOfBirth.Month, model.DateOfBirth.Day, model.DateOfBirth.Year), out dob) == false || dob > DateTime.Now || dob < DateTime.Now.AddYears(-100))
 				{
 					ModelState.AddModelError("DateOfBirth", "Date of birth is not valid");
 					popualateRegistrationDropdowns();
@@ -198,14 +198,14 @@ namespace SparWeb.Controllers
 					var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
 
 					var emailPlaceholoders = new Dictionary<string, string>();
-					emailPlaceholoders["[NAME]"] = ConfigurationManager.AppSettings["AdminName"];
-					emailPlaceholoders["[CONFIRMATION_URL]"] = callbackUrl;
+					emailPlaceholoders["[NAME]"] = model.Name;
+					emailPlaceholoders["[CONFIRMATION_URL]"] = String.Format("<a href=\"{0}\">{0}</a>", callbackUrl);
 
 					EmailManager.SendEmail(EmailManager.EmailTypes.EmailConfirmationTemplate, ConfigurationManager.AppSettings["EmailSupport"], user.UserName, "Welcome to SparGym! Please confirm your account", emailPlaceholoders);
 
 					//sending notification email to admin
 					emailPlaceholoders = new Dictionary<string, string>();
-					emailPlaceholoders["[NAME]"] = model.Name;
+					emailPlaceholoders["[NAME]"] = ConfigurationManager.AppSettings["AdminName"];
 					emailPlaceholoders["[GENDER]"] = (model.Sex == true)? "Male" : "Femail";
 					emailPlaceholoders["[DATE_OF_BIRTH]"] = dob.ToShortDateString();
 					emailPlaceholoders["[CITY]"] = model.City;

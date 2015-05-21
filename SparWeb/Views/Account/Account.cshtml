@@ -96,7 +96,7 @@
 <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-9 upcomingSpars">
-        @if (Model.SparRequests.Count > 0 && Model.SparRequests.Any(sr => sr.SparRequesStatus == SparModel.SparRequestStatus.Confirmed) == true)
+        @if (Model.SparRequests.Count > 0 && Model.SparRequests.Any(sr => sr.SparRequesStatus == SparModel.SparRequestStatus.Confirmed || sr.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation) == true)
         {
             foreach (SparWeb.Models.ConfirmSparDetailsViewModel currSparRequest in Model.SparRequests)
             {

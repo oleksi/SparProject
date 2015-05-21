@@ -26,6 +26,19 @@ namespace SparWeb.Controllers
 		[Authorize]
 		public ActionResult SparConfirmation(string ID)
 		{
+			FighterRepository fighterRepo = new FighterRepository();
+
+			int loggedInFighterId = -1;
+			if (User.Identity.GetUserId() != null)
+				loggedInFighterId = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId()).Id.Value;
+
+			int opponentFighterId = fighterRepo.GetFighterByIdentityUserId(ID).Id.Value;
+
+			//checking if current user has already requested, negotiated or confirmed the spar with this fighter and if so not letting to request another one
+			bool alreadyRequestedSpar = Util.GetSparRequestDetailsForFighter(opponentFighterId, User.Identity.GetUserId()).Any(sr => (sr.ThisFighter.Id == loggedInFighterId || sr.OpponentFighter.Id == loggedInFighterId));
+			if (alreadyRequestedSpar == true)
+				return RedirectToAction("Index", "Home");
+
 			SparConfirmationViewModel sparConfirmationViewModel = getSparConfirmationViewModelForOpponent(ID);
 
 			return View(sparConfirmationViewModel);

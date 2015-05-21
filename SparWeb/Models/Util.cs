@@ -51,6 +51,21 @@ namespace SparWeb
 			{1000, "over 201 lbs: Super Heavyweight"}
 		};
 
+		public static Dictionary<double, string> WeightClassShortMap = new Dictionary<double, string>()
+		{
+			{106, "below 106 lbs"},
+			{112, "112 lbs"},
+			{119, "119 lbs"},
+			{125, "125 lbs"},
+			{132, "132 lbs"},
+			{141, "141 lbs"},
+			{152, "152 lbs"},
+			{165, "165 lbs"},
+			{178, "178 lbs"},
+			{201, "201 lbs"},
+			{1000, "over 201 lbs"}
+		};
+
 		public static Dictionary<int, string> AgeRangeMap = new Dictionary<int, string>()
 		{
 			{1, "Below 12"},
