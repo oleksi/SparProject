@@ -42,6 +42,10 @@ input[type="checkbox"].input-validation-error {
     display: none;
 }
 
+.register-form input[type=submit] {
+	width: 100%;
+}
+
 .fighterName {
 	font-size: 40px;
 	font-weight: bold;
