@@ -182,6 +182,11 @@ namespace SparWeb.Controllers
 			return View();
 		}
 
+		public ActionResult TermsAndConditions()
+		{
+			return View();
+		}
+
 		private void populateFilterDropdowns()
 		{
 			ViewBag.AgeRange = Util.AgeRangeMap;

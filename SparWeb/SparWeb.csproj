@@ -304,6 +304,7 @@
     <Content Include="Views\Shared\SparInformationInfoBox.cshtml" />
     <Content Include="Views\Shared\SparInformation.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\IsSouthpaw.cshtml" />
+    <Content Include="Views\Home\TermsAndConditions.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
