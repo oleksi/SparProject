@@ -206,7 +206,8 @@ namespace SparWeb.Controllers
 					//sending notification email to admin
 					emailPlaceholoders = new Dictionary<string, string>();
 					emailPlaceholoders["[NAME]"] = ConfigurationManager.AppSettings["AdminName"];
-					emailPlaceholoders["[GENDER]"] = (model.Sex == true)? "Male" : "Femail";
+					emailPlaceholoders["[FIGHTER_NAME]"] = model.Name;
+					emailPlaceholoders["[GENDER]"] = (model.Sex == true) ? "Male" : "Femail";
 					emailPlaceholoders["[DATE_OF_BIRTH]"] = dob.ToShortDateString();
 					emailPlaceholoders["[CITY]"] = model.City;
 					emailPlaceholoders["[STATE]"] = model.State;

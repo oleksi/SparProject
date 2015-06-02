@@ -73,6 +73,16 @@ namespace SparWeb.Controllers
 				Dictionary<string, string> emailPlaceholders = new Dictionary<string, string>();
 				emailPlaceholders["[NAME]"] = opponentFighter.Name;
 				emailPlaceholders["[FIGTHER_NAME]"] = thisFighter.Name;
+				emailPlaceholders["[GENDER]"] = (thisFighter.Sex == true) ? "Male" : "Femail";
+				emailPlaceholders["[DATE_OF_BIRTH]"] = thisFighter.DateOfBirth.ToShortDateString();
+				emailPlaceholders["[CITY]"] = thisFighter.City;
+				emailPlaceholders["[STATE]"] = thisFighter.State;
+				emailPlaceholders["[HEIGHT]"] = Util.HeightToCentimetersMap[thisFighter.Height];
+				emailPlaceholders["[WEIGHT]"] = Util.WeightClassMap[thisFighter.Weight];
+				emailPlaceholders["[STANCE]"] = (thisFighter.IsSouthpaw) ? "Left-handed" : "Right-handed";
+				emailPlaceholders["[NUMBER_OF_AMATEUR_FIGHTS]"] = thisFighter.NumberOfAmateurFights.ToString();
+				emailPlaceholders["[NUMBER_OF_PRO_FUIGTS]"] = thisFighter.NumberOfProFights.ToString();
+				emailPlaceholders["[GYM]"] = String.IsNullOrEmpty(thisFighter.Gym.Name) ? "Unknown Gym" : thisFighter.Gym.Name;
 				emailPlaceholders["[SPAR_CONFIRMATION_URL]"] = Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", sparRequest.Id } }, "http", Request.Url.Host);
 
 				SparWeb.EmailManager.SendEmail(EmailManager.EmailTypes.SparRequestInitialTemplate, ConfigurationManager.AppSettings["EmailSupport"], emailTo, emailSubject, emailPlaceholders);
