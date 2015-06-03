@@ -1,17 +1,27 @@
 ﻿@model SparWeb.Models.AccountViewModel
 
-<div class="well well-sm spar-fighter">
+<div class="row well well-sm spar-fighter">
     <div class="col-md-3 vAlignCenter">
+        <div class="title hidden-md hidden-lg hidden-sm">
+            <span class="fighterNameSmall">@Html.ValueFor(m => m.Name)</span>
+            <div class="row">
+                <div class="col-md-12">
+                    from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
+                    <br>
+                    <span>@Model.City, @Model.State</span>
+                </div>
+            </div>
+        </div>
         <div class="profilePicture">
-            <img height="150" src="@Model.ProfilePictureFile" />
+            <img src="@Model.ProfilePictureFile" height="150">
         </div>
     </div>
     <div class="col-md-6 vAlignCenter">
-        <span class="fighterNameSmall">@Html.ValueFor(m => m.Name)</span>
-        <div class="row">
+        <span class="fighterNameSmall hidden-xs">@Html.ValueFor(m => m.Name)</span>
+        <div class="row hidden-xs">
             <div class="col-md-12">
                 from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
-                <br />
+                <br>
                 <span>@Model.City, @Model.State</span>
             </div>
         </div>
@@ -23,7 +33,7 @@
             <dd>
                 @Html.DisplayFor(model => model.Age)
             </dd>
-
+            <div class="clear;both"></div>
             <dt>
                 @Html.DisplayNameFor(model => model.Height):
             </dt>
@@ -31,7 +41,7 @@
             <dd>
                 @Util.HeightToCentimetersMap[Model.Height]
             </dd>
-
+            <div class="clear;both"></div>
             <dt>
                 @Html.DisplayNameFor(model => model.Weight):
             </dt>
@@ -39,15 +49,15 @@
             <dd>
                 @Util.WeightClassShortMap[Model.Weight]
             </dd>
-
+            <div class="clear;both"></div>
             <dt>
                 @Html.DisplayNameFor(model => model.IsSouthpaw):
             </dt>
 
             <dd>
-                @((Model.IsSouthpaw)? "Left-Handed" : "Right-Handed")
+                @((Model.IsSouthpaw) ? "Left-Handed" : "Right-Handed")
             </dd>
-
+            <div class="clear;both"></div>
             <dt>
                 Number of fights :
             </dt>
@@ -61,24 +71,23 @@
             </dd>
         </dl>
     </div>
-    <div class="col-md-2 vAlignCenter sparFighterCTA">
+    <div class="col-md-2 col-xs-12 vAlignCenter sparFighterCTA">
         @if (Model.SparRequests.Count == 0 || Model.SparRequests.Any(sr => (sr.SparRequesStatus == SparModel.SparRequestStatus.Requested || sr.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation || sr.SparRequesStatus == SparModel.SparRequestStatus.Confirmed)) == false)
-        { 
-        @Html.ActionLink("Spar " + Model.HimOrHer, "SparConfirmation", "Spar", new { ID = Model.ID }, new { @class = "btn btn-default btn-danger btn-lg" } )
+        {
+            @Html.ActionLink("Spar " + Model.HimOrHer, "SparConfirmation", "Spar", new { ID = Model.ID }, new { @class = "btn btn-default btn-danger btn-lg" })
         }
         else
         {
             if (Model.SparRequests[0].SparRequesStatus == SparModel.SparRequestStatus.Confirmed)
-            { 
-            <small>Spar is scheduled for <b>@Model.SparRequests[0].SparDate.Value.ToString("dddd, MMMM d, yyyy") at @Model.SparRequests[0].SparTime</b></small>
+            {
+                <small>Spar is scheduled for <b>@Model.SparRequests[0].SparDate.Value.ToString("dddd, MMMM d, yyyy") at @Model.SparRequests[0].SparTime</b></small>
             }
             else if (Model.SparRequests[0].SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation || Model.SparRequests[0].SparRequesStatus == SparModel.SparRequestStatus.Requested)
             {
-            <small>A spar negotiation is in progress</small>
+                <small>A spar negotiation is in progress</small>
             }
             <br />
             @Html.ActionLink("View Details", "SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", Model.SparRequests[0].SparRequestId } }, null)
         }
     </div>
 </div>
-

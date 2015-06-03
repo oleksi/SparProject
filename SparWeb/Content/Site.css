@@ -21,7 +21,13 @@ textarea {
 .field-validation-error {
     color: #b94a48;
 }
-
+.profilePicture,
+.img-responsive {
+  margin: 15px auto;
+}
+.row.sparConfirmationRow h2 {
+  margin-top: -10px;
+}
 .field-validation-valid {
     display: none;
 }
@@ -91,9 +97,7 @@ input[type="checkbox"].input-validation-error {
 	font-weight: bold;
 }
 
-.profilePicture {
-	text-align: right;
-}
+
 
 .spar-fighter {
 	padding-left: 4px;
@@ -102,27 +106,19 @@ input[type="checkbox"].input-validation-error {
 .spar-fighter .dl-horizontal dt {
 	text-align: left;
 }
-
+.left-space{
+    padding-right:0; 
+}
 .vAlignCenter {
 	float:none !important;
     display:inline-block !important;
     vertical-align:middle !important;
 }
 
-.sparConfirmationRow {
-	text-align: center;
-}
-
 .sparConfirmationGymRow {
 	text-align: center;
 	margin-bottom: 10px;
 }
-
-.sparConfirmationSectionRow {
-	text-align: center;
-	margin-top: 30px;
-}
-
 
 .sparConfirmationProfilePicture {
     text-align: center;
@@ -153,34 +149,38 @@ input[type="checkbox"].input-validation-error {
 /*============== glyphicon in textbox positioning - END ================ */
 
 .fighterCard {
-	width: 260px;
+  max-width: 270px;
+  margin: 0 auto;
 }
 
 .boxingSparSign {
-	margin-top: 40px;
 }
 
 .sparInformation {
 	margin-top: 20px;
 }
-
+.bottom{
+    margin-bottom: 15px;
+}
 .sparConfirmationInstructionRow {
 	margin-top: 10px;
 }
 
 .sparDetailsStatus {
-    padding-bottom: 20px;
-    padding-top: 10px;
+   margin-top: 0px;
 }
 
 .sparFighterCTA {
-	width: 140px;
+	min-width: 140px;
 }
-
+a.btn.btn-default.btn-lg {
+  width: 100%;
+  min-width: 90px;
+  padding: 0px;
+  line-height: 40px;
+}
 .carousel-caption {
 	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.75);
-	left: 15% !important;
-	right: 15% !important;
 }
 
 .site-logo {
@@ -205,18 +205,141 @@ input[type="checkbox"].input-validation-error {
 }
 
 .header-bar {
-	height: 70px;
+	
 }
 
 .account-info-section {
-	margin-top: 20px;
 	margin-bottom: 30px;
-}
-
-.profilePictureSection {
-	margin-top: 20px;
 }
 
 .update-profile-info {
 	margin-top: -15px;
+}
+.boxingSparSign {
+  margin: 0 auto;
+  display: block;
+}
+@media(min-width:992px){
+	.col-md-3.col-xs-12.bottom ,
+	.col-md-2.col-xs-12.bottom{
+	    float: right;
+	    margin-right: 25%;
+	}
+	.col-md-2.col-xs-12.bottom{
+	margin-right: 32%;
+	}
+}
+@media(min-width: 768px){
+	.sparConfirmationSectionRow {
+		text-align: center;
+		margin-top: 30px;
+	}
+	.sparConfirmationRow {
+		text-align: center;
+	}
+	.boxingSparSign{
+	margin-top: 45%;
+	}
+	.profilePicture {
+	text-align: center;
+	}
+	.col-md-5.col-sm-5.first-fighter .fighterCard{
+		margin-right: 0px;
+	}
+	.col-md-5.col-sm-5.last-fighter .fighterCard{
+		margin-left: 0px;
+	}
+}
+@media (max-width: 240px) {
+  .logo {
+    width: 70%;
+    margin-left: 5px
+  }
+ 
+}
+@media (max-width: 320px) {
+
+    dd.right{
+        float: right ;
+    }
+}
+@media (min-width: 240px) {
+ 
+}
+@media (min-width: 320px) {
+
+    
+
+}
+@media (min-width: 500px) {
+
+  .boxingSparSign{
+    width: 100%;
+	max-width:250px;
+  }
+
+}
+@media (max-width: 500px) {
+
+    dd.right{
+        float: right ;
+    }
+}
+@media (max-width: 640px) {
+
+    dd.right{
+        float: right ;
+    }
+	.carousel-caption {
+		padding: 0px;
+	}
+	.item.row,.carousel-inner > .item > img {
+	    min-height: 300px;
+	}
+	.dl-horizontal dt, .dl-horizontal dd {
+	    display: inline-block;
+		font-size: 12px;
+	}
+  .logo {
+    margin-left: 10px
+  }
+}
+.col-xs-4.bottom {
+  max-width: 120px;
+}
+@media (max-width: 30em) {
+	.order {
+		display: -webkit-box;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-box-orient: vertical;
+		-moz-box-orient: vertical;
+		-webkit-flex-direction: column;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		/* optional */
+		-webkit-box-align: start;
+		-moz-box-align: start;
+		-ms-flex-align: start;
+		-webkit-align-items: flex-start;
+		align-items: flex-start;
+	}
+
+		.order .image {
+			-webkit-box-ordinal-group: 2;
+			-moz-box-ordinal-group: 2;
+			-ms-flex-order: 2;
+			-webkit-order: 2;
+			order: 2;
+		}
+
+		.order .detail {
+			-webkit-box-ordinal-group: 1;
+			-moz-box-ordinal-group: 1;
+			-ms-flex-order: 1;
+			-webkit-order: 1;
+			order: 1;
+		}
 }
