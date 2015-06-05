@@ -141,21 +141,21 @@
 
             <div class="row sparConfirmationSectionRow">
                 <div class="col-md-4"></div>
-                <div class="col-md-1">
-                @if (Model.SparRequesStatus != SparModel.SparRequestStatus.Requested)
-                {
-                    if (Model.IsThisFighterLastNegotiator() == false)
-                    { 
-                        <input type="button" class="btn btn-default btn-lg" value="Cancel" onclick="return showSparDetailsInfo();" />
-                    }
-                }
-                else
-                {
-                    @Html.ActionLink("Cancel", "Index", "Account", null, new { @class = "btn btn-default btn-lg" })
-                }                 
+                <div class="col-md-3 col-xs-12 bottom">
+                    <input type="submit" onclick="return submitSparDetails('DateLocationNegotiation');" value="Respond to Spar Request" class="col-xs-12 btn btn-default btn-danger btn-lg" />
                 </div>
-                <div class="col-md-3">
-                    <input type="submit" onclick="return submitSparDetails('DateLocationNegotiation');" value="Respond to Spar Request" class="btn btn-default btn-danger btn-lg" />
+                <div class="col-md-2 col-xs-12">
+                    @if (Model.SparRequesStatus != SparModel.SparRequestStatus.Requested)
+                    {
+                        if (Model.IsThisFighterLastNegotiator() == false)
+                        {
+                            <input type="button" class="btn btn-default btn-lg col-xs-12" value="Cancel" onclick="return showSparDetailsInfo();" />
+                        }
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Cancel", "Index", "Account", null, new { @class = "btn btn-default btn-lg col-xs-12" })
+                    }
                 </div>
                 <div class="col-md-4"></div>
             </div>
@@ -169,18 +169,18 @@
             <div class="row">
                 <div class="col-md-4"></div>
         @if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation)
-        { 
-                <div class="col-md-2">
-                    <input type="button" class="btn btn-default btn-lg" value="Change Details" onclick="showSparDetailsEdit();" />
+        {
+                <div class="col-md-2 col-xs-12 bottom">
+                    <input onclick="return submitSparDetails('Confirmed');" value="Confirm Spar" class="btn btn-default btn-danger btn-lg col-xs-12" type="button">
                 </div>
-                <div class="col-md-2">
-                    <input type="button" onclick="return submitSparDetails('Confirmed');" value="Confirm Spar" class="btn btn-default btn-danger btn-lg" />
+                <div class="col-md-2 col-xs-12">
+                    <input class="btn btn-default btn-lg col-xs-12" value="Change Details" onclick="showSparDetailsEdit();" type="button">
                 </div>
         }
         else if (Model.SparRequesStatus == SparModel.SparRequestStatus.Confirmed)
         {
                 <div class="col-md-4 text-center">
-                    <input type="button" onclick="$('#confirmCancelSparyModal').modal('show');" value="Cancel Spar" class="btn btn-default btn-danger btn-lg" />
+                    <input type="button" onclick="$('#confirmCancelSparyModal').modal('show');" value="Cancel Spar" class="btn btn-default btn-danger btn-lg col-xs-12" />
                 </div>
         }
         <div class="col-md-4"></div>

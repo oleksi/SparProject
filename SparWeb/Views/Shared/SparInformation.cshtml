@@ -3,8 +3,10 @@
 <dl class="dl-horizontal">
     <dt>@Html.LabelFor(m => m.SparDate):</dt>
     <dd>@Model.SparDate.Value.ToString("dddd, MMMM d, yyyy")</dd>
+    <div style="clear:both"></div>
     <dt>@Html.LabelFor(m => m.SparTime):</dt>
     <dd>@Model.SparTime</dd>
+    <div style="clear:both"></div>
     <dt>@Html.LabelFor(m => m.SparGym):</dt>
     @if (Model.SparGym != null)
     {
@@ -16,6 +18,7 @@
     }
     @if (String.IsNullOrEmpty(Model.SparNotes) == false)
     {
+        <div style="clear:both"></div>
         <dt>@Html.LabelFor(m => m.SparNotes):</dt>
         <dd>@Html.DisplayFor(m => m.SparNotes)</dd>
     }

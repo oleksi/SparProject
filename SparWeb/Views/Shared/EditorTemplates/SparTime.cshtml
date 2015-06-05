@@ -1,8 +1,8 @@
 ﻿@model SparWeb.Models.SparTime
 
 <div class="row">
-    <div class="col-md-3">        
-        @Html.DropDownListFor(m => m.Hours, new List<SelectListItem>() { 
+    <div class="col-xs-4 bottom">
+        @Html.DropDownListFor(m => m.Hours, new List<SelectListItem>() {
                         new SelectListItem() { Text = "12", Value = "12" },
                         new SelectListItem() { Text = "01", Value = "1" },
                         new SelectListItem() { Text = "02", Value = "2" },
@@ -14,11 +14,11 @@
                         new SelectListItem() { Text = "08", Value = "8" },
                         new SelectListItem() { Text = "09", Value = "9" },
                         new SelectListItem() { Text = "10", Value = "10" },
-                        new SelectListItem() { Text = "11", Value = "11" },                        
+                        new SelectListItem() { Text = "11", Value = "11" },
         }, new { @class = "form-control" })
 
     </div>
-    <div class="col-md-3">
+    <div class="col-xs-4 bottom">
         @Html.DropDownListFor(m => m.Minutes, new List<SelectListItem>() {
                         new SelectListItem() { Text = "00", Value = "0" },
                         new SelectListItem() { Text = "15", Value = "15" },
@@ -26,7 +26,7 @@
                         new SelectListItem() { Text = "45", Value = "45" }
         }, new { @class = "form-control" })
     </div>
-    <div class="col-md-3">
+    <div class="col-xs-4 bottom">
         @Html.DropDownListFor(m => m.IsAM, new List<SelectListItem>() {
                         new SelectListItem() { Text = "PM", Value = "False" },
                         new SelectListItem() { Text = "AM", Value = "True" }
