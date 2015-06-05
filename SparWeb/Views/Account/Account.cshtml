@@ -43,7 +43,7 @@
             <div class="well top-buffer">
                 <div class="row">
                     <div class="col-sm-4 col-xs-4">
-                        @Html.LabelFor(m => m.Age):
+                        @Html.LabelFor(m => m.Age)
                     </div>
                     <div class="col-sm-8 col-xs-8">
                         @Html.ValueFor(m => m.Age)
@@ -51,7 +51,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-4 col-xs-4">
-                        @Html.LabelFor(m => m.Height):
+                        @Html.LabelFor(m => m.Height)
                     </div>
                     <div class="col-sm-8 col-xs-8">
                         @ViewBag.HeightToCentimetersMap[Model.Height]
@@ -59,7 +59,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-4 col-xs-4">
-                        @Html.LabelFor(m => m.Weight):
+                        @Html.LabelFor(m => m.Weight)
                     </div>
                     <div class="col-sm-8 col-xs-8">
                         @ViewBag.WeightClassMap[Model.Weight]
@@ -67,7 +67,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-4 col-xs-4">
-                        @Html.LabelFor(m => m.IsSouthpaw):
+                        @Html.LabelFor(m => m.IsSouthpaw)
                     </div>
                     <div class="col-sm-8 col-xs-8">
                         @((Model.IsSouthpaw) ? "Left-Handed" : "Right-Handed")
@@ -261,7 +261,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="NumberOfAmateurFights">Number of fights</label>
+                    <label class="col-md-4 control-label" for="NumberOfAmateurFights">Number of fights:</label>
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-12">
