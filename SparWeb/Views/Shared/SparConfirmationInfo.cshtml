@@ -1,24 +1,24 @@
 ﻿@model SparWeb.Models.SparConfirmationViewModel
 
 <div class="row">
-    <div class="col-md-5">
-        <div class="thumbnail fighterCard pull-right">
+    <div class="col-md-5 col-sm-5 first-fighter">
+        <div class="thumbnail fighterCard">
             <img height="@Model.ProfilePictureSize" src="@Util.GetProfilePictureFileForFighter(Model.ThisFighter, Model.ProfilePictureSize)" class="img-thumbnail" />
             <div class="caption text-center">
                 <h3 class="media-heading">@Model.ThisFighter.Name</h3>
                 <p>
-                    from <strong>@((Model.ThisFighter.Gym != null)? Model.ThisFighter.Gym.Name : "Unknown Gym")</strong>
+                    from <strong>@((Model.ThisFighter.Gym != null) ? Model.ThisFighter.Gym.Name : "Unknown Gym")</strong>
                     <br />
                     @Model.ThisFighter.City, @Model.ThisFighter.State
                 </p>
             </div>
         </div>
     </div>
-    <div class="col-md-2 text-center">
+    <div class="col-md-2 col-sm-2 ">
         <img src="@Url.Content("~/Content/Images/boxing-spar-sign.jpg")" class="boxingSparSign" />
     </div>
-    <div class="col-md-5">
-        <div class="thumbnail fighterCard pull-left">
+    <div class="col-md-5 col-sm-5 last-fighter">
+        <div class="thumbnail fighterCard ">
             <img height="@Model.ProfilePictureSize" src="@Util.GetProfilePictureFileForFighter(Model.OpponentFighter, Model.ProfilePictureSize)" class="img-thumbnail" />
             <div class="caption text-center">
                 <h3 class="media-heading">@Model.OpponentFighter.Name</h3>

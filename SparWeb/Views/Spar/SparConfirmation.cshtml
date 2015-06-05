@@ -14,16 +14,16 @@
         <h2 class="sparDetailsStatus">Please, confirm that you want to spar @Model.OpponentFighter.Name.</h2>
     </div>
     { Html.RenderPartial("SparConfirmationInfo", sparConfirmationInfo); }
-<div class="row sparConfirmationSectionRow">
-    <div class="col-md-4"></div>
-    <div class="col-md-1">
-        <a href="javascript:window.history.back();" class="btn btn-default btn-lg">Cancel</a>
+    <div class="row sparConfirmationSectionRow">
+        <div class="col-md-4"></div>
+        <div class="col-md-3 col-xs-12 bottom">
+            <input value="Confirm Spar Request" class="btn btn-default btn-danger btn-lg col-xs-12" type="submit">
+        </div>
+        <div class="col-md-2 col-xs-12">
+            <a href="javascript:window.history.back();" class="btn btn-default btn-lg col-xs-12">Cancel</a>
+        </div>
+        <div class="col-md-4"></div>
     </div>
-    <div class="col-md-3">
-        <input type="submit" value="Confirm Spar Request" class="btn btn-default btn-danger btn-lg" />
-    </div>
-    <div class="col-md-4"></div>
-</div>    
 }
 
 
