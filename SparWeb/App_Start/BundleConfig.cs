@@ -31,14 +31,14 @@ namespace SparWeb
 
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/css/bootstrap.css",
+                      "~/Content/css/site.css"));
 
 			bundles.Add(new StyleBundle("~/Content/css/dropzone").Include(
-					  "~/Content/dropzone.css"));
+					  "~/Content/css/dropzone.css"));
 
 			bundles.Add(new StyleBundle("~/Content/css/bootstrap-datepicker").Include(
-					  "~/Content/bootstrap-datepicker*"));		
+					  "~/Content/css/bootstrap-datepicker*"));		
 		}
     }
 }
