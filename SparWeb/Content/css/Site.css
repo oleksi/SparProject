@@ -83,7 +83,7 @@ input[type="checkbox"].input-validation-error {
 .profilePictureDefault {
 	width: 250px;
 	height: 250px;
-	background-image: url("Images/anonymous-photo-250X250.jpg");
+	background-image: url("../Images/anonymous-photo-250X250.jpg");
     background-position: 0 0;
     background-repeat: no-repeat;
 	cursor: pointer;

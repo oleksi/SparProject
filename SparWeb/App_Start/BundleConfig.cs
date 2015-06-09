@@ -30,14 +30,14 @@ namespace SparWeb
 					  "~/Scripts/bootstrap-datepicker.js", "~/Scripts/moment*"));
 
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+			bundles.Add(new StyleBundle("~/Styles/css").Include(
                       "~/Content/css/bootstrap.css",
                       "~/Content/css/site.css"));
 
-			bundles.Add(new StyleBundle("~/Content/css/dropzone").Include(
+			bundles.Add(new StyleBundle("~/Styles/css/dropzone").Include(
 					  "~/Content/css/dropzone.css"));
 
-			bundles.Add(new StyleBundle("~/Content/css/bootstrap-datepicker").Include(
+			bundles.Add(new StyleBundle("~/Styles/css/bootstrap-datepicker").Include(
 					  "~/Content/css/bootstrap-datepicker*"));		
 		}
     }
