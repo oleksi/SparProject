@@ -89,12 +89,7 @@ namespace SparWeb.Models
 	{
 		public Task SendAsync(IdentityMessage message)
 		{
-			try
-			{
-				SparWeb.EmailManager.SendEmail(ConfigurationManager.AppSettings["EmailSupport"], message.Destination, message.Subject, message.Body);
-			}
-			catch
-			{ }
+			SparWeb.EmailManager.SendEmail(ConfigurationManager.AppSettings["EmailSupport"], message.Destination, message.Subject, message.Body);
 
 			// Plug in your email service here to send an email.
 			return Task.FromResult(0);
