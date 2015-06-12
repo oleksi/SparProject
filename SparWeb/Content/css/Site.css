@@ -232,6 +232,42 @@ a.btn.btn-default.btn-lg {
 	font-weight: bold;
 }
 
+.social {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: #ededed none repeat scroll 0 0;
+    border-color: #cbcbcb #cbcbcb #cbcbcb -moz-use-text-color;
+    border-image: none;
+    border-style: solid solid solid none;
+    border-width: 1px 1px 1px 0;
+    height: 94px;
+    left: 96%;
+    margin-top: -100px;
+    padding: 10px 0;
+    position: fixed;
+    top: 190px;
+    width: 55px;
+    z-index: 1;
+}
+.social a {
+    background: rgba(0, 0, 0, 0) url("/Content/Images/social.png") no-repeat scroll left top;
+    height: 32px;
+    margin: 0 0 10px 10px;
+    position: relative;
+    width: 32px;
+	float: left;
+}
+.social a.fb {
+    background-position: left top;
+}
+.social a.tw {
+    background-position: left -42px;
+}
+
+
+
 @media(min-width:992px){
 	.col-md-3.col-xs-12.bottom ,
 	.col-md-2.col-xs-12.bottom{

@@ -238,6 +238,7 @@
     <Content Include="Content\Images\anonymous-photo-250X250.jpg" />
     <Content Include="Content\Images\boxing-spar-sign.jpg" />
     <Content Include="Content\Images\powered-by-gleasons.jpg" />
+    <Content Include="Content\Images\social.png" />
     <Content Include="Content\Images\spargym-email-logo.jpg" />
     <Content Include="Content\Images\spargym-header-1.jpg" />
     <Content Include="Content\Images\spargym-header-2.jpg" />
