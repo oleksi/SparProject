@@ -240,7 +240,7 @@ a.btn.btn-default.btn-lg {
     background: #ededed none repeat scroll 0 0;
     border-color: #cbcbcb #cbcbcb #cbcbcb -moz-use-text-color;
     border-image: none;
-    border-style: solid solid solid none;
+    /*border-style: solid solid solid none;*/
     border-width: 1px 1px 1px 0;
     height: 94px;
     left: 96%;
