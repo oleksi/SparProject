@@ -43,7 +43,12 @@ namespace SparModel
 
 		public virtual int getFighterAge()
 		{
-			return Convert.ToInt32(((double)(DateTime.Now - this.DateOfBirth).Days / 365.2425));
+			DateTime now = DateTime.Today;
+
+			int age = now.Year - this.DateOfBirth.Year;
+			if (this.DateOfBirth > now.AddYears(-age)) age--;
+
+			return age;
 		}
 
 		public virtual string GetHimOrHer(bool useTitleCase)
