@@ -20,7 +20,7 @@ namespace SparData
 			IList<Fighter> fighters = new List<Fighter>();
 			using (var session = getSession())
 			{
-				fighters = session.QueryOver<Fighter>().OrderBy(f => f.InsertDate).Desc.List<Fighter>();
+				fighters = session.QueryOver<Fighter>().OrderBy(ff => ff.InsertDate).Desc.JoinQueryOver<SparIdentityUser>(ff => ff.SparIdentityUser).Where(iu => iu.EmailConfirmed == true).List();
 			}
 
 			return fighters;
