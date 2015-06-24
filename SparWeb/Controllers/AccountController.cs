@@ -264,7 +264,24 @@ namespace SparWeb.Controllers
 				return View("Error");
 			}
 			var result = await UserManager.ConfirmEmailAsync(userId, code);
-			return View(result.Succeeded ? "ConfirmEmail" : "Error");
+
+			if (result.Succeeded == true)
+			{
+				var sparIdentityUser = await UserManager.FindByIdAsync(userId);
+				if (sparIdentityUser != null)
+				{
+					await SignInManager.SignInAsync(sparIdentityUser, true, true);
+					return RedirectToAction("Index");
+				}
+				else
+				{
+					return View("Error");
+				}
+			}
+			else
+			{
+				return View("Error");
+			}
 		}
 
 		[Authorize]
