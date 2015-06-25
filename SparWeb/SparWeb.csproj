@@ -216,6 +216,7 @@
     <Compile Include="EmailManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\EmailTemplates\PasswordResetTemplate.html" />
     <Content Include="App_Data\EmailTemplates\NewMemberNotificationTemplate.html" />
     <Content Include="App_Data\EmailTemplates\ContactFormTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestCancelledTemplate.html" />
@@ -319,6 +320,10 @@
     <Content Include="Views\Shared\SparInformation.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\IsSouthpaw.cshtml" />
     <Content Include="Views\Home\TermsAndConditions.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

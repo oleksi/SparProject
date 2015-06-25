@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-md-offset-4 col-md-8">
+                    <div class="col-md-offset-4 col-md-4">
                         <div class="checkbox">
                             <label>
                                 @Html.CheckBoxFor(m => m.RememberMe)
@@ -39,6 +39,9 @@
                             </label>
                         </div>
                     </div>
+					<div class="col-md-4">
+						@Html.ActionLink("Forgot password?", "ForgotPassword", null, new { @class = "pull-right forgotPassword" })
+					</div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-4 col-md-8">
