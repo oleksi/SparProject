@@ -161,6 +161,14 @@ namespace SparWeb.Models
 		{
 			SparRequests = new List<ConfirmSparDetailsViewModel>();
 		}
+
+		public string FighterUrl
+		{
+			get 
+			{ 
+				return String.Format("/fighters/{0}/{1}", Util.States[State], Name); 
+			}
+		}
 	}
 
 	public class DateOfBirth

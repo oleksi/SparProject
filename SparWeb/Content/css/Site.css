@@ -66,6 +66,10 @@ input[type="checkbox"].input-validation-error {
 	font-weight: bold;
 }
 
+.fighterNameSmall a {
+	color: #C9302C;
+}
+
 .gymName {
 	font-size: 18px;
 	font-weight: bold;

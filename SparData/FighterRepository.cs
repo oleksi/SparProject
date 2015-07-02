@@ -48,6 +48,17 @@ namespace SparData
 			return fighter;
 		}
 
+		public Fighter GetFighterByStateAndName(string state, string name)
+		{
+			Fighter fighter = null;
+			using (var session = getSession())
+			{
+				fighter = session.QueryOver<Fighter>().Where(m => m.State == state && m.Name == name).SingleOrDefault();
+			}
+
+			return fighter;
+		}
+
 		public void SaveFighter(Fighter fighter)
 		{
 			using (var session = getSession())

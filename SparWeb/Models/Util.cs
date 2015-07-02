@@ -241,5 +241,12 @@ namespace SparWeb
 			SparRepository sparRepo = new SparRepository();
 			return sparRepo.GetSparRequestsForFighter(fighterId).Select(sr => Util.GetConfirmSparDetailsViewModel(sr, 150, currUserId)).ToList();
 		}
+
+		public static void PopualateRegistrationDropdowns(dynamic viewBag)
+		{
+			viewBag.States = Util.States;
+			viewBag.HeightToCentimetersMap = Util.HeightToCentimetersMap;
+			viewBag.WeightClassMap = Util.WeightClassMap;
+		}
 	}
 }

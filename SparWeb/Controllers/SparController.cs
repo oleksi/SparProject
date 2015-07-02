@@ -173,6 +173,26 @@ namespace SparWeb.Controllers
 			return new JsonResult() { Data = new { Result = "Ok" } };
 		}
 
+		public ActionResult Fighter(string state, string name)
+		{
+			string stateShort = Util.States.Where(ss => ss.Value == state).Select(ss => ss.Key).SingleOrDefault();
+			if (String.IsNullOrEmpty(stateShort) == true)
+				throw new ApplicationException("State is not valid!");
+
+			var fighterRepo = new FighterRepository();
+			var fighter = fighterRepo.GetFighterByStateAndName(stateShort, name);
+			if (fighter == null)
+				throw new ApplicationException("Fighter is not found!");
+
+			var accountViewModel = Util.GetAccountViewModelForFighter(fighter, 250);
+			if (User.Identity.IsAuthenticated == true)
+				accountViewModel.SparRequests = Util.GetSparRequestDetailsForFighter(fighter.Id.Value, User.Identity.GetUserId());
+
+			Util.PopualateRegistrationDropdowns(ViewBag);
+
+			return View(accountViewModel);
+		}
+
 		private void sendEmailForSaprRequest(ConfirmSparDetailsViewModel model, bool isFirstResponse)
 		{
 			string emailTo = model.OpponentFighter.SparIdentityUser.Email;
