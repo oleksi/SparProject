@@ -1,7 +1,8 @@
 ﻿@model SparWeb.Models.AccountViewModel
 
 @{
-	ViewBag.Title = "Account Summary";
+	ViewBag.Title = String.Format("Boxer Profile: {0} from {1}, {2}", Model.Name, Model.City, Model.State);
+	ViewBag.MetaDescription = String.Format("{0} from {1}, {2}; Age: {3}; Height: {4}; Weight class: {5}; Stance: {6}; Number of fights: {7}", Model.Name, Model.City, Model.State, Model.Age, ViewBag.HeightToCentimetersMap[Model.Height], ViewBag.WeightClassMap[Model.Weight], ((Model.IsSouthpaw) ? "Left-Handed" : "Right-Handed"), String.Format("{0} amateur{1}", Model.NumberOfAmateurFights, ((Model.NumberOfProFights > 0)? " / " + Model.NumberOfProFights + " pro" : "")));
 }
 
 <div class="row account-info-section">
