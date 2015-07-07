@@ -14,6 +14,18 @@ namespace SparWeb
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
 			routes.MapRoute(
+				name: "About",
+				url: "about",
+				defaults: new { controller = "Home", action = "About" }
+			);
+
+			routes.MapRoute(
+				name: "Contact",
+				url: "contact",
+				defaults: new { controller = "Home", action = "Contact" }
+			);
+
+			routes.MapRoute(
 				name: "Fighters",
 				url: "fighters/{state}/{name}",
 				defaults: new { controller = "Spar", action = "Fighter" }
