@@ -1,0 +1,145 @@
+﻿@model SparWeb.Models.RegisterViewModel
+
+<div class="form-group">
+	<div class="col-md-offset-4 col-md-8">
+		@Html.ValidationSummary(true)
+	</div>
+</div>
+<div class="form-group">
+	@Html.LabelFor(m => m.UserName, new { @class = "col-md-4 control-label" })
+	<div class="col-md-8">
+		@Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.UserName) })
+		@Html.ValidationMessageFor(m => m.UserName)
+	</div>
+</div>
+<div class="form-group">
+	@Html.LabelFor(m => m.Password, new { @class = "col-md-4 control-label" })
+	<div class="col-md-8">
+		@Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Password) })
+		@Html.ValidationMessageFor(m => m.Password)
+	</div>
+</div>
+<div class="form-group">
+	@Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-4 control-label" })
+	<div class="col-md-8">
+		@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.ConfirmPassword) })
+		@Html.ValidationMessageFor(m => m.ConfirmPassword)
+	</div>
+</div>
+<div class="form-group">
+	@Html.LabelFor(m => m.Name, new { @class = "col-md-4 control-label" })
+	<div class="col-md-8">
+		@Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Name) })
+		@Html.ValidationMessageFor(m => m.Name)
+	</div>
+</div>
+<div class="form-group">
+	@Html.LabelFor(m => m.Sex, new { @class = "col-md-4 control-label" })
+	<div class="col-md-8">
+		@Html.EditorFor(m => m.Sex, "Sex")
+		@Html.ValidationMessageFor(m => m.Sex)
+	</div>
+</div>
+<div class="form-group">
+	@Html.LabelFor(m => m.DateOfBirth, new { @class = "col-md-4 control-label" })
+	<div class="col-md-8">
+		<div class="row">
+			<div class="col-md-12">
+				@Html.EditorFor(m => m.DateOfBirth, "DateOfBirth")
+				@Html.ValidationMessageFor(m => m.DateOfBirth)
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">@Html.ValidationMessageFor(m => m.DateOfBirth.Month)</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">@Html.ValidationMessageFor(m => m.DateOfBirth.Day)</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">@Html.ValidationMessageFor(m => m.DateOfBirth.Year)</div>
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	@Html.LabelFor(m => m.City, new { @class = "col-md-4 control-label" })
+	<div class="col-md-8">
+		@Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.City) })
+		@Html.ValidationMessageFor(m => m.City)
+	</div>
+</div>
+<div class="form-group">
+	@Html.LabelFor(m => m.State, new { @class = "col-md-4 control-label" })
+	<div class="col-md-8">
+		<div class="row">
+			<div class="col-md-12">
+				@Html.DropDownListFor(m => m.State, (new SelectList(ViewBag.States, "Key", "Value", Model.State)), "Please select", new { @class = "form-control" })
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				@Html.ValidationMessageFor(m => m.State)
+			</div>
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	@Html.LabelFor(m => m.GymName, new { @class = "col-md-4 control-label" })
+	<div class="col-md-8">
+		@Html.TextBoxFor(m => m.GymName, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.GymName) + " (optional)" })
+		@Html.ValidationMessageFor(m => m.GymName)
+	</div>
+</div>
+
+<div class="form-group">
+	@Html.LabelFor(m => m.Height, new { @class = "col-md-4 control-label" })
+	<div class="col-md-8">
+		<div class="row">
+			<div class="col-md-12">
+				@Html.DropDownListFor(m => m.Height, (new SelectList(ViewBag.HeightToCentimetersMap, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control" })
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				@Html.ValidationMessageFor(m => m.Height)
+			</div>
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	@Html.LabelFor(m => m.Weight, new { @class = "col-md-4 control-label" })
+	<div class="col-md-8">
+		@Html.DropDownListFor(m => m.Weight, (new SelectList(ViewBag.WeightClassMap, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.Weight)
+	</div>
+</div>
+<div class="form-group">
+	@Html.LabelFor(m => m.IsSouthpaw, new { @class = "col-md-4 control-label" })
+	<div class="col-md-8">
+		@Html.EditorFor(m => m.IsSouthpaw, "IsSouthpaw")
+		@Html.ValidationMessageFor(m => m.IsSouthpaw)
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-md-4 control-label" for="NumberOfAmateurFights">Number of fights</label>
+	<div class="col-md-8">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-6">
+						@Html.LabelFor(m => m.NumberOfAmateurFights) @Html.TextBoxFor(m => m.NumberOfAmateurFights, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.NumberOfAmateurFights) })
+					</div>
+					<div class="col-md-6">
+						@Html.LabelFor(m => m.NumberOfProFights)  @Html.TextBoxFor(m => m.NumberOfProFights, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.NumberOfProFights) })
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">@Html.ValidationMessageFor(m => m.NumberOfAmateurFights)</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">@Html.ValidationMessageFor(m => m.NumberOfProFights)</div>
+		</div>
+	</div>
+</div>

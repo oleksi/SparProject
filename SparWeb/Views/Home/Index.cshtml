@@ -190,6 +190,33 @@
         }
     </div>
 </div>
+
+<div id="registerPopupModal" class="modal fade">
+	<div class="modal-dialog">
+		@Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal register-form", role = "form" })
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3 class="modal-title text-center">Register for FREE!</h3>
+				@Html.AntiForgeryToken()
+			</div>
+			<div class="modal-body">
+				@{ Html.RenderPartial("RegisterViewModel", new SparWeb.Models.RegisterViewModel() { Sex = true, IsSouthpaw = false }); }
+			</div>
+			<div class="modal-footer text-center">
+				<input type="submit" class="btn btn-default btn-primary btn-lg" value="Register" />
+				<p class="text-center">By signing up you agree to our @Html.ActionLink("Terms and Conditions", "TermsAndConditions", "Home")</p>
+			</div>
+			@{Html.EndForm();}
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+	@Scripts.Render("~/bundles/jquerycookie")
+}
+
 <script type="text/javascript">
     var filterParamsDict = [];
     @foreach(string key in Model.FilterParams.Keys)
@@ -217,6 +244,8 @@
             delete filterParamsDict[id];
             window.location.href = '@(Url.Action("Index"))' + getFilterParamsQueryString();
         });
+
+    	setTimeout(showRegisterPopup, 7000);
     });
 
     function applyFilter(filterElement) {
@@ -233,5 +262,12 @@
             filterParamsQueryString = '?' + filterParamsQueryString.substring(1);
 
         return filterParamsQueryString;
+    }
+
+    function showRegisterPopup() {
+    	if (!$.cookie('registerPopupSeen')) {
+    		$('#registerPopupModal').modal('show');
+    		$.cookie('registerPopupSeen', '1', { expires: 30, path: '/' });
+    	}
     }
 </script>
