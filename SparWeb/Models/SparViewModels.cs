@@ -13,6 +13,10 @@ namespace SparWeb.Models
 		public Fighter ThisFighter { get; set; }
 		public Fighter OpponentFighter { get; set; }
 		public int ProfilePictureSize { get; set; }
+
+		[Display(Name = "Notes")]
+		[StringLength(1024)]
+		public string SparNotes { get; set; }
 	}
 
 	public class ConfirmSparDetailsViewModel : SparConfirmationViewModel
@@ -39,10 +43,6 @@ namespace SparWeb.Models
 
 		[Display(Name = "Spar Location")]
 		public Gym SparGym { get; set; }
-
-		[Display(Name = "Notes")]
-		[StringLength(1024)]
-		public string SparNotes { get; set; }
 
 		public int LastNegotiatorFighterId { get; set; }
 

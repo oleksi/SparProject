@@ -46,8 +46,14 @@ namespace SparWeb.Controllers
 
 		[Authorize]
 		[HttpPost]
-		public ActionResult ConfirmSpar(string OpponentId)
+		public ActionResult ConfirmSpar(string OpponentId, string SparNotes)
 		{
+			if (ModelState.IsValid == false)
+			{
+				var sparConfViewModel = getSparConfirmationViewModelForOpponent(OpponentId);
+				return View("SparConfirmation", sparConfViewModel);
+			}
+
 			FighterRepository fighterRepo = new FighterRepository();
 			Fighter thisFighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
 			Fighter opponentFighter = fighterRepo.GetFighterByIdentityUserId(OpponentId);
@@ -58,7 +64,8 @@ namespace SparWeb.Controllers
 				RequestDate = DateTime.Now,
 				RequestorFighter = thisFighter,
 				Status = SparRequestStatus.Requested,
-				LastNegotiatorFighterId = thisFighter.Id.Value
+				LastNegotiatorFighterId = thisFighter.Id.Value,
+				SparNotes = SparNotes
 			};
 
 			//saving spar request
@@ -81,6 +88,7 @@ namespace SparWeb.Controllers
 			emailPlaceholders["[NUMBER_OF_AMATEUR_FIGHTS]"] = thisFighter.NumberOfAmateurFights.ToString();
 			emailPlaceholders["[NUMBER_OF_PRO_FUIGTS]"] = thisFighter.NumberOfProFights.ToString();
 			emailPlaceholders["[GYM]"] = (thisFighter.Gym == null) ? "Unknown Gym" : thisFighter.Gym.Name;
+			emailPlaceholders["[SPAR_NOTES]"] = (String.IsNullOrEmpty(SparNotes) == false)? "<br /><br />Notes: " + SparNotes : "";
 			emailPlaceholders["[SPAR_CONFIRMATION_URL]"] = Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", sparRequest.Id } }, "http", Request.Url.Host);
 			SparWeb.EmailManager.SendEmail(EmailManager.EmailTypes.SparRequestInitialTemplate, ConfigurationManager.AppSettings["EmailSupport"], emailTo, emailSubject, emailPlaceholders);
 
