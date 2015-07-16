@@ -197,28 +197,28 @@ namespace SparWeb.Controllers
 					var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 					var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
 
-					var emailPlaceholoders = new Dictionary<string, string>();
-					emailPlaceholoders["[NAME]"] = model.Name;
-					emailPlaceholoders["[CONFIRMATION_URL]"] = String.Format("<a href=\"{0}\">{0}</a>", callbackUrl);
+					var emailPlaceholders = new Dictionary<string, string>();
+					emailPlaceholders["[NAME]"] = model.Name;
+					emailPlaceholders["[CONFIRMATION_URL]"] = String.Format("<a href=\"{0}\">{0}</a>", callbackUrl);
 
-					EmailManager.SendEmail(EmailManager.EmailTypes.EmailConfirmationTemplate, ConfigurationManager.AppSettings["EmailSupport"], user.UserName, "Welcome to SparGym! Please confirm your account", emailPlaceholoders);
+					EmailManager.SendEmail(EmailManager.EmailTypes.EmailConfirmationTemplate, ConfigurationManager.AppSettings["EmailSupport"], user.UserName, "Welcome to SparGym! Please confirm your account", emailPlaceholders);
 
 					//sending notification email to admin
-					emailPlaceholoders = new Dictionary<string, string>();
-					emailPlaceholoders["[NAME]"] = ConfigurationManager.AppSettings["AdminName"];
-					emailPlaceholoders["[FIGHTER_NAME]"] = model.Name;
-					emailPlaceholoders["[GENDER]"] = (model.Sex == true) ? "Male" : "Femail";
-					emailPlaceholoders["[DATE_OF_BIRTH]"] = dob.ToShortDateString();
-					emailPlaceholoders["[CITY]"] = model.City;
-					emailPlaceholoders["[STATE]"] = model.State;
-					emailPlaceholoders["[HEIGHT]"] = Util.HeightToCentimetersMap[model.Height];
-					emailPlaceholoders["[WEIGHT]"] = Util.WeightClassMap[model.Weight];
-					emailPlaceholoders["[STANCE]"] = (model.IsSouthpaw)? "Left-handed" : "Right-handed";
-					emailPlaceholoders["[NUMBER_OF_AMATEUR_FIGHTS]"] = model.NumberOfAmateurFights.ToString();
-					emailPlaceholoders["[NUMBER_OF_PRO_FUIGTS]"] = model.NumberOfProFights.ToString();
-					emailPlaceholoders["[GYM]"] = String.IsNullOrEmpty(model.GymName)? "Unknown Gym" : model.GymName;
+					emailPlaceholders = new Dictionary<string, string>();
+					emailPlaceholders["[NAME]"] = ConfigurationManager.AppSettings["AdminName"];
+					emailPlaceholders["[FIGHTER_NAME]"] = model.Name;
+					emailPlaceholders["[GENDER]"] = (model.Sex == true) ? "Male" : "Femail";
+					emailPlaceholders["[DATE_OF_BIRTH]"] = dob.ToShortDateString();
+					emailPlaceholders["[CITY]"] = model.City;
+					emailPlaceholders["[STATE]"] = model.State;
+					emailPlaceholders["[HEIGHT]"] = Util.HeightToCentimetersMap[model.Height];
+					emailPlaceholders["[WEIGHT]"] = Util.WeightClassMap[model.Weight];
+					emailPlaceholders["[STANCE]"] = (model.IsSouthpaw)? "Left-handed" : "Right-handed";
+					emailPlaceholders["[NUMBER_OF_AMATEUR_FIGHTS]"] = model.NumberOfAmateurFights.ToString();
+					emailPlaceholders["[NUMBER_OF_PRO_FUIGTS]"] = model.NumberOfProFights.ToString();
+					emailPlaceholders["[GYM]"] = String.IsNullOrEmpty(model.GymName)? "Unknown Gym" : model.GymName;
 
-					EmailManager.SendEmail(EmailManager.EmailTypes.NewMemberNotificationTemplate, ConfigurationManager.AppSettings["EmailSupport"], ConfigurationManager.AppSettings["EmailAdmin"], "New Member Just Signed Up!", emailPlaceholoders);
+					EmailManager.SendEmail(EmailManager.EmailTypes.NewMemberNotificationTemplate, ConfigurationManager.AppSettings["EmailSupport"], ConfigurationManager.AppSettings["EmailAdmin"], "New Member Just Signed Up!", emailPlaceholders);
 
 					return View("DisplayEmail");
                 }
@@ -493,11 +493,11 @@ namespace SparWeb.Controllers
 				var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
 				var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
 				
-				var emailPlaceholoders = new Dictionary<string, string>();
-				emailPlaceholoders["[NAME]"] = fighter.Name;
-				emailPlaceholoders["[PASSWORD_RESET_URL]"] = String.Format("<a href=\"{0}\">{0}</a>", callbackUrl);
+				var emailPlaceholders = new Dictionary<string, string>();
+				emailPlaceholders["[NAME]"] = fighter.Name;
+				emailPlaceholders["[PASSWORD_RESET_URL]"] = String.Format("<a href=\"{0}\">{0}</a>", callbackUrl);
 
-				EmailManager.SendEmail(EmailManager.EmailTypes.PasswordResetTemplate, ConfigurationManager.AppSettings["EmailSupport"], user.UserName, "SparGym Reset Password", emailPlaceholoders);	
+				EmailManager.SendEmail(EmailManager.EmailTypes.PasswordResetTemplate, ConfigurationManager.AppSettings["EmailSupport"], user.UserName, "SparGym Reset Password", emailPlaceholders);	
 
 				ViewBag.Link = callbackUrl;
 				return View("ForgotPasswordConfirmation");

@@ -216,6 +216,7 @@
     <Compile Include="EmailManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\EmailTemplates\SparRequestNotificationTemplate.html" />
     <Content Include="App_Data\EmailTemplates\PasswordResetTemplate.html" />
     <Content Include="App_Data\EmailTemplates\NewMemberNotificationTemplate.html" />
     <Content Include="App_Data\EmailTemplates\ContactFormTemplate.html" />

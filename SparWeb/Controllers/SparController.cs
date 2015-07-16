@@ -65,7 +65,7 @@ namespace SparWeb.Controllers
 			SparRepository sparRepo = new SparRepository();
 			sparRepo.CreateSparRequest(sparRequest);
 
-			//sending out notification email
+			//sending out spar request email
 			String emailTo = opponentFighter.SparIdentityUser.Email;
 			String emailSubject = String.Format("{0} wants to spar you!", thisFighter.Name);
 			Dictionary<string, string> emailPlaceholders = new Dictionary<string, string>();
@@ -82,8 +82,14 @@ namespace SparWeb.Controllers
 			emailPlaceholders["[NUMBER_OF_PRO_FUIGTS]"] = thisFighter.NumberOfProFights.ToString();
 			emailPlaceholders["[GYM]"] = (thisFighter.Gym == null) ? "Unknown Gym" : thisFighter.Gym.Name;
 			emailPlaceholders["[SPAR_CONFIRMATION_URL]"] = Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", sparRequest.Id } }, "http", Request.Url.Host);
-
 			SparWeb.EmailManager.SendEmail(EmailManager.EmailTypes.SparRequestInitialTemplate, ConfigurationManager.AppSettings["EmailSupport"], emailTo, emailSubject, emailPlaceholders);
+
+			//sending out notification email
+			emailPlaceholders = new Dictionary<string, string>();
+			emailPlaceholders["[NAME]"] = ConfigurationManager.AppSettings["AdminName"];
+			emailPlaceholders["[REQUESTOR_FIGHTER_NAME]"] = thisFighter.Name;
+			emailPlaceholders["[OPPONENT_FIGHTER_NAME]"] = opponentFighter.Name;
+			EmailManager.SendEmail(EmailManager.EmailTypes.SparRequestNotificationTemplate, ConfigurationManager.AppSettings["EmailSupport"], ConfigurationManager.AppSettings["EmailAdmin"], "New Spar Rquest Was Initiated!", emailPlaceholders);
 
 			SparConfirmationViewModel sparConfirmationViewModel = getSparConfirmationViewModelForOpponent(OpponentId);
 			return View("SparConfirmed", sparConfirmationViewModel);
