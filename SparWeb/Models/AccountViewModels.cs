@@ -48,14 +48,10 @@ namespace SparWeb.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterViewModel
-    {
+	public class RegisterViewModel
+	{
 		[Required]
 		public string Name { get; set; }
-
-		[Required]
-		[Display(Name = "Gender")]
-		public bool Sex { get; set; }
 
 		[Required]
 		[Display(Name = "Date of birth")]
@@ -69,6 +65,30 @@ namespace SparWeb.Models
 
 		[Display(Name = "Gym name")]
 		public string GymName { get; set; }
+
+		[Required]
+		[DataType(DataType.EmailAddress)]
+		[EmailAddress]
+		[Display(Name = "Email")]
+		public string UserName { get; set; }
+
+		[Required]
+		[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+		[DataType(DataType.Password)]
+		[Display(Name = "Password")]
+		public string Password { get; set; }
+
+		[DataType(DataType.Password)]
+		[Display(Name = "Confirm password")]
+		[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+		public string ConfirmPassword { get; set; }
+	}
+
+	public class RegisterFighterViewModel : RegisterViewModel
+    {
+		[Required]
+		[Display(Name = "Gender")]
+		public bool Sex { get; set; }
 
 		[Required]
 		[Display(Name = "Height")]
@@ -89,23 +109,6 @@ namespace SparWeb.Models
 		[Required]
 		[Display(Name = "Professional")]
 		public virtual int NumberOfProFights { get; set; }
-
-        [Required]
-		[DataType(DataType.EmailAddress)]
-		[EmailAddress]
-        [Display(Name = "Email")]
-        public string UserName { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
     }
 
 	public class AccountViewModel

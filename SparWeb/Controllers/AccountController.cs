@@ -148,31 +148,21 @@ namespace SparWeb.Controllers
 		}
 
         //
-        // GET: /Account/Register
+		// GET: /Account/RegisterFighter
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult RegisterFighter()
         {
 			Util.PopualateRegistrationDropdowns(ViewBag);
 
-			return View(new RegisterViewModel() { Sex = true, IsSouthpaw = false });
+			return View(new RegisterFighterViewModel() { Sex = true, IsSouthpaw = false });
         }
 
-		private Dictionary<int, string> getAllGyms()
-		{
-			GymRepository gymRepo = new GymRepository();
-			Dictionary<int, string> allGyms = new Dictionary<int, string>();
-			foreach (Gym gym in gymRepo.GetAllGyms())
-				allGyms[gym.Id.Value] = gym.Name;
-
-			return allGyms;
-		}
-
         //
-        // POST: /Account/Register
+		// POST: /Account/RegisterFighter
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+		public async Task<ActionResult> RegisterFighter(RegisterFighterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -232,6 +222,16 @@ namespace SparWeb.Controllers
 			Util.PopualateRegistrationDropdowns(ViewBag);
             return View(model);
         }
+
+		private Dictionary<int, string> getAllGyms()
+		{
+			GymRepository gymRepo = new GymRepository();
+			Dictionary<int, string> allGyms = new Dictionary<int, string>();
+			foreach (Gym gym in gymRepo.GetAllGyms())
+				allGyms[gym.Id.Value] = gym.Name;
+
+			return allGyms;
+		}
 
 		private Gym createGym(string gymName)
 		{
@@ -384,11 +384,11 @@ namespace SparWeb.Controllers
 				
 				//resizing and saving account thumbnail version
 				bitmap = new Bitmap(bitmap, 250, 250);
-				fileName = fighter.getProfileThumbnailFileName(250, true);
+				fileName = fighter.GetProfileThumbnailFileName(250, true);
 				saveProfilePic(bitmap, fileName, container);
 
 				bitmap = new Bitmap(bitmap, 150, 150);
-				saveProfilePic(bitmap, fighter.getProfileThumbnailFileName(150, true), container);
+				saveProfilePic(bitmap, fighter.GetProfileThumbnailFileName(150, true), container);
 
 				fighter.ProfilePictureUploaded = true;
 				FighterRepository fighterRepo = new FighterRepository();

@@ -162,7 +162,7 @@ namespace SparWeb
 					Gym = fighter.Gym, 
 					City = fighter.City,
 					State = fighter.State,
-					Age = fighter.getFighterAge(), 
+					Age = fighter.GetMemberAge(), 
 					Height = fighter.Height, 
 					Weight = fighter.Weight, 
 					IsSouthpaw = fighter.IsSouthpaw,

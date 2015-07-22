@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" 
+                   assembly="SparModel" 
+                   namespace="SparModel">
+ 
+  <class name="Trainer" table="Trainers">
+		<id name="Id" column="TrainerId">
+			<generator class="identity"></generator>
+		</id>
+		<property name="Name" column="Name" not-null="true"></property>
+		<property name="DateOfBirth" column="DateOfBirth" not-null="true"></property>
+		<property name="City" column="City" not-null="true"></property>
+		<property name="State" column="State" not-null="true"></property>
+		<many-to-one class="Gym" name="Gym" column="GymId" not-null="false" lazy="false" />
+		<many-to-one class="SparIdentityUser" name="SparIdentityUser" column="AspNetUserId" cascade="save-update" lazy="false"></many-to-one>
+		<property name="ProfilePictureUploaded" column="ProfilePictureUploaded" not-null="true"></property>
+		<property name="InsertDate" column="InsertDate" not-null="true"></property>
+		<property name="UpdateDate" column="UpdateDate" not-null="true"></property>
+	</class>
+  
+</hibernate-mapping>

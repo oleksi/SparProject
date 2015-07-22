@@ -1,11 +1,11 @@
-﻿@model SparWeb.Models.RegisterViewModel
+﻿@model SparWeb.Models.RegisterFighterViewModel
 @using SparWeb.Models
 
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Register Fighter";
 }
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal register-form", role = "form" }))
+@using (Html.BeginForm("RegisterFighter", "Account", FormMethod.Post, new { @class = "form-horizontal register-form", role = "form" }))
 {
     <div class="row">
         <div class="col-md-6">
@@ -17,7 +17,7 @@
                 <hr />
             </div>
 			
-			@{ Html.RenderPartial("RegisterViewModel", Model); }
+			@{ Html.RenderPartial("RegisterFighterViewModel", Model); }
 
             <div class="form-group">
                 <div class="col-md-offset-4 col-md-8">
