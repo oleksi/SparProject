@@ -63,9 +63,6 @@ namespace SparWeb.Models
 		[Required]
 		public string State { get; set; }
 
-		[Display(Name = "Gym name")]
-		public string GymName { get; set; }
-
 		[Required]
 		[DataType(DataType.EmailAddress)]
 		[EmailAddress]
@@ -86,6 +83,9 @@ namespace SparWeb.Models
 
 	public class RegisterFighterViewModel : RegisterViewModel
     {
+		[Display(Name = "Gym name")]
+		public string GymName { get; set; }
+
 		[Required]
 		[Display(Name = "Gender")]
 		public bool Sex { get; set; }
@@ -110,6 +110,12 @@ namespace SparWeb.Models
 		[Display(Name = "Professional")]
 		public virtual int NumberOfProFights { get; set; }
     }
+
+	public class RegisterTrainerViewModel : RegisterViewModel
+	{
+		[Display(Name = "Gym name")]
+		public string GymName { get; set; }
+	}
 
 	public class AccountViewModel
 	{

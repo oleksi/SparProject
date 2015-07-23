@@ -216,9 +216,10 @@
     <Compile Include="EmailManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\EmailTemplates\NewTrainerMemberNotificationTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestNotificationTemplate.html" />
     <Content Include="App_Data\EmailTemplates\PasswordResetTemplate.html" />
-    <Content Include="App_Data\EmailTemplates\NewMemberNotificationTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\NewFighterMemberNotificationTemplate.html" />
     <Content Include="App_Data\EmailTemplates\ContactFormTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestCancelledTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestConfirmedTemplate.html" />
@@ -329,6 +330,8 @@
     <Content Include="Views\Spar\Fighter.cshtml" />
     <Content Include="Views\Shared\SparButton.cshtml" />
     <Content Include="Views\Shared\RegisterFighterViewModel.cshtml" />
+    <Content Include="Views\Account\RegisterTrainer.cshtml" />
+    <Content Include="Views\Shared\RegisterTrainerViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

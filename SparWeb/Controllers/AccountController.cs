@@ -184,17 +184,10 @@ namespace SparWeb.Controllers
 					fighterRepo.SaveFighter(fighter);
 
 					//sending Email Confirmation email
-					var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-					var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-
-					var emailPlaceholders = new Dictionary<string, string>();
-					emailPlaceholders["[NAME]"] = model.Name;
-					emailPlaceholders["[CONFIRMATION_URL]"] = String.Format("<a href=\"{0}\">{0}</a>", callbackUrl);
-
-					EmailManager.SendEmail(EmailManager.EmailTypes.EmailConfirmationTemplate, ConfigurationManager.AppSettings["EmailSupport"], user.UserName, "Welcome to SparGym! Please confirm your account", emailPlaceholders);
+					await sendAccountConfirmationEmail(user, model.Name);
 
 					//sending notification email to admin
-					emailPlaceholders = new Dictionary<string, string>();
+					var emailPlaceholders = new Dictionary<string, string>();
 					emailPlaceholders["[NAME]"] = ConfigurationManager.AppSettings["AdminName"];
 					emailPlaceholders["[FIGHTER_NAME]"] = model.Name;
 					emailPlaceholders["[GENDER]"] = (model.Sex == true) ? "Male" : "Femail";
@@ -208,7 +201,7 @@ namespace SparWeb.Controllers
 					emailPlaceholders["[NUMBER_OF_PRO_FUIGTS]"] = model.NumberOfProFights.ToString();
 					emailPlaceholders["[GYM]"] = String.IsNullOrEmpty(model.GymName)? "Unknown Gym" : model.GymName;
 
-					EmailManager.SendEmail(EmailManager.EmailTypes.NewMemberNotificationTemplate, ConfigurationManager.AppSettings["EmailSupport"], ConfigurationManager.AppSettings["EmailAdmin"], "New Member Just Signed Up!", emailPlaceholders);
+					EmailManager.SendEmail(EmailManager.EmailTypes.NewFighterMemberNotificationTemplate, ConfigurationManager.AppSettings["EmailSupport"], ConfigurationManager.AppSettings["EmailAdmin"], "New Member Just Signed Up!", emailPlaceholders);
 
 					return View("DisplayEmail");
                 }
@@ -222,6 +215,76 @@ namespace SparWeb.Controllers
 			Util.PopualateRegistrationDropdowns(ViewBag);
             return View(model);
         }
+
+		[AllowAnonymous]
+		public ActionResult RegisterTrainer()
+		{
+			Util.PopualateRegistrationDropdowns(ViewBag);
+
+			return View(new RegisterTrainerViewModel());
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public async Task<ActionResult> RegisterTrainer(RegisterTrainerViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				DateTime dob = DateTime.MinValue;
+				if (DateTime.TryParse(String.Format("{0}/{1}/{2}", model.DateOfBirth.Month, model.DateOfBirth.Day, model.DateOfBirth.Year), out dob) == false || dob > DateTime.Now || dob < DateTime.Now.AddYears(-100))
+				{
+					ModelState.AddModelError("DateOfBirth", "Date of birth is not valid");
+					Util.PopualateRegistrationDropdowns(ViewBag);
+					return View(model);
+				}
+
+				var user = new SparIdentityUser() { UserName = model.UserName, Email = model.UserName };
+				var result = await UserManager.CreateAsync(user, model.Password);
+				if (result.Succeeded)
+				{
+					var trainerRepo = new TrainerRepository();
+					var trainer = new Trainer() { Name = model.Name, DateOfBirth = dob, City = model.City, State = model.State, Gym = createGym(model.GymName), ProfilePictureUploaded = false, SparIdentityUser = user };
+					trainerRepo.SaveTrainer(trainer);
+
+					//sending Email Confirmation email
+					await sendAccountConfirmationEmail(user, model.Name);
+
+					//sending notification email to admin
+					var emailPlaceholders = new Dictionary<string, string>();
+					emailPlaceholders["[NAME]"] = ConfigurationManager.AppSettings["AdminName"];
+					emailPlaceholders["[TRAINER_NAME]"] = model.Name;
+					emailPlaceholders["[DATE_OF_BIRTH]"] = dob.ToShortDateString();
+					emailPlaceholders["[CITY]"] = model.City;
+					emailPlaceholders["[STATE]"] = model.State;
+					emailPlaceholders["[GYM]"] = String.IsNullOrEmpty(model.GymName) ? "Unknown Gym" : model.GymName;
+
+					EmailManager.SendEmail(EmailManager.EmailTypes.NewTrainerMemberNotificationTemplate, ConfigurationManager.AppSettings["EmailSupport"], ConfigurationManager.AppSettings["EmailAdmin"], "New Member Just Signed Up!", emailPlaceholders);
+
+					return View("DisplayEmail");
+				}
+				else
+				{
+					AddErrors(result);
+				}
+			}
+
+			// If we got this far, something failed, redisplay form
+			Util.PopualateRegistrationDropdowns(ViewBag);
+			return View(model);
+		}
+
+		private async Task sendAccountConfirmationEmail(SparIdentityUser user, string memberName)
+		{
+			var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+			var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+
+			var emailPlaceholders = new Dictionary<string, string>();
+			emailPlaceholders["[NAME]"] = memberName;
+			emailPlaceholders["[CONFIRMATION_URL]"] = String.Format("<a href=\"{0}\">{0}</a>", callbackUrl);
+
+			EmailManager.SendEmail(EmailManager.EmailTypes.EmailConfirmationTemplate, ConfigurationManager.AppSettings["EmailSupport"], user.UserName, "Welcome to SparGym! Please confirm your account", emailPlaceholders);
+		}
 
 		private Dictionary<int, string> getAllGyms()
 		{

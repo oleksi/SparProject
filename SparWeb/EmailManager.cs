@@ -19,9 +19,10 @@ namespace SparWeb
 			SparRequestConfirmedTemplate = 5,
 			SparRequestCancelledTemplate = 6,
 			ContactFormTemplate = 7,
-			NewMemberNotificationTemplate = 8,
-			PasswordResetTemplate = 9,
-			SparRequestNotificationTemplate = 10
+			NewFighterMemberNotificationTemplate = 8,
+			NewTrainerMemberNotificationTemplate = 9,
+			PasswordResetTemplate = 10,
+			SparRequestNotificationTemplate = 11
 		}
 
 		public static void SendEmail(EmailTypes emailType, string fromEmail, string toEmail, string subject, Dictionary<string, string> placeholders)
