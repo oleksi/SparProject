@@ -71,16 +71,16 @@ namespace SparWeb.Models
 	}
 
 	// Configure the RoleManager used in the application. RoleManager is defined in the ASP.NET Identity core assembly
-	public class ApplicationRoleManager : RoleManager<IdentityRole>
+	public class ApplicationRoleManager : RoleManager<SparIdentityRole>
 	{
-		public ApplicationRoleManager(IRoleStore<IdentityRole, string> roleStore)
+		public ApplicationRoleManager(IRoleStore<SparIdentityRole, string> roleStore)
 			: base(roleStore)
 		{
 		}
 
 		public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
 		{
-			return new ApplicationRoleManager(new SparIdentityRoleStore<IdentityRole>());
+			return new ApplicationRoleManager(new SparIdentityRoleStore<SparIdentityRole>());
 			//return new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>()));
 		}
 	}

@@ -56,8 +56,10 @@
     <Compile Include="Gym.cs" />
     <Compile Include="Member.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SparIdentityUserRole.cs" />
     <Compile Include="SparRequest.cs" />
     <Compile Include="SparIdentityUser.cs" />
+    <Compile Include="SparIdentityRole.cs" />
     <Compile Include="SparUserLoginInfo.cs" />
     <Compile Include="Trainer.cs" />
   </ItemGroup>

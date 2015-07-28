@@ -174,10 +174,12 @@ namespace SparWeb.Controllers
 					return View(model);
 				}
 
-                var user = new SparIdentityUser() { UserName = model.UserName, Email = model.UserName };                
+                var user = new SparIdentityUser() { UserName = model.UserName, Email = model.UserName };
 				var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+					UserManager.AddToRole(user.Id, "Fighter");
+
 					FighterRepository fighterRepo = new FighterRepository();
 					Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, City = model.City, State = model.State, Height = model.Height, Weight = model.Weight, IsSouthpaw = model.IsSouthpaw, NumberOfAmateurFights = model.NumberOfAmateurFights, NumberOfProFights = model.NumberOfProFights, Gym = createGym(model.GymName), ProfilePictureUploaded = false };
 					fighter.SparIdentityUser = user;
@@ -243,6 +245,8 @@ namespace SparWeb.Controllers
 				var result = await UserManager.CreateAsync(user, model.Password);
 				if (result.Succeeded)
 				{
+					UserManager.AddToRole(user.Id, "Trainer");
+
 					var trainerRepo = new TrainerRepository();
 					var trainer = new Trainer() { Name = model.Name, DateOfBirth = dob, City = model.City, State = model.State, Gym = createGym(model.GymName), ProfilePictureUploaded = false, SparIdentityUser = user };
 					trainerRepo.SaveTrainer(trainer);
@@ -359,6 +363,9 @@ namespace SparWeb.Controllers
 		public ActionResult Index()
 		{
 			Fighter fighter = getLoggedInFighter();
+
+			bool isTrainer = UserManager.IsInRole(fighter.SparIdentityUser.Id, "Trainer");
+
 			AccountViewModel accountViewModel = Util.GetAccountViewModelForFighter(fighter, 250);
 
 			SparRepository sparRepo = new SparRepository();
