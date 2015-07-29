@@ -362,30 +362,39 @@ namespace SparWeb.Controllers
 		[Authorize]
 		public ActionResult Index()
 		{
-			Fighter fighter = getLoggedInFighter();
+			var identityUserStore = new SparIdentityUserStore<SparIdentityUser>();
+			var identityUser = identityUserStore.FindByIdAsync(User.Identity.GetUserId()).Result;
+			bool isFighter = UserManager.IsInRole(identityUser.Id, "Fighter");
 
-			bool isTrainer = UserManager.IsInRole(fighter.SparIdentityUser.Id, "Trainer");
+			if (isFighter == true)
+			{
+				Fighter fighter = getLoggedInFighter();
 
-			AccountViewModel accountViewModel = Util.GetAccountViewModelForFighter(fighter, 250);
+				AccountFighterViewModel accountViewModel = Util.GetAccountViewModelForFighter(fighter, 250);
 
-			SparRepository sparRepo = new SparRepository();
-			accountViewModel.SparRequests = Util.GetSparRequestDetailsForFighter(fighter.Id.Value, User.Identity.GetUserId());
+				SparRepository sparRepo = new SparRepository();
+				accountViewModel.SparRequests = Util.GetSparRequestDetailsForFighter(fighter.Id.Value, User.Identity.GetUserId());
 
-			Util.PopualateRegistrationDropdowns(ViewBag);
+				Util.PopualateRegistrationDropdowns(ViewBag);
 
-			return View("Account", accountViewModel);
+				return View("AccountFighter", accountViewModel);
+			}
+			else
+			{
+				return Content("Trainer View");
+			}
 		}
 
 		[Authorize]
 		[HttpPost]
-		public ActionResult UpdateProfileInfo(AccountViewModel model)
+		public ActionResult UpdateFighterProfileInfo(AccountFighterViewModel model)
 		{
 			if (ModelState.IsValid == false)
 			{
 				Util.PopualateRegistrationDropdowns(ViewBag);
 				ViewBag.ShowUpdateProfileModal = true;
 
-				return View("Account", model);
+				return View("AccountFighter", model);
 			}
 
 			var currFighter = getLoggedInFighter();

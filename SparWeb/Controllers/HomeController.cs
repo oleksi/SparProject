@@ -196,7 +196,7 @@ namespace SparWeb.Controllers
 			ViewBag.States = Util.States;
 		}
 
-		private List<AccountViewModel> getFightersListViewModel(IList<Fighter> fightersList)
+		private List<AccountFighterViewModel> getFightersListViewModel(IList<Fighter> fightersList)
 		{
 			FighterRepository fighterRepo = new FighterRepository();
 
@@ -204,12 +204,12 @@ namespace SparWeb.Controllers
 			if (User.Identity.GetUserId() != null)
 				loggedInFighterId = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId()).Id.Value;
 
-			List<AccountViewModel> fightersAccountViewModelList = new List<AccountViewModel>();
+			List<AccountFighterViewModel> fightersAccountViewModelList = new List<AccountFighterViewModel>();
 			foreach (Fighter currFighter in fightersList)
 			{
 				if (loggedInFighterId == -1 || loggedInFighterId != currFighter.Id)
 				{
-					AccountViewModel accountViewModel = Util.GetAccountViewModelForFighter(currFighter, 150);
+					AccountFighterViewModel accountViewModel = Util.GetAccountViewModelForFighter(currFighter, 150);
 
 					if (User.Identity.IsAuthenticated == true)
 						accountViewModel.SparRequests = Util.GetSparRequestDetailsForFighter(currFighter.Id.Value, User.Identity.GetUserId()).Where(sr => (sr.OpponentFighter.Id == loggedInFighterId || sr.ThisFighter.Id == loggedInFighterId)).ToList();

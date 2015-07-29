@@ -309,7 +309,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Sex.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateOfBirth.cshtml" />
-    <Content Include="Views\Account\Account.cshtml" />
+    <Content Include="Views\Account\AccountFighter.cshtml" />
     <Content Include="Views\Account\DisplayEmail.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Shared\SparFighter.cshtml" />

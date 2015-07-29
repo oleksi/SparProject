@@ -149,13 +149,13 @@ namespace SparWeb
 			{"WY", "Wyoming"}
 		};
 
-		public static AccountViewModel GetAccountViewModelForFighter(Fighter fighter, int thumbnailSize)
+		public static AccountFighterViewModel GetAccountViewModelForFighter(Fighter fighter, int thumbnailSize)
 		{
 			string gymName = (fighter.Gym != null) ? fighter.Gym.Name : "Unknown Gym";
 
-			AccountViewModel model = null;
+			AccountFighterViewModel model = null;
 			if (fighter != null)
-				model = new AccountViewModel() { 
+				model = new AccountFighterViewModel() { 
 					ID = fighter.SparIdentityUser.Id,
 					Name = fighter.Name, 
 					GymName = gymName,

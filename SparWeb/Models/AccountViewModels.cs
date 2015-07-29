@@ -117,7 +117,7 @@ namespace SparWeb.Models
 		public string GymName { get; set; }
 	}
 
-	public class AccountViewModel
+	public class AccountFighterViewModel
 	{
 		public string ID { get; set; }
 
@@ -166,7 +166,7 @@ namespace SparWeb.Models
 
 		public IList<ConfirmSparDetailsViewModel> SparRequests { get; set; }
 
-		public AccountViewModel()
+		public AccountFighterViewModel()
 		{
 			SparRequests = new List<ConfirmSparDetailsViewModel>();
 		}

@@ -1,4 +1,4 @@
-﻿@model SparWeb.Models.AccountViewModel
+﻿@model SparWeb.Models.AccountFighterViewModel
 
 @{
     ViewBag.Title = "Account Summary";
@@ -191,7 +191,7 @@
 
 <div id="updateProfileModel" class="modal fade">
     <div class="modal-dialog">
-        @Html.BeginForm("UpdateProfileInfo", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" })
+        @Html.BeginForm("UpdateFighterProfileInfo", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" })
         @Html.HiddenFor(m => m.Name)
         @Html.HiddenFor(m => m.ProfilePictureUploaded)
         @Html.HiddenFor(m => m.ProfilePictureFile)
