@@ -18,6 +18,19 @@ namespace SparWeb.Controllers
 	{
 		const int PAGE_SIZE = 20;
 
+		private ApplicationUserManager _userManager;
+		public ApplicationUserManager UserManager
+		{
+			get
+			{
+				return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+			}
+			private set
+			{
+				_userManager = value;
+			}
+		}
+
 		[HttpGet]
 		public ActionResult Index(HomeViewModel model, int? page)
 		{
@@ -198,11 +211,19 @@ namespace SparWeb.Controllers
 
 		private List<AccountFighterViewModel> getFightersListViewModel(IList<Fighter> fightersList)
 		{
-			FighterRepository fighterRepo = new FighterRepository();
-
 			int loggedInFighterId = -1;
 			if (User.Identity.GetUserId() != null)
-				loggedInFighterId = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId()).Id.Value;
+			{
+				var identityUserStore = new SparIdentityUserStore<SparIdentityUser>();
+				var identityUser = identityUserStore.FindByIdAsync(User.Identity.GetUserId()).Result;
+				bool isFighter = UserManager.IsInRole(identityUser.Id, "Fighter");
+
+				if (isFighter == true)
+				{
+					var fighterRepo = new FighterRepository();
+					loggedInFighterId = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId()).Id.Value;
+				}
+			}
 
 			List<AccountFighterViewModel> fightersAccountViewModelList = new List<AccountFighterViewModel>();
 			foreach (Fighter currFighter in fightersList)

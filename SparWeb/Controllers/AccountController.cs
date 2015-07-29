@@ -362,13 +362,11 @@ namespace SparWeb.Controllers
 		[Authorize]
 		public ActionResult Index()
 		{
-			var identityUserStore = new SparIdentityUserStore<SparIdentityUser>();
-			var identityUser = identityUserStore.FindByIdAsync(User.Identity.GetUserId()).Result;
-			bool isFighter = UserManager.IsInRole(identityUser.Id, "Fighter");
+			var member = getLoggedInMember();
 
-			if (isFighter == true)
+			if (member is Fighter == true)
 			{
-				Fighter fighter = getLoggedInFighter();
+				Fighter fighter = member as Fighter;
 
 				AccountFighterViewModel accountViewModel = Util.GetAccountViewModelForFighter(fighter, 250);
 
@@ -381,7 +379,15 @@ namespace SparWeb.Controllers
 			}
 			else
 			{
-				return Content("Trainer View");
+				var trainer = member as Trainer;
+
+				var accountViewModel = Util.GetAccountViewModelForTrainer(trainer, 250);
+
+				//ToDo: get list of fightes that belong to this trainer
+
+				Util.PopualateRegistrationDropdowns(ViewBag);
+
+				return View("AccountTrainer", accountViewModel);
 			}
 		}
 
@@ -420,6 +426,27 @@ namespace SparWeb.Controllers
 			return RedirectToAction("Index");
 		}
 
+		private Member getLoggedInMember()
+		{
+			var identityUserStore = new SparIdentityUserStore<SparIdentityUser>();
+			var identityUser = identityUserStore.FindByIdAsync(User.Identity.GetUserId()).Result;
+			bool isFighter = UserManager.IsInRole(identityUser.Id, "Fighter");
+
+			Member member = null;
+			if (isFighter == true)
+			{
+				var fighterRepo = new FighterRepository();
+				member = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
+			}
+			else
+			{
+				var trainerRepo = new TrainerRepository();
+				member = trainerRepo.GetTrainerByIdentityUserId(User.Identity.GetUserId());
+			}
+
+			return member;
+		}
+
 		private Fighter getLoggedInFighter()
 		{
 			FighterRepository fighterRepo = new FighterRepository();
@@ -427,12 +454,19 @@ namespace SparWeb.Controllers
 			return fighter;
 		}
 
+		private Trainer getLoggedInTrainer()
+		{
+			TrainerRepository trainerRepo = new TrainerRepository();
+			Trainer trainer = trainerRepo.GetTrainerByIdentityUserId(User.Identity.GetUserId());
+			return trainer;
+		}
+
 		[HttpPost]
 		public ActionResult UploadProfilePicture(HttpPostedFileBase file)
 		{
 			bool fileSavedSuccessfully = true;
 			string fileName = "";
-			Fighter fighter = null;
+			Member member = null;
 			string errorMessage = "";
 			try
 			{
@@ -446,10 +480,10 @@ namespace SparWeb.Controllers
 					container.SetPermissions(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob }); 					
 				}
 
-				fighter = getLoggedInFighter();
+				member = getLoggedInMember();
 
 				//optimizing and saving uploaded pic in full size
-				string origFileName = String.Format("{0}-orig.jpg", fighter.SparIdentityUser.Id);				
+				string origFileName = String.Format("{0}-orig.jpg", member.SparIdentityUser.Id);				
 				Bitmap bitmap = new Bitmap(file.InputStream);
 				saveProfilePic(bitmap, origFileName, container);
 
@@ -463,15 +497,24 @@ namespace SparWeb.Controllers
 				
 				//resizing and saving account thumbnail version
 				bitmap = new Bitmap(bitmap, 250, 250);
-				fileName = fighter.GetProfileThumbnailFileName(250, true);
+				fileName = member.GetProfileThumbnailFileName(250, true);
 				saveProfilePic(bitmap, fileName, container);
 
 				bitmap = new Bitmap(bitmap, 150, 150);
-				saveProfilePic(bitmap, fighter.GetProfileThumbnailFileName(150, true), container);
+				saveProfilePic(bitmap, member.GetProfileThumbnailFileName(150, true), container);
 
-				fighter.ProfilePictureUploaded = true;
-				FighterRepository fighterRepo = new FighterRepository();
-				fighterRepo.SaveFighter(fighter);
+				member.ProfilePictureUploaded = true;
+
+				if (member is Fighter)
+				{
+					FighterRepository fighterRepo = new FighterRepository();
+					fighterRepo.SaveFighter(member as Fighter);
+				}
+				else
+				{
+					var trainerRepo = new TrainerRepository();
+					trainerRepo.SaveTrainer(member as Trainer);
+				}
 			}
 			catch(Exception ex)
 			{
@@ -481,7 +524,7 @@ namespace SparWeb.Controllers
 
 			if (fileSavedSuccessfully)
 			{
-				return Json(new { Message = Util.GetProfilePictureFileForFighter(fighter, 250) });
+				return Json(new { Message = Util.GetProfilePictureFile(member, 250) });
 			}
 			else
 			{

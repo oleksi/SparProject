@@ -169,16 +169,38 @@ namespace SparWeb
 					NumberOfAmateurFights = fighter.NumberOfAmateurFights, 
 					NumberOfProFights = fighter.NumberOfProFights,
 					ProfilePictureUploaded = fighter.ProfilePictureUploaded,
-					ProfilePictureFile = GetProfilePictureFileForFighter(fighter, thumbnailSize),
+					ProfilePictureFile = GetProfilePictureFile(fighter, thumbnailSize),
 					HimOrHer = fighter.GetHimOrHer(true)
 				};
 
 			return model;
 		}
 
-		public static string GetProfilePictureFileForFighter(Fighter fighter, int thumbnailSize)
+		public static AccountTrainerViewModel GetAccountViewModelForTrainer(Trainer trainer, int thumbnailSize)
 		{
-			return fighter.GetProfilePictureFile(thumbnailSize, System.Configuration.ConfigurationManager.AppSettings["ProfilePicsUrl"], VirtualPathUtility.ToAbsolute("~/Content/Images/"));
+			string gymName = (trainer.Gym != null) ? trainer.Gym.Name : "Unknown Gym";
+
+			AccountTrainerViewModel model = null;
+			if (trainer != null)
+				model = new AccountTrainerViewModel()
+				{
+					ID = trainer.SparIdentityUser.Id,
+					Name = trainer.Name,
+					GymName = gymName,
+					Gym = trainer.Gym,
+					City = trainer.City,
+					State = trainer.State,
+					Age = trainer.GetMemberAge(),
+					ProfilePictureUploaded = trainer.ProfilePictureUploaded,
+					ProfilePictureFile = GetProfilePictureFile(trainer, thumbnailSize)
+				};
+
+			return model;
+		}
+
+		public static string GetProfilePictureFile(Member member, int thumbnailSize)
+		{
+			return member.GetProfilePictureFile(thumbnailSize, System.Configuration.ConfigurationManager.AppSettings["ProfilePicsUrl"], VirtualPathUtility.ToAbsolute("~/Content/Images/"));
 		}
 
 		public static ConfirmSparDetailsViewModel GetConfirmSparDetailsViewModel(SparRequest sparRequest, int profilePictureSize, string currUserId)

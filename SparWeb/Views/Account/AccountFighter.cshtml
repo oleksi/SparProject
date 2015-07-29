@@ -7,27 +7,7 @@
 <div class="row account-info-section">
     <div class="col-md-1"></div>
     <div class="col-md-3 profilePictureSection">
-        <div class="profilePictureDefault dropzone @((Model.ProfilePictureUploaded == true)? "hidden" : "")">
-            <p class="profileUploadPicHeader">Upload your picture now!</p>
-            <p class="profileUploadPicSubeader"><a class="profileUploadPicAction" href="#">(drop file here or click)</a></p>
-        </div>
-        <div class="cancelProfilePictureUpdate hidden">
-            <p class="text-center"><a href="#" onclick="showProfilePicture('@Model.ProfilePictureFile');">Cancel</a></p>
-        </div>
-        <div class="title hidden-md hidden-lg">
-            <span class="fighterNameSmall">@Html.ValueFor(m => m.Name)</span>
-            <div class="row">
-                <div class="col-md-12">
-                    from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
-                    <br>
-                    <span>@Model.City, @Model.State</span>
-                </div>
-            </div>
-        </div>
-        <div class="profilePicture @((Model.ProfilePictureUploaded == false)? "hidden" : "")">
-            <img height="250" class="img-responsive" />
-            <p class="text-center"><a href="#" onclick="updateProfilePicture();">Update Picture</a></p>
-        </div>
+		@{Html.RenderPartial("ProfilePicture", Model);}
     </div>
     <div class="col-md-6">
         <div class="title hidden-xs hidden-sm">
@@ -129,7 +109,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <img height="@currSparRequest.ProfilePictureSize" src="@Util.GetProfilePictureFileForFighter(currSparRequest.OpponentFighter, currSparRequest.ProfilePictureSize)" class="img-responsive" />
+                                    <img height="@currSparRequest.ProfilePictureSize" src="@Util.GetProfilePictureFile(currSparRequest.OpponentFighter, currSparRequest.ProfilePictureSize)" class="img-responsive" />
                                 </div>
                             </div>
                             <div class="col-md-6 hidden-xs vAlignCenter">
@@ -294,34 +274,13 @@
 </div>
 
     @section scripts{
-        @Scripts.Render("~/bundles/dropzone")
-        @Scripts.Render("~/bundles/jqueryval")
-
         <script type="text/javascript">
     //Dropzone.autoDiscover = false;
     $(function () {
-
-        //initializing DropZone
-        initializeDropZone();
-
-        //making sure we text passes click events to dropzone div
-        $(".profileUploadPicAction").click(function () {
-            $(this).parent().parent().trigger("click");
-        });
-        $(".profileUploadPicHeader").click(function () {
-            $(this).parent().trigger("click");
-        });
-
         $('.update-profile-info').find('a').click(function () {
             $('#updateProfileModel').addClass('fade');
             $('#updateProfileModel').modal('show');
         });
-
-
-        @if (Model.ProfilePictureUploaded == true)
-        {
-            @:showProfilePicture('@Model.ProfilePictureFile');
-        }
         
         @if (ViewBag.ShowUpdateProfileModal != null)
         {
@@ -331,41 +290,6 @@
             </text>
         }
     });
-
-    function initializeDropZone() {
-        $(".profilePictureDefault").dropzone({
-            url: "@Url.Action("UploadProfilePicture", "Account")",
-            thumbnailWidth: 150,
-            thumbnailHeight: 150,
-            init: function () {
-                this.on("complete", function (data) {
-                    var res = eval('(' + data.xhr.responseText + ')');
-                    if (res.Message.indexOf("Error:") != 0) {
-                        $('.profilePictureDefault').hide();
-                        $('.dz-preview').hide();
-
-                        showProfilePicture(res.Message);
-                    }
-                    else {
-                        alert(res.Message);
-                    }
-                });
-            }
-        });
-    }
-
-    function showProfilePicture(pictureFileName) {
-        $('.cancelProfilePictureUpdate').addClass('hidden');
-        $('.profilePictureDefault').addClass('hidden');
-        $('.profilePicture').find('img').attr("src", pictureFileName);
-        $('.profilePicture').removeClass('hidden');
-    }
-
-    function updateProfilePicture() {
-        $('.profilePicture').addClass('hidden');
-        $('.profilePictureDefault').removeClass('hidden');
-        $('.cancelProfilePictureUpdate').removeClass('hidden');
-    }
 
     function confirmCancelSpar(opponentFighterName, sparRequestId) {
         $('#confirmCancelSparyModal').find('p').find('span').text(opponentFighterName);

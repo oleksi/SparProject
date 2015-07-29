@@ -117,15 +117,11 @@ namespace SparWeb.Models
 		public string GymName { get; set; }
 	}
 
-	public class AccountFighterViewModel
+	public class AccountViewModel
 	{
 		public string ID { get; set; }
 
 		public string Name { get; set; }
-
-		[Display(Name = "Gym name:")]
-		public string GymName { get; set; }
-		public Gym Gym { get; set; }
 
 		[Required]
 		[Display(Name = "City:")]
@@ -138,6 +134,17 @@ namespace SparWeb.Models
 		[Display(Name = "Age:")]
 		public int Age { get; set; }
 
+		public string ProfilePictureFile { get; set; }
+
+		public bool ProfilePictureUploaded { get; set; }
+
+		[Display(Name = "Gym name:")]
+		public string GymName { get; set; }
+		public Gym Gym { get; set; }
+	}
+
+	public class AccountFighterViewModel : AccountViewModel
+	{
 		[Required]
 		[Display(Name = "Height:")]
 		public double Height { get; set; }
@@ -158,10 +165,6 @@ namespace SparWeb.Models
 		[Display(Name = "Professional")]
 		public int NumberOfProFights { get; set; }
 
-		public string ProfilePictureFile { get; set; }
-
-		public bool ProfilePictureUploaded { get; set; }
-
 		public string HimOrHer { get; set; }
 
 		public IList<ConfirmSparDetailsViewModel> SparRequests { get; set; }
@@ -178,6 +181,10 @@ namespace SparWeb.Models
 				return String.Format("/fighters/{0}/{1}", Util.States[State], Name); 
 			}
 		}
+	}
+
+	public class AccountTrainerViewModel : AccountViewModel
+	{
 	}
 
 	public class DateOfBirth

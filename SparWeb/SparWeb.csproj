@@ -332,6 +332,8 @@
     <Content Include="Views\Shared\RegisterFighterViewModel.cshtml" />
     <Content Include="Views\Account\RegisterTrainer.cshtml" />
     <Content Include="Views\Shared\RegisterTrainerViewModel.cshtml" />
+    <Content Include="Views\Shared\ProfilePicture.cshtml" />
+    <Content Include="Views\Account\AccountTrainer.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
