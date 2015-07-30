@@ -79,13 +79,13 @@ namespace SparWeb.Models
 		[Display(Name = "Confirm password")]
 		[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
 		public string ConfirmPassword { get; set; }
+
+		[Display(Name = "Gym name")]
+		public string GymName { get; set; }
 	}
 
 	public class RegisterFighterViewModel : RegisterViewModel
     {
-		[Display(Name = "Gym name")]
-		public string GymName { get; set; }
-
 		[Required]
 		[Display(Name = "Gender")]
 		public bool Sex { get; set; }
@@ -113,8 +113,18 @@ namespace SparWeb.Models
 
 	public class RegisterTrainerViewModel : RegisterViewModel
 	{
-		[Display(Name = "Gym name")]
-		public string GymName { get; set; }
+		[Display(Name = "Phone Number")]
+		[RegularExpression("^\\(?[2-9]\\d{2}(\\)\\s|[\\s\\.-])?[2-9]\\d{2}([\\s\\.-])?\\d{4}$", ErrorMessage = "Please enter correct phone number")]
+		public string PhoneNumber { get; set; }
+
+		[Display(Name = "Website")]
+		public string Website { get; set; }
+
+		[Display(Name = "Rate (per hour)")]
+		public decimal Rate { get; set; }
+
+		[Display(Name = "Notes")]
+		public string Notes { get; set; }
 	}
 
 	public class AccountViewModel
@@ -185,6 +195,23 @@ namespace SparWeb.Models
 
 	public class AccountTrainerViewModel : AccountViewModel
 	{
+		[Display(Name = "Phone Number:")]
+		[RegularExpression("^\\(?[2-9]\\d{2}(\\)\\s|[\\s\\.-])?[2-9]\\d{2}([\\s\\.-])?\\d{4}$", ErrorMessage = "Please enter correct phone number")]
+		public string PhoneNumber { get; set; }
+
+		[Display(Name = "Website:")]
+		public string Website { get; set; }
+
+		[Display(Name = "Rate (per hour):")]
+		public decimal Rate { get; set; }
+
+		[Display(Name = "Notes:")]
+		public string Notes { get; set; }
+
+		public string GetHtmlFormattedNotes()
+		{
+			return Notes.Replace("\n", "<br />");
+		}
 	}
 
 	public class DateOfBirth

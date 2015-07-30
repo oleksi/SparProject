@@ -105,7 +105,9 @@ input[type="checkbox"].input-validation-error {
 	font-weight: bold;
 }
 
-
+.update-picture {
+	margin-top: -10px;
+}
 
 .spar-fighter {
 	padding-left: 4px;
@@ -272,6 +274,10 @@ a.btn.btn-default.btn-lg {
 
 .forgotPassword {
 	margin-top: 7px;
+}
+
+.accountNotes {
+	margin-bottom: 20px;
 }
 
 @media(min-width:992px){

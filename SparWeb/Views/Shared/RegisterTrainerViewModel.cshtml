@@ -82,3 +82,31 @@
 		@Html.ValidationMessageFor(m => m.GymName)
 	</div>
 </div>
+<div class="form-group">
+	@Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-4 control-label" })
+	<div class="col-md-8">
+		@Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.PhoneNumber) + " (optional)" })
+		@Html.ValidationMessageFor(m => m.PhoneNumber)
+	</div>
+</div>
+<div class="form-group">
+	@Html.LabelFor(m => m.Website, new { @class = "col-md-4 control-label" })
+	<div class="col-md-8">
+		@Html.TextBoxFor(m => m.Website, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Website) + " (optional)" })
+		@Html.ValidationMessageFor(m => m.Website)
+	</div>
+</div>
+<div class="form-group">
+	@Html.LabelFor(m => m.Rate, new { @class = "col-md-4 control-label" })
+	<div class="col-md-8">
+		@Html.TextBoxFor(m => m.Rate, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Rate) + " (optional)" })
+		@Html.ValidationMessageFor(m => m.Rate)
+	</div>
+</div>
+<div class="form-group">
+	@Html.LabelFor(m => m.Notes, new { @class = "col-md-4 control-label" })
+	<div class="col-md-8">
+		@Html.TextAreaFor(m => m.Notes, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Notes) + " (optional)", @rows = 3 })
+		@Html.ValidationMessageFor(m => m.Notes)
+	</div>
+</div>

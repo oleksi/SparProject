@@ -190,7 +190,10 @@ namespace SparWeb
 					Gym = trainer.Gym,
 					City = trainer.City,
 					State = trainer.State,
-					Age = trainer.GetMemberAge(),
+					PhoneNumber = trainer.PhoneNumber,
+					Website = trainer.Website,
+					Rate = trainer.Rate,
+					Notes = trainer.Notes,
 					ProfilePictureUploaded = trainer.ProfilePictureUploaded,
 					ProfilePictureFile = GetProfilePictureFile(trainer, thumbnailSize)
 				};

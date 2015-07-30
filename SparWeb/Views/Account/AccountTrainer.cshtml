@@ -20,12 +20,63 @@
                 </div>
             </div>
         </div>
-        <div class="update-profile-info">
-            <p class="text-left"><br /><a href="#">Update Profile</a></p>
-        </div>
-    </div>
+		<div class="well top-buffer">
+			<div class="row">
+				<div class="col-sm-4 col-xs-4">
+					@Html.LabelFor(m => m.PhoneNumber)
+				</div>
+				<div class="col-sm-8 col-xs-8">
+					@if (String.IsNullOrEmpty(Model.PhoneNumber) == false)
+					{ 
+						@Html.ValueFor(m => m.PhoneNumber)
+					}
+					else
+					{
+						<span>N/A</span>
+					}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-4 col-xs-4">
+					@Html.LabelFor(m => m.Website)
+				</div>
+				<div class="col-sm-8 col-xs-8">
+					@if (String.IsNullOrEmpty(Model.Website) == false)
+					{
+						<a href="@Html.ValueFor(m => m.Website)" target="_blank">@Html.ValueFor(m => m.Website)</a>
+					}
+					else
+					{
+						<span>N/A</span>
+					}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-4 col-xs-4">
+					@Html.LabelFor(m => m.Rate)
+				</div>
+				<div class="col-sm-8 col-xs-8">
+					@if (Model.Rate > 0)
+					{ 
+						@Html.ValueFor(m => m.Rate, "{0:C}")
+					}
+					else
+					{
+						<span>N/A</span>
+					}
+				</div>
+			</div>
+		</div>
+		<div class="update-profile-info">
+			<p class="text-right"><a href="#">Update Profile</a></p>
+		</div>
     <div class="col-md-2"></div>
 </div>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-9 accountNotes">
+			@Html.Raw(Model.GetHtmlFormattedNotes())
+		</div>
+	</div>
 <div class="row">
     <div class="col-md-12">
         <p class="text-center">
@@ -69,14 +120,41 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.GymName, new { @class = "col-md-4 control-label" })
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.GymName, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.GymName) + " (optional)" })
-                        @Html.ValidationMessageFor(m => m.GymName)
-                    </div>
-                </div>          
-            </div>
+				<div class="form-group">
+					@Html.LabelFor(m => m.GymName, new { @class = "col-md-4 control-label" })
+					<div class="col-md-8">
+						@Html.TextBoxFor(m => m.GymName, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.GymName) + " (optional)" })
+						@Html.ValidationMessageFor(m => m.GymName)
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-4 control-label" })
+					<div class="col-md-8">
+						@Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.PhoneNumber) })
+						@Html.ValidationMessageFor(m => m.PhoneNumber)
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(m => m.Website, new { @class = "col-md-4 control-label" })
+					<div class="col-md-8">
+						@Html.TextBoxFor(m => m.Website, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Website) })
+						@Html.ValidationMessageFor(m => m.Website)
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(m => m.Rate, new { @class = "col-md-4 control-label" })
+					<div class="col-md-8">
+						@Html.TextBoxFor(m => m.Rate, "{0:n2}", new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Rate) })
+						@Html.ValidationMessageFor(m => m.Rate)
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(m => m.Notes, new { @class = "col-md-4 control-label" })
+					<div class="col-md-8">
+						@Html.TextAreaFor(m => m.Notes, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Notes), @rows = 3 })
+						@Html.ValidationMessageFor(m => m.Notes)
+					</div>
+				</div>            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Save changes</button>

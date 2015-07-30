@@ -247,8 +247,12 @@ namespace SparWeb.Controllers
 				{
 					UserManager.AddToRole(user.Id, "Trainer");
 
+					model.Website = model.Website.Trim();
+					if (model.Website.StartsWith("http://") == false)
+						model.Website = "http://" + model.Website;
+
 					var trainerRepo = new TrainerRepository();
-					var trainer = new Trainer() { Name = model.Name, DateOfBirth = dob, City = model.City, State = model.State, Gym = createGym(model.GymName), ProfilePictureUploaded = false, SparIdentityUser = user };
+					var trainer = new Trainer() { Name = model.Name, DateOfBirth = dob, City = model.City, State = model.State, Gym = createGym(model.GymName), PhoneNumber = model.PhoneNumber, Website = model.Website, Rate = model.Rate, Notes = model.Notes, ProfilePictureUploaded = false, SparIdentityUser = user };
 					trainerRepo.SaveTrainer(trainer);
 
 					//sending Email Confirmation email
@@ -262,6 +266,10 @@ namespace SparWeb.Controllers
 					emailPlaceholders["[CITY]"] = model.City;
 					emailPlaceholders["[STATE]"] = model.State;
 					emailPlaceholders["[GYM]"] = String.IsNullOrEmpty(model.GymName) ? "Unknown Gym" : model.GymName;
+					emailPlaceholders["[PHONE]"] = model.PhoneNumber;
+					emailPlaceholders["[WEBSITE]"] = model.Website;
+					emailPlaceholders["[RATE]"] = model.Rate.ToString();
+					emailPlaceholders["[NOTES]"] = model.Notes;
 
 					EmailManager.SendEmail(EmailManager.EmailTypes.NewTrainerMemberNotificationTemplate, ConfigurationManager.AppSettings["EmailSupport"], ConfigurationManager.AppSettings["EmailAdmin"], "New Member Just Signed Up!", emailPlaceholders);
 
@@ -422,6 +430,40 @@ namespace SparWeb.Controllers
 			//updating fighter profile info
 			FighterRepository fighterRepo = new FighterRepository();
 			fighterRepo.SaveFighter(currFighter);
+
+			return RedirectToAction("Index");
+		}
+
+		[Authorize]
+		[HttpPost]
+		public ActionResult UpdateTrainerProfileInfo(AccountTrainerViewModel model)
+		{
+			if (ModelState.IsValid == false)
+			{
+				Util.PopualateRegistrationDropdowns(ViewBag);
+				ViewBag.ShowUpdateProfileModal = true;
+
+				return View("AccountTrainer", model);
+			}
+
+			var currTrainer = getLoggedInTrainer();
+			currTrainer.City = model.City;
+			currTrainer.State = model.State;
+
+			if ((currTrainer.Gym != null && currTrainer.Gym.Name != model.GymName)
+				|| (currTrainer.Gym == null && model.GymName != "Unknown Gym"))
+			{
+				currTrainer.Gym = createGym(model.GymName);
+			}
+
+			currTrainer.PhoneNumber = model.PhoneNumber;
+			currTrainer.Website = model.Website;
+			currTrainer.Rate = model.Rate;
+			currTrainer.Notes = model.Notes;
+
+			//updating fighter profile info
+			var tyrainerRepo = new TrainerRepository();
+			tyrainerRepo.SaveTrainer(currTrainer);
 
 			return RedirectToAction("Index");
 		}
