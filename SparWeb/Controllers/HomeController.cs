@@ -211,7 +211,7 @@ namespace SparWeb.Controllers
 
 		private List<AccountFighterViewModel> getFightersListViewModel(IList<Fighter> fightersList)
 		{
-			int loggedInFighterId = -1;
+			List<int> fightersToExclude = new List<int>();
 			if (User.Identity.GetUserId() != null)
 			{
 				var identityUserStore = new SparIdentityUserStore<SparIdentityUser>();
@@ -221,19 +221,28 @@ namespace SparWeb.Controllers
 				if (isFighter == true)
 				{
 					var fighterRepo = new FighterRepository();
-					loggedInFighterId = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId()).Id.Value;
+					var loggedInFighterId = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId()).Id.Value;
+					fightersToExclude.Add(loggedInFighterId);
+				}
+				else
+				{
+					var fighterRepo = new FighterRepository();
+					var trainerRepo = new TrainerRepository();
+					var currTrrainer = trainerRepo.GetTrainerByIdentityUserId(User.Identity.GetUserId());
+					var trainerFightersList = fighterRepo.GetAllFighters().Where(ff => ff.Trainer != null && ff.Trainer.Id == currTrrainer.Id).ToList();
+					trainerFightersList.ForEach(ff => fightersToExclude.Add(ff.Id.Value));
 				}
 			}
 
 			List<AccountFighterViewModel> fightersAccountViewModelList = new List<AccountFighterViewModel>();
 			foreach (Fighter currFighter in fightersList)
 			{
-				if (loggedInFighterId == -1 || loggedInFighterId != currFighter.Id)
+				if (fightersToExclude.Count == 0 || fightersToExclude.Contains(currFighter.Id.Value) == false)
 				{
 					AccountFighterViewModel accountViewModel = Util.GetAccountViewModelForFighter(currFighter, 150);
 
 					if (User.Identity.IsAuthenticated == true)
-						accountViewModel.SparRequests = Util.GetSparRequestDetailsForFighter(currFighter.Id.Value, User.Identity.GetUserId()).Where(sr => (sr.OpponentFighter.Id == loggedInFighterId || sr.ThisFighter.Id == loggedInFighterId)).ToList();
+						accountViewModel.SparRequests = Util.GetSparRequestDetailsForFighter(currFighter.Id.Value, User.Identity.GetUserId()).Where(sr => (fightersToExclude.Contains(sr.OpponentFighter.Id.Value) == true || fightersToExclude.Contains(sr.ThisFighter.Id.Value) == true)).ToList();
 
 					fightersAccountViewModelList.Add(accountViewModel);
 				}
