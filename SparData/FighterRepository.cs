@@ -53,7 +53,7 @@ namespace SparData
 			Fighter fighter = null;
 			using (var session = getSession())
 			{
-				fighter = session.QueryOver<Fighter>().Where(m => m.State == state && m.Name == name).SingleOrDefault();
+				fighter = session.QueryOver<Fighter>().Where(m => m.State == state && m.Name == name.ToLower()).SingleOrDefault();
 			}
 
 			return fighter;

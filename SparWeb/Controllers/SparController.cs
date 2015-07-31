@@ -189,7 +189,7 @@ namespace SparWeb.Controllers
 
 		public ActionResult Fighter(string state, string name)
 		{
-			string stateShort = Util.States.Where(ss => ss.Value == state).Select(ss => ss.Key).SingleOrDefault();
+			string stateShort = Util.States.Where(ss => ss.Value.ToLower() == state.ToLower()).Select(ss => ss.Key).SingleOrDefault();
 			if (String.IsNullOrEmpty(stateShort) == true)
 				throw new ApplicationException("State is not valid!");
 
