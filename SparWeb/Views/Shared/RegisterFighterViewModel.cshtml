@@ -5,6 +5,8 @@
 		@Html.ValidationSummary(true)
 	</div>
 </div>
+@if (Model.AddedByTrainer == false)
+{ 
 <div class="form-group">
 	@Html.LabelFor(m => m.UserName, new { @class = "col-md-4 control-label" })
 	<div class="col-md-8">
@@ -12,6 +14,15 @@
 		@Html.ValidationMessageFor(m => m.UserName)
 	</div>
 </div>
+}
+else
+{
+	@Html.HiddenFor(m => m.AddedByTrainer)
+	@Html.HiddenFor(m => m.TrainerId)
+	@Html.HiddenFor(m => m.UserName)
+}
+@if (Model.AddedByTrainer == false)
+{ 
 <div class="form-group">
 	@Html.LabelFor(m => m.Password, new { @class = "col-md-4 control-label" })
 	<div class="col-md-8">
@@ -19,6 +30,13 @@
 		@Html.ValidationMessageFor(m => m.Password)
 	</div>
 </div>
+}
+else
+{
+	@Html.HiddenFor(m => m.Password)
+}
+@if (Model.AddedByTrainer == false)
+{ 
 <div class="form-group">
 	@Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-4 control-label" })
 	<div class="col-md-8">
@@ -26,6 +44,11 @@
 		@Html.ValidationMessageFor(m => m.ConfirmPassword)
 	</div>
 </div>
+}
+else
+{
+	@Html.HiddenFor(m => m.ConfirmPassword)
+}
 <div class="form-group">
 	@Html.LabelFor(m => m.Name, new { @class = "col-md-4 control-label" })
 	<div class="col-md-8">

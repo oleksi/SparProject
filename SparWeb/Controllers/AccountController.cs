@@ -164,58 +164,89 @@ namespace SparWeb.Controllers
         [ValidateAntiForgeryToken]
 		public async Task<ActionResult> RegisterFighter(RegisterFighterViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-				DateTime dob = DateTime.MinValue;
-				if (DateTime.TryParse(String.Format("{0}/{1}/{2}", model.DateOfBirth.Month, model.DateOfBirth.Day, model.DateOfBirth.Year), out dob) == false || dob > DateTime.Now || dob < DateTime.Now.AddYears(-100))
-				{
-					ModelState.AddModelError("DateOfBirth", "Date of birth is not valid");
-					Util.PopualateRegistrationDropdowns(ViewBag);
-					return View(model);
-				}
+			if (ModelState.IsValid == false)
+			{ 
+				Util.PopualateRegistrationDropdowns(ViewBag);
+				return View(model);
+			}
 
-                var user = new SparIdentityUser() { UserName = model.UserName, Email = model.UserName };
-				var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-					UserManager.AddToRole(user.Id, "Fighter");
+			DateTime dob = DateTime.MinValue;
+			if (DateTime.TryParse(String.Format("{0}/{1}/{2}", model.DateOfBirth.Month, model.DateOfBirth.Day, model.DateOfBirth.Year), out dob) == false || dob > DateTime.Now || dob < DateTime.Now.AddYears(-100))
+			{
+				ModelState.AddModelError("DateOfBirth", "Date of birth is not valid");
+				Util.PopualateRegistrationDropdowns(ViewBag);
+				return View(model);
+			}
 
-					FighterRepository fighterRepo = new FighterRepository();
-					Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, City = model.City, State = model.State, Height = model.Height, Weight = model.Weight, IsSouthpaw = model.IsSouthpaw, NumberOfAmateurFights = model.NumberOfAmateurFights, NumberOfProFights = model.NumberOfProFights, Gym = createGym(model.GymName), ProfilePictureUploaded = false };
-					fighter.SparIdentityUser = user;
-					fighterRepo.SaveFighter(fighter);
+			SparIdentityUser user = null;
+			if (model.AddedByTrainer == false)
+			{
+				user = new SparIdentityUser() { UserName = model.UserName, Email = model.UserName };
+			}
+			else
+			{
+				var userName = String.Format("{0}@spargym.com", Guid.NewGuid().ToString());
+				user = new SparIdentityUser() { UserName = userName, Email = userName, EmailConfirmed = true };
+			}
 
-					//sending Email Confirmation email
-					await sendAccountConfirmationEmail(user, model.Name);
+			var result = await UserManager.CreateAsync(user, model.Password);
+			if (result.Succeeded)
+			{
+				UserManager.AddToRole(user.Id, "Fighter");
+			}
+			else
+			{
+				AddErrors(result);
 
-					//sending notification email to admin
-					var emailPlaceholders = new Dictionary<string, string>();
-					emailPlaceholders["[NAME]"] = ConfigurationManager.AppSettings["AdminName"];
-					emailPlaceholders["[FIGHTER_NAME]"] = model.Name;
-					emailPlaceholders["[GENDER]"] = (model.Sex == true) ? "Male" : "Femail";
-					emailPlaceholders["[DATE_OF_BIRTH]"] = dob.ToShortDateString();
-					emailPlaceholders["[CITY]"] = model.City;
-					emailPlaceholders["[STATE]"] = model.State;
-					emailPlaceholders["[HEIGHT]"] = Util.HeightToCentimetersMap[model.Height];
-					emailPlaceholders["[WEIGHT]"] = Util.WeightClassMap[model.Weight];
-					emailPlaceholders["[STANCE]"] = (model.IsSouthpaw)? "Left-handed" : "Right-handed";
-					emailPlaceholders["[NUMBER_OF_AMATEUR_FIGHTS]"] = model.NumberOfAmateurFights.ToString();
-					emailPlaceholders["[NUMBER_OF_PRO_FUIGTS]"] = model.NumberOfProFights.ToString();
-					emailPlaceholders["[GYM]"] = String.IsNullOrEmpty(model.GymName)? "Unknown Gym" : model.GymName;
+				Util.PopualateRegistrationDropdowns(ViewBag);
+				return View(model);
+			}
 
-					EmailManager.SendEmail(EmailManager.EmailTypes.NewFighterMemberNotificationTemplate, ConfigurationManager.AppSettings["EmailSupport"], ConfigurationManager.AppSettings["EmailAdmin"], "New Member Just Signed Up!", emailPlaceholders);
+			var fighterRepo = new FighterRepository();
+			Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, City = model.City, State = model.State, Height = model.Height, Weight = model.Weight, IsSouthpaw = model.IsSouthpaw, NumberOfAmateurFights = model.NumberOfAmateurFights, NumberOfProFights = model.NumberOfProFights, Gym = createGym(model.GymName), ProfilePictureUploaded = false };
+			fighter.SparIdentityUser = user;
 
-					return View("DisplayEmail");
-                }
-                else
-                {
-                    AddErrors(result);
-                }
-            }
+			if (model.AddedByTrainer == true)
+			{
+				var trainerRepo = new TrainerRepository();
+				var trainer = trainerRepo.GetTrainerByIdentityUserId(model.TrainerId);
 
-            // If we got this far, something failed, redisplay form
-			Util.PopualateRegistrationDropdowns(ViewBag);
-            return View(model);
+				if (trainer == null)
+					throw new ApplicationException("Unable to find trainer with Identity User Id = " + model.TrainerId);
+
+				fighter.Trainer = trainer;
+			}
+				
+			fighterRepo.SaveFighter(fighter);
+
+			//sending notification email to admin
+			var emailPlaceholders = new Dictionary<string, string>();
+			emailPlaceholders["[NAME]"] = ConfigurationManager.AppSettings["AdminName"];
+			emailPlaceholders["[FIGHTER_NAME]"] = model.Name;
+			emailPlaceholders["[GENDER]"] = (model.Sex == true) ? "Male" : "Femail";
+			emailPlaceholders["[DATE_OF_BIRTH]"] = dob.ToShortDateString();
+			emailPlaceholders["[CITY]"] = model.City;
+			emailPlaceholders["[STATE]"] = model.State;
+			emailPlaceholders["[HEIGHT]"] = Util.HeightToCentimetersMap[model.Height];
+			emailPlaceholders["[WEIGHT]"] = Util.WeightClassMap[model.Weight];
+			emailPlaceholders["[STANCE]"] = (model.IsSouthpaw)? "Left-handed" : "Right-handed";
+			emailPlaceholders["[NUMBER_OF_AMATEUR_FIGHTS]"] = model.NumberOfAmateurFights.ToString();
+			emailPlaceholders["[NUMBER_OF_PRO_FUIGTS]"] = model.NumberOfProFights.ToString();
+			emailPlaceholders["[GYM]"] = String.IsNullOrEmpty(model.GymName)? "Unknown Gym" : model.GymName;
+
+			EmailManager.SendEmail(EmailManager.EmailTypes.NewFighterMemberNotificationTemplate, ConfigurationManager.AppSettings["EmailSupport"], ConfigurationManager.AppSettings["EmailAdmin"], "New Member Just Signed Up!", emailPlaceholders);
+
+			if (model.AddedByTrainer == false)
+			{
+				//sending Email Confirmation email
+				await sendAccountConfirmationEmail(user, model.Name);
+
+				return View("DisplayEmail");
+			}
+			else
+			{
+				return RedirectToAction("Index");
+			}
         }
 
 		[AllowAnonymous]

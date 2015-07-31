@@ -19,7 +19,8 @@
 		<property name="NumberOfAmateurFights" column="NumberOfAmateurFights" not-null="true"></property>
 		<property name="NumberOfProFights" column="NumberOfProFights" not-null="true"></property>
 		<many-to-one class="Gym" name="Gym" column="GymId" not-null="false" lazy="false" />
-		<many-to-one class="SparIdentityUser" name="SparIdentityUser" column="AspNetUserId" cascade="save-update" lazy="false"></many-to-one>
+		<many-to-one class="Trainer" name="Trainer" column="TrainerId" not-null="false" lazy="false" />
+		<many-to-one class="SparIdentityUser" name="SparIdentityUser" column="AspNetUserId" cascade="save-update" lazy="false" not-null="false"></many-to-one>
 		<property name="ProfilePictureUploaded" column="ProfilePictureUploaded" not-null="true"></property>
 		<property name="InsertDate" column="InsertDate" not-null="true"></property>
 		<property name="UpdateDate" column="UpdateDate" not-null="true"></property>

@@ -109,6 +109,9 @@ namespace SparWeb.Models
 		[Required]
 		[Display(Name = "Professional")]
 		public virtual int NumberOfProFights { get; set; }
+
+		public bool AddedByTrainer { get; set; }
+		public string TrainerId { get; set; }
     }
 
 	public class RegisterTrainerViewModel : RegisterViewModel
