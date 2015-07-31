@@ -182,6 +182,8 @@ namespace SparWeb.Models
 
 		public IList<ConfirmSparDetailsViewModel> SparRequests { get; set; }
 
+		public bool IsTrainerView { get; set; }
+
 		public AccountFighterViewModel()
 		{
 			SparRequests = new List<ConfirmSparDetailsViewModel>();
@@ -210,6 +212,13 @@ namespace SparWeb.Models
 
 		[Display(Name = "Notes:")]
 		public string Notes { get; set; }
+
+		public List<AccountFighterViewModel> FightersList { get; set; }
+
+		public AccountTrainerViewModel()
+		{
+			FightersList = new List<AccountFighterViewModel>();
+		}
 
 		public string GetHtmlFormattedNotes()
 		{

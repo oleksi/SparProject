@@ -219,7 +219,11 @@ a.btn.btn-default.btn-lg {
 }
 
 .account-info-section {
-	margin-bottom: 30px;
+	margin-bottom: 0px;
+}
+
+.trainer-fighters-list {
+	margin-top: 10px;
 }
 
 .update-profile-info {

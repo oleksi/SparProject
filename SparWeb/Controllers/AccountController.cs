@@ -422,7 +422,18 @@ namespace SparWeb.Controllers
 
 				var accountViewModel = Util.GetAccountViewModelForTrainer(trainer, 250);
 
-				//ToDo: get list of fightes that belong to this trainer
+				//getting list of fightes that belong to this trainer
+				var fighterRepo = new FighterRepository();
+				var fightersList = fighterRepo.GetAllFighters().Where(ff => ff.Trainer != null && ff.Trainer.Id == trainer.Id).ToList();
+				var fightersAccountViewModelList = new List<AccountFighterViewModel>();
+				foreach (var currFighter in fightersList)
+				{
+					var fighterAccountViewModel = Util.GetAccountViewModelForFighter(currFighter, 150);
+					fighterAccountViewModel.IsTrainerView = true;
+
+					fightersAccountViewModelList.Add(fighterAccountViewModel);
+				}
+				accountViewModel.FightersList = fightersAccountViewModelList;
 
 				Util.PopualateRegistrationDropdowns(ViewBag);
 

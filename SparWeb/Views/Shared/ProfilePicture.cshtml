@@ -73,12 +73,12 @@
 	function showProfilePicture(pictureFileName) {
 		$('.cancelProfilePictureUpdate').addClass('hidden');
 		$('.profilePictureDefault').addClass('hidden');
-		$('.profilePicture').find('img').attr("src", pictureFileName);
-		$('.profilePicture').removeClass('hidden');
+		$('.profilePictureSection .profilePicture').find('img').attr("src", pictureFileName);
+		$('.profilePictureSection .profilePicture').removeClass('hidden');
 	}
 
 	function updateProfilePicture() {
-		$('.profilePicture').addClass('hidden');
+		$('.profilePictureSection .profilePicture').addClass('hidden');
 		$('.profilePictureDefault').removeClass('hidden');
 		$('.cancelProfilePictureUpdate').removeClass('hidden');
 	}

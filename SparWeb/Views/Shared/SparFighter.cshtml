@@ -72,6 +72,15 @@
         </dl>
     </div>
     <div class="col-md-2 col-xs-12 vAlignCenter sparFighterCTA">
-        @{Html.RenderPartial("SparButton", Model);}
+		@if (Model.IsTrainerView == false)
+		{ 
+			Html.RenderPartial("SparButton", Model);
+		}
+		else
+		{
+			<div class="update-fighter-profile-info">
+				<p class="text-right"><a href="#">Update Profile</a></p>
+			</div>
+		}
     </div>
 </div>
