@@ -1,0 +1,106 @@
+﻿@model SparWeb.Models.AccountFighterViewModel
+
+<div id="updateProfileModal-@Model.ID" class="modal fade">
+	<div class="modal-dialog">
+		@Html.BeginForm("UpdateFighterProfileInfo", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" })
+		@Html.HiddenFor(m => m.ID)
+		@Html.HiddenFor(m => m.Name)
+		@Html.HiddenFor(m => m.ProfilePictureUploaded)
+		@Html.HiddenFor(m => m.ProfilePictureFile)
+		@Html.HiddenFor(m => m.Age)
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Update Profile Information</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					@Html.LabelFor(m => m.City, new { @class = "col-md-4 control-label" })
+					<div class="col-md-8">
+						@Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.City) })
+						@Html.ValidationMessageFor(m => m.City)
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(m => m.State, new { @class = "col-md-4 control-label" })
+					<div class="col-md-8">
+						<div class="row">
+							<div class="col-md-12">
+								@Html.DropDownListFor(m => m.State, (new SelectList(ViewBag.States, "Key", "Value", Model.State)), "Please select", new { @class = "form-control" })
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								@Html.ValidationMessageFor(m => m.State)
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(m => m.GymName, new { @class = "col-md-4 control-label" })
+					<div class="col-md-8">
+						@Html.TextBoxFor(m => m.GymName, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.GymName) + " (optional)" })
+						@Html.ValidationMessageFor(m => m.GymName)
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(m => m.Height, new { @class = "col-md-4 control-label" })
+					<div class="col-md-8">
+						<div class="row">
+							<div class="col-md-12">
+								@Html.DropDownListFor(m => m.Height, (new SelectList(ViewBag.HeightToCentimetersMap, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control" })
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								@Html.ValidationMessageFor(m => m.Height)
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(m => m.Weight, new { @class = "col-md-4 control-label" })
+					<div class="col-md-8">
+						@Html.DropDownListFor(m => m.Weight, (new SelectList(ViewBag.WeightClassMap, "Key", "Value", Model.Weight)), "Please select", new { @class = "form-control" })
+						@Html.ValidationMessageFor(m => m.Weight)
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(m => m.IsSouthpaw, new { @class = "col-md-4 control-label" })
+					<div class="col-md-8">
+						@Html.EditorFor(m => m.IsSouthpaw, "IsSouthpaw")
+						@Html.ValidationMessageFor(m => m.IsSouthpaw)
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="NumberOfAmateurFights">Number of fights:</label>
+					<div class="col-md-8">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="row">
+									<div class="col-md-6">
+										@Html.LabelFor(m => m.NumberOfAmateurFights) @Html.TextBoxFor(m => m.NumberOfAmateurFights, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.NumberOfAmateurFights) })
+									</div>
+									<div class="col-md-6">
+										@Html.LabelFor(m => m.NumberOfProFights)  @Html.TextBoxFor(m => m.NumberOfProFights, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.NumberOfProFights) })
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">@Html.ValidationMessageFor(m => m.NumberOfAmateurFights)</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">@Html.ValidationMessageFor(m => m.NumberOfProFights)</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary">Save changes</button>
+			</div>
+			@{Html.EndForm();}
+		</div>
+	</div>
+</div>

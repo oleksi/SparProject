@@ -100,9 +100,13 @@
 		}
 	</div>
 </div>
+	foreach (var fighterViewModel in Model.FightersList)
+	{
+		@Html.Partial("UpdateFighterProfileInfoModal", fighterViewModel)
+	}
 }
 
-<div id="updateProfileModel" class="modal fade">
+<div id="updateProfileModal" class="modal fade">
     <div class="modal-dialog">
         @Html.BeginForm("UpdateTrainerProfileInfo", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" })
         @Html.HiddenFor(m => m.Name)
@@ -207,17 +211,22 @@
 <script type="text/javascript">
     $(function () {
         $('.update-profile-info').find('a').click(function () {
-            $('#updateProfileModel').addClass('fade');
-            $('#updateProfileModel').modal('show');
+            $('#updateProfileModal').addClass('fade');
+            $('#updateProfileModal').modal('show');
         });
         
         @if (ViewBag.ShowUpdateProfileModal != null)
         {
-            <text>
-            $('#updateProfileModel').removeClass('fade');
-            $('#updateProfileModel').modal('show');
+        <text>
+        $('#updateProfileModal').removeClass('fade');
+        $('#updateProfileModal').modal('show');
     	</text>
         }
+		
+    	$('.update-fighter-profile-info').find('a').click(function () {
+    		$('#updateProfileModal-' + $(this).data('userid')).addClass('fade');
+    		$('#updateProfileModal-' + $(this).data('userid')).modal('show');
+    	});
 		
     	$('#add-fighter').click(function () {
     		$('#add-fighter-popup').modal('show');

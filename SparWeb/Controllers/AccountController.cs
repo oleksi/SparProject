@@ -453,7 +453,9 @@ namespace SparWeb.Controllers
 				return View("AccountFighter", model);
 			}
 
-			var currFighter = getLoggedInFighter();
+			var member = getMember(model.ID);
+			var currFighter = member as Fighter;
+
 			currFighter.City = model.City;
 			currFighter.State = model.State;
 
