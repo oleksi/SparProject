@@ -154,6 +154,8 @@ namespace SparWeb.Models
 		[Display(Name = "Gym name:")]
 		public string GymName { get; set; }
 		public Gym Gym { get; set; }
+
+		public bool IsTrainerView { get; set; }
 	}
 
 	public class AccountFighterViewModel : AccountViewModel
@@ -181,8 +183,6 @@ namespace SparWeb.Models
 		public string HimOrHer { get; set; }
 
 		public IList<ConfirmSparDetailsViewModel> SparRequests { get; set; }
-
-		public bool IsTrainerView { get; set; }
 
 		public AccountFighterViewModel()
 		{

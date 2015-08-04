@@ -552,7 +552,7 @@ namespace SparWeb.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult UploadProfilePicture(HttpPostedFileBase file, string userId)
+		public ActionResult UploadProfilePicture(HttpPostedFileBase file, string userId, int thumbnailSize)
 		{
 			bool fileSavedSuccessfully = true;
 			string fileName = "";
@@ -614,7 +614,7 @@ namespace SparWeb.Controllers
 
 			if (fileSavedSuccessfully)
 			{
-				return Json(new { Message = Util.GetProfilePictureFile(member, 250) });
+				return Json(new { Message = Util.GetProfilePictureFile(member, thumbnailSize) });
 			}
 			else
 			{

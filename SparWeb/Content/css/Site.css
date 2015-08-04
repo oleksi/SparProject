@@ -93,10 +93,27 @@ input[type="checkbox"].input-validation-error {
 	cursor: pointer;
 	text-align: center;
 	padding-top: 55px;
+	margin-bottom: 20px;
+}
+
+.profilePictureDefault150X150 {
+	width: 150px;
+	height: 150px;
+	background-image: url("/Content/Images/anonymous-photo-150X150.jpg");
+    background-position: 0 0;
+    background-repeat: no-repeat;
+	cursor: pointer;
+	text-align: center;
+	padding-top: 20px;
 }
 
 .profileUploadPicHeader {
 	font-size: 34px;
+	font-weight: bold;
+}
+
+.profileUploadPicHeader150X150 {
+	font-size: 20px;
 	font-weight: bold;
 }
 

@@ -14,17 +14,19 @@ $(function () {
 });
 
 function initializeDropZone() {
-	$(".profilePictureDefault").each(function () {
+	$(".profilePictureDefault,.profilePictureDefault150X150").each(function () {
 		var userId = $(this).data('userid');
+		var thumbnailsize = $(this).data('thumbnailsize');
 		$(this).dropzone({
-			url: "/Account/UploadProfilePicture?userId=" + userId,
+			url: "/Account/UploadProfilePicture?userId=" + userId + "&thumbnailSize=" + thumbnailsize,
 			thumbnailWidth: 150,
 			thumbnailHeight: 150,
 			init: function () {
 				this.on("complete", function (data) {
 					var res = eval('(' + data.xhr.responseText + ')');
 					if (res.Message.indexOf("Error:") != 0) {
-						$('.profilePictureDefault').hide();
+						var parentDiv = $('.profilePictureDefault[data-userid="' + userId + '"],.profilePictureDefault150X150[data-userid="' + userId + '"]').parent();
+						parentDiv.find('.profilePictureDefault,.profilePictureDefault150X150').hide();
 						$('.dz-preview').hide();
 
 						showProfilePicture(res.Message, userId);
@@ -39,15 +41,15 @@ function initializeDropZone() {
 }
 
 function showProfilePicture(pictureFileName, userId) {
-	var parentDiv = $('.profilePictureDefault[data-userid="' + userId + '"]').parent();
+	var parentDiv = $('.profilePictureDefault[data-userid="' + userId + '"],.profilePictureDefault150X150[data-userid="' + userId + '"]').parent();
 	parentDiv.find('.cancelProfilePictureUpdate').addClass('hidden');
-	parentDiv.find('.profilePictureDefault').addClass('hidden');
+	parentDiv.find('.profilePictureDefault,.profilePictureDefault150X150').addClass('hidden');
 	parentDiv.find('.profilePicture').find('img').attr("src", pictureFileName);
 	parentDiv.find('.profilePicture').removeClass('hidden');
 }
 
 function updateProfilePicture() {
 	$('.profilePicture').addClass('hidden');
-	$('.profilePictureDefault').removeClass('hidden');
+	$('.profilePictureDefault,.profilePictureDefault150X150').removeClass('hidden');
 	$('.cancelProfilePictureUpdate').removeClass('hidden');
 }

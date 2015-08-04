@@ -1,8 +1,20 @@
 ﻿@model SparWeb.Models.AccountViewModel
 
+@{
+	string profilePictureDefaultClass = (Model.IsTrainerView == false) ? "profilePictureDefault" : "profilePictureDefault150X150";
+	string thumbnailsize = (Model.IsTrainerView == false) ? "250" : "150";
+}
+
 <div>
-	<div class="profilePictureDefault dropzone @((Model.ProfilePictureUploaded == true)? "hidden" : "")" data-userid="@Model.ID">
-		<p class="profileUploadPicHeader">Upload your picture now!</p>
+	<div class="@profilePictureDefaultClass dropzone @((Model.ProfilePictureUploaded == true)? "hidden" : "")" data-userid="@Model.ID" data-thumbnailsize="@thumbnailsize">
+		@if (Model.IsTrainerView == false)
+		{ 
+			<p class="profileUploadPicHeader">Upload your picture now!</p>
+		}
+		else
+		{
+			<p class="profileUploadPicHeader150X150">Upload fighter picture!</p>
+		}
 		<p class="profileUploadPicSubeader"><a class="profileUploadPicAction" href="#">(drop file here or click)</a></p>
 	</div>
 	<div class="cancelProfilePictureUpdate hidden">
