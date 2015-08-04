@@ -48,8 +48,9 @@ function showProfilePicture(pictureFileName, userId) {
 	parentDiv.find('.profilePicture').removeClass('hidden');
 }
 
-function updateProfilePicture() {
-	$('.profilePicture').addClass('hidden');
-	$('.profilePictureDefault,.profilePictureDefault150X150').removeClass('hidden');
-	$('.cancelProfilePictureUpdate').removeClass('hidden');
+function updateProfilePicture(userId) {
+	var parentDiv = $('.profilePictureDefault[data-userid="' + userId + '"],.profilePictureDefault150X150[data-userid="' + userId + '"]').parent();
+	parentDiv.find('.profilePicture').addClass('hidden');
+	parentDiv.find('.profilePictureDefault,.profilePictureDefault150X150').removeClass('hidden');
+	parentDiv.find('.cancelProfilePictureUpdate').removeClass('hidden');
 }

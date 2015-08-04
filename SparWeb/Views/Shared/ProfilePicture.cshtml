@@ -32,7 +32,7 @@
 	</div>
 	<div class="profilePicture @((Model.ProfilePictureUploaded == false)? "hidden" : "")">
 		<img height="250" class="img-responsive" />
-		<p class="text-center update-picture"><a href="#" onclick="updateProfilePicture();">Update Picture</a></p>
+		<p class="text-center update-picture"><a href="#" onclick="updateProfilePicture('@Model.ID');">Update Picture</a></p>
 	</div>
 </div>
 
