@@ -96,10 +96,9 @@ input[type="checkbox"].input-validation-error {
 }
 
 .profilePictureDefault150X150 {
-	width: 150px;
 	height: 150px;
 	background-image: url("/Content/Images/anonymous-photo-150X150.jpg");
-    background-position: 0 0;
+    background-position: 18px 0;
     background-repeat: no-repeat;
 	cursor: pointer;
 	text-align: center;
@@ -298,6 +297,7 @@ a.btn.btn-default.btn-lg {
 
 .accountNotes {
 	margin-bottom: 20px;
+	margin-top: 10px;
 }
 
 @media(min-width:992px){
