@@ -6,7 +6,7 @@
 
 <div class="row account-info-section">
     <div class="col-md-1"></div>
-    <div class="col-md-3 profilePictureSection">
+    <div class="col-md-3">
 		@{Html.RenderPartial("ProfilePicture", Model);}
     </div>
     <div class="col-md-6">
@@ -202,6 +202,8 @@
 </div>
 
 @section scripts{
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/dropzone")
 <script type="text/javascript">
     $(function () {
         $('.update-profile-info').find('a').click(function () {

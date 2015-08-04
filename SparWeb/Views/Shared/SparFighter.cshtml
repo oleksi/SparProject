@@ -2,6 +2,8 @@
 
 <div class="row well well-sm spar-fighter">
     <div class="col-md-3 vAlignCenter">
+		@if (Model.IsTrainerView == false)
+		{ 
         <div class="title hidden-md hidden-lg hidden-sm">
             <span class="fighterNameSmall"><a href="@Model.FighterUrl">@Html.ValueFor(m => m.Name)</a></span>
             <div class="row">
@@ -15,6 +17,11 @@
         <div class="profilePicture">
             <a href="@Model.FighterUrl"><img src="@Model.ProfilePictureFile" height="150"></a>
         </div>
+		}
+		else
+		{
+			Html.RenderPartial("ProfilePicture", Model);
+		}
     </div>
     <div class="col-md-6 vAlignCenter">
         <span class="fighterNameSmall hidden-xs"><a href="@Model.FighterUrl">@Html.ValueFor(m => m.Name)</a></span>

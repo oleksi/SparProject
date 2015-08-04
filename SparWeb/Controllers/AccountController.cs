@@ -514,21 +514,8 @@ namespace SparWeb.Controllers
 		{
 			var identityUserStore = new SparIdentityUserStore<SparIdentityUser>();
 			var identityUser = identityUserStore.FindByIdAsync(User.Identity.GetUserId()).Result;
-			bool isFighter = UserManager.IsInRole(identityUser.Id, "Fighter");
 
-			Member member = null;
-			if (isFighter == true)
-			{
-				var fighterRepo = new FighterRepository();
-				member = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
-			}
-			else
-			{
-				var trainerRepo = new TrainerRepository();
-				member = trainerRepo.GetTrainerByIdentityUserId(User.Identity.GetUserId());
-			}
-
-			return member;
+			return getMember(identityUser.Id);
 		}
 
 		private Fighter getLoggedInFighter()
@@ -545,8 +532,27 @@ namespace SparWeb.Controllers
 			return trainer;
 		}
 
+		private Member getMember(string userId)
+		{
+			bool isFighter = UserManager.IsInRole(userId, "Fighter");
+
+			Member member = null;
+			if (isFighter == true)
+			{
+				var fighterRepo = new FighterRepository();
+				member = fighterRepo.GetFighterByIdentityUserId(userId);
+			}
+			else
+			{
+				var trainerRepo = new TrainerRepository();
+				member = trainerRepo.GetTrainerByIdentityUserId(userId);
+			}
+
+			return member;
+		}
+
 		[HttpPost]
-		public ActionResult UploadProfilePicture(HttpPostedFileBase file)
+		public ActionResult UploadProfilePicture(HttpPostedFileBase file, string userId)
 		{
 			bool fileSavedSuccessfully = true;
 			string fileName = "";
@@ -564,10 +570,10 @@ namespace SparWeb.Controllers
 					container.SetPermissions(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob }); 					
 				}
 
-				member = getLoggedInMember();
+				member = getMember(userId);
 
 				//optimizing and saving uploaded pic in full size
-				string origFileName = String.Format("{0}-orig.jpg", member.SparIdentityUser.Id);				
+				string origFileName = String.Format("{0}-orig.jpg", userId);				
 				Bitmap bitmap = new Bitmap(file.InputStream);
 				saveProfilePic(bitmap, origFileName, container);
 
