@@ -223,7 +223,7 @@ namespace SparWeb.Models
 
 		public string GetHtmlFormattedNotes()
 		{
-			return Notes.Replace("\n", "<br />");
+			return (Notes != null)? Notes.Replace("\n", "<br />") : "";
 		}
 	}
 

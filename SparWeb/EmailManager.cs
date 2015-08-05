@@ -13,16 +13,19 @@ namespace SparWeb
 		public enum EmailTypes
 		{
 			EmailConfirmationTemplate = 1,
-			SparRequestInitialTemplate = 2,
-			SparRequestFirstTimeResponseTemplate = 3,
-			SparRequestNegotiationTemplate = 4,
-			SparRequestConfirmedTemplate = 5,
-			SparRequestCancelledTemplate = 6,
-			ContactFormTemplate = 7,
-			NewFighterMemberNotificationTemplate = 8,
-			NewTrainerMemberNotificationTemplate = 9,
-			PasswordResetTemplate = 10,
-			SparRequestNotificationTemplate = 11
+			SparRequestInitialTrainerToTrainerTemplate = 2,
+			SparRequestInitialFighterToTrainerTemplate = 3,
+			SparRequestInitialTrainerToFighterTemplate = 4,
+			SparRequestInitialFighterToFighterTemplate = 5,
+			SparRequestFirstTimeResponseTemplate = 6,
+			SparRequestNegotiationTemplate = 7,
+			SparRequestConfirmedTemplate = 8,
+			SparRequestCancelledTemplate = 9,
+			ContactFormTemplate = 10,
+			NewFighterMemberNotificationTemplate = 11,
+			NewTrainerMemberNotificationTemplate = 12,
+			PasswordResetTemplate = 13,
+			SparRequestNotificationTemplate = 14
 		}
 
 		public static void SendEmail(EmailTypes emailType, string fromEmail, string toEmail, string subject, Dictionary<string, string> placeholders)

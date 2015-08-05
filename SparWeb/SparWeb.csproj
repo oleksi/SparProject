@@ -217,13 +217,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\EmailTemplates\NewTrainerMemberNotificationTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestInitialTrainerToTrainerTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestNotificationTemplate.html" />
     <Content Include="App_Data\EmailTemplates\PasswordResetTemplate.html" />
     <Content Include="App_Data\EmailTemplates\NewFighterMemberNotificationTemplate.html" />
     <Content Include="App_Data\EmailTemplates\ContactFormTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestCancelledTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestConfirmedTemplate.html" />
-    <Content Include="App_Data\EmailTemplates\SparRequestInitialTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestInitialFighterToFighterTemplate.html" />
     <Content Include="App_Data\EmailTemplates\_LayoutTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestNegotiationTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestFirstTimeResponseTemplate.html" />

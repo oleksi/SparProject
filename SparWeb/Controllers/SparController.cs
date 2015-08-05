@@ -79,23 +79,23 @@ namespace SparWeb.Controllers
 			if (alreadyRequestedSpar == true)
 				return RedirectToAction("Index", "Home");
 
-			SparConfirmationViewModel sparConfirmationViewModel = getSparConfirmationViewModelForOpponent(fighterId, opponentId);
+			SparConfirmationViewModel sparConfirmationViewModel = getSparConfirmationViewModel(fighterId, opponentId);
 
 			return View(sparConfirmationViewModel);
 		}
 
 		[Authorize]
 		[HttpPost]
-		public ActionResult ConfirmSpar(string OpponentId, string SparNotes)
+		public ActionResult ConfirmSpar(string FighterId, string OpponentId, string SparNotes)
 		{
 			if (ModelState.IsValid == false)
 			{
-				var sparConfViewModel = getSparConfirmationViewModelForOpponent(OpponentId);
+				var sparConfViewModel = getSparConfirmationViewModel(FighterId, OpponentId);
 				return View("SparConfirmation", sparConfViewModel);
 			}
 
 			FighterRepository fighterRepo = new FighterRepository();
-			Fighter thisFighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
+			Fighter thisFighter = fighterRepo.GetFighterByIdentityUserId(FighterId);
 			Fighter opponentFighter = fighterRepo.GetFighterByIdentityUserId(OpponentId);
 
 			SparRequest sparRequest = new SparRequest()
@@ -112,11 +112,10 @@ namespace SparWeb.Controllers
 			SparRepository sparRepo = new SparRepository();
 			sparRepo.CreateSparRequest(sparRequest);
 
-			//sending out spar request email
-			String emailTo = opponentFighter.SparIdentityUser.Email;
-			String emailSubject = String.Format("{0} wants to spar you!", thisFighter.Name);
+			//sending spar request email
+			string emailTo = "";
+			string emailSubject = String.Format("New Spar Request");
 			Dictionary<string, string> emailPlaceholders = new Dictionary<string, string>();
-			emailPlaceholders["[NAME]"] = opponentFighter.Name;
 			emailPlaceholders["[FIGTHER_NAME]"] = thisFighter.Name;
 			emailPlaceholders["[GENDER]"] = (thisFighter.Sex == true) ? "Male" : "Femail";
 			emailPlaceholders["[DATE_OF_BIRTH]"] = thisFighter.DateOfBirth.ToShortDateString();
@@ -128,9 +127,45 @@ namespace SparWeb.Controllers
 			emailPlaceholders["[NUMBER_OF_AMATEUR_FIGHTS]"] = thisFighter.NumberOfAmateurFights.ToString();
 			emailPlaceholders["[NUMBER_OF_PRO_FUIGTS]"] = thisFighter.NumberOfProFights.ToString();
 			emailPlaceholders["[GYM]"] = (thisFighter.Gym == null) ? "Unknown Gym" : thisFighter.Gym.Name;
-			emailPlaceholders["[SPAR_NOTES]"] = (String.IsNullOrEmpty(SparNotes) == false)? "<br /><br />Notes: " + SparNotes : "";
+			emailPlaceholders["[SPAR_NOTES]"] = (String.IsNullOrEmpty(SparNotes) == false) ? "<br /><br />Notes: " + SparNotes : "";
 			emailPlaceholders["[SPAR_CONFIRMATION_URL]"] = Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", sparRequest.Id } }, "http", Request.Url.Host);
-			SparWeb.EmailManager.SendEmail(EmailManager.EmailTypes.SparRequestInitialTemplate, ConfigurationManager.AppSettings["EmailSupport"], emailTo, emailSubject, emailPlaceholders);
+			//figuring out if email should be sent to fighter or fighter's trainer
+			if (opponentFighter.Trainer != null)
+			{
+				emailTo = opponentFighter.Trainer.SparIdentityUser.Email;
+				emailPlaceholders["[NAME]"] = opponentFighter.Trainer.Name;
+			}
+			else
+			{
+				emailTo = opponentFighter.SparIdentityUser.Email;
+				emailPlaceholders["[NAME]"] = opponentFighter.Name;
+			}
+
+			//sending out spar request email
+			EmailManager.EmailTypes emailType = 0;
+			if (thisFighter.Trainer != null && opponentFighter.Trainer != null)
+			{
+				//trainer to trainer
+				emailPlaceholders["[TRAINER_NAME]"] = thisFighter.Trainer.Name;
+				emailPlaceholders["[TRAINER_LOCATION]"] = String.Format("{0}, {1}", thisFighter.Trainer.City, thisFighter.Trainer.State);
+				emailPlaceholders["[OPPONENT_TRAINER_FIGHTER_NAME]"] = opponentFighter.Name;
+
+				emailType = EmailManager.EmailTypes.SparRequestInitialTrainerToTrainerTemplate;
+			}
+			else if (thisFighter.Trainer == null && opponentFighter.Trainer != null)
+			{
+				//fighter to trainer
+			}
+			else if (thisFighter.Trainer != null && opponentFighter.Trainer == null)
+			{
+				//trainer to fighter
+			}
+			else
+			{
+				//fighter to fighter
+				emailType = EmailManager.EmailTypes.SparRequestInitialFighterToFighterTemplate;
+			}
+			SparWeb.EmailManager.SendEmail(emailType, ConfigurationManager.AppSettings["EmailSupport"], emailTo, emailSubject, emailPlaceholders);
 
 			//sending out notification email
 			emailPlaceholders = new Dictionary<string, string>();
@@ -139,7 +174,7 @@ namespace SparWeb.Controllers
 			emailPlaceholders["[OPPONENT_FIGHTER_NAME]"] = opponentFighter.Name;
 			EmailManager.SendEmail(EmailManager.EmailTypes.SparRequestNotificationTemplate, ConfigurationManager.AppSettings["EmailSupport"], ConfigurationManager.AppSettings["EmailAdmin"], "New Spar Rquest Was Initiated!", emailPlaceholders);
 
-			SparConfirmationViewModel sparConfirmationViewModel = getSparConfirmationViewModelForOpponent(OpponentId);
+			SparConfirmationViewModel sparConfirmationViewModel = getSparConfirmationViewModel(FighterId, OpponentId);
 			return View("SparConfirmed", sparConfirmationViewModel);
 		}
 
@@ -302,12 +337,12 @@ namespace SparWeb.Controllers
 			return Util.GetConfirmSparDetailsViewModel(sparRequest, 250, User.Identity.GetUserId());
 		}
 
-		private SparConfirmationViewModel getSparConfirmationViewModelForOpponent(string opponentId)
+		private SparConfirmationViewModel getSparConfirmationViewModel(string opponentId)
 		{
-			return getSparConfirmationViewModelForOpponent(User.Identity.GetUserId(), opponentId);
+			return getSparConfirmationViewModel(User.Identity.GetUserId(), opponentId);
 		}
 
-		private SparConfirmationViewModel getSparConfirmationViewModelForOpponent(string fighterId, string opponentId)
+		private SparConfirmationViewModel getSparConfirmationViewModel(string fighterId, string opponentId)
 		{
 			FighterRepository fighterRepo = new FighterRepository();
 
