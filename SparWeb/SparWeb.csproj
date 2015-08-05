@@ -336,6 +336,7 @@
     <Content Include="Views\Shared\ProfilePicture.cshtml" />
     <Content Include="Views\Account\AccountTrainer.cshtml" />
     <Content Include="Views\Shared\UpdateFighterProfileInfoModal.cshtml" />
+    <Content Include="Views\Spar\SelectFighter.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

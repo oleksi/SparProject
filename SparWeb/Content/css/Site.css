@@ -192,7 +192,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 .sparDetailsStatus {
-   margin-top: 0px;
+   margin-bottom: 20px;
 }
 
 .sparFighterCTA {
@@ -298,6 +298,10 @@ a.btn.btn-default.btn-lg {
 .accountNotes {
 	margin-bottom: 20px;
 	margin-top: 10px;
+}
+
+.selectFightersList {
+	margin-top: 20px;
 }
 
 @media(min-width:992px){

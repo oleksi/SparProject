@@ -79,15 +79,19 @@
         </dl>
     </div>
     <div class="col-md-2 col-xs-12 vAlignCenter sparFighterCTA">
-		@if (Model.IsTrainerView == false)
-		{ 
-			Html.RenderPartial("SparButton", Model);
-		}
-		else
+		@if (Model.IsTrainerView == true)
 		{
 			<div class="update-fighter-profile-info">
 				<p class="text-right"><a href="#" data-userid="@Model.ID">Update Profile</a></p>
 			</div>
+		}
+		else if (Model.IsFighterSelectView == true)
+		{
+			<a class="btn btn-default btn-danger btn-lg selectFighterButton" data-fighterid="@Model.ID" href="#">Select</a>
+		}
+		else
+		{
+			Html.RenderPartial("SparButton", Model);
 		}
     </div>
 </div>

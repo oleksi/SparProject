@@ -26,20 +26,60 @@ namespace SparWeb.Controllers
 		[Authorize]
 		public ActionResult SparConfirmation(string ID)
 		{
+			var currIdentityUserId = User.Identity.GetUserId();
+
+			var fighterRepo = new FighterRepository();
+			var fighter = fighterRepo.GetFighterByIdentityUserId(currIdentityUserId);
+
+			if (fighter != null)
+				return SparConfirmationComplete(currIdentityUserId, ID);
+
+			//if we got here, we're dealing with trainer
+
+			var trainerRepo = new TrainerRepository();
+			var trainer = trainerRepo.GetTrainerByIdentityUserId(currIdentityUserId);
+
+			//getting trainer's fighters
+			var fightersList = fighterRepo.GetAllFighters().Where(ff => ff.Trainer != null && ff.Trainer.Id == trainer.Id).ToList();
+			var fightersAccountViewModelList = new List<AccountFighterViewModel>();
+			foreach (var currFighter in fightersList)
+			{
+				var fighterAccountViewModel = Util.GetAccountViewModelForFighter(currFighter, 150);
+				fighterAccountViewModel.IsFighterSelectView = true;
+
+				fightersAccountViewModelList.Add(fighterAccountViewModel);
+			}
+			var opponentFighter = fighterRepo.GetFighterByIdentityUserId(ID);
+
+			var selectFighterViewModel = new SelectFighterViewModel();
+			selectFighterViewModel.FightersList = fightersAccountViewModelList;
+			selectFighterViewModel.OpponentFighterId = ID;
+			selectFighterViewModel.OpponentFighterName = opponentFighter.Name;
+
+			return View("SelectFighter", selectFighterViewModel);
+		}
+
+		[Authorize]
+		[HttpPost]
+		public ActionResult SparConfirmation(SelectFighterViewModel model)
+		{
+			return SparConfirmationComplete(model.SelectedFighterId, model.OpponentFighterId);
+		}
+
+		[Authorize]
+		public ActionResult SparConfirmationComplete(string fighterId, string opponentId)
+		{
 			FighterRepository fighterRepo = new FighterRepository();
 
-			int loggedInFighterId = -1;
-			if (User.Identity.GetUserId() != null)
-				loggedInFighterId = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId()).Id.Value;
-
-			int opponentFighterId = fighterRepo.GetFighterByIdentityUserId(ID).Id.Value;
+			int thisFighterId = fighterRepo.GetFighterByIdentityUserId(fighterId).Id.Value;
+			int opponentFighterId = fighterRepo.GetFighterByIdentityUserId(opponentId).Id.Value;
 
 			//checking if current user has already requested, negotiated or confirmed the spar with this fighter and if so not letting to request another one
-			bool alreadyRequestedSpar = Util.GetSparRequestDetailsForFighter(opponentFighterId, User.Identity.GetUserId()).Any(sr => (sr.ThisFighter.Id == loggedInFighterId || sr.OpponentFighter.Id == loggedInFighterId));
+			bool alreadyRequestedSpar = Util.GetSparRequestDetailsForFighter(opponentFighterId, fighterId).Any(sr => (sr.ThisFighter.Id == thisFighterId || sr.OpponentFighter.Id == thisFighterId));
 			if (alreadyRequestedSpar == true)
 				return RedirectToAction("Index", "Home");
 
-			SparConfirmationViewModel sparConfirmationViewModel = getSparConfirmationViewModelForOpponent(ID);
+			SparConfirmationViewModel sparConfirmationViewModel = getSparConfirmationViewModelForOpponent(fighterId, opponentId);
 
 			return View(sparConfirmationViewModel);
 		}
@@ -264,9 +304,14 @@ namespace SparWeb.Controllers
 
 		private SparConfirmationViewModel getSparConfirmationViewModelForOpponent(string opponentId)
 		{
+			return getSparConfirmationViewModelForOpponent(User.Identity.GetUserId(), opponentId);
+		}
+
+		private SparConfirmationViewModel getSparConfirmationViewModelForOpponent(string fighterId, string opponentId)
+		{
 			FighterRepository fighterRepo = new FighterRepository();
 
-			Fighter thisFighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
+			Fighter thisFighter = fighterRepo.GetFighterByIdentityUserId(fighterId);
 			Fighter opponentFighter = fighterRepo.GetFighterByIdentityUserId(opponentId);
 
 			return Util.GetSparConfirmationViewModel(thisFighter, opponentFighter, 250);

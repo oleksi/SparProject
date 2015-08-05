@@ -54,6 +54,16 @@ namespace SparWeb.Models
 		}
 	}
 
+	public class SelectFighterViewModel
+	{
+		public string SelectedFighterId { get; set; }
+		public string OpponentFighterId { get; set; }
+
+		public string OpponentFighterName { get; set; }
+
+		public List<AccountFighterViewModel> FightersList { get; set; }
+	}
+
 	public class SparTime
 	{
 		[Display(Name = "HH")]

@@ -156,6 +156,7 @@ namespace SparWeb.Models
 		public Gym Gym { get; set; }
 
 		public bool IsTrainerView { get; set; }
+		public bool IsFighterSelectView { get; set; }
 	}
 
 	public class AccountFighterViewModel : AccountViewModel
