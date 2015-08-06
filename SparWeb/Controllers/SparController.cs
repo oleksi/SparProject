@@ -149,16 +149,20 @@ namespace SparWeb.Controllers
 				emailPlaceholders["[TRAINER_NAME]"] = thisFighter.Trainer.Name;
 				emailPlaceholders["[TRAINER_LOCATION]"] = String.Format("{0}, {1}", thisFighter.Trainer.City, thisFighter.Trainer.State);
 				emailPlaceholders["[OPPONENT_TRAINER_FIGHTER_NAME]"] = opponentFighter.Name;
-
 				emailType = EmailManager.EmailTypes.SparRequestInitialTrainerToTrainerTemplate;
 			}
 			else if (thisFighter.Trainer == null && opponentFighter.Trainer != null)
 			{
 				//fighter to trainer
+				emailPlaceholders["[OPPONENT_TRAINER_FIGHTER_NAME]"] = opponentFighter.Name;
+				emailType = EmailManager.EmailTypes.SparRequestInitialFighterToTrainerTemplate;
 			}
 			else if (thisFighter.Trainer != null && opponentFighter.Trainer == null)
 			{
 				//trainer to fighter
+				emailPlaceholders["[TRAINER_NAME]"] = thisFighter.Trainer.Name;
+				emailPlaceholders["[TRAINER_LOCATION]"] = String.Format("{0}, {1}", thisFighter.Trainer.City, thisFighter.Trainer.State);
+				emailType = EmailManager.EmailTypes.SparRequestInitialTrainerToFighterTemplate;
 			}
 			else
 			{
