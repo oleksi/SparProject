@@ -211,15 +211,40 @@ namespace SparWeb
 			//figuring out who is who
 			Fighter thisFighter = null;
 			Fighter opponentFighter = null;
-			if (sparRequest.RequestorFighter.SparIdentityUser.Id == currUserId)
+
+			//checking if curren user is trainer or fighter
+			var fighterRepo = new FighterRepository();
+			var fighter = fighterRepo.GetFighterByIdentityUserId(currUserId);
+			if (fighter != null)
 			{
-				thisFighter = sparRequest.RequestorFighter;
-				opponentFighter = sparRequest.OpponentFighter;
+				//current user is fighter
+				if (sparRequest.RequestorFighter.Id == fighter.Id)
+				{
+					thisFighter = sparRequest.RequestorFighter;
+					opponentFighter = sparRequest.OpponentFighter;
+				}
+				else
+				{
+					thisFighter = sparRequest.OpponentFighter;
+					opponentFighter = sparRequest.RequestorFighter; ;
+				}
 			}
 			else
 			{
-				thisFighter = sparRequest.OpponentFighter;
-				opponentFighter = sparRequest.RequestorFighter; ;
+				//current user is trainer
+				var trainerRepo = new TrainerRepository();
+				var trainer = trainerRepo.GetTrainerByIdentityUserId(currUserId);
+
+				if ((sparRequest.RequestorFighter.Trainer != null && sparRequest.RequestorFighter.Trainer.Id == trainer.Id))
+				{
+					thisFighter = sparRequest.RequestorFighter;
+					opponentFighter = sparRequest.OpponentFighter;
+				}
+				else
+				{
+					thisFighter = sparRequest.OpponentFighter;
+					opponentFighter = sparRequest.RequestorFighter; ;
+				}
 			}
 
 			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = new ConfirmSparDetailsViewModel(GetSparConfirmationViewModel(thisFighter, opponentFighter, profilePictureSize));

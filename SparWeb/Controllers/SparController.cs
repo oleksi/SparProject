@@ -235,9 +235,24 @@ namespace SparWeb.Controllers
 				sparRequest.SparNotes = model.SparNotes;
 			}
 
-			FighterRepository fighterRepo = new FighterRepository();
-			Fighter thisFighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
-			sparRequest.LastNegotiatorFighterId = thisFighter.Id.Value;
+			//setting last negotiator
+			var fighterRepo = new FighterRepository();
+			var fighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
+			if (fighter != null)
+			{
+				//if it's fighter then he is the last negotiator
+				sparRequest.LastNegotiatorFighterId = fighter.Id.Value;
+			}
+			else 
+			{
+				//if it's trainer than one of the spar request fighters is his fighter
+				var trainerRepo = new TrainerRepository();
+				var trainer = trainerRepo.GetTrainerByIdentityUserId(User.Identity.GetUserId());
+				if (sparRequest.RequestorFighter.Trainer != null && sparRequest.RequestorFighter.Trainer.Id == trainer.Id)
+					sparRequest.LastNegotiatorFighterId = sparRequest.RequestorFighter.Id.Value;
+				else
+					sparRequest.LastNegotiatorFighterId = sparRequest.OpponentFighter.Id.Value;
+			}
 
 			sparRequest.Status = model.SparRequesStatus;
 
@@ -288,7 +303,7 @@ namespace SparWeb.Controllers
 
 		private void sendEmailForSaprRequest(ConfirmSparDetailsViewModel model, bool isFirstResponse)
 		{
-			string emailTo = model.OpponentFighter.SparIdentityUser.Email;
+			string emailTo = (model.OpponentFighter.Trainer != null) ? model.OpponentFighter.Trainer.SparIdentityUser.Email : model.OpponentFighter.SparIdentityUser.Email;
 
 			string emailSubject = "";
 			SparWeb.EmailManager.EmailTypes emailType = 0;
@@ -331,14 +346,6 @@ namespace SparWeb.Controllers
 
 			SparWeb.EmailManager.SendEmail(emailType, ConfigurationManager.AppSettings["EmailSupport"], emailTo, emailSubject, emailPlaceholoders);
 
-		}
-
-		private ConfirmSparDetailsViewModel getConfirmSparDetailsViewModel(string sparRequestId)
-		{
-			SparRepository sparRepo = new SparRepository();
-			SparRequest sparRequest = sparRepo.GetSparRequestById(sparRequestId);
-
-			return Util.GetConfirmSparDetailsViewModel(sparRequest, 250, User.Identity.GetUserId());
 		}
 
 		private SparConfirmationViewModel getSparConfirmationViewModel(string opponentId)
