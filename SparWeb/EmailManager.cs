@@ -17,15 +17,18 @@ namespace SparWeb
 			SparRequestInitialFighterToTrainerTemplate = 3,
 			SparRequestInitialTrainerToFighterTemplate = 4,
 			SparRequestInitialFighterToFighterTemplate = 5,
-			SparRequestFirstTimeResponseTemplate = 6,
-			SparRequestNegotiationTemplate = 7,
-			SparRequestConfirmedTemplate = 8,
-			SparRequestCancelledTemplate = 9,
-			ContactFormTemplate = 10,
-			NewFighterMemberNotificationTemplate = 11,
-			NewTrainerMemberNotificationTemplate = 12,
-			PasswordResetTemplate = 13,
-			SparRequestNotificationTemplate = 14
+			SparRequestFirstTimeResponseTrainerToTrainerTemplate = 6,
+			SparRequestFirstTimeResponseFighterToTrainerTemplate = 7,
+			SparRequestFirstTimeResponseTrainerToFighterTemplate = 8,
+			SparRequestFirstTimeResponseFighterToFighterTemplate = 9,
+			SparRequestNegotiationTemplate = 10,
+			SparRequestConfirmedTemplate = 11,
+			SparRequestCancelledTemplate = 12,
+			ContactFormTemplate = 13,
+			NewFighterMemberNotificationTemplate = 14,
+			NewTrainerMemberNotificationTemplate = 15,
+			PasswordResetTemplate = 16,
+			SparRequestNotificationTemplate = 17
 		}
 
 		public static void SendEmail(EmailTypes emailType, string fromEmail, string toEmail, string subject, Dictionary<string, string> placeholders)

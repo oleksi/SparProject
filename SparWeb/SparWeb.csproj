@@ -217,6 +217,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\EmailTemplates\NewTrainerMemberNotificationTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestFirstTimeResponseFighterToTrainerTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestFirstTimeResponseTrainerToFighterTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestFirstTimeResponseTrainerToTrainerTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestInitialFighterToTrainerTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestInitialTrainerToFighterTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestInitialTrainerToTrainerTemplate.html" />
@@ -229,7 +232,7 @@
     <Content Include="App_Data\EmailTemplates\SparRequestInitialFighterToFighterTemplate.html" />
     <Content Include="App_Data\EmailTemplates\_LayoutTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestNegotiationTemplate.html" />
-    <Content Include="App_Data\EmailTemplates\SparRequestFirstTimeResponseTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestFirstTimeResponseFighterToFighterTemplate.html" />
     <Content Include="App_Data\EmailTemplates\EmailConfirmationTemplate.html" />
     <Content Include="App_Readme\Elmah.txt" />
     <Content Include="Content\css\bootstrap-datepicker.css" />
