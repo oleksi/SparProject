@@ -210,6 +210,10 @@ namespace SparWeb.Controllers
 				GymRepository gymRepo = new GymRepository();
 				confirmSparDetailsViewModel.SparGym = gymRepo.GetGymById(model.SparGymID);
 			}
+			else
+			{
+				confirmSparDetailsViewModel.SparGym = null;
+			}
 			
 			confirmSparDetailsViewModel.SparNotes = model.SparNotes;
 
@@ -232,6 +236,9 @@ namespace SparWeb.Controllers
 				sparRequest.SparDateTime = DateTime.Parse(String.Format("{0} {1}", model.SparDate.Value.ToString("MM/dd/yyyy"), model.SparTime.ToString()));
 				if (model.SparGymID > 0)
 					sparRequest.SparGym = confirmSparDetailsViewModel.SparGym;
+				else
+					sparRequest.SparGym = null;
+
 				sparRequest.SparNotes = model.SparNotes;
 			}
 
@@ -330,13 +337,13 @@ namespace SparWeb.Controllers
 					//fighter to trainer
 					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Trainer.Name;
 					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
-					emailPlaceholoders["[HE_OR_SHE]"] = model.ThisFighter.GetHeOrShe(true);
 					emailType = EmailManager.EmailTypes.SparRequestFirstTimeResponseFighterToTrainerTemplate;
 				}
 				else if (model.ThisFighter.Trainer != null && model.OpponentFighter.Trainer == null)
 				{
-					//trainer to fighter (fighter is not supposed to know that this is trainer responding)
+					//trainer to fighter
 					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
+					emailPlaceholoders["[TRAINER_NAME]"] = model.ThisFighter.Trainer.Name;
 					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
 					emailPlaceholoders["[HE_OR_SHE]"] = model.ThisFighter.GetHeOrShe(true);
 					emailType = EmailManager.EmailTypes.SparRequestFirstTimeResponseTrainerToFighterTemplate;
@@ -352,24 +359,114 @@ namespace SparWeb.Controllers
 			}
 			else if (model.SparRequesStatus == SparRequestStatus.DateLocationNegotiation) // spar negotiation
 			{
-				emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
-				emailSubject = String.Format("{0} updated spar details", model.ThisFighter.Name);
-				emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
-				emailType = EmailManager.EmailTypes.SparRequestNegotiationTemplate;
+				if (model.ThisFighter.Trainer != null && model.OpponentFighter.Trainer != null)
+				{
+					//trainer to trainer
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Trainer.Name;
+					emailSubject = String.Format("{0} updated spar details", model.ThisFighter.Trainer.Name);
+					emailPlaceholoders["[TRAINER_NAME]"] = model.ThisFighter.Trainer.Name;
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestNegotiationTrainerToTrainerTemplate;
+				}
+				else if (model.ThisFighter.Trainer == null && model.OpponentFighter.Trainer != null)
+				{
+					//fighter to trainer
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Trainer.Name;
+					emailSubject = String.Format("{0} updated spar details", model.ThisFighter.Name);
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestNegotiationFighterToTrainerTemplate;
+				}
+				else if (model.ThisFighter.Trainer != null && model.OpponentFighter.Trainer == null)
+				{
+					//trainer to fighter
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
+					emailSubject = String.Format("{0} updated spar details", model.ThisFighter.Trainer.Name);
+					emailPlaceholoders["[TRAINER_NAME]"] = model.ThisFighter.Trainer.Name;
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestNegotiationTrainerToFighterTemplate;
+				}
+				else
+				{
+					//fighter to fighter
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
+					emailSubject = String.Format("{0} updated spar details", model.ThisFighter.Name);
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestNegotiationFighterToFighterTemplate;
+				}
 			}
 			else if (model.SparRequesStatus == SparRequestStatus.Confirmed) // spar is confirmed
 			{
-				emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
-				emailSubject = String.Format("{0} has confirmed the spar", model.ThisFighter.Name);
-				emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
-				emailType = EmailManager.EmailTypes.SparRequestConfirmedTemplate;
+				if (model.ThisFighter.Trainer != null && model.OpponentFighter.Trainer != null)
+				{
+					//trainer to trainer
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Trainer.Name;
+					emailSubject = String.Format("{0} has confirmed the spar", model.ThisFighter.Trainer.Name);
+					emailPlaceholoders["[TRAINER_NAME]"] = model.ThisFighter.Trainer.Name;
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestConfirmedTrainerToTrainerTemplate;
+				}
+				else if (model.ThisFighter.Trainer == null && model.OpponentFighter.Trainer != null)
+				{
+					//fighter to trainer
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Trainer.Name;
+					emailSubject = String.Format("{0} has confirmed the spar", model.ThisFighter.Name);
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestConfirmedFighterToTrainerTemplate;
+				}
+				else if (model.ThisFighter.Trainer != null && model.OpponentFighter.Trainer == null)
+				{
+					//trainer to fighter
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
+					emailSubject = String.Format("{0} has confirmed the spar", model.ThisFighter.Trainer.Name);
+					emailPlaceholoders["[TRAINER_NAME]"] = model.ThisFighter.Trainer.Name;
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestConfirmedTrainerToFighterTemplate;
+				}
+				else
+				{
+					//fighter to fighter
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
+					emailSubject = String.Format("{0} has confirmed the spar", model.ThisFighter.Name);
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestConfirmedFighterToFighterTemplate;
+				}
 			}
-			else if (model.SparRequesStatus == SparRequestStatus.Canceled) // spar is canceled
+			else if (model.SparRequesStatus == SparRequestStatus.Canceled) // spar is cancelled
 			{
-				emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
-				emailSubject = String.Format("{0} has canceled the spar", model.ThisFighter.Name);
-				emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
-				emailType = EmailManager.EmailTypes.SparRequestCancelledTemplate;
+				if (model.ThisFighter.Trainer != null && model.OpponentFighter.Trainer != null)
+				{
+					//trainer to trainer
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Trainer.Name;
+					emailSubject = String.Format("{0} has cancelled the spar", model.ThisFighter.Trainer.Name);
+					emailPlaceholoders["[TRAINER_NAME]"] = model.ThisFighter.Trainer.Name;
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestCancelledTrainerToTrainerTemplate;
+				}
+				else if (model.ThisFighter.Trainer == null && model.OpponentFighter.Trainer != null)
+				{
+					//fighter to trainer
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Trainer.Name;
+					emailSubject = String.Format("{0} has cancelled the spar", model.ThisFighter.Name);
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestCancelledFighterToTrainerTemplate;
+				}
+				else if (model.ThisFighter.Trainer != null && model.OpponentFighter.Trainer == null)
+				{
+					//trainer to fighter
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
+					emailSubject = String.Format("{0} has cancelled the spar", model.ThisFighter.Trainer.Name);
+					emailPlaceholoders["[TRAINER_NAME]"] = model.ThisFighter.Trainer.Name;
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestCancelledTrainerToFighterTemplate;
+				}
+				else
+				{
+					//fighter to fighter
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
+					emailSubject = String.Format("{0} has cancelled the spar", model.ThisFighter.Name);
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestCancelledFighterToFighterTemplate;
+				}
 			}
 
 			if (model.SparRequesStatus != SparRequestStatus.Canceled)

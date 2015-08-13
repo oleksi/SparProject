@@ -217,21 +217,30 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\EmailTemplates\NewTrainerMemberNotificationTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestCancelledTrainerToFighterTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestCancelledFighterToFighterTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestCancelledFighterToTrainerTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestConfirmedFighterToTrainerTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestConfirmedTrainerToFighterTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestConfirmedTrainerToTrainerTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestFirstTimeResponseFighterToTrainerTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestFirstTimeResponseTrainerToFighterTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestFirstTimeResponseTrainerToTrainerTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestInitialFighterToTrainerTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestInitialTrainerToFighterTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestInitialTrainerToTrainerTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestNegotiationTrainerToTrainerTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestNegotiationFighterToTrainerTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestNegotiationTrainerToFighterTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestNotificationTemplate.html" />
     <Content Include="App_Data\EmailTemplates\PasswordResetTemplate.html" />
     <Content Include="App_Data\EmailTemplates\NewFighterMemberNotificationTemplate.html" />
     <Content Include="App_Data\EmailTemplates\ContactFormTemplate.html" />
-    <Content Include="App_Data\EmailTemplates\SparRequestCancelledTemplate.html" />
-    <Content Include="App_Data\EmailTemplates\SparRequestConfirmedTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestCancelledTrainerToTrainerTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestConfirmedFighterToFighterTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestInitialFighterToFighterTemplate.html" />
     <Content Include="App_Data\EmailTemplates\_LayoutTemplate.html" />
-    <Content Include="App_Data\EmailTemplates\SparRequestNegotiationTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestNegotiationFighterToFighterTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestFirstTimeResponseFighterToFighterTemplate.html" />
     <Content Include="App_Data\EmailTemplates\EmailConfirmationTemplate.html" />
     <Content Include="App_Readme\Elmah.txt" />

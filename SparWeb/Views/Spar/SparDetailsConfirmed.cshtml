@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "Spar Confirmation Details";
+
+	string opponentName = (Model.OpponentFighter.Trainer != null) ? "Trainer " + Model.OpponentFighter.Trainer.Name : Model.OpponentFighter.Name;
 }
 
 <div class="row">
@@ -11,17 +13,17 @@
             @if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation)
             {
                 <p><strong>Thanks for scheduling the spar.</strong></p>
-                <p>@Model.OpponentFighter.Name will be notified with the date, time and location you proposed. We will let you know if @Model.OpponentFighter.Name accepts it or proposes another change.</p>
+                <p>@opponentName will be notified with the date, time and location you proposed. We will let you know if @opponentName accepts it or proposes another change.</p>
             }
             else if (Model.SparRequesStatus == SparModel.SparRequestStatus.Confirmed)
             {
                 <p><strong>Thanks for confirming the spar.</strong></p>
-                <p>@Model.OpponentFighter.Name will be notified with the date, time and location of the spar. Good luck!</p>
+                <p>@opponentName will be notified with the date, time and location of the spar. Good luck!</p>
             }
             else if (Model.SparRequesStatus == SparModel.SparRequestStatus.Canceled)
             {
                 <p><strong>Thanks for canceling the spar.</strong></p>
-                <p>@Model.OpponentFighter.Name will be notified about spar cancelation.</p>
+                <p>@opponentName will be notified about spar cancelation.</p>
             }
         </div>
     </div>
