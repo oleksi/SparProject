@@ -337,6 +337,7 @@ namespace SparWeb.Controllers
 					//fighter to trainer
 					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Trainer.Name;
 					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailPlaceholoders["[HE_OR_SHE]"] = model.ThisFighter.GetHeOrShe(true);
 					emailType = EmailManager.EmailTypes.SparRequestFirstTimeResponseFighterToTrainerTemplate;
 				}
 				else if (model.ThisFighter.Trainer != null && model.OpponentFighter.Trainer == null)
