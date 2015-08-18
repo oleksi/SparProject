@@ -83,6 +83,12 @@
 		<a class="btn btn-primary btn-lg col-xs-12 col-sm-3 col-sm-offset-4" id="add-fighter" href="#">Add Fighter</a>
     </div>
 </div>
+
+@if (Model.SparRequests.Any(sr => sr.SparRequesStatus != SparModel.SparRequestStatus.Requested && sr.SparRequesStatus != SparModel.SparRequestStatus.Canceled))
+{
+	Html.RenderPartial("SparRequstsList", Model.SparRequests);
+}
+
 @if (Model.FightersList.Count > 0)
 {
 <div class="row">

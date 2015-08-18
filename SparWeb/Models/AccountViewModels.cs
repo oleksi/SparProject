@@ -214,6 +214,8 @@ namespace SparWeb.Models
 		[Display(Name = "Notes:")]
 		public string Notes { get; set; }
 
+		public IList<ConfirmSparDetailsViewModel> SparRequests { get; set; }
+
 		public List<AccountFighterViewModel> FightersList { get; set; }
 
 		public AccountTrainerViewModel()

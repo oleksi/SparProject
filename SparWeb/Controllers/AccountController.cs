@@ -426,14 +426,18 @@ namespace SparWeb.Controllers
 				var fighterRepo = new FighterRepository();
 				var fightersList = fighterRepo.GetAllFighters().Where(ff => ff.Trainer != null && ff.Trainer.Id == trainer.Id).ToList();
 				var fightersAccountViewModelList = new List<AccountFighterViewModel>();
+				var sparRequests = new List<ConfirmSparDetailsViewModel>();
 				foreach (var currFighter in fightersList)
 				{
 					var fighterAccountViewModel = Util.GetAccountViewModelForFighter(currFighter, 150);
 					fighterAccountViewModel.IsTrainerView = true;
-
 					fightersAccountViewModelList.Add(fighterAccountViewModel);
+
+					var currFighterSparRequests = Util.GetSparRequestDetailsForFighter(currFighter.Id.Value, User.Identity.GetUserId());
+					sparRequests.AddRange(currFighterSparRequests);
 				}
 				accountViewModel.FightersList = fightersAccountViewModelList;
+				accountViewModel.SparRequests = sparRequests;
 
 				Util.PopualateRegistrationDropdowns(ViewBag);
 
