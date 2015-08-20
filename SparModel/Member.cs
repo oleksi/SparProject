@@ -25,7 +25,19 @@ namespace SparModel
 
 		public virtual string GetProfileThumbnailFileName(int thumbSize, bool noneAnonymousMode)
 		{
-			string profileThumbnailFileName = (ProfilePictureUploaded == true || noneAnonymousMode == true) ? this.SparIdentityUser.Id : "anonymous-photo";
+			string profileThumbnailFileName = "";
+			if (ProfilePictureUploaded == true || noneAnonymousMode == true)
+			{
+				profileThumbnailFileName = this.SparIdentityUser.Id;
+			}
+			else
+			{
+				if (this is Fighter)
+					profileThumbnailFileName += "anonymous-photo-fighter";
+				else
+					profileThumbnailFileName += "anonymous-photo-trainer";
+			}
+
 			return String.Format("{0}-{1}X{1}.jpg", profileThumbnailFileName, thumbSize);
 		}
 

@@ -84,10 +84,10 @@ input[type="checkbox"].input-validation-error {
 	margin-top:20px; 
 }
 
-.profilePictureDefault {
+.profilePictureDefaultFighter {
 	width: 250px;
 	height: 250px;
-	background-image: url("/Content/Images/anonymous-photo-250X250.jpg");
+	background-image: url("/Content/Images/anonymous-photo-fighter-250X250.jpg");
     background-position: 0 0;
     background-repeat: no-repeat;
 	cursor: pointer;
@@ -95,9 +95,30 @@ input[type="checkbox"].input-validation-error {
 	padding-top: 55px;
 }
 
-.profilePictureDefault150X150 {
+.profilePictureDefaultFighter150X150 {
 	height: 150px;
-	background-image: url("/Content/Images/anonymous-photo-150X150.jpg");
+	background-image: url("/Content/Images/anonymous-photo-fighter-150X150.jpg");
+    background-position: 18px 0;
+    background-repeat: no-repeat;
+	cursor: pointer;
+	text-align: center;
+	padding-top: 20px;
+}
+
+.profilePictureDefaultTrainer {
+	width: 250px;
+	height: 250px;
+	background-image: url("/Content/Images/anonymous-photo-trainer-250X250.jpg");
+    background-position: 0 0;
+    background-repeat: no-repeat;
+	cursor: pointer;
+	text-align: center;
+	padding-top: 55px;
+}
+
+.profilePictureDefaultTrainer150X150 {
+	height: 150px;
+	background-image: url("/Content/Images/anonymous-photo-trainer-150X150.jpg");
     background-position: 18px 0;
     background-repeat: no-repeat;
 	cursor: pointer;

@@ -14,7 +14,7 @@ $(function () {
 });
 
 function initializeDropZone() {
-	$(".profilePictureDefault,.profilePictureDefault150X150").each(function () {
+	$('[class^="profilePictureDefault"]').each(function () {
 		var userId = $(this).data('userid');
 		var thumbnailsize = $(this).data('thumbnailsize');
 		$(this).dropzone({
@@ -25,8 +25,8 @@ function initializeDropZone() {
 				this.on("complete", function (data) {
 					var res = eval('(' + data.xhr.responseText + ')');
 					if (res.Message.indexOf("Error:") != 0) {
-						var parentDiv = $('.profilePictureDefault[data-userid="' + userId + '"],.profilePictureDefault150X150[data-userid="' + userId + '"]').parent();
-						parentDiv.find('.profilePictureDefault,.profilePictureDefault150X150').hide();
+						var parentDiv = $('[class^="profilePictureDefault"][data-userid="' + userId + '"]').parent();
+						parentDiv.find('[class^="profilePictureDefault"]').hide();
 						$('.dz-preview').hide();
 
 						showProfilePicture(res.Message, userId);
@@ -41,16 +41,16 @@ function initializeDropZone() {
 }
 
 function showProfilePicture(pictureFileName, userId) {
-	var parentDiv = $('.profilePictureDefault[data-userid="' + userId + '"],.profilePictureDefault150X150[data-userid="' + userId + '"]').parent();
+	var parentDiv = $('[class^="profilePictureDefault"][data-userid="' + userId + '"]').parent();
 	parentDiv.find('.cancelProfilePictureUpdate').addClass('hidden');
-	parentDiv.find('.profilePictureDefault,.profilePictureDefault150X150').addClass('hidden');
+	parentDiv.find('[class^="profilePictureDefault"]').addClass('hidden');
 	parentDiv.find('.profilePicture').find('img').attr("src", pictureFileName);
 	parentDiv.find('.profilePicture').removeClass('hidden');
 }
 
 function updateProfilePicture(userId) {
-	var parentDiv = $('.profilePictureDefault[data-userid="' + userId + '"],.profilePictureDefault150X150[data-userid="' + userId + '"]').parent();
+	var parentDiv = $('[class^="profilePictureDefault"][data-userid="' + userId + '"]').parent();
 	parentDiv.find('.profilePicture').addClass('hidden');
-	parentDiv.find('.profilePictureDefault,.profilePictureDefault150X150').removeClass('hidden');
+	parentDiv.find('[class^="profilePictureDefault"]').removeClass('hidden');
 	parentDiv.find('.cancelProfilePictureUpdate').removeClass('hidden');
 }

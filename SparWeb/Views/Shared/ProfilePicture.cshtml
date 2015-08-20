@@ -1,7 +1,22 @@
 ﻿@model SparWeb.Models.AccountViewModel
 
 @{
-	string profilePictureDefaultClass = (Model.IsTrainerView == false) ? "profilePictureDefault" : "profilePictureDefault150X150";
+	string profilePictureDefaultClass = "";
+	if (Model.IsTrainerView == false)
+	{
+		if (Model is SparWeb.Models.AccountFighterViewModel)
+		{
+			profilePictureDefaultClass = "profilePictureDefaultFighter";
+		}
+		else
+		{
+			profilePictureDefaultClass = "profilePictureDefaultTrainer";
+		}
+	}
+	else
+	{
+		profilePictureDefaultClass = "profilePictureDefaultFighter150X150";
+	}
 	string thumbnailsize = (Model.IsTrainerView == false) ? "250" : "150";
 }
 

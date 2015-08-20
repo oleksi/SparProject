@@ -252,8 +252,10 @@
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\dropzone.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\Images\anonymous-photo-150X150.jpg" />
-    <Content Include="Content\Images\anonymous-photo-250X250.jpg" />
+    <Content Include="Content\Images\anonymous-photo-fighter-150X150.jpg" />
+    <Content Include="Content\Images\anonymous-photo-fighter-250X250.jpg" />
+    <Content Include="Content\Images\anonymous-photo-trainer-150X150.jpg" />
+    <Content Include="Content\Images\anonymous-photo-trainer-250X250.jpg" />
     <Content Include="Content\Images\boxing-spar-sign.jpg" />
     <Content Include="Content\Images\powered-by-gleasons.jpg" />
     <Content Include="Content\Images\social.png" />
