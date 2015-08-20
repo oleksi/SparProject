@@ -355,6 +355,7 @@
     <Content Include="Views\Shared\UpdateFighterProfileInfoModal.cshtml" />
     <Content Include="Views\Spar\SelectFighter.cshtml" />
     <Content Include="Views\Shared\SparRequstsList.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

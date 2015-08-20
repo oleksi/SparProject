@@ -147,6 +147,14 @@ namespace SparWeb.Controllers
 			}
 		}
 
+		[AllowAnonymous]
+        public ActionResult Register()
+		{
+			Util.PopualateRegistrationDropdowns(ViewBag);
+
+			return View();
+		}
+
         //
 		// GET: /Account/RegisterFighter
         [AllowAnonymous]

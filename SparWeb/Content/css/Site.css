@@ -199,9 +199,6 @@ input[type="checkbox"].input-validation-error {
   margin: 0 auto;
 }
 
-.boxingSparSign {
-}
-
 .sparInformation {
 	margin-top: 20px;
 }
@@ -268,9 +265,13 @@ a.btn.btn-default.btn-lg {
 .boxingSparSign {
   margin: 0 auto;
   display: block;
+  width: 100%;
 }
-.boxingSparSign{
-    width: 100%;
+
+.registerOr {
+  margin: 0 auto;
+  display: block;
+  width: 100%;
 }
 
 .powered-by {
@@ -325,6 +326,15 @@ a.btn.btn-default.btn-lg {
 	margin-top: 20px;
 }
 
+#registerMain {
+	width: 600px;
+	margin: 0 auto;
+}
+
+#registerMain a:hover {
+	text-decoration: none;
+}
+
 @media(min-width:992px){
 	.col-md-3.col-xs-12.bottom ,
 	.col-md-2.col-xs-12.bottom{
@@ -337,6 +347,9 @@ a.btn.btn-default.btn-lg {
 	.boxingSparSign{
 	margin-top: 45%;
 	}
+	.registerOr {
+		margin-top: 100px;
+	}
 }
 
 @media (min-width: 768px) and (max-width: 992px){
@@ -345,6 +358,9 @@ a.btn.btn-default.btn-lg {
 	}
 	.form-group {
 	    text-align: left;
+	}
+	.registerOr {
+		margin-top: 100px;
 	}
 }
 
@@ -402,6 +418,11 @@ a.btn.btn-default.btn-lg {
 	#myCarousel {
 		margin-left: 0px;
 	}
+
+	.registerOr {
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
 }
 @media (max-width: 500px) {
 
@@ -429,6 +450,10 @@ a.btn.btn-default.btn-lg {
   .logo {
     margin-left: 10px
   }
+
+	#registerMain {
+		width: 250px;
+	}
 }
 .col-xs-4.bottom {
   max-width: 120px;
