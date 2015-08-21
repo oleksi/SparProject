@@ -4,22 +4,31 @@
 	ViewBag.Title = "Select Fighter for Spar";
 }
 
-@using (@Html.BeginForm("SparConfirmation", "Spar", FormMethod.Post))
-{
-	@Html.HiddenFor(m => m.SelectedFighterId)
-	@Html.HiddenFor(m => m.OpponentFighterId)
+@if (Model.FightersList.Count > 0)
+{ 
+	using (@Html.BeginForm("SparConfirmation", "Spar", FormMethod.Post))
+	{
+		@Html.HiddenFor(m => m.SelectedFighterId)
+		@Html.HiddenFor(m => m.OpponentFighterId)
 
-	<div class="row text-center">
-		<h2>Please, select one of your fighters to spar with @Model.OpponentFighterName:</h2>
-	</div>
-
-	<div class="row selectFightersList">
-		<div class="col-md-offset-2 col-md-8">
-			@foreach (var fighterViewModel in Model.FightersList)
-			{
-				@Html.Partial("SparFighter", fighterViewModel)
-			}
+		<div class="row text-center">
+			<h2>Please, select one of your fighters to spar with @Model.OpponentFighterName:</h2>
 		</div>
+
+		<div class="row selectFightersList">
+			<div class="col-md-offset-2 col-md-8">
+				@foreach (var fighterViewModel in Model.FightersList)
+				{
+					@Html.Partial("SparFighter", fighterViewModel)
+				}
+			</div>
+		</div>
+	}
+}
+else
+{
+	<div class="row text-center">
+		<h2>You need to have at least one fighter under your account to be able to request the spar. @Html.ActionLink("Go to your account page", "Index", "Account") to add fighters</h2>
 	</div>
 }
 
