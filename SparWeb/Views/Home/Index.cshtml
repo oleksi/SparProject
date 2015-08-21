@@ -192,7 +192,7 @@
 </div>
 
 <div id="registerPopupModal" class="modal fade">
-	<div class="modal-dialog">
+	<div class="modal-dialog" style="width: 750px;">
 		@Html.BeginForm("RegisterFighter", "Account", FormMethod.Post, new { @class = "form-horizontal register-form", role = "form" })
 		<div class="modal-content">
 			<div class="modal-header">
@@ -201,11 +201,7 @@
 				@Html.AntiForgeryToken()
 			</div>
 			<div class="modal-body">
-				@{ Html.RenderPartial("RegisterFighterViewModel", new SparWeb.Models.RegisterFighterViewModel() { Sex = true, IsSouthpaw = false }); }
-			</div>
-			<div class="modal-footer text-center">
-				<input type="submit" class="btn btn-default btn-primary btn-lg" value="Register" />
-				<p class="text-center">By signing up you agree to our @Html.ActionLink("Terms and Conditions", "TermsAndConditions", "Home")</p>
+				@{Html.RenderPartial("RegisterMain");}
 			</div>
 			@{Html.EndForm();}
 		</div>

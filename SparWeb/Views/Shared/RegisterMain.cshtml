@@ -1,0 +1,110 @@
+﻿@{
+	ViewBag.Title = "Registration";
+}
+
+<div class="row">
+	<div id="registerMain">
+		<div class="row text-center">
+			<h1 class="sparDetailsStatus">Are You ...</h1>
+		</div>
+		<div class="row">
+			<div class="col-md-5 col-sm-5 first-fighter">
+				<a href="#" id="registerTrainer">
+					<div class="thumbnail fighterCard">
+						<img src="~/Content/Images/anonymous-photo-trainer-250X250.jpg" class="img-thumbnail" />
+						<div class="caption text-center">
+							<h2 class="media-heading">Trainer ?</h2>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-md-2 col-sm-2 text-center">
+				<h1 class="registerOr">OR</h1>
+			</div>
+			<div class="col-md-5 col-sm-5 last-fighter">
+				<a href="#" id="registerFighter">
+					<div class="thumbnail fighterCard ">
+						<img src="~/Content/Images/anonymous-photo-fighter-250X250.jpg" class="img-thumbnail" />
+						<div class="caption text-center">
+							<h2 class="media-heading">Fighter ?</h2>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div id="registerTrainerDiv" class="hidden">
+		@using (Html.BeginForm("RegisterTrainer", "Account", FormMethod.Post, new { @class = "form-horizontal register-form", role = "form" }))
+		{
+			<div class="row">
+				<div class="col-md-offset-2 col-md-6">
+					<div class="col-md-offset-4 col-md-8">
+						<h2>Trainer @ViewBag.Title.</h2>
+						@Html.AntiForgeryToken()
+						<h4>Create a new Trainer account.</h4>
+						<p>Have an account already? @Html.ActionLink("Click Here to login", "Login", "Account")</p>
+						<hr />
+					</div>
+
+					@{ Html.RenderPartial("RegisterTrainerViewModel", new SparWeb.Models.RegisterTrainerViewModel()); }
+
+					<div class="form-group">
+						<div class="col-md-offset-4 col-md-8">
+							<br />
+							<input type="submit" class="btn btn-default btn-primary btn-lg" value="Register" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-offset-4 col-md-8">
+							By signing up you agree to our @Html.ActionLink("Terms and Conditions", "TermsAndConditions", "Home")
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+	<div id="registerFighterDiv" class="hidden">
+		@using (Html.BeginForm("RegisterFighter", "Account", FormMethod.Post, new { @class = "form-horizontal register-form", role = "form" }))
+		{
+			<div class="row">
+				<div class="col-md-offset-2 col-md-6">
+					<div class="col-md-offset-4 col-md-8">
+						<h2>Fighter @ViewBag.Title.</h2>
+						@Html.AntiForgeryToken()
+						<h4>Create a new Fighter account.</h4>
+						<p>Have an account already? @Html.ActionLink("Click Here to login", "Login", "Account")</p>
+						<hr />
+					</div>
+
+					@{ Html.RenderPartial("RegisterFighterViewModel", new SparWeb.Models.RegisterFighterViewModel() { Sex = true, IsSouthpaw = false }); }
+
+					<div class="form-group">
+						<div class="col-md-offset-4 col-md-8">
+							<br />
+							<input type="submit" class="btn btn-default btn-primary btn-lg" value="Register" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-offset-4 col-md-8">
+							By signing up you agree to our @Html.ActionLink("Terms and Conditions", "TermsAndConditions", "Home")
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function () {
+		$('#registerTrainer').click(function () {
+			$('#registerMain').hide();
+			$('#registerTrainerDiv').removeClass('hidden');
+		});
+
+		$('#registerFighter').click(function () {
+			$('#registerMain').hide();
+			$('#registerFighterDiv').removeClass('hidden');
+		});
+	});
+</script>
