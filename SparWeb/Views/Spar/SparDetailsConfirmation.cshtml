@@ -21,10 +21,21 @@
     }
     else if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation)
     {
-        <h2 class="sparDetailsStatus">@Model.OpponentFighter.Name agreed to spar you! Please confirm or propose a change ...</h2>
-    }
-    else if (Model.SparRequesStatus == SparModel.SparRequestStatus.Confirmed)
-    {
+		if (Model.OpponentFighter.Trainer != null)
+		{
+			<h2 class="sparDetailsStatus">Trainer @Model.OpponentFighter.Trainer.Name of @Model.OpponentFighter.Name agreed to the spar! Please confirm or propose a change ...</h2>
+		}
+		else if (Model.ThisFighter.Trainer != null)
+		{
+			<h2 class="sparDetailsStatus">@Model.OpponentFighter.Name agreed to spar @Model.ThisFighter.Name! Please confirm or propose a change ...</h2>
+		}
+		else
+		{
+			<h2 class="sparDetailsStatus">@Model.OpponentFighter.Name agreed to spar you! Please confirm or propose a change ...</h2>
+		}
+	}
+	else if (Model.SparRequesStatus == SparModel.SparRequestStatus.Confirmed)
+	{
         <h2 class="sparDetailsStatus">A spar with @Model.OpponentFighter.Name has been confirmed ...</h2>
     }
     else if (Model.SparRequesStatus == SparModel.SparRequestStatus.Canceled)

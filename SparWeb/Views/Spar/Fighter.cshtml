@@ -1,4 +1,4 @@
-﻿@model SparWeb.Models.AccountViewModel
+﻿@model SparWeb.Models.AccountFighterViewModel
 
 @{
 	ViewBag.Title = String.Format("Boxer Profile: {0} from {1}, {2}", Model.Name, Model.City, Model.State);
@@ -7,8 +7,8 @@
 
 <div class="row account-info-section">
 	<div class="col-md-1"></div>
-	<div class="col-md-3 profilePictureSection">
-		<div class="profilePictureDefault @((Model.ProfilePictureUploaded == true)? "hidden" : "")">
+	<div class="col-md-3">
+		<div class="profilePictureDefaultFighter @((Model.ProfilePictureUploaded == true)? "hidden" : "")">
 		</div>
 		<div class="cancelProfilePictureUpdate hidden">
 			<p class="text-center"><a href="#" onclick="showProfilePicture('@Model.ProfilePictureFile');">Cancel</a></p>

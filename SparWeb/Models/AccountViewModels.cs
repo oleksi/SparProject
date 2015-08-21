@@ -48,14 +48,10 @@ namespace SparWeb.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterViewModel
-    {
+	public class RegisterViewModel
+	{
 		[Required]
 		public string Name { get; set; }
-
-		[Required]
-		[Display(Name = "Gender")]
-		public bool Sex { get; set; }
 
 		[Required]
 		[Display(Name = "Date of birth")]
@@ -67,8 +63,32 @@ namespace SparWeb.Models
 		[Required]
 		public string State { get; set; }
 
+		[Required]
+		[DataType(DataType.EmailAddress)]
+		[EmailAddress]
+		[Display(Name = "Email")]
+		public string UserName { get; set; }
+
+		[Required]
+		[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+		[DataType(DataType.Password)]
+		[Display(Name = "Password")]
+		public string Password { get; set; }
+
+		[DataType(DataType.Password)]
+		[Display(Name = "Confirm password")]
+		[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+		public string ConfirmPassword { get; set; }
+
 		[Display(Name = "Gym name")]
 		public string GymName { get; set; }
+	}
+
+	public class RegisterFighterViewModel : RegisterViewModel
+    {
+		[Required]
+		[Display(Name = "Gender")]
+		public bool Sex { get; set; }
 
 		[Required]
 		[Display(Name = "Height")]
@@ -90,33 +110,31 @@ namespace SparWeb.Models
 		[Display(Name = "Professional")]
 		public virtual int NumberOfProFights { get; set; }
 
-        [Required]
-		[DataType(DataType.EmailAddress)]
-		[EmailAddress]
-        [Display(Name = "Email")]
-        public string UserName { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
+		public bool AddedByTrainer { get; set; }
+		public string TrainerId { get; set; }
     }
+
+	public class RegisterTrainerViewModel : RegisterViewModel
+	{
+		[Display(Name = "Phone Number")]
+		[RegularExpression("^\\(?[2-9]\\d{2}(\\)\\s|[\\s\\.-])?[2-9]\\d{2}([\\s\\.-])?\\d{4}$", ErrorMessage = "Please enter correct phone number")]
+		public string PhoneNumber { get; set; }
+
+		[Display(Name = "Website")]
+		public string Website { get; set; }
+
+		[Display(Name = "Rate (per hour)")]
+		public decimal Rate { get; set; }
+
+		[Display(Name = "Notes")]
+		public string Notes { get; set; }
+	}
 
 	public class AccountViewModel
 	{
 		public string ID { get; set; }
 
 		public string Name { get; set; }
-
-		[Display(Name = "Gym name:")]
-		public string GymName { get; set; }
-		public Gym Gym { get; set; }
 
 		[Required]
 		[Display(Name = "City:")]
@@ -129,6 +147,20 @@ namespace SparWeb.Models
 		[Display(Name = "Age:")]
 		public int Age { get; set; }
 
+		public string ProfilePictureFile { get; set; }
+
+		public bool ProfilePictureUploaded { get; set; }
+
+		[Display(Name = "Gym name:")]
+		public string GymName { get; set; }
+		public Gym Gym { get; set; }
+
+		public bool IsTrainerView { get; set; }
+		public bool IsFighterSelectView { get; set; }
+	}
+
+	public class AccountFighterViewModel : AccountViewModel
+	{
 		[Required]
 		[Display(Name = "Height:")]
 		public double Height { get; set; }
@@ -149,15 +181,11 @@ namespace SparWeb.Models
 		[Display(Name = "Professional")]
 		public int NumberOfProFights { get; set; }
 
-		public string ProfilePictureFile { get; set; }
-
-		public bool ProfilePictureUploaded { get; set; }
-
 		public string HimOrHer { get; set; }
 
 		public IList<ConfirmSparDetailsViewModel> SparRequests { get; set; }
 
-		public AccountViewModel()
+		public AccountFighterViewModel()
 		{
 			SparRequests = new List<ConfirmSparDetailsViewModel>();
 		}
@@ -168,6 +196,36 @@ namespace SparWeb.Models
 			{ 
 				return String.Format("/fighters/{0}/{1}", Util.States[State], Name); 
 			}
+		}
+	}
+
+	public class AccountTrainerViewModel : AccountViewModel
+	{
+		[Display(Name = "Phone Number:")]
+		[RegularExpression("^\\(?[2-9]\\d{2}(\\)\\s|[\\s\\.-])?[2-9]\\d{2}([\\s\\.-])?\\d{4}$", ErrorMessage = "Please enter correct phone number")]
+		public string PhoneNumber { get; set; }
+
+		[Display(Name = "Website:")]
+		public string Website { get; set; }
+
+		[Display(Name = "Rate (per hour):")]
+		public decimal Rate { get; set; }
+
+		[Display(Name = "Notes:")]
+		public string Notes { get; set; }
+
+		public IList<ConfirmSparDetailsViewModel> SparRequests { get; set; }
+
+		public List<AccountFighterViewModel> FightersList { get; set; }
+
+		public AccountTrainerViewModel()
+		{
+			FightersList = new List<AccountFighterViewModel>();
+		}
+
+		public string GetHtmlFormattedNotes()
+		{
+			return (Notes != null)? Notes.Replace("\n", "<br />") : "";
 		}
 	}
 

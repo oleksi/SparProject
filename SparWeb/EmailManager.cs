@@ -13,15 +13,31 @@ namespace SparWeb
 		public enum EmailTypes
 		{
 			EmailConfirmationTemplate = 1,
-			SparRequestInitialTemplate = 2,
-			SparRequestFirstTimeResponseTemplate = 3,
-			SparRequestNegotiationTemplate = 4,
-			SparRequestConfirmedTemplate = 5,
-			SparRequestCancelledTemplate = 6,
-			ContactFormTemplate = 7,
-			NewMemberNotificationTemplate = 8,
-			PasswordResetTemplate = 9,
-			SparRequestNotificationTemplate = 10
+			SparRequestInitialTrainerToTrainerTemplate = 2,
+			SparRequestInitialFighterToTrainerTemplate = 3,
+			SparRequestInitialTrainerToFighterTemplate = 4,
+			SparRequestInitialFighterToFighterTemplate = 5,
+			SparRequestFirstTimeResponseTrainerToTrainerTemplate = 6,
+			SparRequestFirstTimeResponseFighterToTrainerTemplate = 7,
+			SparRequestFirstTimeResponseTrainerToFighterTemplate = 8,
+			SparRequestFirstTimeResponseFighterToFighterTemplate = 9,
+			SparRequestNegotiationTrainerToTrainerTemplate = 10,
+			SparRequestNegotiationFighterToTrainerTemplate = 11,
+			SparRequestNegotiationTrainerToFighterTemplate = 12,
+			SparRequestNegotiationFighterToFighterTemplate = 13,
+			SparRequestConfirmedTrainerToTrainerTemplate = 14,
+			SparRequestConfirmedFighterToTrainerTemplate = 15,
+			SparRequestConfirmedTrainerToFighterTemplate = 16,
+			SparRequestConfirmedFighterToFighterTemplate = 17,
+			SparRequestCancelledTrainerToTrainerTemplate = 18,
+			SparRequestCancelledFighterToTrainerTemplate = 19,
+			SparRequestCancelledTrainerToFighterTemplate = 20,
+			SparRequestCancelledFighterToFighterTemplate = 21,
+			ContactFormTemplate = 22,
+			NewFighterMemberNotificationTemplate = 23,
+			NewTrainerMemberNotificationTemplate = 24,
+			PasswordResetTemplate = 25,
+			SparRequestNotificationTemplate = 26
 		}
 
 		public static void SendEmail(EmailTypes emailType, string fromEmail, string toEmail, string subject, Dictionary<string, string> placeholders)

@@ -216,16 +216,32 @@
     <Compile Include="EmailManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\EmailTemplates\NewTrainerMemberNotificationTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestCancelledTrainerToFighterTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestCancelledFighterToFighterTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestCancelledFighterToTrainerTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestConfirmedFighterToTrainerTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestConfirmedTrainerToFighterTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestConfirmedTrainerToTrainerTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestFirstTimeResponseFighterToTrainerTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestFirstTimeResponseTrainerToFighterTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestFirstTimeResponseTrainerToTrainerTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestInitialFighterToTrainerTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestInitialTrainerToFighterTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestInitialTrainerToTrainerTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestNegotiationTrainerToTrainerTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestNegotiationFighterToTrainerTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestNegotiationTrainerToFighterTemplate.html" />
     <Content Include="App_Data\EmailTemplates\SparRequestNotificationTemplate.html" />
     <Content Include="App_Data\EmailTemplates\PasswordResetTemplate.html" />
-    <Content Include="App_Data\EmailTemplates\NewMemberNotificationTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\NewFighterMemberNotificationTemplate.html" />
     <Content Include="App_Data\EmailTemplates\ContactFormTemplate.html" />
-    <Content Include="App_Data\EmailTemplates\SparRequestCancelledTemplate.html" />
-    <Content Include="App_Data\EmailTemplates\SparRequestConfirmedTemplate.html" />
-    <Content Include="App_Data\EmailTemplates\SparRequestInitialTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestCancelledTrainerToTrainerTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestConfirmedFighterToFighterTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestInitialFighterToFighterTemplate.html" />
     <Content Include="App_Data\EmailTemplates\_LayoutTemplate.html" />
-    <Content Include="App_Data\EmailTemplates\SparRequestNegotiationTemplate.html" />
-    <Content Include="App_Data\EmailTemplates\SparRequestFirstTimeResponseTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestNegotiationFighterToFighterTemplate.html" />
+    <Content Include="App_Data\EmailTemplates\SparRequestFirstTimeResponseFighterToFighterTemplate.html" />
     <Content Include="App_Data\EmailTemplates\EmailConfirmationTemplate.html" />
     <Content Include="App_Readme\Elmah.txt" />
     <Content Include="Content\css\bootstrap-datepicker.css" />
@@ -236,8 +252,10 @@
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\dropzone.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\Images\anonymous-photo-150X150.jpg" />
-    <Content Include="Content\Images\anonymous-photo-250X250.jpg" />
+    <Content Include="Content\Images\anonymous-photo-fighter-150X150.jpg" />
+    <Content Include="Content\Images\anonymous-photo-fighter-250X250.jpg" />
+    <Content Include="Content\Images\anonymous-photo-trainer-150X150.jpg" />
+    <Content Include="Content\Images\anonymous-photo-trainer-250X250.jpg" />
     <Content Include="Content\Images\boxing-spar-sign.jpg" />
     <Content Include="Content\Images\powered-by-gleasons.jpg" />
     <Content Include="Content\Images\social.png" />
@@ -275,6 +293,7 @@
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\npm.js" />
+    <Content Include="Scripts\profile-picture.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -304,11 +323,11 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Manage.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\RegisterFighter.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Sex.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateOfBirth.cshtml" />
-    <Content Include="Views\Account\Account.cshtml" />
+    <Content Include="Views\Account\AccountFighter.cshtml" />
     <Content Include="Views\Account\DisplayEmail.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Shared\SparFighter.cshtml" />
@@ -328,7 +347,16 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Spar\Fighter.cshtml" />
     <Content Include="Views\Shared\SparButton.cshtml" />
-    <Content Include="Views\Shared\RegisterViewModel.cshtml" />
+    <Content Include="Views\Shared\RegisterFighterViewModel.cshtml" />
+    <Content Include="Views\Account\RegisterTrainer.cshtml" />
+    <Content Include="Views\Shared\RegisterTrainerViewModel.cshtml" />
+    <Content Include="Views\Shared\ProfilePicture.cshtml" />
+    <Content Include="Views\Account\AccountTrainer.cshtml" />
+    <Content Include="Views\Shared\UpdateFighterProfileInfoModal.cshtml" />
+    <Content Include="Views\Spar\SelectFighter.cshtml" />
+    <Content Include="Views\Shared\SparRequstsList.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Shared\RegisterMain.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

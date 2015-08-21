@@ -84,10 +84,10 @@ input[type="checkbox"].input-validation-error {
 	margin-top:20px; 
 }
 
-.profilePictureDefault {
+.profilePictureDefaultFighter {
 	width: 250px;
 	height: 250px;
-	background-image: url("/Content/Images/anonymous-photo-250X250.jpg");
+	background-image: url("/Content/Images/anonymous-photo-fighter-250X250.jpg");
     background-position: 0 0;
     background-repeat: no-repeat;
 	cursor: pointer;
@@ -95,8 +95,44 @@ input[type="checkbox"].input-validation-error {
 	padding-top: 55px;
 }
 
+.profilePictureDefaultFighter150X150 {
+	height: 150px;
+	background-image: url("/Content/Images/anonymous-photo-fighter-150X150.jpg");
+    background-position: 18px 0;
+    background-repeat: no-repeat;
+	cursor: pointer;
+	text-align: center;
+	padding-top: 20px;
+}
+
+.profilePictureDefaultTrainer {
+	width: 250px;
+	height: 250px;
+	background-image: url("/Content/Images/anonymous-photo-trainer-250X250.jpg");
+    background-position: 0 0;
+    background-repeat: no-repeat;
+	cursor: pointer;
+	text-align: center;
+	padding-top: 55px;
+}
+
+.profilePictureDefaultTrainer150X150 {
+	height: 150px;
+	background-image: url("/Content/Images/anonymous-photo-trainer-150X150.jpg");
+    background-position: 18px 0;
+    background-repeat: no-repeat;
+	cursor: pointer;
+	text-align: center;
+	padding-top: 20px;
+}
+
 .profileUploadPicHeader {
 	font-size: 34px;
+	font-weight: bold;
+}
+
+.profileUploadPicHeader150X150 {
+	font-size: 20px;
 	font-weight: bold;
 }
 
@@ -105,7 +141,9 @@ input[type="checkbox"].input-validation-error {
 	font-weight: bold;
 }
 
-
+.update-picture {
+	margin-top: -10px;
+}
 
 .spar-fighter {
 	padding-left: 4px;
@@ -161,9 +199,6 @@ input[type="checkbox"].input-validation-error {
   margin: 0 auto;
 }
 
-.boxingSparSign {
-}
-
 .sparInformation {
 	margin-top: 20px;
 }
@@ -175,7 +210,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 .sparDetailsStatus {
-   margin-top: 0px;
+   margin-bottom: 20px;
 }
 
 .sparFighterCTA {
@@ -217,7 +252,11 @@ a.btn.btn-default.btn-lg {
 }
 
 .account-info-section {
-	margin-bottom: 30px;
+	margin-bottom: 0px;
+}
+
+.trainer-fighters-list {
+	margin-top: 10px;
 }
 
 .update-profile-info {
@@ -226,9 +265,13 @@ a.btn.btn-default.btn-lg {
 .boxingSparSign {
   margin: 0 auto;
   display: block;
+  width: 100%;
 }
-.boxingSparSign{
-    width: 100%;
+
+.registerOr {
+  margin: 0 auto;
+  display: block;
+  width: 100%;
 }
 
 .powered-by {
@@ -274,6 +317,24 @@ a.btn.btn-default.btn-lg {
 	margin-top: 7px;
 }
 
+.accountNotes {
+	margin-bottom: 20px;
+	margin-top: 10px;
+}
+
+.selectFightersList {
+	margin-top: 20px;
+}
+
+#registerMain {
+	width: 700px;
+	margin: 0 auto;
+}
+
+#registerMain a:hover {
+	text-decoration: none;
+}
+
 @media(min-width:992px){
 	.col-md-3.col-xs-12.bottom ,
 	.col-md-2.col-xs-12.bottom{
@@ -286,6 +347,9 @@ a.btn.btn-default.btn-lg {
 	.boxingSparSign{
 	margin-top: 45%;
 	}
+	.registerOr {
+		margin-top: 100px;
+	}
 }
 
 @media (min-width: 768px) and (max-width: 992px){
@@ -294,6 +358,9 @@ a.btn.btn-default.btn-lg {
 	}
 	.form-group {
 	    text-align: left;
+	}
+	.registerOr {
+		margin-top: 100px;
 	}
 }
 
@@ -351,12 +418,21 @@ a.btn.btn-default.btn-lg {
 	#myCarousel {
 		margin-left: 0px;
 	}
+
+	.registerOr {
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
 }
 @media (max-width: 500px) {
 
     dd.right{
         float: right ;
     }
+
+	#registerMain {
+		width: 250px;
+	}
 }
 @media (max-width: 640px) {
 	.row.sparConfirmationSectionRow{
@@ -378,40 +454,47 @@ a.btn.btn-default.btn-lg {
   .logo {
     margin-left: 10px
   }
+
+	#registerMain {
+		width: 500px;
+	}
 }
 .col-xs-4.bottom {
   max-width: 120px;
 }
 @media (max-width: 30em) {
-  .order {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -moz-box-orient: vertical;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    /* optional */
-    -webkit-box-align: start;
-    -moz-box-align: start;
-    -ms-flex-align: start;
-    -webkit-align-items: flex-start;
-    align-items: flex-start;
-  }
-.order .image {
-    -webkit-box-ordinal-group: 2;
-    -moz-box-ordinal-group: 2;
-    -ms-flex-order: 2;
-    -webkit-order: 2;
-    order: 2;
-  }
-  .order .detail {
-    -webkit-box-ordinal-group: 1;
-    -moz-box-ordinal-group: 1;
-    -ms-flex-order: 1;
-    -webkit-order: 1;
-    order: 1;
-  }
+	.order {
+		display: -webkit-box;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-box-orient: vertical;
+		-moz-box-orient: vertical;
+		-webkit-flex-direction: column;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		/* optional */
+		-webkit-box-align: start;
+		-moz-box-align: start;
+		-ms-flex-align: start;
+		-webkit-align-items: flex-start;
+		align-items: flex-start;
+	}
+
+		.order .image {
+			-webkit-box-ordinal-group: 2;
+			-moz-box-ordinal-group: 2;
+			-ms-flex-order: 2;
+			-webkit-order: 2;
+			order: 2;
+		}
+
+		.order .detail {
+			-webkit-box-ordinal-group: 1;
+			-moz-box-ordinal-group: 1;
+			-ms-flex-order: 1;
+			-webkit-order: 1;
+			order: 1;
+		}
+}

@@ -26,7 +26,7 @@
                     <div class="carousel-caption">
 						<h4>SparGym connects boxing sparring partners of any level!</h4>
 						<p>No matter if you are beginner or experienced boxer, you will find the right sparring partner by location, age, gender, weight, height, stance and experience level. Register today to schedule your next spar!</p>
-						<p><a href="@Url.Content("~/Account/Register")" class="btn btn-success btn-lg">Register &raquo;</a></p>
+						<p><a href="@Url.Content("~/Account/RegisterFighter")" class="btn btn-success btn-lg">Register &raquo;</a></p>
                     </div>
                 </div>
                 <div class="item">
@@ -34,7 +34,7 @@
                     <div class="carousel-caption">
 						<h4>Sparring is where boxers make the most progress!</h4>
 						<p>No matter how hard you hit the bag, you must apply what you learn through live sparring. Join SparGym today to find your next boxing sparring partner!</p>
-						<p><a href="@Url.Content("~/Account/Register")" class="btn btn-success btn-lg">Register &raquo;</a></p>
+						<p><a href="@Url.Content("~/Account/RegisterFighter")" class="btn btn-success btn-lg">Register &raquo;</a></p>
                     </div>
                 </div>
             </div>
@@ -192,8 +192,8 @@
 </div>
 
 <div id="registerPopupModal" class="modal fade">
-	<div class="modal-dialog">
-		@Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal register-form", role = "form" })
+	<div class="modal-dialog" style="width: 750px;">
+		@Html.BeginForm("RegisterFighter", "Account", FormMethod.Post, new { @class = "form-horizontal register-form", role = "form" })
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -201,11 +201,7 @@
 				@Html.AntiForgeryToken()
 			</div>
 			<div class="modal-body">
-				@{ Html.RenderPartial("RegisterViewModel", new SparWeb.Models.RegisterViewModel() { Sex = true, IsSouthpaw = false }); }
-			</div>
-			<div class="modal-footer text-center">
-				<input type="submit" class="btn btn-default btn-primary btn-lg" value="Register" />
-				<p class="text-center">By signing up you agree to our @Html.ActionLink("Terms and Conditions", "TermsAndConditions", "Home")</p>
+				@{Html.RenderPartial("RegisterMain");}
 			</div>
 			@{Html.EndForm();}
 		</div>

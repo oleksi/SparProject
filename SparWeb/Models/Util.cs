@@ -149,36 +149,61 @@ namespace SparWeb
 			{"WY", "Wyoming"}
 		};
 
-		public static AccountViewModel GetAccountViewModelForFighter(Fighter fighter, int thumbnailSize)
+		public static AccountFighterViewModel GetAccountViewModelForFighter(Fighter fighter, int thumbnailSize)
 		{
 			string gymName = (fighter.Gym != null) ? fighter.Gym.Name : "Unknown Gym";
 
-			AccountViewModel model = null;
+			AccountFighterViewModel model = null;
 			if (fighter != null)
-				model = new AccountViewModel() { 
+				model = new AccountFighterViewModel() { 
 					ID = fighter.SparIdentityUser.Id,
 					Name = fighter.Name, 
 					GymName = gymName,
 					Gym = fighter.Gym, 
 					City = fighter.City,
 					State = fighter.State,
-					Age = fighter.getFighterAge(), 
+					Age = fighter.GetMemberAge(), 
 					Height = fighter.Height, 
 					Weight = fighter.Weight, 
 					IsSouthpaw = fighter.IsSouthpaw,
 					NumberOfAmateurFights = fighter.NumberOfAmateurFights, 
 					NumberOfProFights = fighter.NumberOfProFights,
 					ProfilePictureUploaded = fighter.ProfilePictureUploaded,
-					ProfilePictureFile = GetProfilePictureFileForFighter(fighter, thumbnailSize),
+					ProfilePictureFile = GetProfilePictureFile(fighter, thumbnailSize),
 					HimOrHer = fighter.GetHimOrHer(true)
 				};
 
 			return model;
 		}
 
-		public static string GetProfilePictureFileForFighter(Fighter fighter, int thumbnailSize)
+		public static AccountTrainerViewModel GetAccountViewModelForTrainer(Trainer trainer, int thumbnailSize)
 		{
-			return fighter.GetProfilePictureFile(thumbnailSize, System.Configuration.ConfigurationManager.AppSettings["ProfilePicsUrl"], VirtualPathUtility.ToAbsolute("~/Content/Images/"));
+			string gymName = (trainer.Gym != null) ? trainer.Gym.Name : "Unknown Gym";
+
+			AccountTrainerViewModel model = null;
+			if (trainer != null)
+				model = new AccountTrainerViewModel()
+				{
+					ID = trainer.SparIdentityUser.Id,
+					Name = trainer.Name,
+					GymName = gymName,
+					Gym = trainer.Gym,
+					City = trainer.City,
+					State = trainer.State,
+					PhoneNumber = trainer.PhoneNumber,
+					Website = trainer.Website,
+					Rate = trainer.Rate,
+					Notes = trainer.Notes,
+					ProfilePictureUploaded = trainer.ProfilePictureUploaded,
+					ProfilePictureFile = GetProfilePictureFile(trainer, thumbnailSize)
+				};
+
+			return model;
+		}
+
+		public static string GetProfilePictureFile(Member member, int thumbnailSize)
+		{
+			return member.GetProfilePictureFile(thumbnailSize, System.Configuration.ConfigurationManager.AppSettings["ProfilePicsUrl"], VirtualPathUtility.ToAbsolute("~/Content/Images/"));
 		}
 
 		public static ConfirmSparDetailsViewModel GetConfirmSparDetailsViewModel(SparRequest sparRequest, int profilePictureSize, string currUserId)
@@ -186,15 +211,40 @@ namespace SparWeb
 			//figuring out who is who
 			Fighter thisFighter = null;
 			Fighter opponentFighter = null;
-			if (sparRequest.RequestorFighter.SparIdentityUser.Id == currUserId)
+
+			//checking if curren user is trainer or fighter
+			var fighterRepo = new FighterRepository();
+			var fighter = fighterRepo.GetFighterByIdentityUserId(currUserId);
+			if (fighter != null)
 			{
-				thisFighter = sparRequest.RequestorFighter;
-				opponentFighter = sparRequest.OpponentFighter;
+				//current user is fighter
+				if (sparRequest.RequestorFighter.Id == fighter.Id)
+				{
+					thisFighter = sparRequest.RequestorFighter;
+					opponentFighter = sparRequest.OpponentFighter;
+				}
+				else
+				{
+					thisFighter = sparRequest.OpponentFighter;
+					opponentFighter = sparRequest.RequestorFighter; ;
+				}
 			}
 			else
 			{
-				thisFighter = sparRequest.OpponentFighter;
-				opponentFighter = sparRequest.RequestorFighter; ;
+				//current user is trainer
+				var trainerRepo = new TrainerRepository();
+				var trainer = trainerRepo.GetTrainerByIdentityUserId(currUserId);
+
+				if ((sparRequest.RequestorFighter.Trainer != null && sparRequest.RequestorFighter.Trainer.Id == trainer.Id))
+				{
+					thisFighter = sparRequest.RequestorFighter;
+					opponentFighter = sparRequest.OpponentFighter;
+				}
+				else
+				{
+					thisFighter = sparRequest.OpponentFighter;
+					opponentFighter = sparRequest.RequestorFighter; ;
+				}
 			}
 
 			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = new ConfirmSparDetailsViewModel(GetSparConfirmationViewModel(thisFighter, opponentFighter, profilePictureSize));

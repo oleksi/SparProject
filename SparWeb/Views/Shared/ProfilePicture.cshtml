@@ -1,0 +1,61 @@
+﻿@model SparWeb.Models.AccountViewModel
+
+@{
+	string profilePictureDefaultClass = "";
+	if (Model.IsTrainerView == false)
+	{
+		if (Model is SparWeb.Models.AccountFighterViewModel)
+		{
+			profilePictureDefaultClass = "profilePictureDefaultFighter";
+		}
+		else
+		{
+			profilePictureDefaultClass = "profilePictureDefaultTrainer";
+		}
+	}
+	else
+	{
+		profilePictureDefaultClass = "profilePictureDefaultFighter150X150";
+	}
+	string thumbnailsize = (Model.IsTrainerView == false) ? "250" : "150";
+}
+
+<div>
+	<div class="@profilePictureDefaultClass dropzone @((Model.ProfilePictureUploaded == true)? "hidden" : "")" data-userid="@Model.ID" data-thumbnailsize="@thumbnailsize">
+		@if (Model.IsTrainerView == false)
+		{ 
+			<p class="profileUploadPicHeader">Upload your picture now!</p>
+		}
+		else
+		{
+			<p class="profileUploadPicHeader150X150">Upload fighter picture!</p>
+		}
+		<p class="profileUploadPicSubeader"><a class="profileUploadPicAction" href="#">(drop file here or click)</a></p>
+	</div>
+	<div class="cancelProfilePictureUpdate hidden">
+		<p class="text-center"><a href="#" onclick="showProfilePicture('@Model.ProfilePictureFile', '@Model.ID');">Cancel</a></p>
+	</div>
+	<div class="title hidden-md hidden-lg">
+		<span class="fighterNameSmall">@Html.ValueFor(m => m.Name)</span>
+		<div class="row">
+			<div class="col-md-12">
+				from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
+				<br>
+				<span>@Model.City, @Model.State</span>
+			</div>
+		</div>
+	</div>
+	<div class="profilePicture @((Model.ProfilePictureUploaded == false)? "hidden" : "")">
+		<img height="250" class="img-responsive" />
+		<p class="text-center update-picture"><a href="#" onclick="updateProfilePicture('@Model.ID');">Update Picture</a></p>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function () {
+		@if (Model.ProfilePictureUploaded == true)
+        {
+            @:showProfilePicture('@Model.ProfilePictureFile', '@Model.ID');
+		}
+	});
+</script>

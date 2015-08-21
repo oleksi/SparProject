@@ -147,15 +147,195 @@ namespace SparWeb.Controllers
 			}
 		}
 
-        //
-        // GET: /Account/Register
-        [AllowAnonymous]
+		[AllowAnonymous]
         public ActionResult Register()
+		{
+			Util.PopualateRegistrationDropdowns(ViewBag);
+
+			return View();
+		}
+
+        //
+		// GET: /Account/RegisterFighter
+        [AllowAnonymous]
+        public ActionResult RegisterFighter()
         {
 			Util.PopualateRegistrationDropdowns(ViewBag);
 
-			return View(new RegisterViewModel() { Sex = true, IsSouthpaw = false });
+			return View(new RegisterFighterViewModel() { Sex = true, IsSouthpaw = false });
         }
+
+        //
+		// POST: /Account/RegisterFighter
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+		public async Task<ActionResult> RegisterFighter(RegisterFighterViewModel model)
+        {
+			if (ModelState.IsValid == false)
+			{ 
+				Util.PopualateRegistrationDropdowns(ViewBag);
+				return View(model);
+			}
+
+			DateTime dob = DateTime.MinValue;
+			if (DateTime.TryParse(String.Format("{0}/{1}/{2}", model.DateOfBirth.Month, model.DateOfBirth.Day, model.DateOfBirth.Year), out dob) == false || dob > DateTime.Now || dob < DateTime.Now.AddYears(-100))
+			{
+				ModelState.AddModelError("DateOfBirth", "Date of birth is not valid");
+				Util.PopualateRegistrationDropdowns(ViewBag);
+				return View(model);
+			}
+
+			SparIdentityUser user = null;
+			if (model.AddedByTrainer == false)
+			{
+				user = new SparIdentityUser() { UserName = model.UserName, Email = model.UserName };
+			}
+			else
+			{
+				var userName = String.Format("{0}@spargym.com", Guid.NewGuid().ToString());
+				user = new SparIdentityUser() { UserName = userName, Email = userName, EmailConfirmed = true };
+			}
+
+			var result = await UserManager.CreateAsync(user, model.Password);
+			if (result.Succeeded)
+			{
+				UserManager.AddToRole(user.Id, "Fighter");
+			}
+			else
+			{
+				AddErrors(result);
+
+				Util.PopualateRegistrationDropdowns(ViewBag);
+				return View(model);
+			}
+
+			var fighterRepo = new FighterRepository();
+			Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, City = model.City, State = model.State, Height = model.Height, Weight = model.Weight, IsSouthpaw = model.IsSouthpaw, NumberOfAmateurFights = model.NumberOfAmateurFights, NumberOfProFights = model.NumberOfProFights, Gym = createGym(model.GymName), ProfilePictureUploaded = false };
+			fighter.SparIdentityUser = user;
+
+			if (model.AddedByTrainer == true)
+			{
+				var trainerRepo = new TrainerRepository();
+				var trainer = trainerRepo.GetTrainerByIdentityUserId(model.TrainerId);
+
+				if (trainer == null)
+					throw new ApplicationException("Unable to find trainer with Identity User Id = " + model.TrainerId);
+
+				fighter.Trainer = trainer;
+			}
+				
+			fighterRepo.SaveFighter(fighter);
+
+			//sending notification email to admin
+			var emailPlaceholders = new Dictionary<string, string>();
+			emailPlaceholders["[NAME]"] = ConfigurationManager.AppSettings["AdminName"];
+			emailPlaceholders["[FIGHTER_NAME]"] = model.Name;
+			emailPlaceholders["[GENDER]"] = (model.Sex == true) ? "Male" : "Femail";
+			emailPlaceholders["[DATE_OF_BIRTH]"] = dob.ToShortDateString();
+			emailPlaceholders["[CITY]"] = model.City;
+			emailPlaceholders["[STATE]"] = model.State;
+			emailPlaceholders["[HEIGHT]"] = Util.HeightToCentimetersMap[model.Height];
+			emailPlaceholders["[WEIGHT]"] = Util.WeightClassMap[model.Weight];
+			emailPlaceholders["[STANCE]"] = (model.IsSouthpaw)? "Left-handed" : "Right-handed";
+			emailPlaceholders["[NUMBER_OF_AMATEUR_FIGHTS]"] = model.NumberOfAmateurFights.ToString();
+			emailPlaceholders["[NUMBER_OF_PRO_FUIGTS]"] = model.NumberOfProFights.ToString();
+			emailPlaceholders["[GYM]"] = String.IsNullOrEmpty(model.GymName)? "Unknown Gym" : model.GymName;
+
+			EmailManager.SendEmail(EmailManager.EmailTypes.NewFighterMemberNotificationTemplate, ConfigurationManager.AppSettings["EmailSupport"], ConfigurationManager.AppSettings["EmailAdmin"], "New Member Just Signed Up!", emailPlaceholders);
+
+			if (model.AddedByTrainer == false)
+			{
+				//sending Email Confirmation email
+				await sendAccountConfirmationEmail(user, model.Name);
+
+				return View("DisplayEmail");
+			}
+			else
+			{
+				return RedirectToAction("Index");
+			}
+        }
+
+		[AllowAnonymous]
+		public ActionResult RegisterTrainer()
+		{
+			Util.PopualateRegistrationDropdowns(ViewBag);
+
+			return View(new RegisterTrainerViewModel());
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public async Task<ActionResult> RegisterTrainer(RegisterTrainerViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				DateTime dob = DateTime.MinValue;
+				if (DateTime.TryParse(String.Format("{0}/{1}/{2}", model.DateOfBirth.Month, model.DateOfBirth.Day, model.DateOfBirth.Year), out dob) == false || dob > DateTime.Now || dob < DateTime.Now.AddYears(-100))
+				{
+					ModelState.AddModelError("DateOfBirth", "Date of birth is not valid");
+					Util.PopualateRegistrationDropdowns(ViewBag);
+					return View(model);
+				}
+
+				var user = new SparIdentityUser() { UserName = model.UserName, Email = model.UserName };
+				var result = await UserManager.CreateAsync(user, model.Password);
+				if (result.Succeeded)
+				{
+					UserManager.AddToRole(user.Id, "Trainer");
+
+					model.Website = model.Website.Trim();
+					if (model.Website.StartsWith("http://") == false)
+						model.Website = "http://" + model.Website;
+
+					var trainerRepo = new TrainerRepository();
+					var trainer = new Trainer() { Name = model.Name, DateOfBirth = dob, City = model.City, State = model.State, Gym = createGym(model.GymName), PhoneNumber = model.PhoneNumber, Website = model.Website, Rate = model.Rate, Notes = model.Notes, ProfilePictureUploaded = false, SparIdentityUser = user };
+					trainerRepo.SaveTrainer(trainer);
+
+					//sending Email Confirmation email
+					await sendAccountConfirmationEmail(user, model.Name);
+
+					//sending notification email to admin
+					var emailPlaceholders = new Dictionary<string, string>();
+					emailPlaceholders["[NAME]"] = ConfigurationManager.AppSettings["AdminName"];
+					emailPlaceholders["[TRAINER_NAME]"] = model.Name;
+					emailPlaceholders["[DATE_OF_BIRTH]"] = dob.ToShortDateString();
+					emailPlaceholders["[CITY]"] = model.City;
+					emailPlaceholders["[STATE]"] = model.State;
+					emailPlaceholders["[GYM]"] = String.IsNullOrEmpty(model.GymName) ? "Unknown Gym" : model.GymName;
+					emailPlaceholders["[PHONE]"] = model.PhoneNumber;
+					emailPlaceholders["[WEBSITE]"] = model.Website;
+					emailPlaceholders["[RATE]"] = model.Rate.ToString();
+					emailPlaceholders["[NOTES]"] = model.Notes;
+
+					EmailManager.SendEmail(EmailManager.EmailTypes.NewTrainerMemberNotificationTemplate, ConfigurationManager.AppSettings["EmailSupport"], ConfigurationManager.AppSettings["EmailAdmin"], "New Member Just Signed Up!", emailPlaceholders);
+
+					return View("DisplayEmail");
+				}
+				else
+				{
+					AddErrors(result);
+				}
+			}
+
+			// If we got this far, something failed, redisplay form
+			Util.PopualateRegistrationDropdowns(ViewBag);
+			return View(model);
+		}
+
+		private async Task sendAccountConfirmationEmail(SparIdentityUser user, string memberName)
+		{
+			var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+			var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+
+			var emailPlaceholders = new Dictionary<string, string>();
+			emailPlaceholders["[NAME]"] = memberName;
+			emailPlaceholders["[CONFIRMATION_URL]"] = String.Format("<a href=\"{0}\">{0}</a>", callbackUrl);
+
+			EmailManager.SendEmail(EmailManager.EmailTypes.EmailConfirmationTemplate, ConfigurationManager.AppSettings["EmailSupport"], user.UserName, "Welcome to SparGym! Please confirm your account", emailPlaceholders);
+		}
 
 		private Dictionary<int, string> getAllGyms()
 		{
@@ -166,72 +346,6 @@ namespace SparWeb.Controllers
 
 			return allGyms;
 		}
-
-        //
-        // POST: /Account/Register
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-				DateTime dob = DateTime.MinValue;
-				if (DateTime.TryParse(String.Format("{0}/{1}/{2}", model.DateOfBirth.Month, model.DateOfBirth.Day, model.DateOfBirth.Year), out dob) == false || dob > DateTime.Now || dob < DateTime.Now.AddYears(-100))
-				{
-					ModelState.AddModelError("DateOfBirth", "Date of birth is not valid");
-					Util.PopualateRegistrationDropdowns(ViewBag);
-					return View(model);
-				}
-
-                var user = new SparIdentityUser() { UserName = model.UserName, Email = model.UserName };                
-				var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-					FighterRepository fighterRepo = new FighterRepository();
-					Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, City = model.City, State = model.State, Height = model.Height, Weight = model.Weight, IsSouthpaw = model.IsSouthpaw, NumberOfAmateurFights = model.NumberOfAmateurFights, NumberOfProFights = model.NumberOfProFights, Gym = createGym(model.GymName), ProfilePictureUploaded = false };
-					fighter.SparIdentityUser = user;
-					fighterRepo.SaveFighter(fighter);
-
-					//sending Email Confirmation email
-					var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-					var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-
-					var emailPlaceholders = new Dictionary<string, string>();
-					emailPlaceholders["[NAME]"] = model.Name;
-					emailPlaceholders["[CONFIRMATION_URL]"] = String.Format("<a href=\"{0}\">{0}</a>", callbackUrl);
-
-					EmailManager.SendEmail(EmailManager.EmailTypes.EmailConfirmationTemplate, ConfigurationManager.AppSettings["EmailSupport"], user.UserName, "Welcome to SparGym! Please confirm your account", emailPlaceholders);
-
-					//sending notification email to admin
-					emailPlaceholders = new Dictionary<string, string>();
-					emailPlaceholders["[NAME]"] = ConfigurationManager.AppSettings["AdminName"];
-					emailPlaceholders["[FIGHTER_NAME]"] = model.Name;
-					emailPlaceholders["[GENDER]"] = (model.Sex == true) ? "Male" : "Femail";
-					emailPlaceholders["[DATE_OF_BIRTH]"] = dob.ToShortDateString();
-					emailPlaceholders["[CITY]"] = model.City;
-					emailPlaceholders["[STATE]"] = model.State;
-					emailPlaceholders["[HEIGHT]"] = Util.HeightToCentimetersMap[model.Height];
-					emailPlaceholders["[WEIGHT]"] = Util.WeightClassMap[model.Weight];
-					emailPlaceholders["[STANCE]"] = (model.IsSouthpaw)? "Left-handed" : "Right-handed";
-					emailPlaceholders["[NUMBER_OF_AMATEUR_FIGHTS]"] = model.NumberOfAmateurFights.ToString();
-					emailPlaceholders["[NUMBER_OF_PRO_FUIGTS]"] = model.NumberOfProFights.ToString();
-					emailPlaceholders["[GYM]"] = String.IsNullOrEmpty(model.GymName)? "Unknown Gym" : model.GymName;
-
-					EmailManager.SendEmail(EmailManager.EmailTypes.NewMemberNotificationTemplate, ConfigurationManager.AppSettings["EmailSupport"], ConfigurationManager.AppSettings["EmailAdmin"], "New Member Just Signed Up!", emailPlaceholders);
-
-					return View("DisplayEmail");
-                }
-                else
-                {
-                    AddErrors(result);
-                }
-            }
-
-            // If we got this far, something failed, redisplay form
-			Util.PopualateRegistrationDropdowns(ViewBag);
-            return View(model);
-        }
 
 		private Gym createGym(string gymName)
 		{
@@ -295,30 +409,65 @@ namespace SparWeb.Controllers
 		[Authorize]
 		public ActionResult Index()
 		{
-			Fighter fighter = getLoggedInFighter();
-			AccountViewModel accountViewModel = Util.GetAccountViewModelForFighter(fighter, 250);
+			var member = getLoggedInMember();
 
-			SparRepository sparRepo = new SparRepository();
-			accountViewModel.SparRequests = Util.GetSparRequestDetailsForFighter(fighter.Id.Value, User.Identity.GetUserId());
+			if (member is Fighter == true)
+			{
+				Fighter fighter = member as Fighter;
 
-			Util.PopualateRegistrationDropdowns(ViewBag);
+				AccountFighterViewModel accountViewModel = Util.GetAccountViewModelForFighter(fighter, 250);
 
-			return View("Account", accountViewModel);
+				SparRepository sparRepo = new SparRepository();
+				accountViewModel.SparRequests = Util.GetSparRequestDetailsForFighter(fighter.Id.Value, User.Identity.GetUserId());
+
+				Util.PopualateRegistrationDropdowns(ViewBag);
+
+				return View("AccountFighter", accountViewModel);
+			}
+			else
+			{
+				var trainer = member as Trainer;
+
+				var accountViewModel = Util.GetAccountViewModelForTrainer(trainer, 250);
+
+				//getting list of fightes that belong to this trainer
+				var fighterRepo = new FighterRepository();
+				var fightersList = fighterRepo.GetAllFighters().Where(ff => ff.Trainer != null && ff.Trainer.Id == trainer.Id).ToList();
+				var fightersAccountViewModelList = new List<AccountFighterViewModel>();
+				var sparRequests = new List<ConfirmSparDetailsViewModel>();
+				foreach (var currFighter in fightersList)
+				{
+					var fighterAccountViewModel = Util.GetAccountViewModelForFighter(currFighter, 150);
+					fighterAccountViewModel.IsTrainerView = true;
+					fightersAccountViewModelList.Add(fighterAccountViewModel);
+
+					var currFighterSparRequests = Util.GetSparRequestDetailsForFighter(currFighter.Id.Value, User.Identity.GetUserId());
+					sparRequests.AddRange(currFighterSparRequests);
+				}
+				accountViewModel.FightersList = fightersAccountViewModelList;
+				accountViewModel.SparRequests = sparRequests;
+
+				Util.PopualateRegistrationDropdowns(ViewBag);
+
+				return View("AccountTrainer", accountViewModel);
+			}
 		}
 
 		[Authorize]
 		[HttpPost]
-		public ActionResult UpdateProfileInfo(AccountViewModel model)
+		public ActionResult UpdateFighterProfileInfo(AccountFighterViewModel model)
 		{
 			if (ModelState.IsValid == false)
 			{
 				Util.PopualateRegistrationDropdowns(ViewBag);
 				ViewBag.ShowUpdateProfileModal = true;
 
-				return View("Account", model);
+				return View("AccountFighter", model);
 			}
 
-			var currFighter = getLoggedInFighter();
+			var member = getMember(model.ID);
+			var currFighter = member as Fighter;
+
 			currFighter.City = model.City;
 			currFighter.State = model.State;
 
@@ -341,6 +490,48 @@ namespace SparWeb.Controllers
 			return RedirectToAction("Index");
 		}
 
+		[Authorize]
+		[HttpPost]
+		public ActionResult UpdateTrainerProfileInfo(AccountTrainerViewModel model)
+		{
+			if (ModelState.IsValid == false)
+			{
+				Util.PopualateRegistrationDropdowns(ViewBag);
+				ViewBag.ShowUpdateProfileModal = true;
+
+				return View("AccountTrainer", model);
+			}
+
+			var currTrainer = getLoggedInTrainer();
+			currTrainer.City = model.City;
+			currTrainer.State = model.State;
+
+			if ((currTrainer.Gym != null && currTrainer.Gym.Name != model.GymName)
+				|| (currTrainer.Gym == null && model.GymName != "Unknown Gym"))
+			{
+				currTrainer.Gym = createGym(model.GymName);
+			}
+
+			currTrainer.PhoneNumber = model.PhoneNumber;
+			currTrainer.Website = model.Website;
+			currTrainer.Rate = model.Rate;
+			currTrainer.Notes = model.Notes;
+
+			//updating fighter profile info
+			var tyrainerRepo = new TrainerRepository();
+			tyrainerRepo.SaveTrainer(currTrainer);
+
+			return RedirectToAction("Index");
+		}
+
+		private Member getLoggedInMember()
+		{
+			var identityUserStore = new SparIdentityUserStore<SparIdentityUser>();
+			var identityUser = identityUserStore.FindByIdAsync(User.Identity.GetUserId()).Result;
+
+			return getMember(identityUser.Id);
+		}
+
 		private Fighter getLoggedInFighter()
 		{
 			FighterRepository fighterRepo = new FighterRepository();
@@ -348,12 +539,38 @@ namespace SparWeb.Controllers
 			return fighter;
 		}
 
+		private Trainer getLoggedInTrainer()
+		{
+			TrainerRepository trainerRepo = new TrainerRepository();
+			Trainer trainer = trainerRepo.GetTrainerByIdentityUserId(User.Identity.GetUserId());
+			return trainer;
+		}
+
+		private Member getMember(string userId)
+		{
+			bool isFighter = UserManager.IsInRole(userId, "Fighter");
+
+			Member member = null;
+			if (isFighter == true)
+			{
+				var fighterRepo = new FighterRepository();
+				member = fighterRepo.GetFighterByIdentityUserId(userId);
+			}
+			else
+			{
+				var trainerRepo = new TrainerRepository();
+				member = trainerRepo.GetTrainerByIdentityUserId(userId);
+			}
+
+			return member;
+		}
+
 		[HttpPost]
-		public ActionResult UploadProfilePicture(HttpPostedFileBase file)
+		public ActionResult UploadProfilePicture(HttpPostedFileBase file, string userId, int thumbnailSize)
 		{
 			bool fileSavedSuccessfully = true;
 			string fileName = "";
-			Fighter fighter = null;
+			Member member = null;
 			string errorMessage = "";
 			try
 			{
@@ -367,10 +584,10 @@ namespace SparWeb.Controllers
 					container.SetPermissions(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob }); 					
 				}
 
-				fighter = getLoggedInFighter();
+				member = getMember(userId);
 
 				//optimizing and saving uploaded pic in full size
-				string origFileName = String.Format("{0}-orig.jpg", fighter.SparIdentityUser.Id);				
+				string origFileName = String.Format("{0}-orig.jpg", userId);				
 				Bitmap bitmap = new Bitmap(file.InputStream);
 				saveProfilePic(bitmap, origFileName, container);
 
@@ -384,15 +601,24 @@ namespace SparWeb.Controllers
 				
 				//resizing and saving account thumbnail version
 				bitmap = new Bitmap(bitmap, 250, 250);
-				fileName = fighter.getProfileThumbnailFileName(250, true);
+				fileName = member.GetProfileThumbnailFileName(250, true);
 				saveProfilePic(bitmap, fileName, container);
 
 				bitmap = new Bitmap(bitmap, 150, 150);
-				saveProfilePic(bitmap, fighter.getProfileThumbnailFileName(150, true), container);
+				saveProfilePic(bitmap, member.GetProfileThumbnailFileName(150, true), container);
 
-				fighter.ProfilePictureUploaded = true;
-				FighterRepository fighterRepo = new FighterRepository();
-				fighterRepo.SaveFighter(fighter);
+				member.ProfilePictureUploaded = true;
+
+				if (member is Fighter)
+				{
+					FighterRepository fighterRepo = new FighterRepository();
+					fighterRepo.SaveFighter(member as Fighter);
+				}
+				else
+				{
+					var trainerRepo = new TrainerRepository();
+					trainerRepo.SaveTrainer(member as Trainer);
+				}
 			}
 			catch(Exception ex)
 			{
@@ -402,7 +628,7 @@ namespace SparWeb.Controllers
 
 			if (fileSavedSuccessfully)
 			{
-				return Json(new { Message = Util.GetProfilePictureFileForFighter(fighter, 250) });
+				return Json(new { Message = Util.GetProfilePictureFile(member, thumbnailSize) });
 			}
 			else
 			{

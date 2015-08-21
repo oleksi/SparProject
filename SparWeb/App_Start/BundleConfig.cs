@@ -27,7 +27,8 @@ namespace SparWeb
                       "~/Scripts/respond.js"));
 
 			bundles.Add(new ScriptBundle("~/bundles/dropzone").Include(
-					  "~/Scripts/dropzone.js"));
+					  "~/Scripts/dropzone.js",
+					  "~/Scripts/profile-picture.js"));
 
 			bundles.Add(new ScriptBundle("~/bundles/bootstrap-datepicker").Include(
 					  "~/Scripts/bootstrap-datepicker.js", "~/Scripts/moment*"));

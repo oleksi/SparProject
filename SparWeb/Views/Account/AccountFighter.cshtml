@@ -1,0 +1,106 @@
+﻿@model SparWeb.Models.AccountFighterViewModel
+
+@{
+    ViewBag.Title = "Account Summary";
+}
+
+<div class="row account-info-section">
+    <div class="col-md-1"></div>
+    <div class="col-md-3">
+		@{Html.RenderPartial("ProfilePicture", Model);}
+    </div>
+    <div class="col-md-6">
+        <div class="title hidden-xs hidden-sm">
+            <span class="fighterNameSmall">@Html.ValueFor(m => m.Name)</span>
+            <div class="row">
+                <div class="col-md-12">
+                    from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
+                    <br />
+                    <span>@Model.City, @Model.State</span>
+                </div>
+            </div>
+        </div>
+        <div class="well top-buffer">
+            <div class="row">
+                <div class="col-sm-4 col-xs-4">
+                    @Html.LabelFor(m => m.Age)
+                </div>
+                <div class="col-sm-8 col-xs-8">
+                    @Html.ValueFor(m => m.Age)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 col-xs-4">
+                    @Html.LabelFor(m => m.Height)
+                </div>
+                <div class="col-sm-8 col-xs-8">
+                    @ViewBag.HeightToCentimetersMap[Model.Height]
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 col-xs-4">
+                    @Html.LabelFor(m => m.Weight)
+                </div>
+                <div class="col-sm-8 col-xs-8">
+                    @ViewBag.WeightClassMap[Model.Weight]
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 col-xs-4">
+                    @Html.LabelFor(m => m.IsSouthpaw)
+                </div>
+                <div class="col-sm-8 col-xs-8">
+                    @((Model.IsSouthpaw) ? "Left-Handed" : "Right-Handed")
+                </div>
+            </div>            
+            <div class="row">
+                <div class="col-sm-4 col-xs-4">
+                    <label for="NumberOfAmateurFights">Number of fights:</label>
+                </div>
+                <div class="col-sm-8 col-xs-8">
+                    @Html.DisplayFor(model => model.NumberOfAmateurFights) amateur
+                    @if (Model.NumberOfProFights > 0)
+                    {
+                        @:/ <strong>@Html.DisplayFor(model => model.NumberOfProFights) pro</strong>
+                }
+                </div>
+            </div>
+            </div>
+            <div class="update-profile-info">
+                <p class="text-right"><a href="#">Update Profile</a></p>
+            </div>
+        </div>
+    <div class="col-md-2"></div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <p class="text-center">
+            <a class="btn btn-success btn-lg col-xs-12 col-sm-3 col-sm-offset-4" href="@Url.Content("~/")">Find Spar Partners »</a>
+        </p>
+    </div>
+</div>
+
+@{ Html.RenderPartial("SparRequstsList", Model.SparRequests); }
+
+@{ Html.RenderPartial("UpdateFighterProfileInfoModal", Model); }
+
+@section scripts{
+	@Scripts.Render("~/bundles/jqueryval")
+	@Scripts.Render("~/bundles/dropzone")
+    <script type="text/javascript">
+	$(function () {
+		$('.update-profile-info').find('a').click(function () {
+			$('#updateProfileModal-@Model.ID').addClass('fade');
+			$('#updateProfileModal-@Model.ID').modal('show');
+		});
+
+		@if (ViewBag.ShowUpdateProfileModal != null)
+		{
+		<text>
+		$('#updateProfileModal-@Model.ID').removeClass('fade');
+		$('#updateProfileModal-@Model.ID').modal('show');
+		</text>
+		}
+	});
+</script>
+}

@@ -26,36 +26,76 @@ namespace SparWeb.Controllers
 		[Authorize]
 		public ActionResult SparConfirmation(string ID)
 		{
+			var currIdentityUserId = User.Identity.GetUserId();
+
+			var fighterRepo = new FighterRepository();
+			var fighter = fighterRepo.GetFighterByIdentityUserId(currIdentityUserId);
+
+			if (fighter != null)
+				return SparConfirmationComplete(currIdentityUserId, ID);
+
+			//if we got here, we're dealing with trainer
+
+			var trainerRepo = new TrainerRepository();
+			var trainer = trainerRepo.GetTrainerByIdentityUserId(currIdentityUserId);
+
+			//getting trainer's fighters
+			var fightersList = fighterRepo.GetAllFighters().Where(ff => ff.Trainer != null && ff.Trainer.Id == trainer.Id).ToList();
+			var fightersAccountViewModelList = new List<AccountFighterViewModel>();
+			foreach (var currFighter in fightersList)
+			{
+				var fighterAccountViewModel = Util.GetAccountViewModelForFighter(currFighter, 150);
+				fighterAccountViewModel.IsFighterSelectView = true;
+
+				fightersAccountViewModelList.Add(fighterAccountViewModel);
+			}
+			var opponentFighter = fighterRepo.GetFighterByIdentityUserId(ID);
+
+			var selectFighterViewModel = new SelectFighterViewModel();
+			selectFighterViewModel.FightersList = fightersAccountViewModelList;
+			selectFighterViewModel.OpponentFighterId = ID;
+			selectFighterViewModel.OpponentFighterName = opponentFighter.Name;
+
+			return View("SelectFighter", selectFighterViewModel);
+		}
+
+		[Authorize]
+		[HttpPost]
+		public ActionResult SparConfirmation(SelectFighterViewModel model)
+		{
+			return SparConfirmationComplete(model.SelectedFighterId, model.OpponentFighterId);
+		}
+
+		[Authorize]
+		public ActionResult SparConfirmationComplete(string fighterId, string opponentId)
+		{
 			FighterRepository fighterRepo = new FighterRepository();
 
-			int loggedInFighterId = -1;
-			if (User.Identity.GetUserId() != null)
-				loggedInFighterId = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId()).Id.Value;
-
-			int opponentFighterId = fighterRepo.GetFighterByIdentityUserId(ID).Id.Value;
+			int thisFighterId = fighterRepo.GetFighterByIdentityUserId(fighterId).Id.Value;
+			int opponentFighterId = fighterRepo.GetFighterByIdentityUserId(opponentId).Id.Value;
 
 			//checking if current user has already requested, negotiated or confirmed the spar with this fighter and if so not letting to request another one
-			bool alreadyRequestedSpar = Util.GetSparRequestDetailsForFighter(opponentFighterId, User.Identity.GetUserId()).Any(sr => (sr.ThisFighter.Id == loggedInFighterId || sr.OpponentFighter.Id == loggedInFighterId));
+			bool alreadyRequestedSpar = Util.GetSparRequestDetailsForFighter(opponentFighterId, fighterId).Any(sr => (sr.ThisFighter.Id == thisFighterId || sr.OpponentFighter.Id == thisFighterId));
 			if (alreadyRequestedSpar == true)
 				return RedirectToAction("Index", "Home");
 
-			SparConfirmationViewModel sparConfirmationViewModel = getSparConfirmationViewModelForOpponent(ID);
+			SparConfirmationViewModel sparConfirmationViewModel = getSparConfirmationViewModel(fighterId, opponentId);
 
 			return View(sparConfirmationViewModel);
 		}
 
 		[Authorize]
 		[HttpPost]
-		public ActionResult ConfirmSpar(string OpponentId, string SparNotes)
+		public ActionResult ConfirmSpar(string FighterId, string OpponentId, string SparNotes)
 		{
 			if (ModelState.IsValid == false)
 			{
-				var sparConfViewModel = getSparConfirmationViewModelForOpponent(OpponentId);
+				var sparConfViewModel = getSparConfirmationViewModel(FighterId, OpponentId);
 				return View("SparConfirmation", sparConfViewModel);
 			}
 
 			FighterRepository fighterRepo = new FighterRepository();
-			Fighter thisFighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
+			Fighter thisFighter = fighterRepo.GetFighterByIdentityUserId(FighterId);
 			Fighter opponentFighter = fighterRepo.GetFighterByIdentityUserId(OpponentId);
 
 			SparRequest sparRequest = new SparRequest()
@@ -72,11 +112,10 @@ namespace SparWeb.Controllers
 			SparRepository sparRepo = new SparRepository();
 			sparRepo.CreateSparRequest(sparRequest);
 
-			//sending out spar request email
-			String emailTo = opponentFighter.SparIdentityUser.Email;
-			String emailSubject = String.Format("{0} wants to spar you!", thisFighter.Name);
+			//sending spar request email
+			string emailTo = "";
+			string emailSubject = String.Format("New Spar Request");
 			Dictionary<string, string> emailPlaceholders = new Dictionary<string, string>();
-			emailPlaceholders["[NAME]"] = opponentFighter.Name;
 			emailPlaceholders["[FIGTHER_NAME]"] = thisFighter.Name;
 			emailPlaceholders["[GENDER]"] = (thisFighter.Sex == true) ? "Male" : "Femail";
 			emailPlaceholders["[DATE_OF_BIRTH]"] = thisFighter.DateOfBirth.ToShortDateString();
@@ -88,9 +127,49 @@ namespace SparWeb.Controllers
 			emailPlaceholders["[NUMBER_OF_AMATEUR_FIGHTS]"] = thisFighter.NumberOfAmateurFights.ToString();
 			emailPlaceholders["[NUMBER_OF_PRO_FUIGTS]"] = thisFighter.NumberOfProFights.ToString();
 			emailPlaceholders["[GYM]"] = (thisFighter.Gym == null) ? "Unknown Gym" : thisFighter.Gym.Name;
-			emailPlaceholders["[SPAR_NOTES]"] = (String.IsNullOrEmpty(SparNotes) == false)? "<br /><br />Notes: " + SparNotes : "";
+			emailPlaceholders["[SPAR_NOTES]"] = (String.IsNullOrEmpty(SparNotes) == false) ? "<br /><br />Notes: " + SparNotes : "";
 			emailPlaceholders["[SPAR_CONFIRMATION_URL]"] = Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", sparRequest.Id } }, "http", Request.Url.Host);
-			SparWeb.EmailManager.SendEmail(EmailManager.EmailTypes.SparRequestInitialTemplate, ConfigurationManager.AppSettings["EmailSupport"], emailTo, emailSubject, emailPlaceholders);
+			//figuring out if email should be sent to fighter or fighter's trainer
+			if (opponentFighter.Trainer != null)
+			{
+				emailTo = opponentFighter.Trainer.SparIdentityUser.Email;
+				emailPlaceholders["[NAME]"] = opponentFighter.Trainer.Name;
+			}
+			else
+			{
+				emailTo = opponentFighter.SparIdentityUser.Email;
+				emailPlaceholders["[NAME]"] = opponentFighter.Name;
+			}
+
+			//sending out spar request email
+			EmailManager.EmailTypes emailType = 0;
+			if (thisFighter.Trainer != null && opponentFighter.Trainer != null)
+			{
+				//trainer to trainer
+				emailPlaceholders["[TRAINER_NAME]"] = thisFighter.Trainer.Name;
+				emailPlaceholders["[TRAINER_LOCATION]"] = String.Format("{0}, {1}", thisFighter.Trainer.City, thisFighter.Trainer.State);
+				emailPlaceholders["[OPPONENT_TRAINER_FIGHTER_NAME]"] = opponentFighter.Name;
+				emailType = EmailManager.EmailTypes.SparRequestInitialTrainerToTrainerTemplate;
+			}
+			else if (thisFighter.Trainer == null && opponentFighter.Trainer != null)
+			{
+				//fighter to trainer
+				emailPlaceholders["[OPPONENT_TRAINER_FIGHTER_NAME]"] = opponentFighter.Name;
+				emailType = EmailManager.EmailTypes.SparRequestInitialFighterToTrainerTemplate;
+			}
+			else if (thisFighter.Trainer != null && opponentFighter.Trainer == null)
+			{
+				//trainer to fighter
+				emailPlaceholders["[TRAINER_NAME]"] = thisFighter.Trainer.Name;
+				emailPlaceholders["[TRAINER_LOCATION]"] = String.Format("{0}, {1}", thisFighter.Trainer.City, thisFighter.Trainer.State);
+				emailType = EmailManager.EmailTypes.SparRequestInitialTrainerToFighterTemplate;
+			}
+			else
+			{
+				//fighter to fighter
+				emailType = EmailManager.EmailTypes.SparRequestInitialFighterToFighterTemplate;
+			}
+			SparWeb.EmailManager.SendEmail(emailType, ConfigurationManager.AppSettings["EmailSupport"], emailTo, emailSubject, emailPlaceholders);
 
 			//sending out notification email
 			emailPlaceholders = new Dictionary<string, string>();
@@ -99,7 +178,7 @@ namespace SparWeb.Controllers
 			emailPlaceholders["[OPPONENT_FIGHTER_NAME]"] = opponentFighter.Name;
 			EmailManager.SendEmail(EmailManager.EmailTypes.SparRequestNotificationTemplate, ConfigurationManager.AppSettings["EmailSupport"], ConfigurationManager.AppSettings["EmailAdmin"], "New Spar Rquest Was Initiated!", emailPlaceholders);
 
-			SparConfirmationViewModel sparConfirmationViewModel = getSparConfirmationViewModelForOpponent(OpponentId);
+			SparConfirmationViewModel sparConfirmationViewModel = getSparConfirmationViewModel(FighterId, OpponentId);
 			return View("SparConfirmed", sparConfirmationViewModel);
 		}
 
@@ -131,6 +210,10 @@ namespace SparWeb.Controllers
 				GymRepository gymRepo = new GymRepository();
 				confirmSparDetailsViewModel.SparGym = gymRepo.GetGymById(model.SparGymID);
 			}
+			else
+			{
+				confirmSparDetailsViewModel.SparGym = null;
+			}
 			
 			confirmSparDetailsViewModel.SparNotes = model.SparNotes;
 
@@ -153,12 +236,30 @@ namespace SparWeb.Controllers
 				sparRequest.SparDateTime = DateTime.Parse(String.Format("{0} {1}", model.SparDate.Value.ToString("MM/dd/yyyy"), model.SparTime.ToString()));
 				if (model.SparGymID > 0)
 					sparRequest.SparGym = confirmSparDetailsViewModel.SparGym;
+				else
+					sparRequest.SparGym = null;
+
 				sparRequest.SparNotes = model.SparNotes;
 			}
 
-			FighterRepository fighterRepo = new FighterRepository();
-			Fighter thisFighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
-			sparRequest.LastNegotiatorFighterId = thisFighter.Id.Value;
+			//setting last negotiator
+			var fighterRepo = new FighterRepository();
+			var fighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
+			if (fighter != null)
+			{
+				//if it's fighter then he is the last negotiator
+				sparRequest.LastNegotiatorFighterId = fighter.Id.Value;
+			}
+			else 
+			{
+				//if it's trainer than one of the spar request fighters is his fighter
+				var trainerRepo = new TrainerRepository();
+				var trainer = trainerRepo.GetTrainerByIdentityUserId(User.Identity.GetUserId());
+				if (sparRequest.RequestorFighter.Trainer != null && sparRequest.RequestorFighter.Trainer.Id == trainer.Id)
+					sparRequest.LastNegotiatorFighterId = sparRequest.RequestorFighter.Id.Value;
+				else
+					sparRequest.LastNegotiatorFighterId = sparRequest.OpponentFighter.Id.Value;
+			}
 
 			sparRequest.Status = model.SparRequesStatus;
 
@@ -209,13 +310,12 @@ namespace SparWeb.Controllers
 
 		private void sendEmailForSaprRequest(ConfirmSparDetailsViewModel model, bool isFirstResponse)
 		{
-			string emailTo = model.OpponentFighter.SparIdentityUser.Email;
+			string emailTo = (model.OpponentFighter.Trainer != null) ? model.OpponentFighter.Trainer.SparIdentityUser.Email : model.OpponentFighter.SparIdentityUser.Email;
 
 			string emailSubject = "";
 			SparWeb.EmailManager.EmailTypes emailType = 0;
 
 			var emailPlaceholoders = new Dictionary<string, string>();
-			emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
 			emailPlaceholoders["[SPAR_DATE]"] = model.SparDate.Value.ToString("MM/dd/yyyy");
 			emailPlaceholoders["[SPAR_TIME]"] = model.SparTime.ToString();
 			emailPlaceholoders["[SPAR_LOCATION]"] = (model.SparGymID > 0) ? model.SparGym.Name : "N/A";
@@ -223,28 +323,151 @@ namespace SparWeb.Controllers
 				
 			if (isFirstResponse == true) // first response
 			{
-				emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
-				emailPlaceholoders["[HE_OR_SHE]"] = model.ThisFighter.GetHeOrShe(true);
 				emailSubject = String.Format("{0} has confirmed your spar request", model.ThisFighter.Name);
-				emailType = EmailManager.EmailTypes.SparRequestFirstTimeResponseTemplate;
+				if (model.ThisFighter.Trainer != null && model.OpponentFighter.Trainer != null)
+				{
+					//trainer to trainer
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Trainer.Name;
+					emailPlaceholoders["[TRAINER_NAME]"] = model.ThisFighter.Trainer.Name;
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestFirstTimeResponseTrainerToTrainerTemplate;
+				}
+				else if (model.ThisFighter.Trainer == null && model.OpponentFighter.Trainer != null)
+				{
+					//fighter to trainer
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Trainer.Name;
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailPlaceholoders["[HE_OR_SHE]"] = model.ThisFighter.GetHeOrShe(true);
+					emailType = EmailManager.EmailTypes.SparRequestFirstTimeResponseFighterToTrainerTemplate;
+				}
+				else if (model.ThisFighter.Trainer != null && model.OpponentFighter.Trainer == null)
+				{
+					//trainer to fighter
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
+					emailPlaceholoders["[TRAINER_NAME]"] = model.ThisFighter.Trainer.Name;
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailPlaceholoders["[HE_OR_SHE]"] = model.ThisFighter.GetHeOrShe(true);
+					emailType = EmailManager.EmailTypes.SparRequestFirstTimeResponseTrainerToFighterTemplate;
+				}
+				else
+				{
+					//fighter to fighter
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailPlaceholoders["[HE_OR_SHE]"] = model.ThisFighter.GetHeOrShe(true);
+					emailType = EmailManager.EmailTypes.SparRequestFirstTimeResponseFighterToFighterTemplate;
+				}
 			}
 			else if (model.SparRequesStatus == SparRequestStatus.DateLocationNegotiation) // spar negotiation
 			{
-				emailSubject = String.Format("{0} updated spar details", model.ThisFighter.Name);
-				emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
-				emailType = EmailManager.EmailTypes.SparRequestNegotiationTemplate;
+				if (model.ThisFighter.Trainer != null && model.OpponentFighter.Trainer != null)
+				{
+					//trainer to trainer
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Trainer.Name;
+					emailSubject = String.Format("{0} updated spar details", model.ThisFighter.Trainer.Name);
+					emailPlaceholoders["[TRAINER_NAME]"] = model.ThisFighter.Trainer.Name;
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestNegotiationTrainerToTrainerTemplate;
+				}
+				else if (model.ThisFighter.Trainer == null && model.OpponentFighter.Trainer != null)
+				{
+					//fighter to trainer
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Trainer.Name;
+					emailSubject = String.Format("{0} updated spar details", model.ThisFighter.Name);
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestNegotiationFighterToTrainerTemplate;
+				}
+				else if (model.ThisFighter.Trainer != null && model.OpponentFighter.Trainer == null)
+				{
+					//trainer to fighter
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
+					emailSubject = String.Format("{0} updated spar details", model.ThisFighter.Trainer.Name);
+					emailPlaceholoders["[TRAINER_NAME]"] = model.ThisFighter.Trainer.Name;
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestNegotiationTrainerToFighterTemplate;
+				}
+				else
+				{
+					//fighter to fighter
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
+					emailSubject = String.Format("{0} updated spar details", model.ThisFighter.Name);
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestNegotiationFighterToFighterTemplate;
+				}
 			}
 			else if (model.SparRequesStatus == SparRequestStatus.Confirmed) // spar is confirmed
 			{
-				emailSubject = String.Format("{0} has confirmed the spar", model.ThisFighter.Name);
-				emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
-				emailType = EmailManager.EmailTypes.SparRequestConfirmedTemplate;
+				if (model.ThisFighter.Trainer != null && model.OpponentFighter.Trainer != null)
+				{
+					//trainer to trainer
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Trainer.Name;
+					emailSubject = String.Format("{0} has confirmed the spar", model.ThisFighter.Trainer.Name);
+					emailPlaceholoders["[TRAINER_NAME]"] = model.ThisFighter.Trainer.Name;
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestConfirmedTrainerToTrainerTemplate;
+				}
+				else if (model.ThisFighter.Trainer == null && model.OpponentFighter.Trainer != null)
+				{
+					//fighter to trainer
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Trainer.Name;
+					emailSubject = String.Format("{0} has confirmed the spar", model.ThisFighter.Name);
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestConfirmedFighterToTrainerTemplate;
+				}
+				else if (model.ThisFighter.Trainer != null && model.OpponentFighter.Trainer == null)
+				{
+					//trainer to fighter
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
+					emailSubject = String.Format("{0} has confirmed the spar", model.ThisFighter.Trainer.Name);
+					emailPlaceholoders["[TRAINER_NAME]"] = model.ThisFighter.Trainer.Name;
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestConfirmedTrainerToFighterTemplate;
+				}
+				else
+				{
+					//fighter to fighter
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
+					emailSubject = String.Format("{0} has confirmed the spar", model.ThisFighter.Name);
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestConfirmedFighterToFighterTemplate;
+				}
 			}
-			else if (model.SparRequesStatus == SparRequestStatus.Canceled) // spar is canceled
+			else if (model.SparRequesStatus == SparRequestStatus.Canceled) // spar is cancelled
 			{
-				emailSubject = String.Format("{0} has canceled the spar", model.ThisFighter.Name);
-				emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
-				emailType = EmailManager.EmailTypes.SparRequestCancelledTemplate;
+				if (model.ThisFighter.Trainer != null && model.OpponentFighter.Trainer != null)
+				{
+					//trainer to trainer
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Trainer.Name;
+					emailSubject = String.Format("{0} has cancelled the spar", model.ThisFighter.Trainer.Name);
+					emailPlaceholoders["[TRAINER_NAME]"] = model.ThisFighter.Trainer.Name;
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestCancelledTrainerToTrainerTemplate;
+				}
+				else if (model.ThisFighter.Trainer == null && model.OpponentFighter.Trainer != null)
+				{
+					//fighter to trainer
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Trainer.Name;
+					emailSubject = String.Format("{0} has cancelled the spar", model.ThisFighter.Name);
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestCancelledFighterToTrainerTemplate;
+				}
+				else if (model.ThisFighter.Trainer != null && model.OpponentFighter.Trainer == null)
+				{
+					//trainer to fighter
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
+					emailSubject = String.Format("{0} has cancelled the spar", model.ThisFighter.Trainer.Name);
+					emailPlaceholoders["[TRAINER_NAME]"] = model.ThisFighter.Trainer.Name;
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestCancelledTrainerToFighterTemplate;
+				}
+				else
+				{
+					//fighter to fighter
+					emailPlaceholoders["[NAME]"] = model.OpponentFighter.Name;
+					emailSubject = String.Format("{0} has cancelled the spar", model.ThisFighter.Name);
+					emailPlaceholoders["[FIGTHER_NAME]"] = model.ThisFighter.Name;
+					emailType = EmailManager.EmailTypes.SparRequestCancelledFighterToFighterTemplate;
+				}
 			}
 
 			if (model.SparRequesStatus != SparRequestStatus.Canceled)
@@ -254,19 +477,16 @@ namespace SparWeb.Controllers
 
 		}
 
-		private ConfirmSparDetailsViewModel getConfirmSparDetailsViewModel(string sparRequestId)
+		private SparConfirmationViewModel getSparConfirmationViewModel(string opponentId)
 		{
-			SparRepository sparRepo = new SparRepository();
-			SparRequest sparRequest = sparRepo.GetSparRequestById(sparRequestId);
-
-			return Util.GetConfirmSparDetailsViewModel(sparRequest, 250, User.Identity.GetUserId());
+			return getSparConfirmationViewModel(User.Identity.GetUserId(), opponentId);
 		}
 
-		private SparConfirmationViewModel getSparConfirmationViewModelForOpponent(string opponentId)
+		private SparConfirmationViewModel getSparConfirmationViewModel(string fighterId, string opponentId)
 		{
 			FighterRepository fighterRepo = new FighterRepository();
 
-			Fighter thisFighter = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId());
+			Fighter thisFighter = fighterRepo.GetFighterByIdentityUserId(fighterId);
 			Fighter opponentFighter = fighterRepo.GetFighterByIdentityUserId(opponentId);
 
 			return Util.GetSparConfirmationViewModel(thisFighter, opponentFighter, 250);

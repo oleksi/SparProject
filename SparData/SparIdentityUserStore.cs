@@ -254,7 +254,18 @@ namespace SparData
 
 		public Task AddToRoleAsync(TUser user, string roleName)
 		{
-			throw new NotImplementedException();
+			using (var session = getSession())
+			{
+				using (var transaction = session.BeginTransaction())
+				{
+					var role = session.QueryOver<SparIdentityRole>().Where(rr => rr.Name == roleName).SingleOrDefault();
+					var identityRole = new SparIdentityUserRole() { UserId = user.Id, RoleId = role.Id };
+					session.Save(identityRole);
+					transaction.Commit();
+				}
+			}
+
+			return Task.FromResult<Object>(null);
 		}
 
 		public Task<IList<string>> GetRolesAsync(TUser user)
@@ -266,7 +277,14 @@ namespace SparData
 
 		public Task<bool> IsInRoleAsync(TUser user, string roleName)
 		{
-			throw new NotImplementedException();
+			SparIdentityUserRole userRole = null;
+			using (var session = getSession())
+			{
+				var role = session.QueryOver<SparIdentityRole>().Where(rr => rr.Name == roleName).SingleOrDefault();
+				userRole = session.QueryOver<SparIdentityUserRole>().Where(ur => ur.UserId == user.Id && ur.RoleId == role.Id).SingleOrDefault();
+			}
+
+			return Task.FromResult<bool>(userRole != null);
 		}
 
 		public Task RemoveFromRoleAsync(TUser user, string roleName)

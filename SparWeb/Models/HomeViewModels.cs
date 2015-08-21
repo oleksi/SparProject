@@ -36,7 +36,7 @@ namespace SparWeb.Models
 
 	public class HomeViewModel
 	{
-		public List<AccountViewModel> FightersList { get; set; }
+		public List<AccountFighterViewModel> FightersList { get; set; }
 
 		[Display(Name = "Age Range")]
 		public AgeRange AgeRange { get; set; }
@@ -80,7 +80,7 @@ namespace SparWeb.Models
 
 		public HomeViewModel()
 		{
-			FightersList = new List<AccountViewModel>();
+			FightersList = new List<AccountFighterViewModel>();
 			FilterParams = new Dictionary<string, string>();
 		}
 	}

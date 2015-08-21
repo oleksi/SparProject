@@ -12,10 +12,17 @@
     var sparConfirmationInfo = Model;
 }
 
-@using (@Html.BeginForm("ConfirmSpar", "Spar", new { OpponentId = Model.OpponentFighter.SparIdentityUser.Id }, FormMethod.Post))
+@using (@Html.BeginForm("ConfirmSpar", "Spar", new { FighterId = Model.ThisFighter.SparIdentityUser.Id, OpponentId = Model.OpponentFighter.SparIdentityUser.Id }, FormMethod.Post))
 {
     <div class="row text-center">
-        <h2 class="sparDetailsStatus">Please, confirm that you want to spar @Model.OpponentFighter.Name.</h2>
+		@if (Model.ThisFighter.Trainer != null)
+		{
+			<h2 class="sparDetailsStatus">Please, confirm that you want @Model.ThisFighter.Name to spar @Model.OpponentFighter.Name.</h2>
+		}
+		else
+		{
+			<h2 class="sparDetailsStatus">Please, confirm that you want to spar @Model.OpponentFighter.Name.</h2>
+		}
     </div>
 	
 	{ Html.RenderPartial("SparConfirmationInfo", sparConfirmationInfo); }

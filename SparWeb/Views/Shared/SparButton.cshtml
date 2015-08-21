@@ -1,4 +1,4 @@
-﻿@model SparWeb.Models.AccountViewModel
+﻿@model SparWeb.Models.AccountFighterViewModel
 
 @if (Model.SparRequests.Count == 0 || Model.SparRequests.Any(sr => (sr.SparRequesStatus == SparModel.SparRequestStatus.Requested || sr.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation || sr.SparRequesStatus == SparModel.SparRequestStatus.Confirmed)) == false)
 {

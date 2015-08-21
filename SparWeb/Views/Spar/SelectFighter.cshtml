@@ -1,0 +1,36 @@
+﻿@model SparWeb.Models.SelectFighterViewModel
+
+@{
+	ViewBag.Title = "Select Fighter for Spar";
+}
+
+@using (@Html.BeginForm("SparConfirmation", "Spar", FormMethod.Post))
+{
+	@Html.HiddenFor(m => m.SelectedFighterId)
+	@Html.HiddenFor(m => m.OpponentFighterId)
+
+	<div class="row text-center">
+		<h2>Please, select one of your fighters to spar with @Model.OpponentFighterName:</h2>
+	</div>
+
+	<div class="row selectFightersList">
+		<div class="col-md-offset-2 col-md-8">
+			@foreach (var fighterViewModel in Model.FightersList)
+			{
+				@Html.Partial("SparFighter", fighterViewModel)
+			}
+		</div>
+	</div>
+}
+
+@section scripts {
+	<script type="text/javascript">
+		$(function () {
+			$('.selectFighterButton').click(function () {
+				var selectedFighterId = $(this).data('fighterid');
+				$('#SelectedFighterId').val(selectedFighterId);
+				$(this).closest('form').submit();
+			});
+		});
+	</script>
+}

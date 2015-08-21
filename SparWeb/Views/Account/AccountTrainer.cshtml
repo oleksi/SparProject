@@ -1,0 +1,242 @@
+﻿@model SparWeb.Models.AccountTrainerViewModel
+
+@{
+    ViewBag.Title = "Account Summary";
+}
+
+<div class="row account-info-section">
+    <div class="col-md-1"></div>
+    <div class="col-md-3">
+		@{Html.RenderPartial("ProfilePicture", Model);}
+    </div>
+    <div class="col-md-6">
+        <div class="title hidden-xs hidden-sm">
+            <span class="fighterNameSmall">@Html.ValueFor(m => m.Name)</span>
+            <div class="row">
+                <div class="col-md-12">
+                    from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
+                    <br />
+                    <span>@Model.City, @Model.State</span>
+                </div>
+            </div>
+        </div>
+		<div class="well top-buffer">
+			<div class="row">
+				<div class="col-sm-4 col-xs-4">
+					@Html.LabelFor(m => m.PhoneNumber)
+				</div>
+				<div class="col-sm-8 col-xs-8">
+					@if (String.IsNullOrEmpty(Model.PhoneNumber) == false)
+					{ 
+						@Html.ValueFor(m => m.PhoneNumber)
+					}
+					else
+					{
+						<span>N/A</span>
+					}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-4 col-xs-4">
+					@Html.LabelFor(m => m.Website)
+				</div>
+				<div class="col-sm-8 col-xs-8">
+					@if (String.IsNullOrEmpty(Model.Website) == false)
+					{
+						<a href="@Html.ValueFor(m => m.Website)" target="_blank">@Html.ValueFor(m => m.Website)</a>
+					}
+					else
+					{
+						<span>N/A</span>
+					}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-4 col-xs-4">
+					@Html.LabelFor(m => m.Rate)
+				</div>
+				<div class="col-sm-8 col-xs-8">
+					@if (Model.Rate > 0)
+					{ 
+						@Html.ValueFor(m => m.Rate, "{0:C}")
+					}
+					else
+					{
+						<span>N/A</span>
+					}
+				</div>
+			</div>
+		</div>
+		<div class="update-profile-info">
+			<p class="text-right"><a href="#">Update Profile</a></p>
+		</div>
+    <div class="col-md-2"></div>
+</div>
+</div>
+<div class="row">
+	<div class="col-md-offset-1 col-md-9 accountNotes">
+		@Html.Raw(Model.GetHtmlFormattedNotes())
+	</div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+		<a class="btn btn-primary btn-lg col-xs-12 col-sm-3 col-sm-offset-4" id="add-fighter" href="#">Add Fighter</a>
+    </div>
+</div>
+
+@if (Model.SparRequests.Any(sr => sr.SparRequesStatus != SparModel.SparRequestStatus.Requested && sr.SparRequesStatus != SparModel.SparRequestStatus.Canceled))
+{
+	Html.RenderPartial("SparRequstsList", Model.SparRequests);
+}
+
+@if (Model.FightersList.Count > 0)
+{
+<div class="row">
+	<div class="col-md-1"></div>
+	<div class="col-md-9">
+		<h2>My Fighters:</h2>
+	</div>
+	<div class="col-md-2"></div>
+</div>
+<div class="trainer-fighters-list row">
+	<div class="col-md-offset-1 col-md-9">
+		@foreach (var fighterViewModel in Model.FightersList)
+		{
+			@Html.Partial("SparFighter", fighterViewModel)
+		}
+	</div>
+</div>
+	foreach (var fighterViewModel in Model.FightersList)
+	{
+		@Html.Partial("UpdateFighterProfileInfoModal", fighterViewModel)
+	}
+}
+
+<div id="updateProfileModal" class="modal fade">
+    <div class="modal-dialog">
+        @Html.BeginForm("UpdateTrainerProfileInfo", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" })
+        @Html.HiddenFor(m => m.Name)
+        @Html.HiddenFor(m => m.ProfilePictureUploaded)
+        @Html.HiddenFor(m => m.ProfilePictureFile)
+        @Html.HiddenFor(m => m.Age)
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Update Profile Information</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.City, new { @class = "col-md-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.City) })
+                        @Html.ValidationMessageFor(m => m.City)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.State, new { @class = "col-md-4 control-label" })
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(m => m.State, (new SelectList(ViewBag.States, "Key", "Value", Model.State)), "Please select", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.ValidationMessageFor(m => m.State)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				<div class="form-group">
+					@Html.LabelFor(m => m.GymName, new { @class = "col-md-4 control-label" })
+					<div class="col-md-8">
+						@Html.TextBoxFor(m => m.GymName, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.GymName) + " (optional)" })
+						@Html.ValidationMessageFor(m => m.GymName)
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-4 control-label" })
+					<div class="col-md-8">
+						@Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.PhoneNumber) })
+						@Html.ValidationMessageFor(m => m.PhoneNumber)
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(m => m.Website, new { @class = "col-md-4 control-label" })
+					<div class="col-md-8">
+						@Html.TextBoxFor(m => m.Website, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Website) })
+						@Html.ValidationMessageFor(m => m.Website)
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(m => m.Rate, new { @class = "col-md-4 control-label" })
+					<div class="col-md-8">
+						@Html.TextBoxFor(m => m.Rate, "{0:n2}", new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Rate) })
+						@Html.ValidationMessageFor(m => m.Rate)
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(m => m.Notes, new { @class = "col-md-4 control-label" })
+					<div class="col-md-8">
+						@Html.TextAreaFor(m => m.Notes, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Notes), @rows = 3 })
+						@Html.ValidationMessageFor(m => m.Notes)
+					</div>
+				</div>            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+            @{Html.EndForm();}
+        </div>
+    </div>
+</div>
+
+<div id="add-fighter-popup" class="modal fade">
+	<div class="modal-dialog">
+		@Html.BeginForm("RegisterFighter", "Account", FormMethod.Post, new { @class = "form-horizontal register-form", role = "form" })
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3 class="modal-title text-center">Add Fighter</h3>
+				@Html.AntiForgeryToken()
+			</div>
+			<div class="modal-body">
+				@{ Html.RenderPartial("RegisterFighterViewModel", new SparWeb.Models.RegisterFighterViewModel() { UserName = "xxx@xxx.com", Password = "xxxxxx", ConfirmPassword = "xxxxxx", Sex = true, IsSouthpaw = false, AddedByTrainer = true, TrainerId = Model.ID }); }
+			</div>
+			<div class="modal-footer text-center">
+				<input type="submit" class="btn btn-default btn-primary btn-lg" value="Add" />
+			</div>
+			@{Html.EndForm();}
+		</div>
+	</div>
+</div>
+
+@section scripts{
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/dropzone")
+<script type="text/javascript">
+    $(function () {
+        $('.update-profile-info').find('a').click(function () {
+            $('#updateProfileModal').addClass('fade');
+            $('#updateProfileModal').modal('show');
+        });
+        
+        @if (ViewBag.ShowUpdateProfileModal != null)
+        {
+        <text>
+        $('#updateProfileModal').removeClass('fade');
+        $('#updateProfileModal').modal('show');
+    	</text>
+        }
+		
+    	$('.update-fighter-profile-info').find('a').click(function () {
+    		$('#updateProfileModal-' + $(this).data('userid')).addClass('fade');
+    		$('#updateProfileModal-' + $(this).data('userid')).modal('show');
+    	});
+		
+    	$('#add-fighter').click(function () {
+    		$('#add-fighter-popup').modal('show');
+    	});
+    });
+</script>
+}
