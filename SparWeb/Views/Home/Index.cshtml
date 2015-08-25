@@ -200,7 +200,7 @@
 				@Html.AntiForgeryToken()
 			</div>
 			<div class="modal-body">
-				@{Html.RenderPartial("RegisterMain");}
+				@{Html.RenderPartial("RegisterMain", new SparWeb.Models.RegisterMainViewModel() { IsPopupMode = true });}
 			</div>
 		</div>
 	</div>

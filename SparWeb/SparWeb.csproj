@@ -209,6 +209,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContactViewModel.cs" />
     <Compile Include="Models\HomeViewModels.cs" />
+    <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\SparViewModels.cs" />
     <Compile Include="Models\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

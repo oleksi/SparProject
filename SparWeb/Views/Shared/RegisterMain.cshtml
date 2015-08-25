@@ -1,35 +1,35 @@
-﻿@{
+﻿@model SparWeb.Models.RegisterMainViewModel
+
+@{
 	ViewBag.Title = "Registration";
 }
 
 <div class="row">
 	<div id="registerMain">
-		<div class="row text-center">
-			<h1 class="sparDetailsStatus">Are You ...</h1>
-		</div>
 		<div class="row">
-			<div class="col-md-5 col-sm-5 first-fighter">
-				<a href="#" id="registerTrainer">
-					<div class="thumbnail fighterCard">
-						<img src="~/Content/Images/anonymous-photo-trainer-250X250.jpg" class="img-thumbnail" />
-						<div class="caption text-center">
-							<h2 class="media-heading">Trainer ?</h2>
+			<div class="col-md-6 col-sm-6 first-fighter">
+				<div class="registerBox">
+					<a href="#" id="registerTrainer">
+						<div class="thumbnail fighterCard">
+							<img src="~/Content/Images/anonymous-photo-trainer-250X250.jpg" class="img-thumbnail" />
+							<div class="caption text-center">
+								<h2 class="media-heading">Create Trainer Account</h2>
+							</div>
 						</div>
-					</div>
-				</a>
+					</a>
+				</div>
 			</div>
-			<div class="col-md-2 col-sm-2 text-center">
-				<h1 class="registerOr">OR</h1>
-			</div>
-			<div class="col-md-5 col-sm-5 last-fighter">
-				<a href="#" id="registerFighter">
-					<div class="thumbnail fighterCard ">
-						<img src="~/Content/Images/anonymous-photo-fighter-250X250.jpg" class="img-thumbnail" />
-						<div class="caption text-center">
-							<h2 class="media-heading">Fighter ?</h2>
+			<div class="col-md-6 col-sm-6 last-fighter">
+				<div class="registerBox">
+					<a href="#" id="registerFighter">
+						<div class="thumbnail fighterCard ">
+							<img src="~/Content/Images/anonymous-photo-fighter-250X250.jpg" class="img-thumbnail" />
+							<div class="caption text-center">
+								<h2 class="media-heading">Create Fighter Account</h2>
+							</div>
 						</div>
-					</div>
-				</a>
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -37,7 +37,7 @@
 		@using (Html.BeginForm("RegisterTrainer", "Account", FormMethod.Post, new { @class = "form-horizontal register-form", role = "form" }))
 		{
 			<div class="row">
-				<div class="col-md-offset-2 col-md-6">
+				<div class="@((Model.IsPopupMode == false)? "col-md-offset-2 col-md-6" : "col-md-10")">
 					<div class="col-md-offset-4 col-md-8">
 						<h2>Trainer @ViewBag.Title.</h2>
 						@Html.AntiForgeryToken()
@@ -67,7 +67,7 @@
 		@using (Html.BeginForm("RegisterFighter", "Account", FormMethod.Post, new { @class = "form-horizontal register-form", role = "form" }))
 		{
 			<div class="row">
-				<div class="col-md-offset-2 col-md-6">
+				<div class="@((Model.IsPopupMode == false)? "col-md-offset-2 col-md-6" : "col-md-10")">
 					<div class="col-md-offset-4 col-md-8">
 						<h2>Fighter @ViewBag.Title.</h2>
 						@Html.AntiForgeryToken()

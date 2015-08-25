@@ -2,4 +2,8 @@
 	ViewBag.Title = "Registration";
 }
 
-@{Html.RenderPartial("RegisterMain");}
+<div class="row text-center">
+	<h1 class="sparDetailsStatus">Register for FREE</h1>
+</div>
+
+@{Html.RenderPartial("RegisterMain", new SparWeb.Models.RegisterMainViewModel() { IsPopupMode = false });}
