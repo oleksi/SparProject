@@ -157,6 +157,7 @@ namespace SparWeb.Models
 
 		public bool IsTrainerView { get; set; }
 		public bool IsFighterSelectView { get; set; }
+		public bool IsWidgetView { get; set; }
 	}
 
 	public class AccountFighterViewModel : AccountViewModel

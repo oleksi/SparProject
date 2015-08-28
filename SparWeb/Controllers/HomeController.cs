@@ -156,7 +156,7 @@ namespace SparWeb.Controllers
 			else
 				fightersList = fightersList.Take(PAGE_SIZE).ToList();
 
-			model.FightersList = getFightersListViewModel(fightersList);
+			model.FightersList = Util.GetFightersListViewModel(User, UserManager, fightersList);
 			model.PageNumber = page.HasValue ? page.Value : 1;
 			model.PagesCount = pageCount;
 
@@ -207,48 +207,6 @@ namespace SparWeb.Controllers
 			ViewBag.HeightToCentimetersMap = Util.HeightToCentimetersMap;
 			ViewBag.NumberOfFights = Util.NumberOfFights;
 			ViewBag.States = Util.States;
-		}
-
-		private List<AccountFighterViewModel> getFightersListViewModel(IList<Fighter> fightersList)
-		{
-			List<int> fightersToExclude = new List<int>();
-			if (User.Identity.GetUserId() != null)
-			{
-				var identityUserStore = new SparIdentityUserStore<SparIdentityUser>();
-				var identityUser = identityUserStore.FindByIdAsync(User.Identity.GetUserId()).Result;
-				bool isFighter = UserManager.IsInRole(identityUser.Id, "Fighter");
-
-				if (isFighter == true)
-				{
-					var fighterRepo = new FighterRepository();
-					var loggedInFighterId = fighterRepo.GetFighterByIdentityUserId(User.Identity.GetUserId()).Id.Value;
-					fightersToExclude.Add(loggedInFighterId);
-				}
-				else
-				{
-					var fighterRepo = new FighterRepository();
-					var trainerRepo = new TrainerRepository();
-					var currTrrainer = trainerRepo.GetTrainerByIdentityUserId(User.Identity.GetUserId());
-					var trainerFightersList = fighterRepo.GetAllFighters().Where(ff => ff.Trainer != null && ff.Trainer.Id == currTrrainer.Id).ToList();
-					trainerFightersList.ForEach(ff => fightersToExclude.Add(ff.Id.Value));
-				}
-			}
-
-			List<AccountFighterViewModel> fightersAccountViewModelList = new List<AccountFighterViewModel>();
-			foreach (Fighter currFighter in fightersList)
-			{
-				if (fightersToExclude.Count == 0 || fightersToExclude.Contains(currFighter.Id.Value) == false)
-				{
-					AccountFighterViewModel accountViewModel = Util.GetAccountViewModelForFighter(currFighter, 150);
-
-					if (User.Identity.IsAuthenticated == true)
-						accountViewModel.SparRequests = Util.GetSparRequestDetailsForFighter(currFighter.Id.Value, User.Identity.GetUserId()).Where(sr => (fightersToExclude.Contains(sr.OpponentFighter.Id.Value) == true || fightersToExclude.Contains(sr.ThisFighter.Id.Value) == true)).ToList();
-
-					fightersAccountViewModelList.Add(accountViewModel);
-				}
-			}
-
-			return fightersAccountViewModelList;
 		}
 
 		private int getAge(DateTime dob)

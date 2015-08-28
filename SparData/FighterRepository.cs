@@ -26,6 +26,17 @@ namespace SparData
 			return fighters;
 		}
 
+		public IList<Fighter> GetFightersWithProfilePics()
+		{
+			IList<Fighter> fighters = new List<Fighter>();
+			using (var session = getSession())
+			{
+				fighters = session.QueryOver<Fighter>().Where(ff => ff.ProfilePictureUploaded).OrderBy(ff => ff.InsertDate).Desc.JoinQueryOver<SparIdentityUser>(ff => ff.SparIdentityUser).Where(iu => iu.EmailConfirmed == true).List();
+			}
+
+			return fighters;
+		}
+
 		public Fighter GetFighterById(int fighterId)
 		{
 			Fighter fighter = null;

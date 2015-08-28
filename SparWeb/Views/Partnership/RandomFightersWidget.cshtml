@@ -1,0 +1,36 @@
+﻿@model SparWeb.Controllers.RandomFightersWidgetViewModel
+
+@{
+	Layout = null;
+}
+
+<html>
+<head>
+	@Styles.Render("~/Styles/css")
+
+	<style>
+		body {
+			background-color: #@Model.BackgroundColor;
+			color: #@Model.ForegroundColor;
+		}
+		.well { 
+			background-color: #@Model.BackgroundColor !important;
+			border: none !important;
+		}
+	</style>
+</head>
+<body>
+	<div class="row">
+		<div class="col-md-12" style="margin-left: 10px;">
+			@if (Model.FightersList.Count > 0)
+			{
+				foreach (var currModel in Model.FightersList)
+				{
+					@Html.Partial("SparFighter", currModel)
+				}
+			}
+		</div>
+	</div>
+</body>
+
+</html>

@@ -89,7 +89,7 @@
 		{
 			<a class="btn btn-default btn-danger btn-lg selectFighterButton" data-fighterid="@Model.ID" href="#">Select</a>
 		}
-		else
+		else if (Model.IsWidgetView == false)
 		{
 			Html.RenderPartial("SparButton", Model);
 		}

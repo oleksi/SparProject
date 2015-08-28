@@ -4,7 +4,9 @@ using SparWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Web;
+using Microsoft.AspNet.Identity;
 
 namespace SparWeb
 {
@@ -297,6 +299,48 @@ namespace SparWeb
 			viewBag.States = Util.States;
 			viewBag.HeightToCentimetersMap = Util.HeightToCentimetersMap;
 			viewBag.WeightClassMap = Util.WeightClassMap;
+		}
+
+		public static List<AccountFighterViewModel> GetFightersListViewModel(IPrincipal user, ApplicationUserManager userManager, IList<Fighter> fightersList)
+		{
+			List<int> fightersToExclude = new List<int>();
+			if (user.Identity.GetUserId() != null)
+			{
+				var identityUserStore = new SparIdentityUserStore<SparIdentityUser>();
+				var identityUser = identityUserStore.FindByIdAsync(user.Identity.GetUserId()).Result;
+				bool isFighter = userManager.IsInRole(identityUser.Id, "Fighter");
+
+				if (isFighter == true)
+				{
+					var fighterRepo = new FighterRepository();
+					var loggedInFighterId = fighterRepo.GetFighterByIdentityUserId(user.Identity.GetUserId()).Id.Value;
+					fightersToExclude.Add(loggedInFighterId);
+				}
+				else
+				{
+					var fighterRepo = new FighterRepository();
+					var trainerRepo = new TrainerRepository();
+					var currTrrainer = trainerRepo.GetTrainerByIdentityUserId(user.Identity.GetUserId());
+					var trainerFightersList = fighterRepo.GetAllFighters().Where(ff => ff.Trainer != null && ff.Trainer.Id == currTrrainer.Id).ToList();
+					trainerFightersList.ForEach(ff => fightersToExclude.Add(ff.Id.Value));
+				}
+			}
+
+			List<AccountFighterViewModel> fightersAccountViewModelList = new List<AccountFighterViewModel>();
+			foreach (Fighter currFighter in fightersList)
+			{
+				if (fightersToExclude.Count == 0 || fightersToExclude.Contains(currFighter.Id.Value) == false)
+				{
+					AccountFighterViewModel accountViewModel = Util.GetAccountViewModelForFighter(currFighter, 150);
+
+					if (user.Identity.IsAuthenticated == true)
+						accountViewModel.SparRequests = Util.GetSparRequestDetailsForFighter(currFighter.Id.Value, user.Identity.GetUserId()).Where(sr => (fightersToExclude.Contains(sr.OpponentFighter.Id.Value) == true || fightersToExclude.Contains(sr.ThisFighter.Id.Value) == true)).ToList();
+
+					fightersAccountViewModelList.Add(accountViewModel);
+				}
+			}
+
+			return fightersAccountViewModelList;
 		}
 	}
 }
