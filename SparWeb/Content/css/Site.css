@@ -335,6 +335,10 @@ a.btn.btn-default.btn-lg {
 	text-decoration: none;
 }
 
+#registerPopupModal .modal-dialog {
+	width: 750px;
+}
+
 #registerPopupModal .modal-body {
 	margin-bottom: 20px;
 }
@@ -427,7 +431,12 @@ a.btn.btn-default.btn-lg {
 
 }
 @media(max-width: 768px) {
-
+  .first-fighter {
+	margin-bottom: 20px;
+  }
+  #registerPopupModal .modal-dialog {
+	width: 100%;
+  }
   .boxingSparSign{
 	max-width:160px;
   }
@@ -476,7 +485,7 @@ a.btn.btn-default.btn-lg {
   }
 
 	#registerMain {
-		width: 500px;
+		width: 480px;
 	}
 }
 .col-xs-4.bottom {
@@ -517,4 +526,10 @@ a.btn.btn-default.btn-lg {
 			-webkit-order: 1;
 			order: 1;
 		}
+}
+
+@media (max-width: 480px) {
+	#registerMain {
+		width: 100%;
+	}
 }
