@@ -286,9 +286,12 @@ namespace SparWeb.Controllers
 				{
 					UserManager.AddToRole(user.Id, "Trainer");
 
-					model.Website = model.Website.Trim();
-					if (model.Website.StartsWith("http://") == false)
-						model.Website = "http://" + model.Website;
+					if (String.IsNullOrEmpty(model.Website) == false)
+					{
+						model.Website = model.Website.Trim();
+						if (model.Website.StartsWith("http://") == false)
+							model.Website = "http://" + model.Website;
+					}
 
 					var trainerRepo = new TrainerRepository();
 					var trainer = new Trainer() { Name = model.Name, DateOfBirth = dob, City = model.City, State = model.State, Gym = createGym(model.GymName), PhoneNumber = model.PhoneNumber, Website = model.Website, Rate = model.Rate, Notes = model.Notes, ProfilePictureUploaded = false, SparIdentityUser = user };
