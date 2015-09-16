@@ -172,7 +172,8 @@ namespace SparWeb
 					NumberOfProFights = fighter.NumberOfProFights,
 					ProfilePictureUploaded = fighter.ProfilePictureUploaded,
 					ProfilePictureFile = GetProfilePictureFile(fighter, thumbnailSize),
-					HimOrHer = fighter.GetHimOrHer(true)
+					HimOrHer = fighter.GetHimOrHer(true),
+					JoinDate = fighter.InsertDate
 				};
 
 			return model;
@@ -197,7 +198,8 @@ namespace SparWeb
 					Rate = trainer.Rate,
 					Notes = trainer.Notes,
 					ProfilePictureUploaded = trainer.ProfilePictureUploaded,
-					ProfilePictureFile = GetProfilePictureFile(trainer, thumbnailSize)
+					ProfilePictureFile = GetProfilePictureFile(trainer, thumbnailSize),
+					JoinDate = trainer.InsertDate
 				};
 
 			return model;

@@ -359,6 +359,11 @@ a.btn.btn-default.btn-lg {
 	transform:scale(1.05);
 }
 
+.joined-date {
+	margin-right: 2px;
+	margin-top: -6px;
+}
+
 @media(min-width:992px){
 	.col-md-3.col-xs-12.bottom ,
 	.col-md-2.col-xs-12.bottom{

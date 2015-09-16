@@ -155,6 +155,8 @@ namespace SparWeb.Models
 		public string GymName { get; set; }
 		public Gym Gym { get; set; }
 
+		public DateTime JoinDate { get; set; }
+
 		public bool IsTrainerView { get; set; }
 		public bool IsFighterSelectView { get; set; }
 		public bool IsWidgetView { get; set; }
