@@ -26,6 +26,12 @@ namespace SparWeb
 			);
 
 			routes.MapRoute(
+				name: "SiteMap",
+				url: "SiteMap",
+				defaults: new { controller = "Home", action = "SiteMap" }
+			);
+
+			routes.MapRoute(
 				name: "Fighters",
 				url: "fighters/{state}/{name}",
 				defaults: new { controller = "Spar", action = "Fighter" }

@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Configuration;
+using System.Xml.Linq;
 
 namespace SparWeb.Controllers
 {
@@ -198,6 +199,41 @@ namespace SparWeb.Controllers
 		public ActionResult TermsAndConditions()
 		{
 			return View();
+		}
+
+		public ActionResult SiteMap()
+		{
+			XNamespace ns = "http://www.sitemaps.org/schemas/sitemap/0.9";
+
+			var urls = new List<string>();
+
+			//adding static urls
+			urls.Add(Url.Action("About", "Home"));
+			urls.Add(Url.Action("Contact", "Home"));
+			urls.Add(Url.Action("TermsAndConditions", "Home"));
+			urls.Add(Url.Action("Regiser", "Account"));
+			urls.Add(Url.Action("Login", "Account"));
+
+			//adding fighter urls
+			var fighterRepo = new FighterRepository();
+			var fightersList = fighterRepo.GetAllFighters();
+			var fightersListViewModels = Util.GetFightersListViewModel(null, null, fightersList);
+			fightersListViewModels.ForEach(ff => urls.Add(ff.FighterUrl));
+
+			//building xml sitemap out of urls
+			var sitemap = new XDocument(
+				new XDeclaration("1.0", "utf-8", "yes"),
+				new XElement(ns + "urlset",
+				from url in urls
+				select
+				new XElement(ns + "url",
+				new XElement(ns + "loc", url),
+				new XElement(ns + "lastmod", String.Format("{0:yyyy-MM-dd}", DateTime.Now)),
+				new XElement(ns + "changefreq", "always"),
+				new XElement(ns + "priority", "0.8")
+			)));
+
+			return Content("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + sitemap.ToString(), "text/xml");
 		}
 
 		private void populateFilterDropdowns()

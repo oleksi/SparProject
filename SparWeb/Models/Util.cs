@@ -306,7 +306,7 @@ namespace SparWeb
 		public static List<AccountFighterViewModel> GetFightersListViewModel(IPrincipal user, ApplicationUserManager userManager, IList<Fighter> fightersList)
 		{
 			List<int> fightersToExclude = new List<int>();
-			if (user.Identity.GetUserId() != null)
+			if (user != null && userManager != null && user.Identity.GetUserId() != null)
 			{
 				var identityUserStore = new SparIdentityUserStore<SparIdentityUser>();
 				var identityUser = identityUserStore.FindByIdAsync(user.Identity.GetUserId()).Result;
@@ -335,7 +335,7 @@ namespace SparWeb
 				{
 					AccountFighterViewModel accountViewModel = Util.GetAccountViewModelForFighter(currFighter, 150);
 
-					if (user.Identity.IsAuthenticated == true)
+					if (user != null && user.Identity.IsAuthenticated == true)
 						accountViewModel.SparRequests = Util.GetSparRequestDetailsForFighter(currFighter.Id.Value, user.Identity.GetUserId()).Where(sr => (fightersToExclude.Contains(sr.OpponentFighter.Id.Value) == true || fightersToExclude.Contains(sr.ThisFighter.Id.Value) == true)).ToList();
 
 					fightersAccountViewModelList.Add(accountViewModel);
