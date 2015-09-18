@@ -227,7 +227,7 @@ namespace SparWeb.Controllers
 				from url in urls
 				select
 				new XElement(ns + "url",
-				new XElement(ns + "loc", url),
+				new XElement(ns + "loc", String.Format("http://spargym.com{0}", url)),
 				new XElement(ns + "lastmod", String.Format("{0:yyyy-MM-dd}", DateTime.Now)),
 				new XElement(ns + "changefreq", "always"),
 				new XElement(ns + "priority", "0.8")
