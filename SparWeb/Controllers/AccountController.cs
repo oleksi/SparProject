@@ -231,6 +231,7 @@ namespace SparWeb.Controllers
 			var emailPlaceholders = new Dictionary<string, string>();
 			emailPlaceholders["[NAME]"] = ConfigurationManager.AppSettings["AdminName"];
 			emailPlaceholders["[FIGHTER_NAME]"] = model.Name;
+			emailPlaceholders["[FIGHTER_EMAIL]"] = model.UserName;
 			emailPlaceholders["[GENDER]"] = (model.Sex == true) ? "Male" : "Femail";
 			emailPlaceholders["[DATE_OF_BIRTH]"] = dob.ToShortDateString();
 			emailPlaceholders["[CITY]"] = model.City;
@@ -304,6 +305,7 @@ namespace SparWeb.Controllers
 					var emailPlaceholders = new Dictionary<string, string>();
 					emailPlaceholders["[NAME]"] = ConfigurationManager.AppSettings["AdminName"];
 					emailPlaceholders["[TRAINER_NAME]"] = model.Name;
+					emailPlaceholders["[TRAINER_EMAIL]"] = model.UserName;
 					emailPlaceholders["[DATE_OF_BIRTH]"] = dob.ToShortDateString();
 					emailPlaceholders["[CITY]"] = model.City;
 					emailPlaceholders["[STATE]"] = model.State;
