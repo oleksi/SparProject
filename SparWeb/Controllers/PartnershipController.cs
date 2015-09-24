@@ -11,19 +11,6 @@ namespace SparWeb.Controllers
 {
     public class PartnershipController : Controller
     {
-		private ApplicationUserManager _userManager;
-		public ApplicationUserManager UserManager
-		{
-			get
-			{
-				return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-			}
-			private set
-			{
-				_userManager = value;
-			}
-		}
-
         public ActionResult RandomFightersWidget(int fightersNum, string backgroundColor, string foregroundColor)
         {
 			var fighterRepo = new FighterRepository();
@@ -37,7 +24,7 @@ namespace SparWeb.Controllers
 			{
 				BackgroundColor = backgroundColor,
 				ForegroundColor = foregroundColor,
-				FightersList = Util.GetFightersListViewModel(User, UserManager, randomFightersList)
+				FightersList = Util.GetFightersListViewModel(User, randomFightersList)
 			};
 
 			//letting view know that this is the Widget view, so that we don't show Spar Him/Her button

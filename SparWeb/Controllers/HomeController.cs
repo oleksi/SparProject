@@ -19,19 +19,6 @@ namespace SparWeb.Controllers
 	{
 		const int PAGE_SIZE = 20;
 
-		private ApplicationUserManager _userManager;
-		public ApplicationUserManager UserManager
-		{
-			get
-			{
-				return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-			}
-			private set
-			{
-				_userManager = value;
-			}
-		}
-
 		[HttpGet]
 		public ActionResult Index(HomeViewModel model, int? page)
 		{
@@ -157,7 +144,7 @@ namespace SparWeb.Controllers
 			else
 				fightersList = fightersList.Take(PAGE_SIZE).ToList();
 
-			model.FightersList = Util.GetFightersListViewModel(User, UserManager, fightersList);
+			model.FightersList = Util.GetFightersListViewModel(User, fightersList);
 			model.PageNumber = page.HasValue ? page.Value : 1;
 			model.PagesCount = pageCount;
 
@@ -217,7 +204,7 @@ namespace SparWeb.Controllers
 			//adding fighter urls
 			var fighterRepo = new FighterRepository();
 			var fightersList = fighterRepo.GetAllFighters();
-			var fightersListViewModels = Util.GetFightersListViewModel(null, null, fightersList);
+			var fightersListViewModels = Util.GetFightersListViewModel(null, fightersList);
 			fightersListViewModels.ForEach(ff => urls.Add(ff.FighterUrl));
 
 			//building xml sitemap out of urls

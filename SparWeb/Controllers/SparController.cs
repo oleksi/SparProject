@@ -190,6 +190,11 @@ namespace SparWeb.Controllers
 
 			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = Util.GetConfirmSparDetailsViewModel(sparRequest, 250, User.Identity.GetUserId()); 
 
+			//checking if this user is authorized to view this page
+			var relatedFightersList = Util.GetRelatedFightersList(User.Identity.GetUserId());
+			if (relatedFightersList.Contains(confirmSparDetailsViewModel.OpponentFighter.Id.Value) == false && relatedFightersList.Contains(confirmSparDetailsViewModel.ThisFighter.Id.Value) == false)
+				return RedirectToAction("Index", "Home");
+
 			return View(confirmSparDetailsViewModel);
 		}
 		
@@ -301,7 +306,11 @@ namespace SparWeb.Controllers
 
 			var accountViewModel = Util.GetAccountViewModelForFighter(fighter, 250);
 			if (User.Identity.IsAuthenticated == true)
-				accountViewModel.SparRequests = Util.GetSparRequestDetailsForFighter(fighter.Id.Value, User.Identity.GetUserId());
+			{
+				var relatedFightersList = Util.GetRelatedFightersList(User.Identity.GetUserId());
+				var sparRequestDetails = Util.GetSparRequestDetailsForFighter(fighter.Id.Value, User.Identity.GetUserId());
+				accountViewModel.SparRequests = sparRequestDetails.Where(sr => (relatedFightersList.Contains(sr.OpponentFighter.Id.Value) == true || relatedFightersList.Contains(sr.ThisFighter.Id.Value) == true)).ToList();
+			}
 
 			Util.PopualateRegistrationDropdowns(ViewBag);
 

@@ -293,7 +293,8 @@ namespace SparWeb
 		public static IList<ConfirmSparDetailsViewModel> GetSparRequestDetailsForFighter(int fighterId, string currUserId)
 		{
 			SparRepository sparRepo = new SparRepository();
-			return sparRepo.GetSparRequestsForFighter(fighterId).Select(sr => Util.GetConfirmSparDetailsViewModel(sr, 150, currUserId)).ToList();
+			var sparRequests = sparRepo.GetSparRequestsForFighter(fighterId);
+			return sparRequests.Select(sr => Util.GetConfirmSparDetailsViewModel(sr, 150, currUserId)).ToList();
 		}
 
 		public static void PopualateRegistrationDropdowns(dynamic viewBag)
@@ -303,46 +304,53 @@ namespace SparWeb
 			viewBag.WeightClassMap = Util.WeightClassMap;
 		}
 
-		public static List<AccountFighterViewModel> GetFightersListViewModel(IPrincipal user, ApplicationUserManager userManager, IList<Fighter> fightersList)
+		public static List<AccountFighterViewModel> GetFightersListViewModel(IPrincipal user, IList<Fighter> fightersList)
 		{
-			List<int> fightersToExclude = new List<int>();
-			if (user != null && userManager != null && user.Identity.GetUserId() != null)
-			{
-				var identityUserStore = new SparIdentityUserStore<SparIdentityUser>();
-				var identityUser = identityUserStore.FindByIdAsync(user.Identity.GetUserId()).Result;
-				bool isFighter = userManager.IsInRole(identityUser.Id, "Fighter");
-
-				if (isFighter == true)
-				{
-					var fighterRepo = new FighterRepository();
-					var loggedInFighterId = fighterRepo.GetFighterByIdentityUserId(user.Identity.GetUserId()).Id.Value;
-					fightersToExclude.Add(loggedInFighterId);
-				}
-				else
-				{
-					var fighterRepo = new FighterRepository();
-					var trainerRepo = new TrainerRepository();
-					var currTrrainer = trainerRepo.GetTrainerByIdentityUserId(user.Identity.GetUserId());
-					var trainerFightersList = fighterRepo.GetAllFighters().Where(ff => ff.Trainer != null && ff.Trainer.Id == currTrrainer.Id).ToList();
-					trainerFightersList.ForEach(ff => fightersToExclude.Add(ff.Id.Value));
-				}
-			}
+			List<int> relatedFightersList = new List<int>();
+			if (user != null && user.Identity.GetUserId() != null)
+				relatedFightersList = GetRelatedFightersList(user.Identity.GetUserId());
 
 			List<AccountFighterViewModel> fightersAccountViewModelList = new List<AccountFighterViewModel>();
 			foreach (Fighter currFighter in fightersList)
 			{
-				if (fightersToExclude.Count == 0 || fightersToExclude.Contains(currFighter.Id.Value) == false)
+				if (relatedFightersList.Count == 0 || relatedFightersList.Contains(currFighter.Id.Value) == false)
 				{
 					AccountFighterViewModel accountViewModel = Util.GetAccountViewModelForFighter(currFighter, 150);
 
 					if (user != null && user.Identity.IsAuthenticated == true)
-						accountViewModel.SparRequests = Util.GetSparRequestDetailsForFighter(currFighter.Id.Value, user.Identity.GetUserId()).Where(sr => (fightersToExclude.Contains(sr.OpponentFighter.Id.Value) == true || fightersToExclude.Contains(sr.ThisFighter.Id.Value) == true)).ToList();
+					{
+						var sparRequestDetails = Util.GetSparRequestDetailsForFighter(currFighter.Id.Value, user.Identity.GetUserId());
+						accountViewModel.SparRequests = sparRequestDetails.Where(sr => (relatedFightersList.Contains(sr.OpponentFighter.Id.Value) == true || relatedFightersList.Contains(sr.ThisFighter.Id.Value) == true)).ToList();
+					}
 
 					fightersAccountViewModelList.Add(accountViewModel);
 				}
 			}
 
 			return fightersAccountViewModelList;
+		}
+
+		//for currently logged in fighter returns this fighter, for currently logged in trainer returns all trainers fighters
+		public static List<int> GetRelatedFightersList(string identityUserId)
+		{
+			List<int> fightersToExclude = new List<int>();
+
+			var fighterRepo = new FighterRepository();
+			var fighter = fighterRepo.GetFighterByIdentityUserId(identityUserId);
+
+			if (fighter != null)
+			{
+				fightersToExclude.Add(fighter.Id.Value);
+			}
+			else
+			{
+				var trainerRepo = new TrainerRepository();
+				var currTrrainer = trainerRepo.GetTrainerByIdentityUserId(identityUserId);
+				var trainerFightersList = fighterRepo.GetAllFighters().Where(ff => ff.Trainer != null && ff.Trainer.Id == currTrrainer.Id).ToList();
+				trainerFightersList.ForEach(ff => fightersToExclude.Add(ff.Id.Value));
+			}
+
+			return fightersToExclude;
 		}
 	}
 }
