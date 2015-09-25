@@ -16,6 +16,7 @@ namespace SparModel
 		public virtual int NumberOfProFights { get; set; }
 		public virtual Gym Gym { get; set; }
 		public virtual Trainer Trainer { get; set; }
+		public virtual bool IsDemo { get; set; }
 
 		public virtual string GetHimOrHer(bool useTitleCase)
 		{

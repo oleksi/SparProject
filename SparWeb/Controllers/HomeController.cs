@@ -19,9 +19,14 @@ namespace SparWeb.Controllers
 	{
 		const int PAGE_SIZE = 20;
 
+		private bool IsDemoMode { get {	return (Session["IsDemoMode"] != null && Convert.ToBoolean(Session["IsDemoMode"]) == true);	} }
+
 		[HttpGet]
 		public ActionResult Index(HomeViewModel model, int? page)
 		{
+			if (Request.QueryString["demo"] != null && Request.QueryString["demo"] == "1")
+				Session["IsDemoMode"] = true;
+
 			FighterRepository fighterRepo = new FighterRepository();
 			IList<Fighter> fightersList = null;
 
@@ -135,6 +140,9 @@ namespace SparWeb.Controllers
 
 			if (fightersList == null)
 				fightersList = fighterRepo.GetAllFighters();
+
+			if (IsDemoMode == false)
+				fightersList = fightersList.Where(ff => ff.IsDemo == false).ToList();
 
 			int pageCount = (int)Math.Ceiling((Convert.ToDecimal(fightersList.Count) / PAGE_SIZE));
 

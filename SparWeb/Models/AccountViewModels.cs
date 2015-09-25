@@ -186,6 +186,8 @@ namespace SparWeb.Models
 
 		public string HimOrHer { get; set; }
 
+		public bool IsDemo { get; set; }
+
 		public IList<ConfirmSparDetailsViewModel> SparRequests { get; set; }
 
 		public AccountFighterViewModel()

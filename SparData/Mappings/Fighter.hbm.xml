@@ -24,6 +24,7 @@
 		<property name="ProfilePictureUploaded" column="ProfilePictureUploaded" not-null="true"></property>
 		<property name="InsertDate" column="InsertDate" not-null="true"></property>
 		<property name="UpdateDate" column="UpdateDate" not-null="true"></property>
+		<property name="IsDemo" column="IsDemo" not-null="true"></property>
 	</class>
   
 </hibernate-mapping>
