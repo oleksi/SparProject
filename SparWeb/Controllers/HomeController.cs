@@ -211,7 +211,7 @@ namespace SparWeb.Controllers
 
 			//adding fighter urls
 			var fighterRepo = new FighterRepository();
-			var fightersList = fighterRepo.GetAllFighters();
+			var fightersList = fighterRepo.GetAllFighters().Where(ff => ff.IsDemo == false).ToList();
 			var fightersListViewModels = Util.GetFightersListViewModel(null, fightersList);
 			fightersListViewModels.ForEach(ff => urls.Add(ff.FighterUrl));
 
