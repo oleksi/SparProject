@@ -61,6 +61,7 @@ namespace SparWeb.Models
 		public string City { get; set; }
 
 		[Required]
+		[Display(Name = "State / Province")]
 		public string State { get; set; }
 
 		[Required]
