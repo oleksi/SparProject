@@ -19,6 +19,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using System.Configuration;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 
 namespace SparWeb.Controllers
 {
@@ -224,6 +225,11 @@ namespace SparWeb.Controllers
 				return View(model);
 			}
 
+			var textInfo = CultureInfo.CurrentCulture.TextInfo;
+			model.Name = textInfo.ToTitleCase(model.Name.ToLower());
+			model.City = textInfo.ToTitleCase(model.City.ToLower());
+			model.GymName = textInfo.ToTitleCase(model.GymName.ToLower());
+
 			var fighterRepo = new FighterRepository();
 			Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, City = model.City, State = model.State, Height = model.Height, Weight = model.Weight, IsSouthpaw = model.IsSouthpaw, NumberOfAmateurFights = model.NumberOfAmateurFights, NumberOfProFights = model.NumberOfProFights, Gym = createGym(model.GymName), ProfilePictureUploaded = false };
 			fighter.SparIdentityUser = user;
@@ -307,6 +313,11 @@ namespace SparWeb.Controllers
 						if (model.Website.StartsWith("http://") == false)
 							model.Website = "http://" + model.Website;
 					}
+
+					var textInfo = CultureInfo.CurrentCulture.TextInfo;
+					model.Name = textInfo.ToTitleCase(model.Name.ToLower());
+					model.City = textInfo.ToTitleCase(model.City.ToLower());
+					model.GymName = textInfo.ToTitleCase(model.GymName.ToLower());
 
 					var trainerRepo = new TrainerRepository();
 					var trainer = new Trainer() { Name = model.Name, DateOfBirth = dob, City = model.City, State = model.State, Gym = createGym(model.GymName), PhoneNumber = model.PhoneNumber, Website = model.Website, Rate = model.Rate, Notes = model.Notes, ProfilePictureUploaded = false, SparIdentityUser = user };
