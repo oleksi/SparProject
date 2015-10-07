@@ -2,7 +2,14 @@
 
 @if (Model.SparRequests.Count == 0 || Model.SparRequests.Any(sr => (sr.SparRequesStatus == SparModel.SparRequestStatus.Requested || sr.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation || sr.SparRequesStatus == SparModel.SparRequestStatus.Confirmed)) == false)
 {
-	@Html.ActionLink("Spar " + Model.HimOrHer, "SparConfirmation", "Spar", new { ID = Model.ID }, new { @class = "btn btn-default btn-danger btn-lg" })
+	if (Model.IsWidgetView == false)
+	{ 
+		@Html.ActionLink("Spar " + Model.HimOrHer, "SparConfirmation", "Spar", new { ID = Model.ID }, new { @class = "btn btn-default btn-danger btn-lg" })
+	}
+	else
+	{
+		<a href="@Model.FighterUrl" class="btn btn-default btn-danger btn-lg" target="_blank">@("Spar " + Model.HimOrHer)</a>
+	}
 }
 else
 {
