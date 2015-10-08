@@ -364,6 +364,10 @@ a.btn.btn-default.btn-lg {
 	margin-top: -5px;
 }
 
+.our-partners-title {
+	font-size: 18px;
+}
+
 @media(min-width:992px){
 	.col-md-3.col-xs-12.bottom ,
 	.col-md-2.col-xs-12.bottom{
