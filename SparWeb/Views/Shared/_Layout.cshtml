@@ -54,13 +54,28 @@
         @RenderBody()
         <hr />
         <footer>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+						<div class="panel-heading text-center">
+							<b>Our Partners</b>
+						</div>
+						<div class="panel-body text-center">
+							<ul class="list-inline">
+								<li>
+									<a href="http://www.gleasonsgym.net/"><img src="~/Content/Images/powered-by-gleasons.jpg" alt="Gleason's Gym" height="60" /></a>
+								</li>
+								<li>
+									<a href="http://brooklynfights.com"><img src="~/Content/Images/BrooklynFights-banner.jpg" alt="Brooklyn Fights" height="60" /></a>
+								</li>
+							</ul>							
+						</div>
+					</div>
+				</div>
+			</div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <p class="pull-left">&copy; @DateTime.Now.Year - SparGym | @Html.ActionLink("Terms and Conditions", "TermsAndConditions", "Home")</p>
-                </div>
-                <div class="col-md-6">
-                    <div class="pull-right">
-                    </div>
                 </div>
             </div>
         </footer>
