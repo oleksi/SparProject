@@ -202,7 +202,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\PartnershipController.cs" />
-    <Compile Include="Controllers\RandomFightersWidgetViewModel.cs" />
+    <Compile Include="Models\RandomFightersWidgetViewModel.cs" />
     <Compile Include="Controllers\SparController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
