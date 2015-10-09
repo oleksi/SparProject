@@ -158,6 +158,8 @@ namespace SparWeb.Controllers
 
 			populateFilterDropdowns();
 
+			ViewBag.ShowPartners = true;
+
 			return View(model);
 		}
 

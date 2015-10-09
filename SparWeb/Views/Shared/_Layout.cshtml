@@ -54,6 +54,8 @@
         @RenderBody()
         <hr />
         <footer>
+			@if (ViewBag.ShowPartners != null && Convert.ToBoolean(ViewBag.ShowPartners) == true)
+			{ 
 			<div class="row">
 				<div class="col-md-12">
 					<div class="panel panel-default">
@@ -73,6 +75,7 @@
 					</div>
 				</div>
 			</div>
+			}
             <div class="row">
                 <div class="col-md-12">
                     <p class="pull-left">&copy; @DateTime.Now.Year - SparGym | @Html.ActionLink("Terms and Conditions", "TermsAndConditions", "Home")</p>
