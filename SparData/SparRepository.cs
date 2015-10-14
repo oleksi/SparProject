@@ -1,4 +1,5 @@
 ﻿using NHibernate;
+using NHibernate.Transform;
 using SparModel;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,17 @@ namespace SparData
 			using (var session = getSession())
 			{
 				return session.Get<SparRequest>(SparRequestId);
+			}
+		}
+
+		public List<SparNote> GetSparNotes(string SparRequestId)
+		{
+			using (var session = getSession())
+			{
+				return session.GetNamedQuery("SparRequest_GetNotesBySparRequestId")
+					.SetString("SparRequestId", SparRequestId)
+					.SetResultTransformer(Transformers.AliasToBean(typeof(SparNote)))
+					.List<SparNote>().ToList();
 			}
 		}
 

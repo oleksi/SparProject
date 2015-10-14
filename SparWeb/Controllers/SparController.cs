@@ -195,6 +195,8 @@ namespace SparWeb.Controllers
 			if (relatedFightersList.Contains(confirmSparDetailsViewModel.OpponentFighter.Id.Value) == false && relatedFightersList.Contains(confirmSparDetailsViewModel.ThisFighter.Id.Value) == false)
 				return RedirectToAction("Index", "Home");
 
+			var sparNotes = sparRepo.GetSparNotes(ID);
+
 			return View(confirmSparDetailsViewModel);
 		}
 		

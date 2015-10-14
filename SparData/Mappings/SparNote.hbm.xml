@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" 
+                   assembly="SparModel" 
+                   namespace="SparNote">
+
+	<sql-query name="SparRequest_GetNotesBySparRequestId">
+		<return-scalar column="MemberId" type="Int32"/>
+		<return-scalar column="NoteDate" type="DateTime"/>
+		<return-scalar column="SparNotes" type="String"/>
+		exec SparRequest_GetNotesBySparRequestId :SparRequestId
+	</sql-query>
+  
+</hibernate-mapping>
