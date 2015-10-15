@@ -1,0 +1,19 @@
+﻿@model SparWeb.Models.ConfirmSparDetailsViewModel
+
+<div>
+	@foreach (var sparNote in Model.SparNotesList)
+	{
+		<div class="panel panel-default">
+			<div class="media panel-body">
+				<a href="#" class="pull-left">
+					<img src="@sparNote.ProfilePictureFile" class="media-object img-thumbnail" width="80">
+				</a>
+				<div class="media-body">
+					<h4 class="media-heading">@sparNote.Name <small><i>Posted on @sparNote.NoteDate.ToString()</i></small></h4>
+					<p>@sparNote.SparNotes</p>
+				</div>
+			</div>
+		</div>
+	}
+</div>
+

@@ -33,7 +33,7 @@
 				<div class="form-group">
 					<div class="col-md-offset-2 col-md-8">
 						<div class="inner-addon left-addon">
-							@Html.TextAreaFor(m => m.SparNotes, 2, 4, new { @class = "form-control", placeholder = String.Format("{0} (optional)", Html.DisplayNameFor(m => m.SparNotes)) })
+							@Html.TextAreaFor(m => m.SparNotes, 2, 4, new { @class = "form-control", placeholder = String.Format("Leave a message... (optional)", Html.DisplayNameFor(m => m.SparNotes)) })
 							@Html.ValidationMessageFor(m => m.SparNotes)
 						</div>
 					</div>

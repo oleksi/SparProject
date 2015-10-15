@@ -213,6 +213,7 @@
     <Compile Include="Models\ExtensionMethods.cs" />
     <Compile Include="Models\HomeViewModels.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
+    <Compile Include="Models\SparNoteViewModel.cs" />
     <Compile Include="Models\SparViewModels.cs" />
     <Compile Include="Models\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -363,6 +364,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\RegisterMain.cshtml" />
     <Content Include="Views\Partnership\RandomFightersWidget.cshtml" />
+    <Content Include="Views\Shared\SparNotesList.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

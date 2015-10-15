@@ -195,7 +195,23 @@ namespace SparWeb.Controllers
 			if (relatedFightersList.Contains(confirmSparDetailsViewModel.OpponentFighter.Id.Value) == false && relatedFightersList.Contains(confirmSparDetailsViewModel.ThisFighter.Id.Value) == false)
 				return RedirectToAction("Index", "Home");
 
-			var sparNotes = sparRepo.GetSparNotes(ID);
+			List<SparNoteViewModel> sparNotesVM = getSparNotesForSparRequest(ID);
+			if (sparNotesVM.Count == 0)
+			{
+				var figherRepo = new FighterRepository();
+				var fighter = figherRepo.GetFighterById(sparRequest.LastNegotiatorFighterId);
+				var sparNoteVM = new SparNoteViewModel()
+				{
+					Name = fighter.Name,
+					ProfilePictureFile = Util.GetProfilePictureFile(fighter, 150),
+					NoteDate = sparRequest.RequestDate,
+					SparNotes = sparRequest.SparNotes
+				};
+				sparNotesVM.Add(sparNoteVM);
+			}
+
+			confirmSparDetailsViewModel.SparNotesList = sparNotesVM;
+			confirmSparDetailsViewModel.ListSparNotes = true;
 
 			return View(confirmSparDetailsViewModel);
 		}
@@ -210,6 +226,7 @@ namespace SparWeb.Controllers
 			ConfirmSparDetailsViewModel confirmSparDetailsViewModel = Util.GetConfirmSparDetailsViewModel(sparRequest, 250, User.Identity.GetUserId());
 			confirmSparDetailsViewModel.SparDate = model.SparDate;
 			confirmSparDetailsViewModel.SparTime = model.SparTime;
+			confirmSparDetailsViewModel.ListSparNotes = true;
 			
 			confirmSparDetailsViewModel.SparGymID = model.SparGymID;
 			if (model.SparGymID > 0)
@@ -222,7 +239,7 @@ namespace SparWeb.Controllers
 				confirmSparDetailsViewModel.SparGym = null;
 			}
 			
-			confirmSparDetailsViewModel.SparNotes = model.SparNotes;
+			confirmSparDetailsViewModel.SparNotes = (String.IsNullOrEmpty(model.SparNotesNew) == false)? model.SparNotesNew : model.SparNotes;
 
 			if (ModelState.IsValid == false || model.SparDate <= DateTime.Now)
 			{
@@ -246,7 +263,7 @@ namespace SparWeb.Controllers
 				else
 					sparRequest.SparGym = null;
 
-				sparRequest.SparNotes = model.SparNotes;
+				sparRequest.SparNotes = (String.IsNullOrEmpty(model.SparNotesNew) == false) ? model.SparNotesNew : model.SparNotes;
 			}
 
 			//setting last negotiator
@@ -274,6 +291,8 @@ namespace SparWeb.Controllers
 
 			//send email to spar requestor
 			sendEmailForSaprRequest(confirmSparDetailsViewModel, isFirstResponse);
+
+			confirmSparDetailsViewModel.SparNotesList = getSparNotesForSparRequest(model.SparRequestId);
 
 			return View("SparDetailsConfirmed", confirmSparDetailsViewModel);
 		}
@@ -501,6 +520,32 @@ namespace SparWeb.Controllers
 			Fighter opponentFighter = fighterRepo.GetFighterByIdentityUserId(opponentId);
 
 			return Util.GetSparConfirmationViewModel(thisFighter, opponentFighter, 250);
+		}
+
+		private List<SparNoteViewModel> getSparNotesForSparRequest(string sparRequestId)
+		{
+			List<SparNoteViewModel> sparNotesVM = new List<SparNoteViewModel>();
+			var figherRepo = new FighterRepository();
+			var sparRepo = new SparRepository();
+
+			var sparNotes = sparRepo.GetSparNotes(sparRequestId);
+			if (sparNotes != null && sparNotes.Count > 0)
+			{
+				foreach (var sparNote in sparNotes)
+				{
+					var fighter = figherRepo.GetFighterById(sparNote.MemberId);
+					var sparNoteVM = new SparNoteViewModel()
+					{
+						Name = fighter.Name,
+						ProfilePictureFile = Util.GetProfilePictureFile(fighter, 150),
+						NoteDate = sparNote.NoteDate,
+						SparNotes = sparNote.SparNotes
+					};
+					sparNotesVM.Add(sparNoteVM);
+				}
+			}
+
+			return sparNotesVM;
 		}
 	}
 }

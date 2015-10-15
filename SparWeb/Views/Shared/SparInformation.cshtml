@@ -16,10 +16,14 @@
     {
         <dd>N/A</dd>
     }
-    @if (String.IsNullOrEmpty(Model.SparNotes) == false)
+    @if (Model.ListSparNotes == false && String.IsNullOrEmpty(Model.SparNotes) == false)
     {
         <div style="clear:both"></div>
         <dt>@Html.LabelFor(m => m.SparNotes):</dt>
         <dd>@Html.DisplayFor(m => m.SparNotes)</dd>
     }
 </dl>
+@if (Model.ListSparNotes == true)
+{
+	Html.RenderPartial("SparNotesList", Model);
+}

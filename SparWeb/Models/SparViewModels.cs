@@ -48,6 +48,13 @@ namespace SparWeb.Models
 
 		public SparRequestStatus SparRequesStatus { get; set; }
 
+		public bool ListSparNotes { get; set; }
+
+		public List<SparNoteViewModel> SparNotesList { get; set; }
+
+		[StringLength(1024)]
+		public string SparNotesNew { get; set; }
+
 		public bool IsThisFighterLastNegotiator()
 		{
 			return (LastNegotiatorFighterId == ThisFighter.Id.Value);

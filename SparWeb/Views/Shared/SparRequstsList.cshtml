@@ -106,6 +106,7 @@
 				$('.upcomingSpars').find('.container[data-saprRequestId="' + $('#cancelSparRequestId').val() + '"]').remove();
 				$('#cancelSparRequestId').val('');
 				$('#confirmCancelSparyModal').modal('hide');
+				location.reload(true);
 			}
 		});
 	}
