@@ -196,7 +196,7 @@ namespace SparWeb.Controllers
 				return RedirectToAction("Index", "Home");
 
 			List<SparNoteViewModel> sparNotesVM = getSparNotesForSparRequest(ID);
-			if (sparNotesVM.Count == 0)
+			if (sparNotesVM.Count == 0 && String.IsNullOrEmpty(sparRequest.SparNotes) == false)
 			{
 				var figherRepo = new FighterRepository();
 				var fighter = figherRepo.GetFighterById(sparRequest.LastNegotiatorFighterId);
@@ -238,8 +238,8 @@ namespace SparWeb.Controllers
 			{
 				confirmSparDetailsViewModel.SparGym = null;
 			}
-			
-			confirmSparDetailsViewModel.SparNotes = (String.IsNullOrEmpty(model.SparNotesNew) == false)? model.SparNotesNew : model.SparNotes;
+
+			confirmSparDetailsViewModel.SparNotes = model.SparNotesNew;
 
 			if (ModelState.IsValid == false || model.SparDate <= DateTime.Now)
 			{
@@ -263,7 +263,7 @@ namespace SparWeb.Controllers
 				else
 					sparRequest.SparGym = null;
 
-				sparRequest.SparNotes = (String.IsNullOrEmpty(model.SparNotesNew) == false) ? model.SparNotesNew : model.SparNotes;
+				sparRequest.SparNotes = model.SparNotesNew;
 			}
 
 			//setting last negotiator
