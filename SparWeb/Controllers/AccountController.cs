@@ -745,14 +745,13 @@ namespace SparWeb.Controllers
 					return View("ForgotPasswordConfirmation");
 				}
 
-				var fighterRepo = new FighterRepository();
-				var fighter = fighterRepo.GetFighterByIdentityUserId(user.Id);
+				Member member = getMember(user.Id);
 
 				var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
 				var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
 				
 				var emailPlaceholders = new Dictionary<string, string>();
-				emailPlaceholders["[NAME]"] = fighter.Name;
+				emailPlaceholders["[NAME]"] = member.Name;
 				emailPlaceholders["[PASSWORD_RESET_URL]"] = String.Format("<a href=\"{0}\">{0}</a>", callbackUrl);
 
 				EmailManager.SendEmail(EmailManager.EmailTypes.PasswordResetTemplate, ConfigurationManager.AppSettings["EmailSupport"], user.UserName, "SparGym Reset Password", emailPlaceholders);	
