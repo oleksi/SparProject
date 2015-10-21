@@ -84,10 +84,8 @@
     </div>
 </div>
 
-@if (Model.SparRequests.Any(sr => sr.SparRequesStatus != SparModel.SparRequestStatus.Requested && sr.SparRequesStatus != SparModel.SparRequestStatus.Canceled))
-{
-	Html.RenderPartial("SparRequstsList", Model.SparRequests);
-}
+@{ Html.RenderPartial("SparRequstsList", Model.SparRequests); }
+
 
 @if (Model.FightersList.Count > 0)
 {

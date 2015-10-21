@@ -2,12 +2,41 @@
 
 @{
     ViewBag.Title = "Spar Confirmation Details";
+
+	string opponentName = (Model.OpponentFighter.Trainer != null) ? "Trainer " + Model.OpponentFighter.Trainer.Name : Model.OpponentFighter.Name;
 }
 
 @section head {
     @Scripts.Render("~/bundles/jqueryval")
     @Styles.Render("~/Styles/css/bootstrap-datepicker")
     @Scripts.Render("~/bundles/bootstrap-datepicker")
+}
+
+@if (ViewBag.ShowSuccessMessage == true)
+{
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">
+			<div class="alert alert-success text-center" role="alert">
+				@if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation)
+				{
+					<p><strong>Thanks for scheduling the spar.</strong></p>
+					<p>@opponentName will be notified with the date, time and location you proposed. We will let you know if @opponentName accepts it or proposes another change.</p>
+				}
+				else if (Model.SparRequesStatus == SparModel.SparRequestStatus.Confirmed)
+				{
+					<p><strong>Thanks for confirming the spar.</strong></p>
+					<p>@opponentName will be notified with the date, time and location of the spar. Good luck!</p>
+				}
+				else if (Model.SparRequesStatus == SparModel.SparRequestStatus.Canceled)
+				{
+					<p><strong>Thanks for canceling the spar.</strong></p>
+					<p>@opponentName will be notified about spar cancelation.</p>
+				}
+			</div>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
 }
 
 <div class="row text-center">
@@ -51,124 +80,28 @@
 
         @{Html.RenderPartial("SparConfirmationInfo", Model);}
 
-        <div id="sparDetailsEdit" class="hidden">
-            <div class="row sparConfirmationSectionRow">
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.SparDate, new { @class = "col-md-3 control-label" })
-                        <div class="col-md-9">
-                            <div class="inner-addon left-addon">
-                                <i class="glyphicon glyphicon-calendar"></i>
-                                @Html.TextBoxFor(m => m.SparDate, "{0:MM/dd/yyyy}", new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.SparDate) })
-                                @Html.ValidationMessageFor(m => m.SparDate, null, new { @class = "pull-left" })
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3"></div>
-            </div>
-
-            <div class="row sparConfirmationRow">
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.SparTime, new { @class = "col-md-3 control-label" })
-                        <div class="col-md-9">
-                            @Html.EditorFor(m => m.SparTime, "SparTime")
-                            @Html.ValidationMessageFor(m => m.SparTime)
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3"></div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Location</label>
-                        <div class="col-md-9">
-                            @if (Model.ThisFighter.Gym != null && Model.OpponentFighter.Gym != null && Model.ThisFighter.Gym.Id != Model.OpponentFighter.Gym.Id)
-                            {
-                                <div class="radio">
-                                    <label>
-                                        @Html.RadioButtonFor(m => m.SparGymID, Model.ThisFighter.Gym.Id )
-                                        <b>Your gym</b> (@Model.ThisFighter.Gym.Name)
-                                    </label>
-                                </div>
-                                <div class="radio">
-                                    <label>
-                                        @Html.RadioButtonFor(m => m.SparGymID, Model.OpponentFighter.Gym.Id)
-                                        <b>@Model.OpponentFighter.Name's gym</b> (@Model.OpponentFighter.Gym.Name)
-                                    </label>
-                                </div>
-                            }
-                            else if ((Model.ThisFighter.Gym != null && Model.OpponentFighter.Gym != null && Model.ThisFighter.Gym.Id == Model.OpponentFighter.Gym.Id) || (Model.ThisFighter.Gym != null && Model.OpponentFighter.Gym == null))
-                            {
-                                <div class="radio">
-                                    <label>
-                                        @Html.RadioButtonFor(m => m.SparGymID, Model.ThisFighter.Gym.Id)
-                                        <b>Your gym</b> (@Model.ThisFighter.Gym.Name)
-                                    </label>
-                                </div>
-                            }
-                            else if (Model.OpponentFighter.Gym != null && Model.ThisFighter.Gym == null)
-                            {
-                                <div class="radio">
-                                    <label>
-                                        @Html.RadioButtonFor(m => m.SparGymID, Model.OpponentFighter.Gym.Id)
-                                        <b>@Model.OpponentFighter.Name's gym</b> (@Model.OpponentFighter.Gym.Name)
-                                    </label>
-                                </div>
-                            }
-                            <div class="radio">
-                                <label>
-                                    @Html.RadioButtonFor(m => m.SparGymID, 0)
-                                    <b>Other place</b> (please specify in the notes)
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3"></div>
-            </div>
-
-			<div class="row">
-				<div class="col-md-3"></div>
-				<div class="col-md-6">
-					@{Html.RenderPartial("SparNotesList", Model);}
-					<div class="inner-addon left-addon">
-						@Html.TextAreaFor(m => m.SparNotesNew, 2, 4, new { @class = "form-control", placeholder = "Leave a message ..." })
-						@Html.ValidationMessageFor(m => m.SparNotesNew)
-						@Html.HiddenFor(m => m.SparNotes)
-					</div>
-
-				</div>
-				<div class="col-md-3"></div>
+		@if (Model.SparRequesStatus == SparModel.SparRequestStatus.Requested)
+		{
+			<div id="sparDetailsEditWrap" class="hidden">
+				@{Html.RenderPartial("SparDetailsEdit", Model);}
 			</div>
-
-            <div class="row sparConfirmationSectionRow">
-                <div class="col-md-4"></div>
-                <div class="col-md-3 col-xs-12 bottom">
-                    <input type="submit" onclick="return submitSparDetails('DateLocationNegotiation');" value="Respond to Spar Request" class="col-xs-12 btn btn-default btn-danger btn-lg" />
-                </div>
-                <div class="col-md-2 col-xs-12">
-                    @if (Model.SparRequesStatus != SparModel.SparRequestStatus.Requested)
-                    {
-                        if (Model.IsThisFighterLastNegotiator() == false)
-                        {
-                            <input type="button" class="btn btn-default btn-lg col-xs-12" value="Cancel" onclick="return showSparDetailsInfo();" />
-                        }
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Cancel", "Index", "Account", null, new { @class = "btn btn-default btn-lg col-xs-12" })
-                    }
-                </div>
-                <div class="col-md-4"></div>
-            </div>
-        </div>
+		}
+		else
+		{
+			<div id="updateSparDetailsModal" class="modal fade">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title">Update Spar Details</h4>
+						</div>
+						<div class="modal-body">
+							@{Html.RenderPartial("SparDetailsEdit", Model);}
+						</div>
+					</div>
+				</div>
+			</div>
+		}
 
         @if (Model.SparRequesStatus != SparModel.SparRequestStatus.Requested)
         { 
@@ -177,23 +110,17 @@
 
             <div class="row">
                 <div class="col-md-4"></div>
-        @if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation)
-        {
+				@if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation)
+				{
                 <div class="col-md-2 col-xs-12 bottom">
-                    <input onclick="return submitSparDetails('Confirmed');" value="Confirm Spar" class="btn btn-default btn-danger btn-lg col-xs-12" type="button">
+					<input type="button" onclick="$('#confirmCancelSparyModal').modal('show');" value="Cancel Spar" class="btn btn-default btn-lg col-xs-12" />
                 </div>
                 <div class="col-md-2 col-xs-12">
-                    <input class="btn btn-default btn-lg col-xs-12" value="Change Details" onclick="showSparDetailsEdit();" type="button">
+					<input class="btn btn-danger btn-lg col-xs-12" value="Change Details" onclick="showSparDetailsEdit();" type="button">
                 </div>
-        }
-        else if (Model.SparRequesStatus == SparModel.SparRequestStatus.Confirmed)
-        {
-                <div class="col-md-4 text-center">
-                    <input type="button" onclick="$('#confirmCancelSparyModal').modal('show');" value="Cancel Spar" class="btn btn-default btn-danger btn-lg col-xs-12" />
-                </div>
-        }
-        <div class="col-md-4"></div>
-    </div>
+				}
+				<div class="col-md-4"></div>
+			</div>
         </div>
         }
 
@@ -209,7 +136,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" onclick="return submitSparDetails('Canceled');" class="btn btn-primary">Cancel Spar</button>
+                        <button type="button" onclick="return submitSparDetails('Canceled');" class="btn btn-danger">Cancel Spar</button>
                     </div>
                 </div>
             </div>
@@ -228,8 +155,7 @@
 
         $('#formSparDetails').validate();
 
-        @if ((Model.SparRequesStatus == SparModel.SparRequestStatus.Requested && Model.IsThisFighterLastNegotiator() == false)
-            || (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation && Model.IsThisFighterLastNegotiator() == true))
+        @if (Model.SparRequesStatus == SparModel.SparRequestStatus.Requested && Model.IsThisFighterLastNegotiator() == false)
         {
         @:showSparDetailsEdit();
         }
@@ -256,12 +182,23 @@
 
     function showSparDetailsInfo() {
         $('#sparDetailsInfo').removeClass('hidden');
-        $('#sparDetailsEdit').addClass('hidden');
+        $('#sparDetailsEditWrap').addClass('hidden');
     }
 
     function showSparDetailsEdit() {
-        $('#sparDetailsEdit').removeClass('hidden');
-        $('#sparDetailsInfo').addClass('hidden');
+		@if (Model.SparRequesStatus == SparModel.SparRequestStatus.Requested)
+		{
+		<text>
+    	$('#sparDetailsEditWrap').removeClass('hidden');
+    	$('#sparDetailsInfo').addClass('hidden');
+    	</text>
+		}
+		else
+		{
+		<text>
+    	$('#updateSparDetailsModal').modal('show');
+		</text>
+		}
     }
 
     </script>

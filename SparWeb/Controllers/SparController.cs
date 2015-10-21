@@ -183,7 +183,7 @@ namespace SparWeb.Controllers
 		}
 
 		[Authorize]
-		public ActionResult SparDetailsConfirmation(string ID)
+		public ActionResult SparDetailsConfirmation(string ID, bool? ShowSuccess)
 		{
 			SparRepository sparRepo = new SparRepository();
 			SparRequest sparRequest = sparRepo.GetSparRequestById(ID);
@@ -212,6 +212,9 @@ namespace SparWeb.Controllers
 
 			confirmSparDetailsViewModel.SparNotesList = sparNotesVM;
 			confirmSparDetailsViewModel.ListSparNotes = true;
+
+			if (ShowSuccess.HasValue == true && ShowSuccess == true)
+				ViewBag.ShowSuccessMessage = true;
 
 			return View(confirmSparDetailsViewModel);
 		}
@@ -294,9 +297,7 @@ namespace SparWeb.Controllers
 			//send email to spar requestor
 			sendEmailForSaprRequest(confirmSparDetailsViewModel, isFirstResponse);
 
-			confirmSparDetailsViewModel.SparNotesList = getSparNotesForSparRequest(model.SparRequestId);
-
-			return View("SparDetailsConfirmed", confirmSparDetailsViewModel);
+			return RedirectToAction("SparDetailsConfirmation", new { ID = model.SparRequestId, ShowSuccess = true }); //View("SparDetailsConfirmed", confirmSparDetailsViewModel);
 		}
 
 		[Authorize]

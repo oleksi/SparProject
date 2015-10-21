@@ -342,7 +342,6 @@
     <Content Include="Views\Shared\SparConfirmationInfo.cshtml" />
     <Content Include="Views\Spar\SparDetailsConfirmation.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\SparTime.cshtml" />
-    <Content Include="Views\Spar\SparDetailsConfirmed.cshtml" />
     <Content Include="Views\Shared\SparInformationInfoBox.cshtml" />
     <Content Include="Views\Shared\SparInformation.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\IsSouthpaw.cshtml" />
@@ -365,6 +364,7 @@
     <Content Include="Views\Shared\RegisterMain.cshtml" />
     <Content Include="Views\Partnership\RandomFightersWidget.cshtml" />
     <Content Include="Views\Shared\SparNotesList.cshtml" />
+    <Content Include="Views\Shared\SparDetailsEdit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
