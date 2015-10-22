@@ -17,6 +17,14 @@ namespace SparWeb.Models
 		[Display(Name = "Notes")]
 		[StringLength(1024)]
 		public string SparNotes { get; set; }
+
+		public string OpponentFighterUrl
+		{
+			get
+			{
+				return String.Format("/fighters/{0}/{1}", Util.States[OpponentFighter.State], OpponentFighter.Name);
+			}
+		}
 	}
 
 	public class ConfirmSparDetailsViewModel : SparConfirmationViewModel

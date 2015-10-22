@@ -18,7 +18,7 @@
 					<div class="row well well-sm spar-fighter">
 						<div class="col-md-3 vAlignCenter">
 							<div class="title hidden-md hidden-lg hidden-sm">
-								<span class="fighterNameSmall">@currSparRequest.OpponentFighter.Name</span>
+								<span class="fighterNameSmall"><a href="@currSparRequest.OpponentFighterUrl">@currSparRequest.OpponentFighter.Name</a></span>
 								<div class="row">
 									<div class="col-md-12">
 										from <span class="gymNameSmall">@((currSparRequest.OpponentFighter.Gym != null) ? currSparRequest.OpponentFighter.Gym.Name : "Unknown Gym")</span>
@@ -32,7 +32,7 @@
 							</div>
 						</div>
 						<div class="col-md-6 hidden-xs vAlignCenter">
-							<span class="fighterNameSmall hidden-xs">@currSparRequest.OpponentFighter.Name</span>
+							<span class="fighterNameSmall hidden-xs"><a href="@currSparRequest.OpponentFighterUrl">@currSparRequest.OpponentFighter.Name</a></span>
 							<div class="row hidden-xs">
 								<div class="col-md-12 hidden-xs">
 									from <span class="gymNameSmall hidden-xs">@((currSparRequest.OpponentFighter.Gym != null) ? currSparRequest.OpponentFighter.Gym.Name : "Unknown Gym")</span>

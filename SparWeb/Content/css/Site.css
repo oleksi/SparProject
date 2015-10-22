@@ -70,6 +70,10 @@ input[type="checkbox"].input-validation-error {
 	color: #C9302C;
 }
 
+.fighterCard a {
+	color: #C9302C;
+}
+
 .gymName {
 	font-size: 18px;
 	font-weight: bold;

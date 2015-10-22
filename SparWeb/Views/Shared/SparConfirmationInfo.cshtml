@@ -21,7 +21,7 @@
         <div class="thumbnail fighterCard ">
             <img height="@Model.ProfilePictureSize" src="@Util.GetProfilePictureFile(Model.OpponentFighter, Model.ProfilePictureSize)" class="img-thumbnail" />
             <div class="caption text-center">
-                <h3 class="media-heading">@Model.OpponentFighter.Name</h3>
+				<h3 class="media-heading"><a href="@Model.OpponentFighterUrl">@Model.OpponentFighter.Name</a></h3>
                 <p>
                     from <strong>@((Model.OpponentFighter.Gym != null) ? Model.OpponentFighter.Gym.Name : "Unknown Gym")</strong>
                     <br />
