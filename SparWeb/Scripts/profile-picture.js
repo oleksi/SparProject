@@ -26,7 +26,7 @@ function initializeDropZone() {
 					var res = eval('(' + data.xhr.responseText + ')');
 					if (res.Message.indexOf("Error:") != 0) {
 						var parentDiv = $('[class^="profilePictureDefault"][data-userid="' + userId + '"]').parent();
-						parentDiv.find('[class^="profilePictureDefault"]').hide();
+						parentDiv.find('[class^="profilePictureDefault"]').addClass('hidden');
 						$('.dz-preview').hide();
 
 						showProfilePicture(res.Message, userId);

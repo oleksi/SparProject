@@ -25,6 +25,11 @@ namespace SparModel
 
 		public virtual string GetProfileThumbnailFileName(int thumbSize, bool noneAnonymousMode)
 		{
+			return GetProfileThumbnailFileName(thumbSize, noneAnonymousMode, false);
+		}
+
+		public virtual string GetProfileThumbnailFileName(int thumbSize, bool noneAnonymousMode, bool dontAppendCachingBlocker)
+		{
 			string profileThumbnailFileName = "";
 			if (ProfilePictureUploaded == true || noneAnonymousMode == true)
 			{
@@ -38,7 +43,7 @@ namespace SparModel
 					profileThumbnailFileName += "anonymous-photo-trainer";
 			}
 
-			return String.Format("{0}-{1}X{1}.jpg", profileThumbnailFileName, thumbSize);
+			return String.Format("{0}-{1}X{1}.jpg{2}", profileThumbnailFileName, thumbSize, (!dontAppendCachingBlocker && ProfilePictureUploaded)? ("?" + DateTime.Now.GetHashCode().ToString()) : "");
 		}
 
 		public virtual string GetProfilePictureFile(int thumbnailSize, string profilePicsUrl, string defaultImagesUrl)

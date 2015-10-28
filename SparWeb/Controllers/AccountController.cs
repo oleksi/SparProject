@@ -633,11 +633,11 @@ namespace SparWeb.Controllers
 				
 				//resizing and saving account thumbnail version
 				bitmap = new Bitmap(bitmap, 250, 250);
-				fileName = member.GetProfileThumbnailFileName(250, true);
+				fileName = member.GetProfileThumbnailFileName(250, true, true);
 				saveProfilePic(bitmap, fileName, container);
 
 				bitmap = new Bitmap(bitmap, 150, 150);
-				saveProfilePic(bitmap, member.GetProfileThumbnailFileName(150, true), container);
+				saveProfilePic(bitmap, member.GetProfileThumbnailFileName(150, true, true), container);
 
 				member.ProfilePictureUploaded = true;
 
