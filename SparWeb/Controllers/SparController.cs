@@ -244,10 +244,10 @@ namespace SparWeb.Controllers
 
 			confirmSparDetailsViewModel.SparNotes = model.SparNotesNew;
 
-			if (ModelState.IsValid == false || model.SparDate <= DateTime.Now)
+			if (ModelState.IsValid == false) //|| model.SparDate <= DateTime.Now)
 			{
-				if (model.SparDate <= DateTime.Now)
-					ModelState.AddModelError("SparDate", "Spar Date must be in the future");
+				//if (model.SparDate <= DateTime.Now)
+				//	ModelState.AddModelError("SparDate", "Spar Date must be in the future");
 
 				confirmSparDetailsViewModel.SparNotesList = getSparNotesForSparRequest(model.SparRequestId);
 
