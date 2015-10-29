@@ -69,8 +69,8 @@ namespace SparData
 			using (var session = getSession())
 			{
 				sparRequests = session.QueryOver<SparRequest>().Where(sr => (sr.RequestorFighter.Id == fighterId || sr.OpponentFighter.Id == fighterId)
-						&& ((sr.Status == SparRequestStatus.Confirmed && sr.SparDateTime > DateTime.Now)
-							|| ((sr.Status == SparRequestStatus.DateLocationNegotiation || sr.Status == SparRequestStatus.Requested) && sr.RequestDate > DateTime.Now.AddDays(-14))
+						&& ((sr.Status == SparRequestStatus.DateLocationNegotiation && sr.SparDateTime > DateTime.Now.AddDays(1))
+							|| (sr.Status == SparRequestStatus.Requested && sr.RequestDate > DateTime.Now.AddDays(-14))
 						)
 					).OrderBy(sr => sr.RequestDate).Desc.List();
 			}

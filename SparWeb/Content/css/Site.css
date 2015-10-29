@@ -372,6 +372,16 @@ a.btn.btn-default.btn-lg {
 	font-size: 18px;
 }
 
+.sparDetailsStatus a {
+    color: #c9302c;
+    text-decoration: none;
+}
+
+.sparDetailsStatus a:hover {
+    color: #c9302c;
+    text-decoration: underline;
+}
+
 @media(min-width:992px){
 	.col-md-3.col-xs-12.bottom ,
 	.col-md-2.col-xs-12.bottom{
