@@ -115,19 +115,25 @@
         <div id="sparDetailsInfo" class="hidden">
             @{ Html.RenderPartial("SparInformationInfoBox", Model); }
 
-            <div class="row">
-                <div class="col-md-4"></div>
-				@if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation && Model.SparDate > DateTime.Now.AddDays(1))
-				{
-                <div class="col-md-2 col-xs-12 bottom">
-					<input type="button" onclick="$('#confirmCancelSparyModal').modal('show');" value="Cancel Spar" class="btn btn-default btn-lg col-xs-12" />
-                </div>
-                <div class="col-md-2 col-xs-12">
-					<input class="btn btn-danger btn-lg col-xs-12" value="Change Details" onclick="showSparDetailsEdit();" type="button">
-                </div>
-				}
-				<div class="col-md-4"></div>
+			@if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation && Model.SparDate > DateTime.Now.AddDays(1))
+			{
+			<div class="row form-group">
+				<div class="col-md-8 col-md-offset-2">
+					<div class="inner-addon left-addon">
+						@Html.TextAreaFor(m => m.SparNotesNew, 2, 4, new { @class = "form-control", placeholder = "Leave a message ..." })
+						@Html.ValidationMessageFor(m => m.SparNotesNew)
+						@Html.HiddenFor(m => m.SparNotes)
+					</div>
+				</div>
 			</div>
+            <div class="row">
+                <div class="col-md-5"></div>
+                <div class="col-md-2 col-xs-12">
+					<input type="submit" class="btn btn-danger btn-lg col-xs-12" value="Send Message" />
+                </div>
+				<div class="col-md-5"></div>
+			</div>
+			}
         </div>
         }
 

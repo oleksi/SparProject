@@ -104,37 +104,21 @@
 			<div class="col-md-3"></div>
 		}
 	</div>
-
+	@if (Model.SparRequesStatus == SparModel.SparRequestStatus.Requested)
+	{ 
 	<div class="row">
-		@if (Model.SparRequesStatus == SparModel.SparRequestStatus.Requested)
-		{
-			<div class="col-md-3"></div>
-		}
-		else
-		{
-			<div class="col-md-1"></div>
-		}
-		<div class="@((Model.SparRequesStatus == SparModel.SparRequestStatus.Requested)? "col-md-6" : "col-md-10")">
-			@if (Model.SparRequesStatus == SparModel.SparRequestStatus.Requested)
-			{
-				Html.RenderPartial("SparNotesList", Model);
-			}
+		<div class="col-md-3"></div>
+		<div class="col-md-6">
+			@{Html.RenderPartial("SparNotesList", Model);}
 			<div class="inner-addon left-addon">
 				@Html.TextAreaFor(m => m.SparNotesNew, 2, 4, new { @class = "form-control", placeholder = "Leave a message ..." })
 				@Html.ValidationMessageFor(m => m.SparNotesNew)
 				@Html.HiddenFor(m => m.SparNotes)
 			</div>
-
 		</div>
-		@if (Model.SparRequesStatus == SparModel.SparRequestStatus.Requested)
-		{
-			<div class="col-md-3"></div>
-		}
-		else
-		{
-			<div class="col-md-1"></div>
-		}
+		<div class="col-md-3"></div>
 	</div>
+	}
 
 	<div class="row sparConfirmationSectionRow">
 		@if (Model.SparRequesStatus == SparModel.SparRequestStatus.Requested)

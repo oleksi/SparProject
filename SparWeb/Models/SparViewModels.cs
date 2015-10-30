@@ -14,7 +14,7 @@ namespace SparWeb.Models
 		public Fighter OpponentFighter { get; set; }
 		public int ProfilePictureSize { get; set; }
 
-		[Display(Name = "Notes")]
+		[Display(Name = "Last Message")]
 		[StringLength(1024)]
 		public string SparNotes { get; set; }
 

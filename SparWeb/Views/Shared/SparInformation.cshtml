@@ -39,5 +39,16 @@
 </dl>
 @if (Model.ListSparNotes == true)
 {
+	if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation && Model.SparDate > DateTime.Now.AddDays(1))
+	{
+		<div class="row form-group">
+			<div class="col-md-3 col-md-offset-3 col-xs-12">
+				<input class="btn btn-xs btn-danger btn-lg col-xs-12" value="Change Details" onclick="showSparDetailsEdit();" type="button">
+			</div>
+			<div class="col-md-3 col-xs-12">
+				<input type="button" onclick="$('#confirmCancelSparyModal').modal('show');" value="Cancel Spar" class="btn btn-xs btn-default btn-lg col-xs-12" />
+			</div>
+		</div>
+	}
 	Html.RenderPartial("SparNotesList", Model);
 }
