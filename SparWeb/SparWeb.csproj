@@ -271,6 +271,7 @@
     <Content Include="Content\Images\spargym-header1.jpg" />
     <Content Include="Content\Images\spargym-header2.jpg" />
     <Content Include="Content\Images\spargym-logo.png" />
+    <Content Include="Content\Images\TBRB_logo_tm_symbol.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
