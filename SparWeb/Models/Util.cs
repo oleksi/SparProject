@@ -221,6 +221,11 @@ namespace SparWeb
 			return member.GetProfilePictureFile(thumbnailSize, System.Configuration.ConfigurationManager.AppSettings["ProfilePicsUrl"], VirtualPathUtility.ToAbsolute("~/Content/Images/"));
 		}
 
+		public static string GetGymPictureFile(Gym gym, int thumbnailSize)
+		{
+			return gym.GetGymPictureFile(thumbnailSize, System.Configuration.ConfigurationManager.AppSettings["GymPicsUrl"], VirtualPathUtility.ToAbsolute("~/Content/Images/"));
+		}
+
 		public static ConfirmSparDetailsViewModel GetConfirmSparDetailsViewModel(SparRequest sparRequest, int profilePictureSize, string currUserId)
 		{
 			//figuring out who is who

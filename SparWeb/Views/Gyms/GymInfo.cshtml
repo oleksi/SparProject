@@ -1,0 +1,48 @@
+﻿@model SparWeb.Models.GymViewModel
+
+<div class="row well well-sm spar-fighter">
+	<div>
+		<div class="col-md-3 vAlignCenter">
+			<div class="title hidden-md hidden-lg hidden-sm">
+				<span class="fighterNameSmall"><a href="@Model.GymUrl">@Html.ValueFor(m => m.Name)</a></span>
+				<div class="row">
+					<div class="col-md-12">
+						<span>@Model.City, @Model.State</span>
+					</div>
+				</div>
+			</div>
+			<div class="profilePicture">
+				<a href="@Model.GymUrl"><img src="@Model.GymPictureFile" height="150"></a>
+			</div>
+		</div>
+		<div class="col-md-6 vAlignCenter">
+			<span class="fighterNameSmall hidden-xs"><a href="@Model.GymUrl">@Html.ValueFor(m => m.Name)</a></span>
+			<div class="row hidden-xs">
+				<div class="col-md-12">
+					<span>@Model.City, @Model.State</span>
+				</div>
+			</div>
+			<dl class="dl-horizontal">
+				<dt>
+					@Html.DisplayNameFor(model => model.Address)
+				</dt>
+
+				<dd>
+					@Html.Raw(Html.DisplayFor(model => model.Address))
+				</dd>
+				<div class="clear;both"></div>
+				<dt>
+					@Html.DisplayNameFor(model => model.Phone)
+				</dt>
+
+				<dd>
+					@Html.DisplayFor(model => model.Phone)
+				</dd>
+				<div class="clear;both"></div>
+			</dl>
+		</div>
+		<div class="col-md-2 col-xs-12 vAlignCenter sparFighterCTA">
+				<a class="btn btn-default btn-danger btn-lg selectFighterButton" data-fighterid="@Model.Id" href="#">View Details</a>
+		</div>
+	</div>
+</div>

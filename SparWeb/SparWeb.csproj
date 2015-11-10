@@ -201,7 +201,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\GymsController.cs" />
     <Compile Include="Controllers\PartnershipController.cs" />
+    <Compile Include="Models\GymsViewModel.cs" />
+    <Compile Include="Models\GymViewModel.cs" />
     <Compile Include="Models\RandomFightersWidgetViewModel.cs" />
     <Compile Include="Controllers\SparController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -366,6 +369,8 @@
     <Content Include="Views\Partnership\RandomFightersWidget.cshtml" />
     <Content Include="Views\Shared\SparNotesList.cshtml" />
     <Content Include="Views\Shared\SparDetailsEdit.cshtml" />
+    <Content Include="Views\Gyms\Index.cshtml" />
+    <Content Include="Views\Gyms\GymInfo.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
