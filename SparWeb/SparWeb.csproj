@@ -276,6 +276,8 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Images\anonymous-photo-fighter-150X150.jpg" />
     <Content Include="Content\Images\anonymous-photo-fighter-250X250.jpg" />
+    <Content Include="Content\Images\anonymous-photo-gym-150X150.jpg" />
+    <Content Include="Content\Images\anonymous-photo-gym-250X250.jpg" />
     <Content Include="Content\Images\anonymous-photo-trainer-150X150.jpg" />
     <Content Include="Content\Images\anonymous-photo-trainer-250X250.jpg" />
     <Content Include="Content\Images\boxing-spar-sign.jpg" />

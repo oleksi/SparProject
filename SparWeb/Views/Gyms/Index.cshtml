@@ -1,23 +1,21 @@
 ﻿@model SparWeb.Models.GymsViewModel
 
 @{
-	ViewBag.Title = "All Gyms";
+	var gymsScope = String.IsNullOrEmpty(Model.SearchStateLong) ? "All" : Model.SearchStateLong;
+	var title = String.Format("{0} Boxing/MMA Gyms", gymsScope);
+	ViewBag.Title = title;
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>@title</h2>
 
 <div class="row">
 	<div class="col-md-4">
 		<div class="well" id="search-filters">
-			<h3>Search gyms by:</h3>
+			<h3>Search gyms by state:</h3>
 			@using (Html.BeginForm("Index", "Home", FormMethod.Get))
 			{
 				<div class="form-group">
-					@Html.LabelFor(m => m.SearchState, new { @class = "control-label" })
-					@if (String.IsNullOrEmpty(Model.SearchState) == true)
-					{
-						@Html.DropDownListFor(m => m.SearchState, (new SelectList(ViewBag.States, "Key", "Value", Model.SearchState)), "Please select state", new { @class = "form-control" })
-					}
+					@Html.DropDownListFor(m => m.SearchState, (new SelectList(ViewBag.States, "Key", "Value", Model.SearchState)), "Please select state", new { @class = "form-control" })
 				</div>
 			}
 		</div>
@@ -63,7 +61,16 @@
 		}
 		else
 		{
-			<h3>No fighters found ...</h3>
+			<h3>No gyms found ...</h3>
 		}
 	</div>
 </div>
+
+<script type="text/javascript">
+	$(function () {
+		$('#SearchState').change(function () {
+			var selectedState = $("#SearchState option:selected").text();
+			window.location = '/gyms/' + selectedState;
+		});
+	});
+</script>
