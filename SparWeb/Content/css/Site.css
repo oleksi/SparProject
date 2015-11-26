@@ -397,6 +397,16 @@ a.btn.btn-default.btn-lg {
     text-decoration: underline;
 }
 
+.stateFilterLink, .stateFilterLink:hover {
+	color: #c9302c;
+}
+
+.stateFilterActive {
+	color: #c9302c;
+	font-weight: bold;
+	font-size: 16px;
+}
+
 @media(min-width:992px){
 	.col-md-3.col-xs-12.bottom ,
 	.col-md-2.col-xs-12.bottom{

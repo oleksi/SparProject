@@ -1,8 +1,8 @@
 ﻿@model SparWeb.Models.GymsViewModel
 
 @{
-	var gymsScope = String.IsNullOrEmpty(Model.SearchStateLong) ? "All" : Model.SearchStateLong;
-	var title = String.Format("{0} Boxing/MMA Gyms", gymsScope);
+	var searchState = String.IsNullOrEmpty(Model.SearchStateLong) ? "All" : Model.SearchStateLong;
+	var title = String.Format("{0} Boxing/MMA Gyms", searchState);
 	ViewBag.Title = title;
 }
 
@@ -18,6 +18,35 @@
 					@Html.DropDownListFor(m => m.SearchState, (new SelectList(ViewBag.States, "Key", "Value", Model.SearchState)), "Please select state", new { @class = "form-control" })
 				</div>
 			}
+			<ul class="list-group">
+				@if (searchState == "All")
+				{
+				<li class="list-group-item">
+					<span class="stateFilterActive">All</span>
+				</li>
+				}
+				else
+				{ 
+				<li class="list-group-item">
+					<a href="/Gyms/" class="stateFilterLink">All</a>
+				</li>
+				}
+				@foreach (var currState in Util.States.Values)
+				{
+					if (currState != searchState)
+					{ 
+					<li class="list-group-item">
+						@Html.ActionLink(currState, "Index", new { state = currState }, new { @class = "stateFilterLink" })
+					</li>
+					}
+					else
+					{
+						<li class="list-group-item">
+							<span class="stateFilterActive">@currState</span>
+						</li>
+					}
+				}
+			</ul>
 		</div>
 	</div>
 	<div class="col-md-8">
@@ -70,7 +99,7 @@
 	$(function () {
 		$('#SearchState').change(function () {
 			var selectedState = $("#SearchState option:selected").text();
-			window.location = '/gyms/' + selectedState;
+			window.location = '/Gyms/' + selectedState;
 		});
 	});
 </script>
