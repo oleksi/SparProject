@@ -50,7 +50,7 @@
     }
     else if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation)
     {
-		if (Model.SparDate > DateTime.Now.AddDays(1))
+		if (Model.SparDate > DateTime.Now.AddDays(-1))
 		{ 
 			if (Model.OpponentFighter.Trainer != null)
 			{
@@ -115,7 +115,7 @@
         <div id="sparDetailsInfo" class="hidden">
             @{ Html.RenderPartial("SparInformationInfoBox", Model); }
 
-			@if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation && Model.SparDate > DateTime.Now.AddDays(1))
+			@if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation && Model.SparDate > DateTime.Now.AddDays(-1))
 			{
 			<div class="row form-group">
 				<div class="col-md-8 col-md-offset-2">
