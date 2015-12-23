@@ -1,0 +1,78 @@
+﻿@model SparWeb.Models.AccountTrainerViewModel
+
+<div class="row well well-sm spar-fighter">
+	<div>
+		<div class="col-md-3 vAlignCenter">
+			<div class="title hidden-md hidden-lg hidden-sm">
+				<span class="trainerNameTitle"><a href="@Model.TrainerUrl">@Html.ValueFor(m => m.Name)</a></span>
+				<div class="row">
+					<div class="col-md-12">
+						from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
+						<br />
+						<span>@Model.City, @Model.State</span>
+					</div>
+				</div>
+			</div>
+			<div class="profilePicture">
+				<a href="@Model.TrainerUrl"><img src="@Model.ProfilePictureFile" height="150"></a>
+			</div>
+		</div>
+		<div class="col-md-6 vAlignCenter">
+			<span class="trainerNameTitle hidden-xs"><a href="@Model.TrainerUrl">@Html.ValueFor(m => m.Name)</a><br /></span>
+			<div class="row">
+				<div class="col-md-12">
+					from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
+					<br />
+					<span>@Model.City, @Model.State</span>
+				</div>
+			</div>
+			<dl class="dl-horizontal">
+				<dt>
+					@Html.DisplayNameFor(model => model.PhoneNumber)
+				</dt>
+				<dd>
+					@if (String.IsNullOrEmpty(Model.PhoneNumber) == false)
+					{
+						@Html.ValueFor(m => m.PhoneNumber)
+					}
+					else
+					{
+						<span>N/A</span>
+					}
+				</dd>
+				<div style="clear:both"></div>
+				<dt>
+					@Html.DisplayNameFor(model => model.Website)
+				</dt>
+				<dd>
+					@if (String.IsNullOrEmpty(Model.Website) == false)
+					{
+						<a href="@Html.ValueFor(m => m.Website)" target="_blank">@Html.ValueFor(m => m.Website)</a>
+					}
+					else
+					{
+						<span>N/A</span>
+					}
+				</dd>
+				<div style="clear:both"></div>
+				<dt>
+					@Html.DisplayNameFor(model => model.Rate)
+				</dt>
+				<dd>
+					@if (Model.Rate != 0)
+					{
+						@Html.ValueFor(m => m.Rate)
+					}
+					else
+					{
+						<span>N/A</span>
+					}
+				</dd>
+				<div style="clear:both"></div>			
+			</dl>
+		</div>
+		<div class="col-md-2 col-xs-12 vAlignCenter sparFighterCTA">
+				<a class="btn btn-default btn-danger btn-lg selectTrainerButton" href="@Model.TrainerUrl">View Details</a>
+		</div>
+	</div>
+</div>

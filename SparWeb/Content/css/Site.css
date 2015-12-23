@@ -81,6 +81,16 @@ input[type="checkbox"].input-validation-error {
 	color: #C9302C;
 }
 
+.trainerNameTitle {
+	font-size: 22px;
+	font-weight: bold;
+	display: block;
+}
+
+.trainerNameTitle a {
+	color: #C9302C;
+}
+
 .gymAddressPhoneDivider {
 	margin-bottom: 15px;
 }

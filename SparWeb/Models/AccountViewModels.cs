@@ -233,6 +233,14 @@ namespace SparWeb.Models
 		{
 			return (Notes != null)? Notes.Replace("\n", "<br />") : "";
 		}
+
+		public string TrainerUrl
+		{
+			get
+			{
+				return String.Format("/trainers/{0}/{1}", Util.States[State], Name);
+			}
+		}
 	}
 
 	public class DateOfBirth

@@ -25,7 +25,7 @@ namespace SparWeb.Controllers
 				gyms = gyms.Where(gg => gg.State == stateShort).ToList();
 
 			var gymsViewModelList = new List<GymViewModel>();
-			gyms.ForEach(gg => gymsViewModelList.Add(new GymViewModel() { Id = gg.Id.Value , Name = gg.Name, StreetAddress = gg.StreetAddress, City = gg.City, State = gg.State, ZipCode = gg.ZipCode, Phone = gg.Phone, GymPictureFile = Util.GetGymPictureFile(gg, 150) }));
+			gyms.ForEach(gg => gymsViewModelList.Add(_getGymViewModel(gg, 150)));
 
 			var gymsViewModel = new GymsViewModel() { GymsList = gymsViewModelList, SearchState = stateShort, SearchStateLong = (String.IsNullOrEmpty(stateShort) == false)? state : null };
 

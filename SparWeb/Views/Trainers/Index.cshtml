@@ -1,4 +1,4 @@
-﻿@model SparWeb.Models.GymsViewModel
+﻿@model SparWeb.Models.TrainersViewModel
 
 @{
 	var searchState = String.IsNullOrEmpty(Model.SearchStateLong) ? "All" : Model.SearchStateLong;
@@ -10,14 +10,14 @@
 
 <div class="row">
 	<div class="col-md-4">
-		@{Html.RenderPartial("SearchByStateBox", new SparWeb.Models.SearchByStateViewModel() { SearchState = Model.SearchState, AllUrl = "/Gyms/" });}
+		@{Html.RenderPartial("SearchByStateBox", new SparWeb.Models.SearchByStateViewModel() { SearchState = Model.SearchState, AllUrl = "/Trainers/" });}
 	</div>
 	<div class="col-md-8">
-		@if (Model.GymsList.Count > 0)
+		@if (Model.TrainersList.Count > 0)
 		{
-			foreach (var currGym in Model.GymsList)
+			foreach (var currTrainer in Model.TrainersList)
 			{
-				@Html.Partial("GymInfo", currGym)
+				@Html.Partial("TrainerInfo", currTrainer)
 			}
 
 			if (Model.PagesCount > 1)
@@ -53,7 +53,7 @@
 		}
 		else
 		{
-			<h3>No gyms found ...</h3>
+			<h3>No trainers found ...</h3>
 		}
 	</div>
 </div>
