@@ -34,7 +34,7 @@ namespace SparWeb
 			routes.MapRoute(
 				name: "Fighters",
 				url: "fighters/{state}/{name}",
-				defaults: new { controller = "Spar", action = "Fighter" }
+				defaults: new { controller = "Fighters", action = "Fighter" }
 			);
 
 			routes.MapRoute(

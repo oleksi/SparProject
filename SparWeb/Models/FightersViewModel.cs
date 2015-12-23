@@ -34,7 +34,7 @@ namespace SparWeb.Models
 		MoreThan40 = 8
 	}
 
-	public class HomeViewModel
+	public class FightersViewModel
 	{
 		public List<AccountFighterViewModel> FightersList { get; set; }
 
@@ -78,7 +78,7 @@ namespace SparWeb.Models
 			}
 		}
 
-		public HomeViewModel()
+		public FightersViewModel()
 		{
 			FightersList = new List<AccountFighterViewModel>();
 			FilterParams = new Dictionary<string, string>();

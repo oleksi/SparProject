@@ -211,6 +211,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FightersController.cs" />
     <Compile Include="Controllers\GymsController.cs" />
     <Compile Include="Controllers\PartnershipController.cs" />
     <Compile Include="Models\GymsViewModel.cs" />
@@ -224,7 +225,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContactViewModel.cs" />
     <Compile Include="Models\ExtensionMethods.cs" />
-    <Compile Include="Models\HomeViewModels.cs" />
+    <Compile Include="Models\FightersViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\SparNoteViewModel.cs" />
     <Compile Include="Models\SparViewModels.cs" />
@@ -378,7 +379,7 @@
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
-    <Content Include="Views\Spar\Fighter.cshtml" />
+    <Content Include="Views\Fighters\Fighter.cshtml" />
     <Content Include="Views\Shared\SparButton.cshtml" />
     <Content Include="Views\Shared\RegisterFighterViewModel.cshtml" />
     <Content Include="Views\Account\RegisterTrainer.cshtml" />
@@ -396,8 +397,11 @@
     <Content Include="Views\Gyms\Index.cshtml" />
     <Content Include="Views\Gyms\GymInfo.cshtml" />
     <Content Include="Views\Gyms\Gym.cshtml" />
+    <Content Include="Views\Fighters\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Fighter\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
