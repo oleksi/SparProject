@@ -20,7 +20,12 @@ namespace SparWeb.Controllers
 		[HttpGet]
 		public ActionResult Index()
 		{
-			return View();
+			var model = new HomeViewModel();
+			model.FeaturedFightersList = Util.GetRandomFightersViewModels(User, 2);
+
+			Util.PopulateFilterDropdowns(ViewBag);
+
+			return View(model);
 		}
 
 		public ActionResult About()

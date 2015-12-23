@@ -216,6 +216,7 @@
     <Compile Include="Controllers\PartnershipController.cs" />
     <Compile Include="Models\GymsViewModel.cs" />
     <Compile Include="Models\GymViewModel.cs" />
+    <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\RandomFightersWidgetViewModel.cs" />
     <Compile Include="Controllers\SparController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -398,10 +399,9 @@
     <Content Include="Views\Gyms\GymInfo.cshtml" />
     <Content Include="Views\Gyms\Gym.cshtml" />
     <Content Include="Views\Fighters\Index.cshtml" />
+    <Content Include="Views\Shared\SearchFightersBox.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Fighter\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />

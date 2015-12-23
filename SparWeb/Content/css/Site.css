@@ -407,6 +407,23 @@ a.btn.btn-default.btn-lg {
 	font-size: 16px;
 }
 
+.feature-box {
+	border: 1px solid #e3e3e3;
+	margin-left: -15px;
+	padding: 15px;
+}
+
+.feature-box .spar-fighter {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.featured-header {
+	font-size: 30px;
+	font-weight: 500;
+	margin-bottom: 15px;
+}
+
 @media(min-width:992px){
 	.col-md-3.col-xs-12.bottom ,
 	.col-md-2.col-xs-12.bottom{

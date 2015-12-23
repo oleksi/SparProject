@@ -161,6 +161,15 @@ namespace SparWeb
 			{"WY", "Wyoming"}
 		};
 
+		public static void PopulateFilterDropdowns(dynamic viewBag)
+		{
+			viewBag.AgeRange = Util.AgeRangeMap;
+			viewBag.WeightClassMap = Util.WeightClassMap;
+			viewBag.HeightToCentimetersMap = Util.HeightToCentimetersMap;
+			viewBag.NumberOfFights = Util.NumberOfFights;
+			viewBag.States = Util.States;
+		}
+
 		public static AccountFighterViewModel GetAccountViewModelForFighter(Fighter fighter, int thumbnailSize)
 		{
 			string gymName = (fighter.Gym != null) ? fighter.Gym.Name : "Unknown Gym";
@@ -367,6 +376,19 @@ namespace SparWeb
 			}
 
 			return fightersToExclude;
+		}
+
+		public static List<AccountFighterViewModel> GetRandomFightersViewModels(IPrincipal user, int fightersNum)
+		{
+			var fighterRepo = new FighterRepository();
+			var fightersList = fighterRepo.GetFightersWithProfilePics();
+
+			//getting random number of fighters
+			fightersList.Shuffle();
+			var randomFightersList = fightersList.Take(fightersNum).ToList();
+			var randomFightersViewModelList = Util.GetFightersListViewModel(user, randomFightersList);
+
+			return randomFightersViewModelList;
 		}
 	}
 }

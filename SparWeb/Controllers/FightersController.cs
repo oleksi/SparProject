@@ -153,7 +153,7 @@ namespace SparWeb.Controllers
 			model.PageNumber = page.HasValue ? page.Value : 1;
 			model.PagesCount = pageCount;
 
-			_populateFilterDropdowns();
+			Util.PopulateFilterDropdowns(ViewBag);
 
 			ViewBag.ShowPartners = true;
 
@@ -192,15 +192,6 @@ namespace SparWeb.Controllers
 			if (dob > now.AddYears(-age)) age--;
 
 			return age;
-		}
-
-		private void _populateFilterDropdowns()
-		{
-			ViewBag.AgeRange = Util.AgeRangeMap;
-			ViewBag.WeightClassMap = Util.WeightClassMap;
-			ViewBag.HeightToCentimetersMap = Util.HeightToCentimetersMap;
-			ViewBag.NumberOfFights = Util.NumberOfFights;
-			ViewBag.States = Util.States;
 		}
     }
 }

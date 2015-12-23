@@ -1,0 +1,135 @@
+﻿@model SparWeb.Models.FightersViewModel
+
+<div class="well" id="search-filters">
+	<h3>Search fighters by:</h3>
+	@using (Html.BeginForm("Index", "Home", FormMethod.Get))
+	{
+		<div class="form-group">
+			@Html.LabelFor(m => m.State, new { @class = "control-label" })
+			@if (String.IsNullOrEmpty(Model.State) == true)
+			{
+				@Html.DropDownListFor(m => m.State, (new SelectList(ViewBag.States, "Key", "Value", Model.State)), "Please select location", new { @class = "form-control" })
+			}
+			else
+			{
+				@Html.HiddenFor(m => m.State)
+				@Html.DropDownListFor(m => m.State, (new SelectList(ViewBag.States, "Key", "Value", Model.State)), "Please select location", new { @class = "form-control", disabled = "disabled" })
+				<p><a href="#" class="pull-right clearFilter">Clear</a></p>
+			}
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.AgeRange, new { @class = "control-label" })
+			@if (Model.AgeRange == 0)
+			{
+				@Html.DropDownListFor(m => m.AgeRange, (new SelectList(ViewBag.AgeRange, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control" })
+			}
+			else
+			{
+				@Html.HiddenFor(m => m.AgeRange)
+				@Html.DropDownListFor(m => m.AgeRange, (new SelectList(ViewBag.AgeRange, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control", disabled = "disabled" })
+				<p><a href="#" class="pull-right clearFilter">Clear</a></p>
+			}
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.Weight, new { @class = "control-label" })
+			@if (Model.Weight == 0)
+			{
+				@Html.DropDownListFor(m => m.Weight, (new SelectList(ViewBag.WeightClassMap, "Key", "Value", Model.Weight)), "Please select", new { @class = "form-control" })
+			}
+			else
+			{
+				@Html.HiddenFor(m => m.Weight)
+				@Html.DropDownListFor(m => m.Weight, (new SelectList(ViewBag.WeightClassMap, "Key", "Value", Model.Weight)), "Please select", new { @class = "form-control", disabled = "disabled" })
+				<p><a href="#" class="pull-right clearFilter">Clear</a></p>
+			}
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.Height, new { @class = "control-label" })
+			@if (Model.Height == 0)
+			{
+				@Html.DropDownListFor(m => m.Height, (new SelectList(ViewBag.HeightToCentimetersMap, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control" })
+			}
+			else
+			{
+				@Html.HiddenFor(m => m.Height)
+				@Html.DropDownListFor(m => m.Height, (new SelectList(ViewBag.HeightToCentimetersMap, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control", disabled = "disabled" })
+				<p><a href="#" class="pull-right clearFilter">Clear</a></p>
+			}
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.Southpaw, new { @class = "control-label" })
+			<div class="radioButtonFilter">
+				@Html.EditorFor(m => m.Southpaw, "IsSouthpaw")
+				@if (Model.Southpaw != null)
+				{
+					<span><a href="#" class="pull-right clearFilter">Clear</a></span>
+				}
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.NumberOfFights, new { @class = "control-label" })
+			@if (Model.NumberOfFights == 0)
+			{
+				@Html.DropDownListFor(m => m.NumberOfFights, (new SelectList(ViewBag.NumberOfFights, "Key", "Value", Model.NumberOfFights)), "Please select", new { @class = "form-control" })
+			}
+			else
+			{
+				@Html.HiddenFor(m => m.NumberOfFights)
+				@Html.DropDownListFor(m => m.NumberOfFights, (new SelectList(ViewBag.NumberOfFights, "Key", "Value", Model.NumberOfFights)), "Please select", new { @class = "form-control", disabled = "disabled" })
+				<p><a href="#" class="pull-right clearFilter">Clear</a></p>
+			}
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.Male, new { @class = "control-label" })
+			<div class="radioButtonFilter">
+				@Html.EditorFor(m => m.Male, "Sex")
+				@if (Model.Male != null)
+				{
+					<span><a href="#" class="pull-right clearFilter">Clear</a></span>
+				}
+			</div>
+		</div>
+	}
+</div>
+
+<script type="text/javascript">
+    var filterParamsDict = [];
+
+    $(function () {
+        $('#search-filters').find('select').change(function () {
+            applyFilter($(this));
+        });
+
+        $('#search-filters').find('.radioButtonFilter').find('input[type=radio]').click(function () {
+            applyFilter($(this));
+        });
+
+        $('.clearFilter').click(function () {
+            var id = null;
+            id = $(this).parent().siblings('select').attr('id');
+            if (!id)
+                id = $(this).parent().siblings('input[type=hidden]').attr('id');
+            if (!id)
+                id = $(this).parent().siblings('input[type=radio]').attr('id');
+
+            delete filterParamsDict[id];
+            window.location.href = '@(Url.Action("Index", "Fighters"))' + getFilterParamsQueryString();
+        });
+    });
+
+    function applyFilter(filterElement) {
+        filterParamsDict[filterElement.attr('id')] = filterElement.val();
+        window.location.href = '@(Url.Action("Index", "Fighters"))' + getFilterParamsQueryString();
+    }
+
+    function getFilterParamsQueryString() {
+        var filterParamsQueryString = '';
+        for (var key in filterParamsDict) {
+            filterParamsQueryString += '&' + key + '=' + filterParamsDict[key];
+        }
+        if (filterParamsQueryString != '')
+            filterParamsQueryString = '?' + filterParamsQueryString.substring(1);
+
+        return filterParamsQueryString;
+    }
+</script>
