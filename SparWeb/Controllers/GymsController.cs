@@ -1,4 +1,5 @@
 ﻿using SparData;
+using SparModel;
 using SparWeb.Models;
 using System;
 using System.Collections.Generic;
@@ -32,5 +33,38 @@ namespace SparWeb.Controllers
 
 			return View(gymsViewModel);
         }
+
+		public ActionResult Gym(string state, string name)
+		{
+			string stateShort = Util.States.Where(ss => ss.Value.ToLower() == state.ToLower()).Select(ss => ss.Key).SingleOrDefault();
+			if (String.IsNullOrEmpty(stateShort) == true)
+				throw new ApplicationException("State is not valid!");
+
+			var gymRepo = new GymRepository();
+			var gym = gymRepo.GetGymByStateAndName(stateShort, name);
+			if (gym == null)
+				throw new ApplicationException("Fighter is not found!");
+
+			var gymViewModel = _getGymViewModel(gym, 250);
+			
+			var fighterRepo = new FighterRepository();
+			var fightersList = fighterRepo.GetAllFighters().Where(ff => ff.Gym != null && ff.Gym.Id == gym.Id).ToList();
+			var fightersAccountViewModelList = new List<AccountFighterViewModel>();
+			foreach (var currFighter in fightersList)
+			{
+				var fighterAccountViewModel = Util.GetAccountViewModelForFighter(currFighter, 150);
+				fightersAccountViewModelList.Add(fighterAccountViewModel);
+			}
+			gymViewModel.FightersList = fightersAccountViewModelList;
+
+			Util.PopualateRegistrationDropdowns(ViewBag);
+
+			return View(gymViewModel);
+		}
+
+		private GymViewModel _getGymViewModel(Gym gym, int thumbnailSize)
+		{
+			return new GymViewModel() { Id = gym.Id.Value, Name = gym.Name, StreetAddress = gym.StreetAddress, City = gym.City, State = gym.State, ZipCode = gym.ZipCode, Phone = gym.Phone, GymPictureFile = Util.GetGymPictureFile(gym, thumbnailSize) };
+		}
     }
 }

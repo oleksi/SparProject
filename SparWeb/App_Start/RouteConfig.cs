@@ -44,6 +44,12 @@ namespace SparWeb
 			);
 
 			routes.MapRoute(
+				name: "Gyms",
+				url: "gyms/{state}/{name}",
+				defaults: new { controller = "Gyms", action = "Gym" }
+			);
+
+			routes.MapRoute(
 				name: "Default",
 				url: "{controller}/{action}/{id}",
 				defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

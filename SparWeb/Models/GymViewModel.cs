@@ -36,5 +36,12 @@ namespace SparWeb.Models
 				return String.Format("/gyms/{0}/{1}", Util.States[State], Name);
 			}
 		}
+
+		public List<AccountFighterViewModel> FightersList { get; set; }
+
+		public GymViewModel()
+		{
+			FightersList = new List<AccountFighterViewModel>();
+		}
 	}
 }

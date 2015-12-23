@@ -395,6 +395,7 @@
     <Content Include="Views\Shared\SparDetailsEdit.cshtml" />
     <Content Include="Views\Gyms\Index.cshtml" />
     <Content Include="Views\Gyms\GymInfo.cshtml" />
+    <Content Include="Views\Gyms\Gym.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

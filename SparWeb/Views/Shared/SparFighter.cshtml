@@ -31,7 +31,7 @@
 			}
 		</div>
 		<div class="col-md-6 vAlignCenter">
-			<span class="fighterNameSmall hidden-xs"><a href="@Model.FighterUrl" @(Model.IsWidgetView ? " target=\"_blank\"" : "")>@Html.ValueFor(m => m.Name)</a></span>
+			<span class="fighterNameSmall hidden-xs"><a href="@Model.FighterUrl" @(Model.IsWidgetView ? " target=\"_blank\"" : "")>@Model.Name</a></span>
 			<div class="row hidden-xs">
 				<div class="col-md-12">
 					from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>

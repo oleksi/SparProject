@@ -37,6 +37,17 @@ namespace SparData
 			return allGyms;
 		}
 
+		public Gym GetGymByStateAndName(string state, string name)
+		{
+			Gym gym = null;
+			using (var session = getSession())
+			{
+				gym = session.QueryOver<Gym>().Where(m => m.State == state && m.Name == name.ToLower()).SingleOrDefault();
+			}
+
+			return gym;
+		}
+
 		public void SaveGym(Gym gym)
 		{
 			using (var session = getSession())
