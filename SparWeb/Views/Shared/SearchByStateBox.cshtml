@@ -1,11 +1,11 @@
 ﻿@model SparWeb.Models.SearchByStateViewModel
 
 <div class="well" id="search-filters">
-	<h3>Search gyms by state:</h3>
+	<h3>Search @Model.SearchWhat by state:</h3>
 	<div class="form-group">
 		@Html.DropDownListFor(m => m.SearchState, (new SelectList(ViewBag.States, "Key", "Value", Model)), "Please select state", new { @class = "form-control" })
 	</div>
-	<ul class="list-group">
+	<ul class="list-group hidden-xs hidden-sm">
 		@if (Model.SearchState == "All")
 		{
 			<li class="list-group-item">

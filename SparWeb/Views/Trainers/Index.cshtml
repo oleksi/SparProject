@@ -2,7 +2,7 @@
 
 @{
 	var searchState = String.IsNullOrEmpty(Model.SearchStateLong) ? "All" : Model.SearchStateLong;
-	var title = String.Format("{0} Boxing / MMA Gyms", searchState);
+	var title = String.Format("{0} Boxing/MMA Trainers", searchState);
 	ViewBag.Title = title;
 }
 
@@ -10,7 +10,7 @@
 
 <div class="row">
 	<div class="col-md-4">
-		@{Html.RenderPartial("SearchByStateBox", new SparWeb.Models.SearchByStateViewModel() { SearchState = Model.SearchState, AllUrl = "/Trainers/" });}
+		@{Html.RenderPartial("SearchByStateBox", new SparWeb.Models.SearchByStateViewModel() { SearchState = Model.SearchState, SearchWhat = "trainers", AllUrl = "/Trainers/" });}
 	</div>
 	<div class="col-md-8">
 		@if (Model.TrainersList.Count > 0)

@@ -10,7 +10,7 @@
 
 <div class="row">
 	<div class="col-md-4">
-		@{Html.RenderPartial("SearchByStateBox", new SparWeb.Models.SearchByStateViewModel() { SearchState = Model.SearchState, AllUrl = "/Gyms/" });}
+		@{Html.RenderPartial("SearchByStateBox", new SparWeb.Models.SearchByStateViewModel() { SearchState = Model.SearchState, SearchWhat = "gyms", AllUrl = "/Gyms/" });}
 	</div>
 	<div class="col-md-8">
 		@if (Model.GymsList.Count > 0)

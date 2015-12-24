@@ -18,12 +18,15 @@
 			</div>
 		</div>
 		<div class="col-md-6 vAlignCenter">
-			<span class="trainerNameTitle hidden-xs"><a href="@Model.TrainerUrl">@Html.ValueFor(m => m.Name)</a><br /></span>
-			<div class="row">
-				<div class="col-md-12">
-					from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
-					<br />
-					<span>@Model.City, @Model.State</span>
+			<div class="hidden-xs">
+				<span class="trainerNameTitle"><a href="@Model.TrainerUrl">@Html.ValueFor(m => m.Name)</a><br /></span>
+				<div class="row">
+					<div class="col-md-12">
+						from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
+						<br />
+						<span>@Model.City, @Model.State</span>
+						<br /><br />
+					</div>
 				</div>
 			</div>
 			<dl class="dl-horizontal">
@@ -61,7 +64,7 @@
 				<dd>
 					@if (Model.Rate != 0)
 					{
-						@Html.ValueFor(m => m.Rate)
+						@Html.ValueFor(m => m.Rate, "{0:C}")
 					}
 					else
 					{

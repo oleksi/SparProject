@@ -434,6 +434,10 @@ a.btn.btn-default.btn-lg {
 	margin-bottom: 15px;
 }
 
+.fighter-attributes {
+	margin-top: 10px;
+}
+
 @media(min-width:992px){
 	.col-md-3.col-xs-12.bottom ,
 	.col-md-2.col-xs-12.bottom{

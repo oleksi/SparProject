@@ -8,6 +8,7 @@ namespace SparWeb.Models
 	public class SearchByStateViewModel
 	{
 		public string SearchState { get; set; }
+		public string SearchWhat { get; set; }
 		public string AllUrl { get; set; }
 	}
 }
