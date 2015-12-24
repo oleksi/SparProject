@@ -37,6 +37,17 @@ namespace SparData
 			return trainer;
 		}
 
+		public Trainer GetTrainerByStateAndName(string state, string name)
+		{
+			Trainer trainer = null;
+			using (var session = getSession())
+			{
+				trainer = session.QueryOver<Trainer>().Where(m => m.State == state && m.Name == name.ToLower()).SingleOrDefault();
+			}
+
+			return trainer;
+		}
+
 		public IList<Trainer> GetAllTrainers()
 		{
 			IList<Trainer> trainers = new List<Trainer>();

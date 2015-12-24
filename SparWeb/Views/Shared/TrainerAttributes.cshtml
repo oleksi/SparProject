@@ -1,0 +1,60 @@
+﻿@model SparWeb.Models.AccountTrainerViewModel
+
+<div class="title hidden-xs hidden-sm">
+	<span class="fighterNameSmall">@Html.ValueFor(m => m.Name)</span>
+	<div class="row">
+		<div class="col-md-12">
+			from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
+			<br />
+			<span>@Model.City, @Model.State</span>
+		</div>
+	</div>
+</div>
+<div class="well top-buffer">
+	<div class="row">
+		<div class="col-sm-4 col-xs-4">
+			@Html.LabelFor(m => m.PhoneNumber)
+		</div>
+		<div class="col-sm-8 col-xs-8">
+			@if (String.IsNullOrEmpty(Model.PhoneNumber) == false)
+			{
+				@Html.ValueFor(m => m.PhoneNumber)
+			}
+			else
+			{
+				<span>N/A</span>
+			}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4 col-xs-4">
+			@Html.LabelFor(m => m.Website)
+		</div>
+		<div class="col-sm-8 col-xs-8">
+			@if (String.IsNullOrEmpty(Model.Website) == false)
+			{
+				<a href="@Html.ValueFor(m => m.Website)" target="_blank">@Html.ValueFor(m => m.Website)</a>
+			}
+			else
+			{
+				<span>N/A</span>
+			}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4 col-xs-4">
+			@Html.LabelFor(m => m.Rate)
+		</div>
+		<div class="col-sm-8 col-xs-8">
+			@if (Model.Rate > 0)
+			{
+				@Html.ValueFor(m => m.Rate, "{0:C}")
+			}
+			else
+			{
+				<span>N/A</span>
+			}
+		</div>
+	</div>
+</div>
+

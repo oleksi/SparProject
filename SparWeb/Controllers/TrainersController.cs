@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace SparWeb.Controllers
 {
@@ -32,6 +35,34 @@ namespace SparWeb.Controllers
 			ViewBag.States = Util.States;
 
 			return View(trainersViewModel);
+		}
+
+		public ActionResult Trainer(string state, string name)
+		{
+			string stateShort = Util.States.Where(ss => ss.Value.ToLower() == state.ToLower()).Select(ss => ss.Key).SingleOrDefault();
+			if (String.IsNullOrEmpty(stateShort) == true)
+				throw new ApplicationException("State is not valid!");
+
+			var trainerRepo = new TrainerRepository();
+			var trainer = trainerRepo.GetTrainerByStateAndName(stateShort, name);
+			if (trainer == null)
+				throw new ApplicationException("Trainer is not found!");
+
+			var accountViewModel = Util.GetAccountViewModelForTrainer(trainer, 250);
+
+			var fighterRepo = new FighterRepository();
+			var fightersList = fighterRepo.GetAllFighters().Where(ff => ff.Trainer != null && ff.Trainer.Id == trainer.Id).ToList();
+			var fightersAccountViewModelList = new List<AccountFighterViewModel>();
+			foreach (var currFighter in fightersList)
+			{
+				var fighterAccountViewModel = Util.GetAccountViewModelForFighter(currFighter, 150);
+				fightersAccountViewModelList.Add(fighterAccountViewModel);
+			}
+			accountViewModel.FightersList = fightersAccountViewModelList;
+
+			Util.PopualateRegistrationDropdowns(ViewBag);
+
+			return View(accountViewModel);
 		}
     }
 }

@@ -172,12 +172,6 @@ namespace SparWeb.Controllers
 				throw new ApplicationException("Fighter is not found!");
 
 			var accountViewModel = Util.GetAccountViewModelForFighter(fighter, 250);
-			if (User.Identity.IsAuthenticated == true)
-			{
-				var relatedFightersList = Util.GetRelatedFightersList(User.Identity.GetUserId());
-				var sparRequestDetails = Util.GetSparRequestDetailsForFighter(fighter.Id.Value, User.Identity.GetUserId());
-				accountViewModel.SparRequests = sparRequestDetails.Where(sr => (relatedFightersList.Contains(sr.OpponentFighter.Id.Value) == true || relatedFightersList.Contains(sr.ThisFighter.Id.Value) == true)).ToList();
-			}
 
 			Util.PopualateRegistrationDropdowns(ViewBag);
 

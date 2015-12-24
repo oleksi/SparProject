@@ -10,9 +10,6 @@
 	<div class="col-md-3">
 		<div class="profilePictureDefaultFighter @((Model.ProfilePictureUploaded == true)? "hidden" : "")">
 		</div>
-		<div class="cancelProfilePictureUpdate hidden">
-			<p class="text-center"><a href="#" onclick="showProfilePicture('@Model.ProfilePictureFile');">Cancel</a></p>
-		</div>
 		<div class="title hidden-md hidden-lg">
 			<span class="fighterNameSmall">@Html.ValueFor(m => m.Name)</span>
 			<div class="row">
@@ -28,62 +25,7 @@
 		</div>
 	</div>
 	<div class="col-md-6">
-		<div class="title hidden-xs hidden-sm">
-			<span class="fighterNameSmall">@Html.ValueFor(m => m.Name)</span>
-			<div class="row">
-				<div class="col-md-12">
-					from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
-					<br />
-					<span>@Model.City, @Model.State</span>
-				</div>
-			</div>
-		</div>
-		<div class="well top-buffer">
-			<div class="row">
-				<div class="col-sm-4 col-xs-4">
-					@Html.LabelFor(m => m.Age)
-				</div>
-				<div class="col-sm-8 col-xs-8">
-					@Html.ValueFor(m => m.Age)
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-4 col-xs-4">
-					@Html.LabelFor(m => m.Height)
-				</div>
-				<div class="col-sm-8 col-xs-8">
-					@ViewBag.HeightToCentimetersMap[Model.Height]
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-4 col-xs-4">
-					@Html.LabelFor(m => m.Weight)
-				</div>
-				<div class="col-sm-8 col-xs-8">
-					@ViewBag.WeightClassMap[Model.Weight]
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-4 col-xs-4">
-					@Html.LabelFor(m => m.IsSouthpaw)
-				</div>
-				<div class="col-sm-8 col-xs-8">
-					@((Model.IsSouthpaw) ? "Left-Handed" : "Right-Handed")
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-4 col-xs-4">
-					<label for="NumberOfAmateurFights">Number of fights:</label>
-				</div>
-				<div class="col-sm-8 col-xs-8">
-					@Html.DisplayFor(model => model.NumberOfAmateurFights) amateur
-					@if (Model.NumberOfProFights > 0)
-					{
-						@:/ <strong>@Html.DisplayFor(model => model.NumberOfProFights) pro</strong>
-                    }
-				</div>
-			</div>
-		</div>
+		@{Html.RenderPartial("FighterAttributes", Model);}
 	</div>
 	<div class="col-md-2"></div>
 </div>
