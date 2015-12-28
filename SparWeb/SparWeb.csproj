@@ -399,7 +399,7 @@
     <Content Include="Views\Shared\SearchFightersBox.cshtml" />
     <Content Include="Views\Trainers\Index.cshtml" />
     <Content Include="Views\Shared\SearchByStateBox.cshtml" />
-    <Content Include="Views\Trainers\TrainerInfo.cshtml" />
+    <Content Include="Views\Shared\TrainerInfo.cshtml" />
     <Content Include="Views\Shared\FighterAttributes.cshtml" />
     <Content Include="Views\Trainers\Trainer.cshtml" />
     <Content Include="Views\Shared\TrainerAttributes.cshtml" />

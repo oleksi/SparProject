@@ -43,10 +43,16 @@ namespace SparWeb.Controllers
 			var gymRepo = new GymRepository();
 			var gym = gymRepo.GetGymByStateAndName(stateShort, name);
 			if (gym == null)
-				throw new ApplicationException("Fighter is not found!");
+				throw new ApplicationException("Gym is not found!");
 
 			var gymViewModel = _getGymViewModel(gym, 250);
-			
+
+			var trainerRepo = new TrainerRepository();
+			var trainers = trainerRepo.GetAllTrainers().Where(tt => tt.Gym != null && tt.Gym.Id == gym.Id).ToList();
+			var trainersViewModelList = new List<AccountTrainerViewModel>();
+			trainers.ForEach(tt => trainersViewModelList.Add(Util.GetAccountViewModelForTrainer(tt, 150)));
+			gymViewModel.TrainersList = trainersViewModelList;
+
 			var fighterRepo = new FighterRepository();
 			var fightersList = fighterRepo.GetAllFighters().Where(ff => ff.Gym != null && ff.Gym.Id == gym.Id).ToList();
 			var fightersAccountViewModelList = new List<AccountFighterViewModel>();

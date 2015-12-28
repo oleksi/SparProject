@@ -38,6 +38,7 @@ namespace SparWeb.Models
 		}
 
 		public List<AccountFighterViewModel> FightersList { get; set; }
+		public List<AccountTrainerViewModel> TrainersList { get; set; }
 
 		public GymViewModel()
 		{

@@ -58,6 +58,25 @@
 	</div>
 </div>
 
+@if (Model.TrainersList.Count > 0)
+{
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-9">
+			<h2>@Model.Name Trainers:</h2>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+	<div class="trainer-fighters-list row">
+		<div class="col-md-offset-1 col-md-9">
+			@foreach (var currTrainer in Model.TrainersList)
+			{
+			@Html.Partial("TrainerInfo", currTrainer)
+			}
+		</div>
+	</div>
+}
+
 @if (Model.FightersList.Count > 0)
 {
 	<div class="row">
