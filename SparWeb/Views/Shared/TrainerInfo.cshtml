@@ -2,7 +2,7 @@
 
 <div class="row well well-sm spar-fighter">
 	<div>
-		<div class="col-md-3 vAlignCenter">
+		<div class="@((Model.IsFeaturedMode == false) ? "col-md-3 vAlignCenter" : "col-md-4")">
 			<div class="title hidden-md hidden-lg hidden-sm">
 				<span class="trainerNameTitle"><a href="@Model.TrainerUrl">@Html.ValueFor(m => m.Name)</a></span>
 				<div class="row">
@@ -17,7 +17,7 @@
 				<a href="@Model.TrainerUrl"><img src="@Model.ProfilePictureFile" height="150"></a>
 			</div>
 		</div>
-		<div class="col-md-6 vAlignCenter">
+		<div class="@((Model.IsFeaturedMode == false) ? "col-md-6 vAlignCenter" : "col-md-8")">
 			<div class="hidden-xs">
 				<span class="trainerNameTitle"><a href="@Model.TrainerUrl">@Html.ValueFor(m => m.Name)</a><br /></span>
 				<div class="row">
@@ -74,8 +74,11 @@
 				<div style="clear:both"></div>			
 			</dl>
 		</div>
+		@if (Model.IsFeaturedMode == false)
+		{ 
 		<div class="col-md-2 col-xs-12 vAlignCenter sparFighterCTA">
 				<a class="btn btn-default btn-danger btn-lg selectTrainerButton" href="@Model.TrainerUrl">View Details</a>
 		</div>
+		}
 	</div>
 </div>

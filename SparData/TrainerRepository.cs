@@ -59,6 +59,17 @@ namespace SparData
 			return trainers;
 		}
 
+		public IList<Trainer> GetTrainersWithProfilePics()
+		{
+			IList<Trainer> trainers = new List<Trainer>();
+			using (var session = getSession())
+			{
+				trainers = session.QueryOver<Trainer>().Where(ff => ff.ProfilePictureUploaded).OrderBy(ff => ff.InsertDate).Desc.JoinQueryOver<SparIdentityUser>(ff => ff.SparIdentityUser).Where(iu => iu.EmailConfirmed == true).List();
+			}
+
+			return trainers;
+		}
+
 		public void SaveTrainer(Trainer trainer)
 		{
 			using (var session = getSession())

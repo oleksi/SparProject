@@ -21,6 +21,8 @@ namespace SparWeb.Controllers
 		public ActionResult Index()
 		{
 			var model = new HomeViewModel();
+			model.FeaturedTrainersList = Util.GetRandomTrainersViewModels(2);
+			model.FeaturedGymsList = Util.GetRandomGymsViewModels(2);
 			model.FeaturedFightersList = Util.GetRandomFightersViewModels(User, 2);
 
 			Util.PopulateFilterDropdowns(ViewBag);

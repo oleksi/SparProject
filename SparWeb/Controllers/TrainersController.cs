@@ -27,8 +27,7 @@ namespace SparWeb.Controllers
 			if (String.IsNullOrEmpty(stateShort) == false)
 				trainers = trainers.Where(gg => gg.State == stateShort).ToList();
 
-			var trainersViewModelList = new List<AccountTrainerViewModel>();
-			trainers.ForEach(tt => trainersViewModelList.Add(Util.GetAccountViewModelForTrainer(tt, 150)));
+			var trainersViewModelList = Util.GetTrainersListViewModel(trainers);
 
 			var trainersViewModel = new TrainersViewModel() { TrainersList = trainersViewModelList, SearchState = stateShort, SearchStateLong = (String.IsNullOrEmpty(stateShort) == false) ? state : null };
 

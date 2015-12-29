@@ -52,10 +52,6 @@ input[type="checkbox"].input-validation-error {
 	width: 100%;
 }
 
-#myCarousel {
-	margin-left: 15px;
-}
-
 .fighterName {
 	font-size: 40px;
 	font-weight: bold;
@@ -420,7 +416,11 @@ a.btn.btn-default.btn-lg {
 .feature-box {
 	border: 1px solid #e3e3e3;
 	margin-left: -15px;
-	padding: 15px;
+	padding-top: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
 }
 
 .feature-box .spar-fighter {
@@ -436,6 +436,19 @@ a.btn.btn-default.btn-lg {
 
 .fighter-attributes {
 	margin-top: 10px;
+}
+
+.featured-trainers-gyms-row {
+	margin-bottom: 20px;
+	padding-left: 15px;
+}
+
+.feature-box .dl-horizontal dt {
+	width: 115px;
+}
+
+.feature-box .dl-horizontal dd {
+	margin-left: 125px;
 }
 
 @media(min-width:992px){

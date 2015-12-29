@@ -40,6 +40,8 @@ namespace SparWeb.Models
 		public List<AccountFighterViewModel> FightersList { get; set; }
 		public List<AccountTrainerViewModel> TrainersList { get; set; }
 
+		public bool IsFeaturedMode { get; set; }
+
 		public GymViewModel()
 		{
 			FightersList = new List<AccountFighterViewModel>();

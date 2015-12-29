@@ -37,6 +37,18 @@ namespace SparData
 			return allGyms;
 		}
 
+		public IList<Gym> GetGymsWithProfilePics()
+		{
+			IList<Gym> gyms = new List<Gym>();
+
+			using (var session = getSession())
+			{
+				gyms = session.QueryOver<Gym>().Where(gg => gg.GymPictureUploaded).OrderBy(ff => ff.InsertDate).Desc.List();
+			}
+
+			return gyms;
+		}
+
 		public Gym GetGymByStateAndName(string state, string name)
 		{
 			Gym gym = null;

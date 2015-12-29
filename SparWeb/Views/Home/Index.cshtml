@@ -1,4 +1,6 @@
-﻿@{
+﻿@model SparWeb.Models.HomeViewModel
+
+@{
 	ViewBag.Title = "Find Sparring Partner in Boxing, MMA and other combat sports";
 }
 
@@ -49,7 +51,40 @@
 	</div>
 }
 
-<!--Featured fighers, trainers and gyms-->
+<div class="row featured-trainers-gyms-row">
+	<div class="col-md-6">
+		<div class="feature-box">
+			<p class="featured-header">Featured Trainers:</p>
+			@if (Model.FeaturedTrainersList.Count > 0)
+			{
+				foreach (SparWeb.Models.AccountTrainerViewModel currModel in Model.FeaturedTrainersList)
+				{
+					@Html.Partial("TrainerInfo", currModel)
+				}
+			}
+			else
+			{
+				<h3>No trainers found ...</h3>
+			}
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="feature-box">
+			<p class="featured-header">Featured Gyms:</p>
+			@if (Model.FeaturedGymsList.Count > 0)
+			{
+				foreach (SparWeb.Models.GymViewModel currModel in Model.FeaturedGymsList)
+				{
+					@Html.Partial("GymInfo", currModel)
+				}
+			}
+			else
+			{
+				<h3>No trainers found ...</h3>
+			}
+		</div>
+	</div>
+</div>
 
 <div class="row">
 	<div class="col-md-4">

@@ -220,6 +220,8 @@ namespace SparWeb.Models
 		[Display(Name = "Notes:")]
 		public string Notes { get; set; }
 
+		public bool IsFeaturedMode { get; set; }
+
 		public IList<ConfirmSparDetailsViewModel> SparRequests { get; set; }
 
 		public List<AccountFighterViewModel> FightersList { get; set; }

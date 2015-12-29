@@ -24,9 +24,7 @@ namespace SparWeb.Controllers
 			if (String.IsNullOrEmpty(stateShort) == false)
 				gyms = gyms.Where(gg => gg.State == stateShort).ToList();
 
-			var gymsViewModelList = new List<GymViewModel>();
-			gyms.ForEach(gg => gymsViewModelList.Add(_getGymViewModel(gg, 150)));
-
+			var gymsViewModelList = Util.GetGymsListViewModel(gyms);
 			var gymsViewModel = new GymsViewModel() { GymsList = gymsViewModelList, SearchState = stateShort, SearchStateLong = (String.IsNullOrEmpty(stateShort) == false)? state : null };
 
 			ViewBag.States = Util.States;
@@ -45,7 +43,7 @@ namespace SparWeb.Controllers
 			if (gym == null)
 				throw new ApplicationException("Gym is not found!");
 
-			var gymViewModel = _getGymViewModel(gym, 250);
+			var gymViewModel = Util.GetGymViewModel(gym, 250);
 
 			var trainerRepo = new TrainerRepository();
 			var trainers = trainerRepo.GetAllTrainers().Where(tt => tt.Gym != null && tt.Gym.Id == gym.Id).ToList();
@@ -66,11 +64,6 @@ namespace SparWeb.Controllers
 			Util.PopualateRegistrationDropdowns(ViewBag);
 
 			return View(gymViewModel);
-		}
-
-		private GymViewModel _getGymViewModel(Gym gym, int thumbnailSize)
-		{
-			return new GymViewModel() { Id = gym.Id.Value, Name = gym.Name, StreetAddress = gym.StreetAddress, City = gym.City, State = gym.State, ZipCode = gym.ZipCode, Phone = gym.Phone, GymPictureFile = Util.GetGymPictureFile(gym, thumbnailSize) };
 		}
     }
 }
