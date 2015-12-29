@@ -1,0 +1,47 @@
+﻿@model SparWeb.Models.SearchByStateViewModel
+
+<div class="well" id="search-filters">
+	<h3>Search @Model.SearchWhat by state:</h3>
+	<div class="form-group">
+		@Html.DropDownListFor(m => m.SearchState, (new SelectList(ViewBag.States, "Key", "Value", Model)), "Please select state", new { @class = "form-control" })
+	</div>
+	<ul class="list-group hidden-xs hidden-sm">
+		@if (Model.SearchState == "All")
+		{
+			<li class="list-group-item">
+				<span class="stateFilterActive">All</span>
+			</li>
+		}
+		else
+		{
+			<li class="list-group-item">
+				<a href="@Model.AllUrl" class="stateFilterLink">All</a>
+			</li>
+		}
+		@foreach (var currState in Util.States.Values)
+		{
+			var currStateShort = Util.States.Where(ss => ss.Value == currState).Single().Key;
+			if (currStateShort != Model.SearchState)
+			{
+				<li class="list-group-item">
+					@Html.ActionLink(currState, "Index", new { state = currState }, new { @class = "stateFilterLink" })
+				</li>
+			}
+			else
+			{
+				<li class="list-group-item">
+					<span class="stateFilterActive">@currState</span>
+				</li>
+			}
+		}
+	</ul>
+</div>
+
+<script type="text/javascript">
+	$(function () {
+		$('#SearchState').change(function () {
+			var selectedState = $("#SearchState option:selected").text();
+			window.location = '@Model.AllUrl' + selectedState;
+		});
+	});
+</script>

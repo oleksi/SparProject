@@ -52,10 +52,6 @@ input[type="checkbox"].input-validation-error {
 	width: 100%;
 }
 
-#myCarousel {
-	margin-left: 15px;
-}
-
 .fighterName {
 	font-size: 40px;
 	font-weight: bold;
@@ -68,6 +64,31 @@ input[type="checkbox"].input-validation-error {
 
 .fighterNameSmall a {
 	color: #C9302C;
+}
+
+.gymNameTitle {
+	font-size: 22px;
+	font-weight: bold;
+	margin-bottom: 20px;
+	display: block;
+}
+
+.gymNameTitle a {
+	color: #C9302C;
+}
+
+.trainerNameTitle {
+	font-size: 22px;
+	font-weight: bold;
+	display: block;
+}
+
+.trainerNameTitle a {
+	color: #C9302C;
+}
+
+.gymAddressPhoneDivider {
+	margin-bottom: 15px;
 }
 
 .fighterCard a {
@@ -380,6 +401,54 @@ a.btn.btn-default.btn-lg {
 .sparDetailsStatus a:hover {
     color: #c9302c;
     text-decoration: underline;
+}
+
+.stateFilterLink, .stateFilterLink:hover {
+	color: #c9302c;
+}
+
+.stateFilterActive {
+	color: #c9302c;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.feature-box {
+	border: 1px solid #e3e3e3;
+	margin-left: -15px;
+	padding-top: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+}
+
+.feature-box .spar-fighter {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.featured-header {
+	font-size: 30px;
+	font-weight: 500;
+	margin-bottom: 15px;
+}
+
+.fighter-attributes {
+	margin-top: 10px;
+}
+
+.featured-trainers-gyms-row {
+	margin-bottom: 20px;
+	padding-left: 15px;
+}
+
+.feature-box .dl-horizontal dt {
+	width: 115px;
+}
+
+.feature-box .dl-horizontal dd {
+	margin-left: 125px;
 }
 
 @media(min-width:992px){

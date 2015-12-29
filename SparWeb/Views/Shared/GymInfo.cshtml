@@ -1,0 +1,41 @@
+﻿@model SparWeb.Models.GymViewModel
+
+<div class="row well well-sm spar-fighter">
+	<div>
+		<div class="@((Model.IsFeaturedMode == false) ? "col-md-3 vAlignCenter" : "col-md-4")">
+			<div class="title hidden-md hidden-lg hidden-sm">
+				<span class="gymNameTitle"><a href="@Model.GymUrl">@Html.ValueFor(m => m.Name)</a></span>
+			</div>
+			<div class="profilePicture">
+				<a href="@Model.GymUrl"><img src="@Model.GymPictureFile" height="150"></a>
+			</div>
+		</div>
+		<div class="@((Model.IsFeaturedMode == false) ? "col-md-6 vAlignCenter" : "col-md-8")">
+			<span class="gymNameTitle hidden-xs"><a href="@Model.GymUrl">@Html.ValueFor(m => m.Name)</a><br /></span>
+			<dl class="dl-horizontal">
+				<dt>
+					@Html.DisplayNameFor(model => model.Address)
+				</dt>
+
+				<dd>
+					@Html.Raw(Model.Address)
+				</dd>
+				<div class="gymAddressPhoneDivider" style="clear:both"></div>
+				<dt>
+					@Html.DisplayNameFor(model => model.Phone)
+				</dt>
+
+				<dd>
+					@Html.DisplayFor(model => model.Phone)
+				</dd>
+				<div style="clear:both"></div>
+			</dl>
+		</div>
+		@if (Model.IsFeaturedMode == false)
+		{
+		<div class="col-md-2 col-xs-12 vAlignCenter sparFighterCTA">
+			<a class="btn btn-default btn-danger btn-lg selectGymButton" href="@Model.GymUrl">View Details</a>
+		</div>
+		}
+	</div>
+</div>

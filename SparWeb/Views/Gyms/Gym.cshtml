@@ -1,0 +1,98 @@
+﻿@model SparWeb.Models.GymViewModel
+
+@{
+	ViewBag.Title = String.Format("Gym Profile: {0} {1}, {2}", Model.Name, Model.City, Model.State);
+	ViewBag.MetaDescription = String.Format("{0} {1}, {2}; Address: {3}; Phone: {4}", Model.Name, Model.City, Model.State, Model.Address, Model.Phone);
+}
+
+<div class="row account-info-section">
+	<div class="col-md-1"></div>
+	<div class="col-md-3">
+		<div class="title hidden-md hidden-lg">
+			<span class="fighterNameSmall">@Html.ValueFor(m => m.Name)</span>
+			<div class="row">
+				<div class="col-md-12">
+					<span>@Model.City, @Model.State</span>
+				</div>
+			</div>
+		</div>
+		<div class="profilePicture">
+			<img height="250" src="@Model.GymPictureFile" class="img-responsive thumbnail" />
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="title hidden-xs hidden-sm">
+			<span class="fighterNameSmall">@Html.ValueFor(m => m.Name)</span>
+			<div class="row">
+				<div class="col-md-12">
+					<span>@Model.City, @Model.State</span>
+				</div>
+			</div>
+		</div>
+		<div class="well top-buffer">
+			<div class="row">
+				<div class="col-sm-4 col-xs-4">
+					@Html.LabelFor(m => m.Address)
+				</div>
+				<div class="col-sm-8 col-xs-8">
+					@Html.Raw(Model.Address)
+				</div>
+			</div>
+			<div class="gymAddressPhoneDivider" style="clear:both"></div>	
+			<div class="row">
+				<div class="col-sm-4 col-xs-4">
+					@Html.LabelFor(m => m.Phone)
+				</div>
+				<div class="col-sm-8 col-xs-8">
+					@if (String.IsNullOrEmpty(Model.Phone) == false)
+					{
+						@Html.ValueFor(m => m.Phone)
+					}
+					else
+					{
+						<span>N/A</span>
+					}
+				</div>
+			</div>						
+		</div>
+	</div>
+</div>
+
+@if (Model.TrainersList.Count > 0)
+{
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-9">
+			<h2>@Model.Name Trainers:</h2>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+	<div class="trainer-fighters-list row">
+		<div class="col-md-offset-1 col-md-9">
+			@foreach (var currTrainer in Model.TrainersList)
+			{
+			@Html.Partial("TrainerInfo", currTrainer)
+			}
+		</div>
+	</div>
+}
+
+@if (Model.FightersList.Count > 0)
+{
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-9">
+			<h2>@Model.Name Fighters:</h2>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+	<div class="trainer-fighters-list row">
+		<div class="col-md-offset-1 col-md-9">
+			@foreach (var fighterViewModel in Model.FightersList)
+			{
+				@Html.Partial("SparFighter", fighterViewModel)
+			}
+		</div>
+	</div>
+}
+

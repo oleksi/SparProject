@@ -161,6 +161,15 @@ namespace SparWeb
 			{"WY", "Wyoming"}
 		};
 
+		public static void PopulateFilterDropdowns(dynamic viewBag)
+		{
+			viewBag.AgeRange = Util.AgeRangeMap;
+			viewBag.WeightClassMap = Util.WeightClassMap;
+			viewBag.HeightToCentimetersMap = Util.HeightToCentimetersMap;
+			viewBag.NumberOfFights = Util.NumberOfFights;
+			viewBag.States = Util.States;
+		}
+
 		public static AccountFighterViewModel GetAccountViewModelForFighter(Fighter fighter, int thumbnailSize)
 		{
 			string gymName = (fighter.Gym != null) ? fighter.Gym.Name : "Unknown Gym";
@@ -216,9 +225,19 @@ namespace SparWeb
 			return model;
 		}
 
+		public static GymViewModel GetGymViewModel(Gym gym, int thumbnailSize)
+		{
+			return new GymViewModel() { Id = gym.Id.Value, Name = gym.Name, StreetAddress = gym.StreetAddress, City = gym.City, State = gym.State, ZipCode = gym.ZipCode, Phone = gym.Phone, GymPictureFile = Util.GetGymPictureFile(gym, thumbnailSize) };
+		}
+
 		public static string GetProfilePictureFile(Member member, int thumbnailSize)
 		{
 			return member.GetProfilePictureFile(thumbnailSize, System.Configuration.ConfigurationManager.AppSettings["ProfilePicsUrl"], VirtualPathUtility.ToAbsolute("~/Content/Images/"));
+		}
+
+		public static string GetGymPictureFile(Gym gym, int thumbnailSize)
+		{
+			return gym.GetGymPictureFile(thumbnailSize, System.Configuration.ConfigurationManager.AppSettings["GymPicsUrl"], VirtualPathUtility.ToAbsolute("~/Content/Images/"));
 		}
 
 		public static ConfirmSparDetailsViewModel GetConfirmSparDetailsViewModel(SparRequest sparRequest, int profilePictureSize, string currUserId)
@@ -341,6 +360,23 @@ namespace SparWeb
 			return fightersAccountViewModelList;
 		}
 
+		public static List<AccountTrainerViewModel> GetTrainersListViewModel(List<Trainer> trainersList)
+		{
+			var trainersViewModelList = new List<AccountTrainerViewModel>();
+			trainersList.ForEach(tt => trainersViewModelList.Add(Util.GetAccountViewModelForTrainer(tt, 150)));
+
+			return trainersViewModelList;
+		}
+
+		public static List<GymViewModel> GetGymsListViewModel(List<Gym> gymsList)
+		{
+			var gymsViewModelList = new List<GymViewModel>();
+			gymsList.ForEach(gg => gymsViewModelList.Add(Util.GetGymViewModel(gg, 150)));
+
+			return gymsViewModelList;
+		}
+
+
 		//for currently logged in fighter returns this fighter, for currently logged in trainer returns all trainers fighters
 		public static List<int> GetRelatedFightersList(string identityUserId)
 		{
@@ -362,6 +398,47 @@ namespace SparWeb
 			}
 
 			return fightersToExclude;
+		}
+
+		public static List<AccountFighterViewModel> GetRandomFightersViewModels(IPrincipal user, int fightersNum)
+		{
+			var fighterRepo = new FighterRepository();
+			var fightersList = fighterRepo.GetFightersWithProfilePics();
+
+			//getting random number of fighters
+			fightersList.Shuffle();
+			var randomFightersList = fightersList.Take(fightersNum).ToList();
+			var randomFightersViewModelList = Util.GetFightersListViewModel(user, randomFightersList);
+
+			return randomFightersViewModelList;
+		}
+
+		public static List<AccountTrainerViewModel> GetRandomTrainersViewModels(int trainersNum)
+		{
+			var trainerRepo = new TrainerRepository();
+			var trainersList = trainerRepo.GetTrainersWithProfilePics();
+
+			//getting random number of fighters
+			trainersList.Shuffle();
+			var randomTrainersList = trainersList.Take(trainersNum).ToList();
+			var randomTrainersViewModelList = Util.GetTrainersListViewModel(randomTrainersList);
+			randomTrainersViewModelList.ForEach(tt => tt.IsFeaturedMode = true);
+
+			return randomTrainersViewModelList;
+
+		}
+
+		public static List<GymViewModel> GetRandomGymsViewModels(int gymsNum)
+		{
+			var gymRepo = new GymRepository();
+			var gymsList = gymRepo.GetGymsWithProfilePics();
+
+			gymsList.Shuffle();
+			var randomGymsList = gymsList.Take(gymsNum).ToList();
+			var randomGymsViewModelList = Util.GetGymsListViewModel(randomGymsList);
+			randomGymsViewModelList.ForEach(tt => tt.IsFeaturedMode = true);
+
+			return randomGymsViewModelList;
 		}
 	}
 }

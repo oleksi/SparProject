@@ -31,7 +31,7 @@
 			}
 		</div>
 		<div class="col-md-6 vAlignCenter">
-			<span class="fighterNameSmall hidden-xs"><a href="@Model.FighterUrl" @(Model.IsWidgetView ? " target=\"_blank\"" : "")>@Html.ValueFor(m => m.Name)</a></span>
+			<span class="fighterNameSmall hidden-xs"><a href="@Model.FighterUrl" @(Model.IsWidgetView ? " target=\"_blank\"" : "")>@Model.Name</a></span>
 			<div class="row hidden-xs">
 				<div class="col-md-12">
 					from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
@@ -39,7 +39,7 @@
 					<span>@Model.City, @Model.State</span>
 				</div>
 			</div>
-			<dl class="dl-horizontal">
+			<dl class="dl-horizontal fighter-attributes">
 				<dt>
 					@Html.DisplayNameFor(model => model.Age)
 				</dt>
@@ -47,7 +47,7 @@
 				<dd>
 					@Html.DisplayFor(model => model.Age)
 				</dd>
-				<div class="clear;both"></div>
+				<div style="clear:both"></div>
 				<dt>
 					@Html.DisplayNameFor(model => model.Height)
 				</dt>
@@ -55,7 +55,7 @@
 				<dd>
 					@Util.HeightToCentimetersMap[Model.Height]
 				</dd>
-				<div class="clear;both"></div>
+				<div style="clear:both"></div>
 				<dt>
 					@Html.DisplayNameFor(model => model.Weight)
 				</dt>
@@ -63,7 +63,7 @@
 				<dd>
 					@Util.WeightClassShortMap[Model.Weight]
 				</dd>
-				<div class="clear;both"></div>
+				<div style="clear:both"></div>
 				<dt>
 					@Html.DisplayNameFor(model => model.IsSouthpaw)
 				</dt>
@@ -71,7 +71,7 @@
 				<dd>
 					@((Model.IsSouthpaw) ? "Left-Handed" : "Right-Handed")
 				</dd>
-				<div class="clear;both"></div>
+				<div style="clear:both"></div>
 				<dt>
 					Number of fights :
 				</dt>

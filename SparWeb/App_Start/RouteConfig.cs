@@ -34,7 +34,31 @@ namespace SparWeb
 			routes.MapRoute(
 				name: "Fighters",
 				url: "fighters/{state}/{name}",
-				defaults: new { controller = "Spar", action = "Fighter" }
+				defaults: new { controller = "Fighters", action = "Fighter" }
+			);
+
+			routes.MapRoute(
+				name: "GymsByState",
+				url: "gyms/{state}/",
+				defaults: new { controller = "Gyms", action = "Index" }
+			);
+
+			routes.MapRoute(
+				name: "Gyms",
+				url: "gyms/{state}/{name}",
+				defaults: new { controller = "Gyms", action = "Gym" }
+			);
+
+			routes.MapRoute(
+				name: "TrainersByState",
+				url: "trainers/{state}/",
+				defaults: new { controller = "Trainers", action = "Index" }
+			);
+
+			routes.MapRoute(
+				name: "Trainers",
+				url: "trainers/{state}/{name}",
+				defaults: new { controller = "Trainers", action = "Trainer" }
 			);
 
 			routes.MapRoute(

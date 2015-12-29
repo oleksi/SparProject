@@ -14,6 +14,7 @@
 		<property name="State" column="State" not-null="false"></property>
 		<property name="ZipCode" column="ZipCode" not-null="false"></property>
 		<property name="Phone" column="Phone" not-null="false"></property>
+		<property name="GymPictureUploaded" column="GymPictureUploaded" not-null="true"></property>
 		<property name="InsertDate" column="InsertDate" not-null="true"></property>
 		<property name="UpdateDate" column="UpdateDate" not-null="true"></property>
 	</class>

@@ -317,30 +317,6 @@ namespace SparWeb.Controllers
 			return new JsonResult() { Data = new { Result = "Ok" } };
 		}
 
-		public ActionResult Fighter(string state, string name)
-		{
-			string stateShort = Util.States.Where(ss => ss.Value.ToLower() == state.ToLower()).Select(ss => ss.Key).SingleOrDefault();
-			if (String.IsNullOrEmpty(stateShort) == true)
-				throw new ApplicationException("State is not valid!");
-
-			var fighterRepo = new FighterRepository();
-			var fighter = fighterRepo.GetFighterByStateAndName(stateShort, name);
-			if (fighter == null)
-				throw new ApplicationException("Fighter is not found!");
-
-			var accountViewModel = Util.GetAccountViewModelForFighter(fighter, 250);
-			if (User.Identity.IsAuthenticated == true)
-			{
-				var relatedFightersList = Util.GetRelatedFightersList(User.Identity.GetUserId());
-				var sparRequestDetails = Util.GetSparRequestDetailsForFighter(fighter.Id.Value, User.Identity.GetUserId());
-				accountViewModel.SparRequests = sparRequestDetails.Where(sr => (relatedFightersList.Contains(sr.OpponentFighter.Id.Value) == true || relatedFightersList.Contains(sr.ThisFighter.Id.Value) == true)).ToList();
-			}
-
-			Util.PopualateRegistrationDropdowns(ViewBag);
-
-			return View(accountViewModel);
-		}
-
 		private void sendEmailForSaprRequest(ConfirmSparDetailsViewModel model, bool isFirstResponse)
 		{
 			string emailTo = (model.OpponentFighter.Trainer != null) ? model.OpponentFighter.Trainer.SparIdentityUser.Email : model.OpponentFighter.SparIdentityUser.Email;

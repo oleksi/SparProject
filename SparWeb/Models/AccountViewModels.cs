@@ -220,6 +220,8 @@ namespace SparWeb.Models
 		[Display(Name = "Notes:")]
 		public string Notes { get; set; }
 
+		public bool IsFeaturedMode { get; set; }
+
 		public IList<ConfirmSparDetailsViewModel> SparRequests { get; set; }
 
 		public List<AccountFighterViewModel> FightersList { get; set; }
@@ -232,6 +234,14 @@ namespace SparWeb.Models
 		public string GetHtmlFormattedNotes()
 		{
 			return (Notes != null)? Notes.Replace("\n", "<br />") : "";
+		}
+
+		public string TrainerUrl
+		{
+			get
+			{
+				return String.Format("/trainers/{0}/{1}", Util.States[State], Name);
+			}
 		}
 	}
 
