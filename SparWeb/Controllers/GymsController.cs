@@ -11,8 +11,10 @@ namespace SparWeb.Controllers
 {
     public class GymsController : Controller
     {
+		const int PAGE_SIZE = 20;
+
         // GET: Gyms
-        public ActionResult Index(string state)
+		public ActionResult Index(string state, int? page)
         {
 			string stateShort = null;
 			if (String.IsNullOrEmpty(state) == false)
@@ -24,8 +26,18 @@ namespace SparWeb.Controllers
 			if (String.IsNullOrEmpty(stateShort) == false)
 				gyms = gyms.Where(gg => gg.State == stateShort).ToList();
 
+			int pageCount = (int)Math.Ceiling((Convert.ToDecimal(gyms.Count) / PAGE_SIZE));
+
+			//pagination
+			if (page.HasValue == true)
+				gyms = gyms.Skip((page.Value - 1) * PAGE_SIZE).Take(PAGE_SIZE).ToList();
+			else
+				gyms = gyms.Take(PAGE_SIZE).ToList();
+
 			var gymsViewModelList = Util.GetGymsListViewModel(gyms);
 			var gymsViewModel = new GymsViewModel() { GymsList = gymsViewModelList, SearchState = stateShort, SearchStateLong = (String.IsNullOrEmpty(stateShort) == false)? state : null };
+			gymsViewModel.PageNumber = page.HasValue ? page.Value : 1;
+			gymsViewModel.PagesCount = pageCount;
 
 			ViewBag.States = Util.States;
 

@@ -14,8 +14,10 @@ namespace SparWeb.Controllers
 {
     public class TrainersController : Controller
     {
+		const int PAGE_SIZE = 20;
+
         // GET: Trainers
-		public ActionResult Index(string state)
+		public ActionResult Index(string state, int? page)
 		{
 			string stateShort = null;
 			if (String.IsNullOrEmpty(state) == false)
@@ -27,9 +29,19 @@ namespace SparWeb.Controllers
 			if (String.IsNullOrEmpty(stateShort) == false)
 				trainers = trainers.Where(gg => gg.State == stateShort).ToList();
 
+			int pageCount = (int)Math.Ceiling((Convert.ToDecimal(trainers.Count) / PAGE_SIZE));
+
+			//pagination
+			if (page.HasValue == true)
+				trainers = trainers.Skip((page.Value - 1) * PAGE_SIZE).Take(PAGE_SIZE).ToList();
+			else
+				trainers = trainers.Take(PAGE_SIZE).ToList();
+
 			var trainersViewModelList = Util.GetTrainersListViewModel(trainers);
 
 			var trainersViewModel = new TrainersViewModel() { TrainersList = trainersViewModelList, SearchState = stateShort, SearchStateLong = (String.IsNullOrEmpty(stateShort) == false) ? state : null };
+			trainersViewModel.PageNumber = page.HasValue ? page.Value : 1;
+			trainersViewModel.PagesCount = pageCount;
 
 			ViewBag.States = Util.States;
 
