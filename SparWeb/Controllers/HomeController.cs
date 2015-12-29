@@ -78,6 +78,18 @@ namespace SparWeb.Controllers
 			urls.Add(Url.Action("Regiser", "Account"));
 			urls.Add(Url.Action("Login", "Account"));
 
+			//adding trainer urls
+			var trainerRepo = new TrainerRepository();
+			var trainersList = trainerRepo.GetAllTrainers().ToList();
+			var trainersListViewModels = Util.GetTrainersListViewModel(trainersList);
+			trainersListViewModels.ForEach(ff => urls.Add(ff.TrainerUrl));
+
+			//adding gyms urls
+			var gymRepo = new GymRepository();
+			var gymsList = gymRepo.GetAllGyms().ToList();
+			var gymsListViewModels = Util.GetGymsListViewModel(gymsList);
+			gymsListViewModels.ForEach(ff => urls.Add(ff.GymUrl));
+
 			//adding fighter urls
 			var fighterRepo = new FighterRepository();
 			var fightersList = fighterRepo.GetAllFighters().Where(ff => ff.IsDemo == false).ToList();
