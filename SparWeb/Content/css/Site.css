@@ -443,12 +443,16 @@ a.btn.btn-default.btn-lg {
 	padding-left: 15px;
 }
 
-.feature-box .dl-horizontal dt {
+.feature-box-short .dl-horizontal dt {
 	width: 115px;
 }
 
-.feature-box .dl-horizontal dd {
+.feature-box-short .dl-horizontal dd {
 	margin-left: 125px;
+}
+
+.view-all-link {
+	text-align: right;
 }
 
 @media(min-width:992px){
