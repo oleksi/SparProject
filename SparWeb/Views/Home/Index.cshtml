@@ -93,7 +93,7 @@
 		@{Html.RenderPartial("SearchFightersBox", new SparWeb.Models.FightersViewModel());}
 	</div>
 	<div class="col-md-8">
-		<div class="feature-box">
+		<div class="feature-box" id="featured-fighters-box">
 			<p class="featured-header">Featured Fighters:</p>
 			@if (Model.FeaturedFightersList.Count > 0)
 			{
@@ -133,6 +133,7 @@
 
 <script type="text/javascript">
 	$(function () {
+		$('#search-filters').height($('#featured-fighters-box').height() - 23);
 		setTimeout(showRegisterPopup, 7000);
 	});
 
