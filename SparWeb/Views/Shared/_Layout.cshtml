@@ -118,6 +118,15 @@
 	<script type="text/javascript">
 		$(function () {
 			setTimeout(showRegisterPopup, 7000);
+
+			$('form').on('submit', function () {
+				if ($(this).valid() == false)
+					return;
+
+				$(this).find(':submit').prop('disabled', true);
+				$(this).find(':submit').val('Please wait...');
+			});
+
 		});
 
 		function showRegisterPopup() {
