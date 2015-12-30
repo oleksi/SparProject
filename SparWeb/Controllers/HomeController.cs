@@ -75,6 +75,16 @@ namespace SparWeb.Controllers
 
 			//adding static urls
 			urls.Add(Url.Action("About", "Home"));
+			urls.Add(Url.Action("Index", "Fighters"));
+			
+			urls.Add(Url.Action("Index", "Trainers"));
+			foreach(var state in Util.States.Values)
+				urls.Add(Url.Action("Index", "Trainers", new { state = state }));
+
+			urls.Add(Url.Action("Index", "Gyms"));
+			foreach (var state in Util.States.Values)
+				urls.Add(Url.Action("Index", "Gyms", new { state = state }));
+
 			urls.Add(Url.Action("Contact", "Home"));
 			urls.Add(Url.Action("TermsAndConditions", "Home"));
 			urls.Add(Url.Action("Regiser", "Account"));
