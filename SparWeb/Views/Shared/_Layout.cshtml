@@ -12,6 +12,9 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
 
+	@Scripts.Render("~/bundles/jqueryval")
+	@Scripts.Render("~/bundles/jquerycookie")
+
     @RenderSection("head", required: false)
 </head>
 <body>
@@ -95,6 +98,34 @@
 		</div>
     </div>
 
+	<div id="registerPopupModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3 class="modal-title text-center">Register for FREE!</h3>
+					@Html.AntiForgeryToken()
+				</div>
+				<div class="modal-body">
+					@{Html.RenderPartial("RegisterMain", new SparWeb.Models.RegisterMainViewModel() { IsPopupMode = true });}
+				</div>
+			</div>
+		</div>
+	</div>
+
     @RenderSection("scripts", required: false)
+
+	<script type="text/javascript">
+		$(function () {
+			setTimeout(showRegisterPopup, 7000);
+		});
+
+		function showRegisterPopup() {
+			if (!$.cookie('registerPopupSeen')) {
+				$('#registerPopupModal').modal('show');
+				$.cookie('registerPopupSeen', '1', { expires: 30, path: '/' });
+			}
+		}
+	</script>
 </body>
 </html>

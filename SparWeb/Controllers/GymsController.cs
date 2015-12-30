@@ -73,8 +73,6 @@ namespace SparWeb.Controllers
 			}
 			gymViewModel.FightersList = fightersAccountViewModelList;
 
-			Util.PopualateRegistrationDropdowns(ViewBag);
-
 			return View(gymViewModel);
 		}
     }

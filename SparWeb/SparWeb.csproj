@@ -215,6 +215,7 @@
     <Compile Include="Controllers\GymsController.cs" />
     <Compile Include="Controllers\PartnershipController.cs" />
     <Compile Include="Controllers\TrainersController.cs" />
+    <Compile Include="GlobalActionFilter.cs" />
     <Compile Include="Models\GymsViewModel.cs" />
     <Compile Include="Models\GymViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />

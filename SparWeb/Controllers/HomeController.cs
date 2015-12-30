@@ -25,8 +25,6 @@ namespace SparWeb.Controllers
 			model.FeaturedGymsList = Util.GetRandomGymsViewModels(2);
 			model.FeaturedFightersList = Util.GetRandomFightersViewModels(User, 2);
 
-			Util.PopulateFilterDropdowns(ViewBag);
-
 			ViewBag.ShowPartners = true;
 
 			return View(model);

@@ -153,8 +153,6 @@ namespace SparWeb.Controllers
 			model.PageNumber = page.HasValue ? page.Value : 1;
 			model.PagesCount = pageCount;
 
-			Util.PopulateFilterDropdowns(ViewBag);
-
 			return View(model);
 		}
 
@@ -170,8 +168,6 @@ namespace SparWeb.Controllers
 				throw new ApplicationException("Fighter is not found!");
 
 			var accountViewModel = Util.GetAccountViewModelForFighter(fighter, 250);
-
-			Util.PopualateRegistrationDropdowns(ViewBag);
 
 			return View(accountViewModel);
 		}

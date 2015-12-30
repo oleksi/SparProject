@@ -165,8 +165,6 @@ namespace SparWeb.Controllers
 		[AllowAnonymous]
         public ActionResult Register()
 		{
-			Util.PopualateRegistrationDropdowns(ViewBag);
-
 			return View();
 		}
 
@@ -175,8 +173,6 @@ namespace SparWeb.Controllers
         [AllowAnonymous]
         public ActionResult RegisterFighter()
         {
-			Util.PopualateRegistrationDropdowns(ViewBag);
-
 			return View(new RegisterFighterViewModel() { Sex = true, IsSouthpaw = false });
         }
 
@@ -189,7 +185,6 @@ namespace SparWeb.Controllers
         {
 			if (ModelState.IsValid == false)
 			{ 
-				Util.PopualateRegistrationDropdowns(ViewBag);
 				return View(model);
 			}
 
@@ -197,7 +192,6 @@ namespace SparWeb.Controllers
 			if (DateTime.TryParse(String.Format("{0}/{1}/{2}", model.DateOfBirth.Month, model.DateOfBirth.Day, model.DateOfBirth.Year), out dob) == false || dob > DateTime.Now || dob < DateTime.Now.AddYears(-100))
 			{
 				ModelState.AddModelError("DateOfBirth", "Date of birth is not valid");
-				Util.PopualateRegistrationDropdowns(ViewBag);
 				return View(model);
 			}
 
@@ -221,7 +215,6 @@ namespace SparWeb.Controllers
 			{
 				AddErrors(result);
 
-				Util.PopualateRegistrationDropdowns(ViewBag);
 				return View(model);
 			}
 
@@ -282,8 +275,6 @@ namespace SparWeb.Controllers
 		[AllowAnonymous]
 		public ActionResult RegisterTrainer()
 		{
-			Util.PopualateRegistrationDropdowns(ViewBag);
-
 			return View(new RegisterTrainerViewModel());
 		}
 
@@ -298,7 +289,6 @@ namespace SparWeb.Controllers
 				if (DateTime.TryParse(String.Format("{0}/{1}/{2}", model.DateOfBirth.Month, model.DateOfBirth.Day, model.DateOfBirth.Year), out dob) == false || dob > DateTime.Now || dob < DateTime.Now.AddYears(-100))
 				{
 					ModelState.AddModelError("DateOfBirth", "Date of birth is not valid");
-					Util.PopualateRegistrationDropdowns(ViewBag);
 					return View(model);
 				}
 
@@ -353,7 +343,6 @@ namespace SparWeb.Controllers
 			}
 
 			// If we got this far, something failed, redisplay form
-			Util.PopualateRegistrationDropdowns(ViewBag);
 			return View(model);
 		}
 
@@ -452,8 +441,6 @@ namespace SparWeb.Controllers
 				SparRepository sparRepo = new SparRepository();
 				accountViewModel.SparRequests = Util.GetSparRequestDetailsForFighter(fighter.Id.Value, User.Identity.GetUserId());
 
-				Util.PopualateRegistrationDropdowns(ViewBag);
-
 				return View("AccountFighter", accountViewModel);
 			}
 			else
@@ -479,8 +466,6 @@ namespace SparWeb.Controllers
 				accountViewModel.FightersList = fightersAccountViewModelList;
 				accountViewModel.SparRequests = sparRequests;
 
-				Util.PopualateRegistrationDropdowns(ViewBag);
-
 				return View("AccountTrainer", accountViewModel);
 			}
 		}
@@ -491,7 +476,6 @@ namespace SparWeb.Controllers
 		{
 			if (ModelState.IsValid == false)
 			{
-				Util.PopualateRegistrationDropdowns(ViewBag);
 				ViewBag.ShowUpdateProfileModal = true;
 
 				return View("AccountFighter", model);
@@ -528,7 +512,6 @@ namespace SparWeb.Controllers
 		{
 			if (ModelState.IsValid == false)
 			{
-				Util.PopualateRegistrationDropdowns(ViewBag);
 				ViewBag.ShowUpdateProfileModal = true;
 
 				return View("AccountTrainer", model);

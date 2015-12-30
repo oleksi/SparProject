@@ -161,15 +161,6 @@ namespace SparWeb
 			{"WY", "Wyoming"}
 		};
 
-		public static void PopulateFilterDropdowns(dynamic viewBag)
-		{
-			viewBag.AgeRange = Util.AgeRangeMap;
-			viewBag.WeightClassMap = Util.WeightClassMap;
-			viewBag.HeightToCentimetersMap = Util.HeightToCentimetersMap;
-			viewBag.NumberOfFights = Util.NumberOfFights;
-			viewBag.States = Util.States;
-		}
-
 		public static AccountFighterViewModel GetAccountViewModelForFighter(Fighter fighter, int thumbnailSize)
 		{
 			string gymName = (fighter.Gym != null) ? fighter.Gym.Name : "Unknown Gym";
@@ -325,13 +316,6 @@ namespace SparWeb
 			SparRepository sparRepo = new SparRepository();
 			var sparRequests = sparRepo.GetSparRequestsForFighter(fighterId);
 			return sparRequests.Select(sr => Util.GetConfirmSparDetailsViewModel(sr, 150, currUserId)).ToList();
-		}
-
-		public static void PopualateRegistrationDropdowns(dynamic viewBag)
-		{
-			viewBag.States = Util.States;
-			viewBag.HeightToCentimetersMap = Util.HeightToCentimetersMap;
-			viewBag.WeightClassMap = Util.WeightClassMap;
 		}
 
 		public static List<AccountFighterViewModel> GetFightersListViewModel(IPrincipal user, IList<Fighter> fightersList)

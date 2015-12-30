@@ -71,8 +71,6 @@ namespace SparWeb.Controllers
 			}
 			accountViewModel.FightersList = fightersAccountViewModelList;
 
-			Util.PopualateRegistrationDropdowns(ViewBag);
-
 			return View(accountViewModel);
 		}
     }
