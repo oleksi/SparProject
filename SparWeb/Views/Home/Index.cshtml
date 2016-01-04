@@ -51,6 +51,29 @@
 	</div>
 }
 
+<div class="row">
+	<div class="col-md-4">
+		@{Html.RenderPartial("SearchFightersBox", new SparWeb.Models.FightersViewModel());}
+	</div>
+	<div class="col-md-8">
+		<div class="feature-box" id="featured-fighters-box">
+			<p class="featured-header">Featured Spar Fighters:</p>
+			@if (Model.FeaturedFightersList.Count > 0)
+			{
+				foreach (SparWeb.Models.AccountFighterViewModel currModel in Model.FeaturedFightersList)
+				{
+					@Html.Partial("SparFighter", currModel)
+				}
+				<p class="view-all-link">@Html.ActionLink("View All Fighters", "Index", "Fighters")</p>
+			}
+			else
+			{
+				<h3>No fighters found ...</h3>
+			}
+		</div>
+	</div>
+</div>
+
 <div class="row featured-trainers-gyms-row">
 	<div class="col-md-6">
 		<div class="feature-box feature-box-short">
@@ -88,31 +111,10 @@
 	</div>
 </div>
 
-<div class="row">
-	<div class="col-md-4">
-		@{Html.RenderPartial("SearchFightersBox", new SparWeb.Models.FightersViewModel());}
-	</div>
-	<div class="col-md-8">
-		<div class="feature-box" id="featured-fighters-box">
-			<p class="featured-header">Featured Fighters:</p>
-			@if (Model.FeaturedFightersList.Count > 0)
-			{
-				foreach (SparWeb.Models.AccountFighterViewModel currModel in Model.FeaturedFightersList)
-				{
-					@Html.Partial("SparFighter", currModel)
-				}
-				<p class="view-all-link">@Html.ActionLink("View All Fighters", "Index", "Fighters")</p>
-			}
-			else
-			{
-				<h3>No fighters found ...</h3>
-			}
-		</div>
-	</div>
-</div>
-
 <script type="text/javascript">
 	$(function () {
-		$('#search-filters').height($('#featured-fighters-box').height() - 23);
+		if (window.innerWidth > 990) {
+			$('#search-filters').height($('#featured-fighters-box').height() - 23);
+		}
 	});
 </script>
