@@ -572,10 +572,18 @@ a.btn.btn-default.btn-lg {
 	.item.row,.carousel-inner > .item > img {
 	    min-height: 300px;
 	}
-	.dl-horizontal dt, .dl-horizontal dd {
+	.dl-horizontal dt, .dl-horizontal dd, .feature-box-short .dl-horizontal dt, .feature-box-short .dl-horizontal dd {
 	    display: inline-block;
 		font-size: 12px;
 	}
+
+	.feature-box-short .dl-horizontal dt {
+		width: auto;
+	}
+	.feature-box-short .dl-horizontal dd {
+		margin-left: 0px;
+	}
+
   .logo {
     margin-left: 10px
   }
