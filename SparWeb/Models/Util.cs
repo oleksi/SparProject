@@ -415,7 +415,7 @@ namespace SparWeb
 		public static List<GymViewModel> GetRandomGymsViewModels(int gymsNum)
 		{
 			var gymRepo = new GymRepository();
-			var gymsList = gymRepo.GetGymsWithProfilePics();
+			var gymsList = gymRepo.GetGymsWithProfilePics().Where(gg => gg.Id != 1).ToList();
 
 			gymsList.Shuffle();
 			var randomGymsList = gymsList.Take(gymsNum).ToList();

@@ -22,7 +22,14 @@ namespace SparWeb.Controllers
 		{
 			var model = new HomeViewModel();
 			model.FeaturedTrainersList = Util.GetRandomTrainersViewModels(2);
-			model.FeaturedGymsList = Util.GetRandomGymsViewModels(2);
+			
+			//Gleason's is always the 1st
+			var gymRepo = new GymRepository();
+			var gleasonsGym = gymRepo.GetGymById(1);
+			var gleasonsGymViewModel = Util.GetGymViewModel(gleasonsGym, 150);
+			gleasonsGymViewModel.IsFeaturedMode = true;
+			model.FeaturedGymsList = Util.GetRandomGymsViewModels(1);
+			model.FeaturedGymsList.Insert(0, gleasonsGymViewModel);
 
 			//the last 2 registered fighters with profile pics
 			var fighterRepo = new FighterRepository();
