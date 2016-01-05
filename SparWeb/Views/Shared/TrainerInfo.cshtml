@@ -4,7 +4,7 @@
 	<div>
 		<div class="@((Model.IsFeaturedMode == false) ? "col-md-3 vAlignCenter" : "col-md-4")">
 			<div class="title hidden-md hidden-lg hidden-sm">
-				<span class="trainerNameTitle"><a href="@Model.TrainerUrl">@Html.ValueFor(m => m.Name)</a></span>
+				<span class="trainerNameTitle"><a href="@Model.TrainerUrl">@Model.Name</a></span>
 				<div class="row">
 					<div class="col-md-12">
 						from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
@@ -19,7 +19,7 @@
 		</div>
 		<div class="@((Model.IsFeaturedMode == false) ? "col-md-6 vAlignCenter" : "col-md-8")">
 			<div class="hidden-xs">
-				<span class="trainerNameTitle"><a href="@Model.TrainerUrl">@Html.ValueFor(m => m.Name)</a><br /></span>
+				<span class="trainerNameTitle"><a href="@Model.TrainerUrl">@Model.Name</a><br /></span>
 				<div class="row">
 					<div class="col-md-12">
 						from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
