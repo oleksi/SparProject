@@ -30,11 +30,7 @@ namespace SparWeb.Controllers
 			gleasonsGymViewModel.IsFeaturedMode = true;
 			model.FeaturedGymsList = Util.GetRandomGymsViewModels(1);
 			model.FeaturedGymsList.Insert(0, gleasonsGymViewModel);
-
-			//the last 2 registered fighters with profile pics
-			var fighterRepo = new FighterRepository();
-			var fightersList = fighterRepo.GetFightersWithProfilePics().Take(2).ToList();
-			model.FeaturedFightersList = Util.GetFightersListViewModel(User, fightersList);
+			model.FeaturedFightersList = Util.GetRandomFightersViewModels(User, 2);
 
 			ViewBag.ShowPartners = true;
 
