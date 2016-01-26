@@ -263,7 +263,15 @@ namespace SparWeb.Controllers
 			if (model.SparRequesStatus == SparRequestStatus.DateLocationNegotiation)
 			{
 				if (model.SparDate.HasValue)
+				{
+					if (model.SparTime.Hours.HasValue == false)
+					{
+						model.SparTime.Hours = 12;
+						model.SparTime.Minutes = 0;
+						model.SparTime.IsAM = false;
+					}
 					sparRequest.SparDateTime = DateTime.Parse(String.Format("{0} {1}", model.SparDate.Value.ToString("MM/dd/yyyy"), model.SparTime.ToString()));
+				}
 				if (model.SparGymID.HasValue && model.SparGymID.Value > 0)
 					sparRequest.SparGym = confirmSparDetailsViewModel.SparGym;
 				else
