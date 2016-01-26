@@ -39,7 +39,7 @@
 </dl>
 @if (Model.ListSparNotes == true)
 {
-	if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation && Model.SparDate > DateTime.Now.AddDays(-1))
+	if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation)
 	{
 		<div class="row form-group">
 			<div class="col-md-3 col-md-offset-3 col-xs-12">

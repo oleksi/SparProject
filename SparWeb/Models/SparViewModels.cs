@@ -40,14 +40,13 @@ namespace SparWeb.Models
 		[HiddenInput(DisplayValue = false)]
 		public string SparRequestId { get; set; }
 
-		[Required]
 		[Display(Name = "Spar Date")]
 		public DateTime? SparDate { get; set; }
 
 		[Display(Name = "Spar Time")]
 		public SparTime SparTime { get; set; }
 
-		public int SparGymID { get; set; }
+		public int? SparGymID { get; set; }
 
 		[Display(Name = "Spar Location")]
 		public Gym SparGym { get; set; }
@@ -82,13 +81,13 @@ namespace SparWeb.Models
 	public class SparTime
 	{
 		[Display(Name = "HH")]
-		public int Hours { get; set; }
+		public int? Hours { get; set; }
 
 		[Display(Name = "MM")]
-		public int Minutes { get; set; }
+		public int? Minutes { get; set; }
 
 		[Display(Name = "AM/PM")]
-		public bool IsAM { get; set; }
+		public bool? IsAM { get; set; }
 
 		public SparTime()
 		{
@@ -103,7 +102,10 @@ namespace SparWeb.Models
 
 		public override string ToString()
 		{
-			return String.Format("{0}:{1} {2}", Hours, Minutes.ToString("00"), IsAM ? "AM" : "PM");
+			if (Hours.HasValue && Minutes.HasValue && IsAM.HasValue)
+				return String.Format("{0}:{1} {2}", Hours, Minutes.Value.ToString("00"), IsAM.Value ? "AM" : "PM");
+			else
+				return "N/A";
 		}
 	}
 }

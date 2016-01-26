@@ -231,11 +231,11 @@ namespace SparWeb.Controllers
 			confirmSparDetailsViewModel.SparTime = model.SparTime;
 			confirmSparDetailsViewModel.ListSparNotes = true;
 			
-			confirmSparDetailsViewModel.SparGymID = model.SparGymID;
-			if (model.SparGymID > 0)
+			if (model.SparGymID.HasValue && model.SparGymID.Value > 0)
 			{
 				GymRepository gymRepo = new GymRepository();
-				confirmSparDetailsViewModel.SparGym = gymRepo.GetGymById(model.SparGymID);
+				confirmSparDetailsViewModel.SparGym = gymRepo.GetGymById(model.SparGymID.Value);
+				confirmSparDetailsViewModel.SparGymID = model.SparGymID;
 			}
 			else
 			{
@@ -262,8 +262,9 @@ namespace SparWeb.Controllers
 			//updating spar request
 			if (model.SparRequesStatus == SparRequestStatus.DateLocationNegotiation)
 			{
-				sparRequest.SparDateTime = DateTime.Parse(String.Format("{0} {1}", model.SparDate.Value.ToString("MM/dd/yyyy"), model.SparTime.ToString()));
-				if (model.SparGymID > 0)
+				if (model.SparDate.HasValue)
+					sparRequest.SparDateTime = DateTime.Parse(String.Format("{0} {1}", model.SparDate.Value.ToString("MM/dd/yyyy"), model.SparTime.ToString()));
+				if (model.SparGymID.HasValue && model.SparGymID.Value > 0)
 					sparRequest.SparGym = confirmSparDetailsViewModel.SparGym;
 				else
 					sparRequest.SparGym = null;
@@ -325,9 +326,9 @@ namespace SparWeb.Controllers
 			SparWeb.EmailManager.EmailTypes emailType = 0;
 
 			var emailPlaceholoders = new Dictionary<string, string>();
-			emailPlaceholoders["[SPAR_DATE]"] = model.SparDate.Value.ToString("MM/dd/yyyy");
-			emailPlaceholoders["[SPAR_TIME]"] = model.SparTime.ToString();
-			emailPlaceholoders["[SPAR_LOCATION]"] = (model.SparGymID > 0) ? model.SparGym.Name : "N/A";
+			emailPlaceholoders["[SPAR_DATE]"] = (model.SparDate.HasValue)? model.SparDate.Value.ToString("MM/dd/yyyy") : "N/A";
+			emailPlaceholoders["[SPAR_TIME]"] = (model.SparTime != null)? model.SparTime.ToString() : "N/A";
+			emailPlaceholoders["[SPAR_LOCATION]"] = (model.SparGym != null) ? model.SparGym.Name : "N/A";
 			emailPlaceholoders["[SPAR_NOTES]"] = (String.IsNullOrEmpty(model.SparNotes) == false) ? String.Format("Notes: {0}<br />", model.SparNotes) : "";
 				
 			if (isFirstResponse == true) // first response

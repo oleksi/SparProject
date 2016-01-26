@@ -49,24 +49,17 @@
     }
     else if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation)
     {
-		if (Model.SparDate > DateTime.Now.AddDays(-1))
-		{ 
-			if (Model.OpponentFighter.Trainer != null)
-			{
-				<h2 class="sparDetailsStatus">Trainer @Model.OpponentFighter.Trainer.Name of @Model.OpponentFighter.Name agreed to the spar! Please confirm or propose a change ...</h2>
-			}
-			else if (Model.ThisFighter.Trainer != null)
-			{
-				<h2 class="sparDetailsStatus">@Model.OpponentFighter.Name agreed to spar @Model.ThisFighter.Name! Please confirm or propose a change ...</h2>
-			}
-			else
-			{
-				<h2 class="sparDetailsStatus">@Model.OpponentFighter.Name agreed to spar you! Please confirm or propose a change ...</h2>
-			}
+		if (Model.OpponentFighter.Trainer != null)
+		{
+			<h2 class="sparDetailsStatus">Trainer @Model.OpponentFighter.Trainer.Name of @Model.OpponentFighter.Name agreed to the spar! Please confirm or propose a change ...</h2>
+		}
+		else if (Model.ThisFighter.Trainer != null)
+		{
+			<h2 class="sparDetailsStatus">@Model.OpponentFighter.Name agreed to spar @Model.ThisFighter.Name! Please confirm or propose a change ...</h2>
 		}
 		else
 		{
-			<h2 class="sparDetailsStatus">This spar has been expired. @Html.ActionLink("Request another spar with this figther", "SparConfirmation", "Spar", new { ID = Model.OpponentFighter.SparIdentityUser.Id }, null).</h2>
+			<h2 class="sparDetailsStatus">@Model.OpponentFighter.Name agreed to spar you! Please confirm or propose a change ...</h2>
 		}
 	}
 	else if (Model.SparRequesStatus == SparModel.SparRequestStatus.Confirmed)
@@ -114,7 +107,7 @@
         <div id="sparDetailsInfo" class="hidden">
             @{ Html.RenderPartial("SparInformationInfoBox", Model); }
 
-			@if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation && Model.SparDate > DateTime.Now.AddDays(-1))
+			@if (Model.SparRequesStatus == SparModel.SparRequestStatus.DateLocationNegotiation)
 			{
 			<div class="row form-group">
 				<div class="col-md-8 col-md-offset-2">
