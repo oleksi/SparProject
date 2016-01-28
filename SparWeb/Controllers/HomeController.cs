@@ -21,7 +21,13 @@ namespace SparWeb.Controllers
 		public ActionResult Index()
 		{
 			var model = new HomeViewModel();
-			model.FeaturedTrainersList = Util.GetRandomTrainersViewModels(2);
+
+			var trainerRepo = new TrainerRepository();
+			var trainerMike = trainerRepo.GetTrainerByStateAndName("NY", "Michael Kozlowski");
+			var trainerMikeViewModel = Util.GetAccountViewModelForTrainer(trainerMike, 150);
+			trainerMikeViewModel.IsFeaturedMode = true;
+			model.FeaturedTrainersList = Util.GetRandomTrainersViewModels(1, trainerMike.Id.Value);
+			model.FeaturedTrainersList.Insert(0, trainerMikeViewModel);
 			
 			//Gleason's is always the 1st
 			var gymRepo = new GymRepository();
@@ -30,6 +36,7 @@ namespace SparWeb.Controllers
 			gleasonsGymViewModel.IsFeaturedMode = true;
 			model.FeaturedGymsList = Util.GetRandomGymsViewModels(1);
 			model.FeaturedGymsList.Insert(0, gleasonsGymViewModel);
+
 			model.FeaturedFightersList = Util.GetRandomFightersViewModels(User, 2);
 
 			ViewBag.ShowPartners = true;

@@ -393,10 +393,10 @@ namespace SparWeb
 			return randomFightersViewModelList;
 		}
 
-		public static List<AccountTrainerViewModel> GetRandomTrainersViewModels(int trainersNum)
+		public static List<AccountTrainerViewModel> GetRandomTrainersViewModels(int trainersNum, int trainerIdToExclude)
 		{
 			var trainerRepo = new TrainerRepository();
-			var trainersList = trainerRepo.GetTrainersWithProfilePics();
+			var trainersList = trainerRepo.GetTrainersWithProfilePics().Where(tt => tt.Id != trainerIdToExclude).ToList();
 
 			//getting random number of fighters
 			trainersList.Shuffle();
