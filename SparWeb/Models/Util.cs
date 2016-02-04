@@ -420,5 +420,10 @@ namespace SparWeb
 
 			return randomGymsViewModelList;
 		}
+
+		public static string GetGymLink(AccountViewModel model)
+		{
+			return (String.IsNullOrEmpty(model.GymUrl) == false) ? String.Format("<a href=\"{0}\">{1}</a>", model.GymUrl, model.GymName) : model.GymName;
+		}
 	}
 }

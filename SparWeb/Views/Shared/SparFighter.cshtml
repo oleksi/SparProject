@@ -15,7 +15,7 @@
 					<span class="fighterNameSmall"><a href="@Model.FighterUrl" @(Model.IsWidgetView? " target=\"_blank\"" : "")>@Model.Name</a></span>
 					<div class="row">
 						<div class="col-md-12">
-							from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
+							from <span class="gymNameSmall">@Html.Raw(Util.GetGymLink(Model))</span>
 							<br>
 							<span>@Model.City, @Model.State</span>
 						</div>
@@ -34,7 +34,7 @@
 			<span class="fighterNameSmall hidden-xs"><a href="@Model.FighterUrl" @(Model.IsWidgetView ? " target=\"_blank\"" : "")>@Model.Name</a></span>
 			<div class="row hidden-xs">
 				<div class="col-md-12">
-					from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
+					from <span class="gymNameSmall">@Html.Raw(Util.GetGymLink(Model))</span>
 					<br>
 					<span>@Model.City, @Model.State</span>
 				</div>

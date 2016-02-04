@@ -4,7 +4,7 @@
 	<span class="fighterNameSmall">@Html.ValueFor(m => m.Name)</span>
 	<div class="row">
 		<div class="col-md-12">
-			from <span class="gymNameSmall">@Html.ValueFor(m => m.GymName)</span>
+			from <span class="gymNameSmall">@Html.Raw(Util.GetGymLink(Model))</span>
 			<br />
 			<span>@Model.City, @Model.State</span>
 		</div>

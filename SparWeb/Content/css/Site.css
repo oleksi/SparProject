@@ -105,6 +105,10 @@ input[type="checkbox"].input-validation-error {
 	font-weight: bold;
 }
 
+.gymNameSmall a {
+	color: #C9302C;
+}
+
 .top-buffer { 
 	margin-top:20px; 
 }

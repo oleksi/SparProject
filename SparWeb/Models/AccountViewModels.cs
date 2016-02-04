@@ -155,6 +155,7 @@ namespace SparWeb.Models
 		[Display(Name = "Gym name:")]
 		public string GymName { get; set; }
 		public Gym Gym { get; set; }
+		public string GymUrl { get { return (Gym != null && String.IsNullOrEmpty(Gym.StreetAddress) == false) ? String.Format("/gyms/{0}/{1}", Util.States[Gym.State], Gym.Name) : ""; } }
 
 		public DateTime JoinDate { get; set; }
 
