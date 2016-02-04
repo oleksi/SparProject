@@ -7,7 +7,7 @@
 				<span class="gymNameTitle"><a href="@Model.GymUrl">@Html.ValueFor(m => m.Name)</a></span>
 			</div>
 			<div class="profilePicture">
-				<a href="@Model.GymUrl"><img src="@Model.GymPictureFile" height="150"></a>
+				<a href="@Model.GymUrl"><img src="@Model.GymPictureFile" height="150" class="img-thumbnail"></a>
 			</div>
 		</div>
 		<div class="@((Model.IsFeaturedMode == false) ? "col-md-6 vAlignCenter" : "col-md-8")">
