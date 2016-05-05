@@ -32,6 +32,12 @@ namespace SparWeb
 			);
 
 			routes.MapRoute(
+				name: "Error",
+				url: "Error",
+				defaults: new { controller = "Home", action = "Error" }
+			);
+
+			routes.MapRoute(
 				name: "Fighters",
 				url: "fighters/{state}/{name}",
 				defaults: new { controller = "Fighters", action = "Fighter" }
