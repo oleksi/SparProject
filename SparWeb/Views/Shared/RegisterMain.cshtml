@@ -100,11 +100,19 @@
 		$('#registerTrainer').click(function () {
 			$('#registerMain').hide();
 			$('#registerTrainerDiv').removeClass('hidden');
+			@if (Model.IsPopupMode)
+			{
+				@:ga('send', 'event', 'Registration', 'Popup');
+			}
 		});
 
 		$('#registerFighter').click(function () {
 			$('#registerMain').hide();
 			$('#registerFighterDiv').removeClass('hidden');
+			@if (Model.IsPopupMode)
+			{
+				@:ga('send', 'event', 'Registration', 'Popup');
+			}
 		});
 	});
 </script>
