@@ -1,7 +1,7 @@
 ﻿@model SparWeb.Models.AccountTrainerViewModel
 
 @{
-	ViewBag.Title = String.Format("Trainer Profile: {0} from {1}, {2}", Model.Name, Model.City, Model.State);
+	ViewBag.Title = String.Format("Spar with fighters of {0} from {1}, {2}", Model.Name, Model.City, Model.State);
 	ViewBag.MetaDescription = String.Format("{0} from {1}, {2}; Phone Number: {3}; Website: {4}; Rate: {5}; Notes: {6}", Model.Name, Model.City, Model.State, Model.PhoneNumber, Model.Website, Model.Rate.ToString("C"), Model.Notes);
 }
 
