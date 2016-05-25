@@ -114,7 +114,8 @@
 			<a href="http://www.twitter.com/SparGym" target="_blank" class="tw"></a>
 		</div>
     </div>
-
+	@if (Request.IsAuthenticated == false)
+	{
 	<div id="registerPopupModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -129,12 +130,16 @@
 			</div>
 		</div>
 	</div>
+	}
 
     @RenderSection("scripts", required: false)
 
 	<script type="text/javascript">
 		$(function () {
-			setTimeout(showRegisterPopup, 7000);
+			@if (Request.IsAuthenticated == false)
+			{
+			@:setTimeout(showRegisterPopup, 7000);
+			}
 
 			$('form').on('submit', function () {
 				if ($(this).valid() == false)
@@ -146,11 +151,16 @@
 
 		});
 
+		@if (Request.IsAuthenticated == false)
+		{
+		<text>
 		function showRegisterPopup() {
 			if (!$.cookie('registerPopupSeen')) {
-				$('#registerPopupModal').modal('show');
-				$.cookie('registerPopupSeen', '1', { expires: 30, path: '/' });
+					$('#registerPopupModal').modal('show');
+					$.cookie('registerPopupSeen', '1', { expires: 30, path: '/' });
 			}
+		}
+		</text>
 		}
 	</script>
 </body>
