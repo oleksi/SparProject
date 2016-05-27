@@ -484,6 +484,7 @@ namespace SparWeb.Controllers
 			var member = getMember(model.ID);
 			var currFighter = member as Fighter;
 
+			currFighter.Name = model.Name;
 			currFighter.City = model.City;
 			currFighter.State = model.State;
 
@@ -518,6 +519,7 @@ namespace SparWeb.Controllers
 			}
 
 			var currTrainer = getLoggedInTrainer();
+			currTrainer.Name = model.Name;
 			currTrainer.City = model.City;
 			currTrainer.State = model.State;
 
