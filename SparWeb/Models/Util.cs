@@ -425,5 +425,10 @@ namespace SparWeb
 		{
 			return (String.IsNullOrEmpty(model.GymUrl) == false) ? String.Format("<a href=\"{0}\">{1}</a>", model.GymUrl, model.GymName) : model.GymName;
 		}
+
+		public static bool IsRegistrationPopupAllowed(HttpRequestBase request)
+		{
+			return (request.IsAuthenticated == false && request.RawUrl.ToLower().EndsWith("/register") == false && request.RawUrl.ToLower().EndsWith("/register#") == false);
+		}
 	}
 }
