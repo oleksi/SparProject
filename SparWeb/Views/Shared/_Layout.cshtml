@@ -158,6 +158,7 @@
 			if (!$.cookie('registerPopupSeen')) {
 					$('#registerPopupModal').modal('show');
 					$.cookie('registerPopupSeen', '1', { expires: 30, path: '/' });
+					ga('send', 'event', 'Registration', 'Popup Displayed');
 			}
 		}
 		</text>
