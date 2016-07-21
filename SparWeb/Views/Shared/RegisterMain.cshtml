@@ -11,7 +11,7 @@
 				<div class="registerBox">
 					<a href="#" id="registerTrainer">
 						<div class="thumbnail fighterCard">
-							<img src="~/Content/Images/anonymous-photo-trainer-250X250.jpg" class="img-thumbnail" />
+							<img src="http://spargym.com/Content/Images/anonymous-photo-trainer-250X250.jpg" class="img-thumbnail" />
 							<div class="caption text-center">
 								<h2 class="media-heading">Create <b>TRAINER</b> Account</h2>
 							</div>
@@ -23,7 +23,7 @@
 				<div class="registerBox">
 					<a href="#" id="registerFighter">
 						<div class="thumbnail fighterCard ">
-							<img src="~/Content/Images/anonymous-photo-fighter-250X250.jpg" class="img-thumbnail" />
+							<img src="http://spargym.com/Content/Images/anonymous-photo-fighter-250X250.jpg" class="img-thumbnail" />
 							<div class="caption text-center">
 								<h2 class="media-heading">Create <b>FIGHTER</b> Account</h2>
 							</div>
@@ -34,8 +34,7 @@
 		</div>
 	</div>
 	<div id="registerTrainerDiv" class="hidden">
-		@using (Html.BeginForm("RegisterTrainer", "Account", FormMethod.Post, new { @class = "form-horizontal register-form", role = "form" }))
-		{
+		<form action="http://spargym.com/Account/RegisterTrainer" class="form-horizontal register-form" method="post" role="form">
 			<div class="row">
 				<div class="@((Model.IsPopupMode == false)? "col-md-offset-2 col-md-6" : "col-md-10")">
 					<div class="col-md-offset-4 col-md-8">
@@ -61,11 +60,10 @@
 					</div>
 				</div>
 			</div>
-		}
+		</form>
 	</div>
 	<div id="registerFighterDiv" class="hidden">
-		@using (Html.BeginForm("RegisterFighter", "Account", FormMethod.Post, new { @class = "form-horizontal register-form", role = "form" }))
-		{
+		<form action="http://spargym.com/Account/RegisterFighter" class="form-horizontal register-form" method="post" role="form">
 			<div class="row">
 				<div class="@((Model.IsPopupMode == false)? "col-md-offset-2 col-md-6" : "col-md-10")">
 					<div class="col-md-offset-4 col-md-8">
@@ -91,7 +89,7 @@
 					</div>
 				</div>
 			</div>
-		}
+		</form>
 	</div>
 </div>
 

@@ -120,14 +120,7 @@
 	<div id="registerPopupModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h1 class="modal-title text-center" style="font-size: 40px;font-weight: bold;">Join SparGym for FREE</h1>
-					@Html.AntiForgeryToken()
-				</div>
-				<div class="modal-body">
-					@{Html.RenderPartial("RegisterMain", new SparWeb.Models.RegisterMainViewModel() { IsPopupMode = true });}
-				</div>
+
 			</div>
 		</div>
 	</div>
@@ -157,9 +150,18 @@
 		<text>
 		function showRegisterPopup() {
 			if (!$.cookie('registerPopupSeen')) {
+				$.ajax({
+					url: '@Url.Action("GetRegisterPopupModal", "Account")',
+				})
+				.done(function (data) {
+
+					$('#registerPopupModal .modal-content').html(data);
+
 					$('#registerPopupModal').modal('show');
+
 					$.cookie('registerPopupSeen', '1', { expires: 30, path: '/' });
-					ga('send', 'event', 'Registration', 'Popup Displayed');
+					//ga('send', 'event', 'Registration', 'Popup Displayed');
+				});
 			}
 		}
 		</text>

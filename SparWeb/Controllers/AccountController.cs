@@ -168,9 +168,15 @@ namespace SparWeb.Controllers
 			return View();
 		}
 
-        //
+		[AllowAnonymous]
+		public ActionResult GetRegisterPopupModal()
+		{
+			return View();
+		}
+
+		//
 		// GET: /Account/RegisterFighter
-        [AllowAnonymous]
+		[AllowAnonymous]
         public ActionResult RegisterFighter()
         {
 			return View(new RegisterFighterViewModel() { Sex = true, IsSouthpaw = false });

@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -405,6 +406,7 @@
     <Content Include="Views\Shared\FighterAttributes.cshtml" />
     <Content Include="Views\Trainers\Trainer.cshtml" />
     <Content Include="Views\Shared\TrainerAttributes.cshtml" />
+    <Content Include="Views\Account\GetRegisterPopupModal.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
