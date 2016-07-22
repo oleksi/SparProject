@@ -428,7 +428,7 @@ namespace SparWeb
 
 		public static bool IsRegistrationPopupAllowed(HttpRequestBase request)
 		{
-			return (request.IsAuthenticated == false && request.RawUrl.ToLower().EndsWith("/register") == false && request.RawUrl.ToLower().EndsWith("/register#") == false);
+			return (request.IsAuthenticated == false && request.RawUrl.ToLower().IndexOf("/register") == -1 && request.RawUrl.ToLower().IndexOf("/register#") == -1);
 		}
 	}
 }
