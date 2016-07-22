@@ -1,4 +1,6 @@
-﻿@{ 
+﻿@model int?
+
+@{ 
 	Layout = null;
 }
 
@@ -8,5 +10,5 @@
 	@Html.AntiForgeryToken()
 </div>
 <div class="modal-body">
-	@{Html.RenderPartial("RegisterMain", new SparWeb.Models.RegisterMainViewModel() { IsPopupMode = true });}
+	@{Html.RenderPartial("RegisterMain", new SparWeb.Models.RegisterMainViewModel() { IsPopupMode = true, IsFromBlog = (Model == 1) });}
 </div>

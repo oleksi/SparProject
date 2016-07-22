@@ -1,4 +1,6 @@
-﻿@{
+﻿@model int?
+
+@{
 	ViewBag.Title = "Registration";
 }
 
@@ -6,15 +8,15 @@
 	<h1 class="sparDetailsStatus">Register for FREE to connect with sparring partners.</h1>
 </div>
 
-@{Html.RenderPartial("RegisterMain", new SparWeb.Models.RegisterMainViewModel() { IsPopupMode = false });}
+@{Html.RenderPartial("RegisterMain", new SparWeb.Models.RegisterMainViewModel() { Mode = Model, IsPopupMode = false });}
 
 <script type="text/javascript">
-	$(function () {
-		$('#registerTrainer').click(function () {
+	$(function() {
+		$('#registerTrainer').click(function() {
 			$('.registerForFreeMessage').hide();
 		});
 
-		$('#registerFighter').click(function () {
+		$('#registerFighter').click(function() {
 			$('.registerForFreeMessage').hide();
 		});
 	});

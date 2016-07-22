@@ -163,15 +163,16 @@ namespace SparWeb.Controllers
 		}
 
 		[AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(int? m)
 		{
-			return View();
+			//m=1 -> Fighter; m=2 -> Trainer
+			return View(m);
 		}
 
 		[AllowAnonymous]
-		public ActionResult GetRegisterPopupModal()
+		public ActionResult GetRegisterPopupModal(int? fromBlog)
 		{
-			return View();
+			return View(fromBlog);
 		}
 
 		//
