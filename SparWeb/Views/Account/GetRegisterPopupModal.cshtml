@@ -10,5 +10,5 @@
 	@Html.AntiForgeryToken()
 </div>
 <div class="modal-body">
-	@{Html.RenderPartial("RegisterMain", new SparWeb.Models.RegisterMainViewModel() { IsPopupMode = true, IsFromBlog = true });}
+	@{Html.RenderPartial("RegisterMain", new SparWeb.Models.RegisterMainViewModel() { IsPopupMode = true, IsFromBlog = (Request.Browser.IsMobileDevice || Model == 1) });}
 </div>
