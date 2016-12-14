@@ -4,10 +4,6 @@
 	ViewBag.Title = "Registration";
 }
 
-<div class="row text-center registerForFreeMessage">
-	<h1 class="sparDetailsStatus">Register for FREE to connect with sparring partners.</h1>
-</div>
-
 @{Html.RenderPartial("RegisterMain", new SparWeb.Models.RegisterMainViewModel() { Mode = Model, IsPopupMode = false });}
 
 <script type="text/javascript">

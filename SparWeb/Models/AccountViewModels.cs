@@ -127,7 +127,7 @@ namespace SparWeb.Models
 		[Display(Name = "Rate (per hour)")]
 		public decimal Rate { get; set; }
 
-		[Display(Name = "Notes")]
+		[Display(Name = "Tell us more about yourself")]
 		public string Notes { get; set; }
 	}
 

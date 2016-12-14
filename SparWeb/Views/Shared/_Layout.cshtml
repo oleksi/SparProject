@@ -17,7 +17,7 @@
 
     @RenderSection("head", required: false)
 
-	@if (Request.Browser.IsMobileDevice == false)
+	@if (Request.Browser.IsMobileDevice == false && System.Configuration.ConfigurationManager.AppSettings["Include3rdPartyScripts"] == "true")
 	{ 
 	<!--Start of Zopim Live Chat Script-->
 	<script type="text/javascript">
