@@ -105,19 +105,19 @@
 		$('#registerTrainer').click(function () {
 			$('#registerMain').hide();
 			$('#registerTrainerDiv').removeClass('hidden');
-			@if (Model.IsPopupMode)
+			@if (Model.IsPopupMode && System.Configuration.ConfigurationManager.AppSettings["Include3rdPartyScripts"] == "true")
 			{
 				@:ga('send', 'event', 'Registration', 'Popup Clicked');
-									}
+			}
 		});
 
 		$('#registerFighter').click(function () {
 			$('#registerMain').hide();
 			$('#registerFighterDiv').removeClass('hidden');
-			@if (Model.IsPopupMode)
+			@if (Model.IsPopupMode && System.Configuration.ConfigurationManager.AppSettings["Include3rdPartyScripts"] == "true")
 			{
 				@:ga('send', 'event', 'Registration', 'Popup Clicked');
-									}
+			}
 		});
 
 		@if (Model.Mode == 1)

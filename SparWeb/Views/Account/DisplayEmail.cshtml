@@ -7,9 +7,12 @@
 </h3>
 
 @section scripts {
+	@if (System.Configuration.ConfigurationManager.AppSettings["Include3rdPartyScripts"] == "true")
+	{
 	<script type="text/javascript">
 		$(function () {
 			ga('send', 'event', 'Registration', 'Registration Complete');
 		});
 	</script>
+	}
 }

@@ -160,7 +160,10 @@
 					$('#registerPopupModal').modal('show');
 
 					$.cookie('registerPopupSeen', '1', { expires: 30, path: '/' });
-					ga('send', 'event', 'Registration', 'Popup Displayed');
+					@if (System.Configuration.ConfigurationManager.AppSettings["Include3rdPartyScripts"] == "true")
+					{
+						@:ga('send', 'event', 'Registration', 'Popup Displayed');
+					}
 				});
 			}
 		}

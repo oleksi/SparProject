@@ -26,7 +26,7 @@
 					<div class="carousel-caption">
 						<h4>SparGym connects sparring partners of any level!</h4>
 						<p>No matter if you are beginner or experienced fighter, you will find the right sparring partner by location, age, gender, weight, height, stance and experience level. Register today to schedule your next spar!</p>
-						<p><a href="@Url.Content("~/Account/Register")" class="btn btn-success btn-lg" onclick="ga('send', 'event', 'Registration', 'Home Page Slider Clicked');">Register &raquo;</a></p>
+						<p><a href="@Url.Content("~/Account/Register")" class="btn btn-success btn-lg" onclick="@((System.Configuration.ConfigurationManager.AppSettings["Include3rdPartyScripts"] == "true")? "ga('send', 'event', 'Registration', 'Home Page Slider Clicked');" : "")">Register &raquo;</a></p>
 					</div>
 				</div>
 				<div class="item">
@@ -34,7 +34,7 @@
 					<div class="carousel-caption">
 						<h4>Sparring is where fighters make the most progress!</h4>
 						<p>No matter how hard you hit the bag, you must apply what you learn through live sparring. Join SparGym today to find your next sparring partner!</p>
-						<p><a href="@Url.Content("~/Account/Register")" class="btn btn-success btn-lg" onclick="ga('send', 'event', 'Registration', 'Home Page Slider Clicked');">Register &raquo;</a></p>
+						<p><a href="@Url.Content("~/Account/Register")" class="btn btn-success btn-lg" onclick="@((System.Configuration.ConfigurationManager.AppSettings["Include3rdPartyScripts"] == "true")? "ga('send', 'event', 'Registration', 'Home Page Slider Clicked');" : "")">Register &raquo;</a></p>
 					</div>
 				</div>
 			</div>
@@ -116,7 +116,7 @@
 		if (window.innerWidth > 990) {
 			$('#search-filters').height($('#featured-fighters-box').height() - 23);
 		}
-		@if (Request.IsAuthenticated == false)
+		@if (Request.IsAuthenticated == false && System.Configuration.ConfigurationManager.AppSettings["Include3rdPartyScripts"] == "true")
 		{
 		@:ga('send', 'event', 'Registration', 'Home Page Slider Displayed');
 		}
