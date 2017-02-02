@@ -75,5 +75,16 @@ namespace SparData
 
 			return sparRequests;
 		}
+
+		public IList<SparActivity> GetSparRequestActivitiesSince(DateTime sinceDate)
+		{
+			using (var session = getSession())
+			{
+				return session.GetNamedQuery("SparRequest_GetAllActiveSince")
+					.SetString("SinceDate", sinceDate.ToShortDateString())
+					.SetResultTransformer(Transformers.AliasToBean(typeof(SparActivity)))
+					.List<SparActivity>().ToList();
+			}
+		}
 	}
 }

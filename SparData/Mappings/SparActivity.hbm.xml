@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" 
+                   assembly="SparModel" 
+                   namespace="SparActivity">
+
+	<sql-query name="SparRequest_GetAllActiveSince">
+		<return-scalar column="SparRequestId" type="String"/>
+		<return-scalar column="StatusId" type="Int32"/>
+		<return-scalar column="RequestorFighterId" type="Int32"/>
+		<return-scalar column="RequestDate" type="DateTime"/>
+		<return-scalar column="OpponentFighterId" type="Int32"/>
+		<return-scalar column="LastNegotiatorFighterId" type="Int32"/>
+
+		<return-scalar column="LastUpdateDate" type="DateTime"/>
+		exec SparRequest_GetAllActiveSince :SinceDate
+	</sql-query>
+  
+</hibernate-mapping>

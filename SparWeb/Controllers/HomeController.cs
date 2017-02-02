@@ -35,6 +35,9 @@ namespace SparWeb.Controllers
 
 			model.FeaturedFightersList = Util.GetRandomFightersViewModels(User, 2);
 
+			var sparRepo = new SparRepository();
+			var sparActivities = sparRepo.GetSparRequestActivitiesSince(DateTime.Now.AddDays(-30));
+
 			ViewBag.ShowPartners = true;
 
 			return View(model);

@@ -132,6 +132,10 @@
     <EmbeddedResource Include="Mappings\SparNote.hbm.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Mappings\SparActivity.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Content Include="SQL\SparRequest_GetAllActiveSince.sql" />
     <Content Include="SQL\SparRequest_GetNotesBySparRequestId.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
