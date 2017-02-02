@@ -11,6 +11,15 @@
 	<div class="col-md-8">
 		@if (Model.FightersList.Count > 0)
 		{
+			if (Request.IsAuthenticated == false)
+			{
+				<div class="row">
+					<div class="col-md-12 text-center" style="margin-bottom: 20px;">
+						<a class="btn btn-success btn-lg" href="/Account/Register" onclick="@((System.Configuration.ConfigurationManager.AppSettings["Include3rdPartyScripts"] == "true") ? "ga('send', 'event', 'Registration', 'State Register Click');" : "")">Register as Fighter@((String.IsNullOrEmpty(Model.State) == false)? " in " + Util.States[Model.State] : "")</a>
+					</div>
+				</div>
+			}
+
 			foreach (var currModel in Model.FightersList)
 			{
 				@Html.Partial("SparFighter", currModel)
@@ -58,5 +67,11 @@
     @foreach(string key in Model.FilterParams.Keys)
     {
     @:filterParamsDict['@key'] = '@Model.FilterParams[key]';
-    }
+	}
+	$(function () {
+		@if (Request.IsAuthenticated == false && System.Configuration.ConfigurationManager.AppSettings["Include3rdPartyScripts"] == "true")
+		{
+			@:ga('send', 'event', 'Registration', 'State Register Displayed');
+		}
+	})
 </script>
