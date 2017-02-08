@@ -18,6 +18,14 @@ namespace SparWeb.Models
 		[StringLength(1024)]
 		public string SparNotes { get; set; }
 
+		public string ThisFighterUrl
+		{
+			get
+			{
+				return String.Format("/fighters/{0}/{1}", Util.States[ThisFighter.State], ThisFighter.Name);
+			}
+		}
+
 		public string OpponentFighterUrl
 		{
 			get

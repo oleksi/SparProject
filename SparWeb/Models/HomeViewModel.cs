@@ -11,7 +11,7 @@ namespace SparWeb.Models
 		public List<AccountTrainerViewModel> FeaturedTrainersList { get; set; }
 		public List<GymViewModel> FeaturedGymsList { get; set; }
 		public List<AccountFighterViewModel> FeaturedFightersList { get; set; }
-		public List<AccountViewModel> RecentActivities { get; set; }
+		public List<SiteActivityViewModel> RecentActivities { get; set; }
 	}
 
 	public class ActivityViewModel

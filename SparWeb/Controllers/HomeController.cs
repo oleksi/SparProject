@@ -36,7 +36,27 @@ namespace SparWeb.Controllers
 			model.FeaturedFightersList = Util.GetRandomFightersViewModels(User, 2);
 
 			var sparRepo = new SparRepository();
-			var sparActivities = sparRepo.GetSparRequestActivitiesSince(DateTime.Now.AddDays(-30));
+			var fighterRepo = new FighterRepository();
+			var sinceDate = DateTime.Now.AddDays(-14);
+			var siteActivitiesViewModels = new List<SiteActivityViewModel>();
+
+			var sparActivities = sparRepo.GetSparRequestActivitiesSince(sinceDate);
+			foreach (var sparActivity in sparActivities)
+			{
+				var thisFighter = fighterRepo.GetFighterById(sparActivity.LastNegotiatorFighterId);
+				var otherFighter = fighterRepo.GetFighterById((sparActivity.LastNegotiatorFighterId == sparActivity.RequestorFighterId)? sparActivity.OpponentFighterId : sparActivity.RequestorFighterId);
+				var sparActivitiesViewModel = Util.GetSparConfirmationViewModel(thisFighter, otherFighter, 150);
+				var siteActivity = new SiteActivityViewModel() { SparActivity = sparActivitiesViewModel, ActivityDate = sparActivity.LastUpdateDate };
+				siteActivitiesViewModels.Add(siteActivity);
+			}
+
+			var newFighters = fighterRepo.GetRegisterredFightersSince(sinceDate);
+			foreach (var newFighter in newFighters)
+			{
+				var newFighterViewModel = Util.GetAccountViewModelForFighter(newFighter, 150);
+				var siteActivity = new SiteActivityViewModel() { Fighter = newFighterViewModel, ActivityDate = newFighter.InsertDate };
+				siteActivitiesViewModels.Add(siteActivity);
+			}
 
 			ViewBag.ShowPartners = true;
 

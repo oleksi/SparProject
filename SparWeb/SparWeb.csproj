@@ -265,6 +265,7 @@
     <Compile Include="Models\FightersViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\SearchByStateViewModel.cs" />
+    <Compile Include="Models\SiteActivityViewModel.cs" />
     <Compile Include="Models\SparNoteViewModel.cs" />
     <Compile Include="Models\SparViewModels.cs" />
     <Compile Include="Models\TrainersViewModel.cs" />
