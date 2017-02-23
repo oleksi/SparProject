@@ -5,7 +5,14 @@
         <div class="thumbnail fighterCard">
             <img height="@Model.ProfilePictureSize" src="@Util.GetProfilePictureFile(Model.ThisFighter, Model.ProfilePictureSize)" class="img-thumbnail" />
             <div class="caption text-center">
+				@if (Model.ShowThisFighterUrl == false)
+				{
                 <h3 class="media-heading">@Model.ThisFighter.Name</h3>
+				}
+				else
+				{
+				<h3 class="media-heading"><a href="@Model.ThisFighterUrl">@Model.ThisFighter.Name</a></h3>
+				}
                 <p>
                     from <strong>@((Model.ThisFighter.Gym != null) ? Model.ThisFighter.Gym.Name : "Unknown Gym")</strong>
                     <br />

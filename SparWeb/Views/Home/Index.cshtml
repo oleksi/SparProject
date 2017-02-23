@@ -73,9 +73,6 @@
 
 <script type="text/javascript">
 	$(function () {
-		if (window.innerWidth > 990) {
-			$('#search-filters').height($('#featured-fighters-box').height() - 23);
-		}
 		@if (Request.IsAuthenticated == false && System.Configuration.ConfigurationManager.AppSettings["Include3rdPartyScripts"] == "true")
 		{
 		@:ga('send', 'event', 'Registration', 'Home Page Slider Displayed');

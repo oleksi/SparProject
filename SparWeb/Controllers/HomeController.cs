@@ -47,6 +47,7 @@ namespace SparWeb.Controllers
 				var otherFighter = fighterRepo.GetFighterById((sparActivity.LastNegotiatorFighterId == sparActivity.RequestorFighterId)? sparActivity.OpponentFighterId : sparActivity.RequestorFighterId);
 				var sparActivitiesViewModel = new SparActivityViewModel(Util.GetSparConfirmationViewModel(thisFighter, otherFighter, 150));
 				sparActivitiesViewModel.SparRequesStatus = (SparRequestStatus)sparActivity.StatusId;
+				sparActivitiesViewModel.ShowThisFighterUrl = true;
 				var siteActivity = new SiteActivityViewModel() { SparActivity = sparActivitiesViewModel, ActivityDate = sparActivity.LastUpdateDate };
 				siteActivitiesViewModels.Add(siteActivity);
 			}

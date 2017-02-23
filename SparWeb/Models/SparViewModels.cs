@@ -33,6 +33,8 @@ namespace SparWeb.Models
 				return String.Format("/fighters/{0}/{1}", Util.States[OpponentFighter.State], OpponentFighter.Name);
 			}
 		}
+
+		public bool ShowThisFighterUrl { get; set; }
 	}
 
 	public class SparActivityViewModel : SparConfirmationViewModel
