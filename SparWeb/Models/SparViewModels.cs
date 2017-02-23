@@ -35,6 +35,20 @@ namespace SparWeb.Models
 		}
 	}
 
+	public class SparActivityViewModel : SparConfirmationViewModel
+	{
+		public SparActivityViewModel() { }
+
+		public SparActivityViewModel(SparConfirmationViewModel sparConfirmationViewModel)
+		{
+			this.ThisFighter = sparConfirmationViewModel.ThisFighter;
+			this.OpponentFighter = sparConfirmationViewModel.OpponentFighter;
+			this.ProfilePictureSize = sparConfirmationViewModel.ProfilePictureSize;
+		}
+
+		public SparRequestStatus SparRequesStatus { get; set; }
+	}
+
 	public class ConfirmSparDetailsViewModel : SparConfirmationViewModel
 	{
 		public ConfirmSparDetailsViewModel() { }

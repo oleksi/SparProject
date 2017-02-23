@@ -45,7 +45,8 @@ namespace SparWeb.Controllers
 			{
 				var thisFighter = fighterRepo.GetFighterById(sparActivity.LastNegotiatorFighterId);
 				var otherFighter = fighterRepo.GetFighterById((sparActivity.LastNegotiatorFighterId == sparActivity.RequestorFighterId)? sparActivity.OpponentFighterId : sparActivity.RequestorFighterId);
-				var sparActivitiesViewModel = Util.GetSparConfirmationViewModel(thisFighter, otherFighter, 150);
+				var sparActivitiesViewModel = new SparActivityViewModel(Util.GetSparConfirmationViewModel(thisFighter, otherFighter, 150));
+				sparActivitiesViewModel.SparRequesStatus = (SparRequestStatus)sparActivity.StatusId;
 				var siteActivity = new SiteActivityViewModel() { SparActivity = sparActivitiesViewModel, ActivityDate = sparActivity.LastUpdateDate };
 				siteActivitiesViewModels.Add(siteActivity);
 			}
@@ -57,6 +58,8 @@ namespace SparWeb.Controllers
 				var siteActivity = new SiteActivityViewModel() { Fighter = newFighterViewModel, ActivityDate = newFighter.InsertDate };
 				siteActivitiesViewModels.Add(siteActivity);
 			}
+
+			model.RecentActivities = siteActivitiesViewModels.OrderByDescending(sa => sa.ActivityDate).ToList();
 
 			ViewBag.ShowPartners = true;
 

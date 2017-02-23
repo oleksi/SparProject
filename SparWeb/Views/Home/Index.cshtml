@@ -57,59 +57,19 @@
 	</div>
 	<div class="col-md-8">
 		<div class="feature-box" id="featured-fighters-box">
-			<p class="featured-header">Featured Sparring Partners:</p>
-			@if (Model.FeaturedFightersList.Count > 0)
+			<p class="featured-header">Recent Activities:</p>
+			@foreach (var siteActivity in Model.RecentActivities)
 			{
-				foreach (SparWeb.Models.AccountFighterViewModel currModel in Model.FeaturedFightersList)
+				if (siteActivity.SparActivity != null)
 				{
-					@Html.Partial("SparFighter", currModel)
+					Html.RenderPartial("SparActivity", siteActivity);
 				}
-				<p class="view-all-link">@Html.ActionLink("View All", "Index", "Fighters")</p>
-			}
-			else
-			{
-				<h3>No fighters found ...</h3>
 			}
 		</div>
 	</div>
 </div>
 
-<div class="row featured-trainers-gyms-row">
-	<div class="col-md-6">
-		<div class="feature-box feature-box-short">
-			<p class="featured-header">Featured Trainers:</p>
-			@if (Model.FeaturedTrainersList.Count > 0)
-			{
-				foreach (SparWeb.Models.AccountTrainerViewModel currModel in Model.FeaturedTrainersList)
-				{
-					@Html.Partial("TrainerInfo", currModel)
-				}
-				<p class="view-all-link">@Html.ActionLink("View All", "Index", "Trainers")</p>
-			}
-			else
-			{
-				<h3>No trainers found ...</h3>
-			}
-		</div>
-	</div>
-	<div class="col-md-6">
-		<div class="feature-box feature-box-short">
-			<p class="featured-header">Featured Boxing/MMA Gyms:</p>
-			@if (Model.FeaturedGymsList.Count > 0)
-			{
-				foreach (SparWeb.Models.GymViewModel currModel in Model.FeaturedGymsList)
-				{
-					@Html.Partial("GymInfo", currModel)
-				}
-				<p class="view-all-link">@Html.ActionLink("View All", "Index", "Gyms")</p>
-			}
-			else
-			{
-				<h3>No gyms found ...</h3>
-			}
-		</div>
-	</div>
-</div>
+
 
 <script type="text/javascript">
 	$(function () {

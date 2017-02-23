@@ -447,6 +447,7 @@
     <Content Include="Views\Shared\TrainerAttributes.cshtml" />
     <Content Include="Views\Account\GetRegisterPopupModal.cshtml" />
     <Content Include="Service References\Application Insights\ConnectedService.json" />
+    <Content Include="Views\Shared\SparActivity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

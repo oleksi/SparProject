@@ -1,0 +1,20 @@
+﻿@model SparWeb.Models.SiteActivityViewModel
+
+@{ 
+//string message = "";
+//if (Model.SparActivity.SparRequesStatus == SparModel.SparRequestStatus.Requested)
+//{
+//	message = String.Format("{0} requested to spar {1}", Model.ThisFighter.Name, Model.OpponentFighter.Name);
+//}
+//else
+//{
+//	message.SparActivity = String.Format("{0} responded to spar request from {1}", Model.ThisFighter.Name, Model.OpponentFighter.Name);
+//}
+}
+
+<div class="panel panel-default">
+	<div class="panel-heading text-right">@Model.ActivityDate.ToString()</div>
+	<div class="panel-body">
+		@{ Html.RenderPartial("SparConfirmationInfo", Model.SparActivity);}
+	</div>
+</div>

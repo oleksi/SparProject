@@ -7,7 +7,7 @@ namespace SparWeb.Models
 {
 	public class SiteActivityViewModel
 	{
-		public SparConfirmationViewModel SparActivity { get; set; }
+		public SparActivityViewModel SparActivity { get; set; }
 		public AccountFighterViewModel Fighter { get; set; }
 		public DateTime ActivityDate { get; set; }
 	}
