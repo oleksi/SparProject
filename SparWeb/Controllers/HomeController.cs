@@ -22,18 +22,18 @@ namespace SparWeb.Controllers
 		{
 			var model = new HomeViewModel();
 
-			var trainerRepo = new TrainerRepository();
-			model.FeaturedTrainersList = Util.GetRandomTrainersViewModels(2, null);
+			//var trainerRepo = new TrainerRepository();
+			//model.FeaturedTrainersList = Util.GetRandomTrainersViewModels(2, null);
 			
-			//Gleason's is always the 1st
-			var gymRepo = new GymRepository();
-			var gleasonsGym = gymRepo.GetGymById(1);
-			var gleasonsGymViewModel = Util.GetGymViewModel(gleasonsGym, 150);
-			gleasonsGymViewModel.IsFeaturedMode = true;
-			model.FeaturedGymsList = Util.GetRandomGymsViewModels(1);
-			model.FeaturedGymsList.Insert(0, gleasonsGymViewModel);
+			////Gleason's is always the 1st
+			//var gymRepo = new GymRepository();
+			//var gleasonsGym = gymRepo.GetGymById(1);
+			//var gleasonsGymViewModel = Util.GetGymViewModel(gleasonsGym, 150);
+			//gleasonsGymViewModel.IsFeaturedMode = true;
+			//model.FeaturedGymsList = Util.GetRandomGymsViewModels(1);
+			//model.FeaturedGymsList.Insert(0, gleasonsGymViewModel);
 
-			model.FeaturedFightersList = Util.GetRandomFightersViewModels(User, 2);
+			//model.FeaturedFightersList = Util.GetRandomFightersViewModels(User, 2);
 
 			var sparRepo = new SparRepository();
 			var fighterRepo = new FighterRepository();
