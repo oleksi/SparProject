@@ -184,7 +184,9 @@ namespace SparWeb
 					ProfilePictureFile = GetProfilePictureFile(fighter, thumbnailSize),
 					HimOrHer = fighter.GetHimOrHer(true),
 					JoinDate = fighter.InsertDate,
-					IsDemo = fighter.IsDemo
+					IsDemo = fighter.IsDemo,
+					Rate = fighter.Rate,
+					Comments = fighter.Comments
 				};
 
 			return model;

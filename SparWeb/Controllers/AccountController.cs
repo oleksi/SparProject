@@ -232,7 +232,7 @@ namespace SparWeb.Controllers
 				model.GymName = textInfo.ToTitleCase(model.GymName.ToLower());
 
 			var fighterRepo = new FighterRepository();
-			Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, City = model.City, State = model.State, Height = model.Height, Weight = model.Weight, IsSouthpaw = model.IsSouthpaw, NumberOfAmateurFights = model.NumberOfAmateurFights, NumberOfProFights = model.NumberOfProFights, Gym = createGym(model.GymName), ProfilePictureUploaded = false };
+			Fighter fighter = new Fighter() { Name = model.Name, Sex = model.Sex, DateOfBirth = dob, City = model.City, State = model.State, Height = model.Height, Weight = model.Weight, IsSouthpaw = model.IsSouthpaw, NumberOfAmateurFights = model.NumberOfAmateurFights, NumberOfProFights = model.NumberOfProFights, Gym = createGym(model.GymName), Rate = model.Rate, Comments = model.Comments, ProfilePictureUploaded = false };
 			fighter.SparIdentityUser = user;
 
 			if (model.AddedByTrainer == true)

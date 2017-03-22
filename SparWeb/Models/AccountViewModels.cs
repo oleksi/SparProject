@@ -111,6 +111,12 @@ namespace SparWeb.Models
 		[Display(Name = "Professional")]
 		public virtual int NumberOfProFights { get; set; }
 
+		[Display(Name = "Your Rate")]
+		public decimal? Rate { get; set; }
+
+		[Display(Name = "Tell us more about yourself")]
+		public string Comments { get; set; }
+
 		public bool AddedByTrainer { get; set; }
 		public string TrainerId { get; set; }
     }
@@ -185,6 +191,12 @@ namespace SparWeb.Models
 		[Required]
 		[Display(Name = "Professional")]
 		public int NumberOfProFights { get; set; }
+
+		[Display(Name = "Your Rate")]
+		public decimal? Rate { get; set; }
+
+		[Display(Name = "Tell us more about yourself")]
+		public string Comments { get; set; }
 
 		public string HimOrHer { get; set; }
 

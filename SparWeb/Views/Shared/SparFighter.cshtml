@@ -1,13 +1,13 @@
 ﻿@model SparWeb.Models.AccountFighterViewModel
 
 <div class="row well well-sm spar-fighter">
-	@if (Model.IsWidgetView == false)
-	{ 
-	<div class="text-right joined-date">
-		<small><b>Joined</b>: @Model.JoinDate.ToShortDateString()</small>
-	</div>
+	@if (Model.Rate.HasValue)
+	{
+		<div style="float:right;">
+			<span class="pricetag">@Model.Rate.Value.ToString("C")</span>
+		</div>
 	}
-	<div>
+	<div style="clear:both;">
 		<div class="col-md-3 vAlignCenter">
 			@if (Model.IsTrainerView == false)
 			{
@@ -102,4 +102,10 @@
 			}
 		</div>
 	</div>
+	@if (Model.IsWidgetView == false)
+	{
+		<div class="text-right joined-date">
+			<small><b>Joined</b>: @Model.JoinDate.ToShortDateString()</small>
+		</div>
+	}
 </div>

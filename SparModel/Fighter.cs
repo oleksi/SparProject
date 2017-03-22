@@ -17,6 +17,8 @@ namespace SparModel
 		public virtual Gym Gym { get; set; }
 		public virtual Trainer Trainer { get; set; }
 		public virtual bool IsDemo { get; set; }
+		public virtual decimal? Rate { get; set; }
+		public virtual string Comments { get; set; }
 
 		public virtual string GetHimOrHer(bool useTitleCase)
 		{
