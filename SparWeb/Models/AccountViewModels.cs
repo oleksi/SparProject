@@ -216,6 +216,11 @@ namespace SparWeb.Models
 				return String.Format("/fighters/{0}/{1}", Util.States[State], Name); 
 			}
 		}
+
+		public string GetHtmlFormattedComments()
+		{
+			return (Comments != null) ? Comments.Replace("\n", "<br />") : "";
+		}
 	}
 
 	public class AccountTrainerViewModel : AccountViewModel

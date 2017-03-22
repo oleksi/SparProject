@@ -30,6 +30,11 @@
 	<div class="col-md-2"></div>
 </div>
 <div class="row">
+	<div class="col-md-offset-1 col-md-9 accountNotes">
+		@Html.Raw(Model.GetHtmlFormattedComments())
+	</div>
+</div>
+<div class="row" style="margin-top: 10px;">
 	<div class="col-md-offset-4 col-md-4">
 		<p class="text-center">
 			@{Html.RenderPartial("SparButton", Model);}

@@ -84,6 +84,14 @@
                 }
 				</dd>
 			</dl>
+			@if (String.IsNullOrEmpty(Model.Comments) == false)
+			{
+				<div class="row">
+					<div class="col-md-12">
+						@Html.Raw(Model.GetHtmlFormattedComments())
+					</div>
+				</div>
+			}
 		</div>
 		<div class="col-md-2 col-xs-12 vAlignCenter sparFighterCTA">
 			@if (Model.IsTrainerView == true)
