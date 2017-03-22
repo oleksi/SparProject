@@ -18,6 +18,11 @@
     <div class="col-md-2"></div>
 </div>
 <div class="row">
+	<div class="col-md-offset-1 col-md-9 accountNotes">
+		@Html.Raw(Model.GetHtmlFormattedComments())
+	</div>
+</div>
+<div class="row">
     <div class="col-md-12">
         <p class="text-center">
             <a class="btn btn-success btn-lg col-xs-12 col-sm-3 col-sm-offset-4" href="@Url.Content("~/Fighters")">Find Spar Partners »</a>

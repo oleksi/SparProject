@@ -192,7 +192,7 @@ namespace SparWeb.Models
 		[Display(Name = "Professional")]
 		public int NumberOfProFights { get; set; }
 
-		[Display(Name = "Your Rate")]
+		[Display(Name = "Your Rate:")]
 		public decimal? Rate { get; set; }
 
 		[Display(Name = "Tell us more about yourself")]

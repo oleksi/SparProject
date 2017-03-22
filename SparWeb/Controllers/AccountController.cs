@@ -506,6 +506,8 @@ namespace SparWeb.Controllers
 			currFighter.IsSouthpaw = model.IsSouthpaw;
 			currFighter.NumberOfAmateurFights = model.NumberOfAmateurFights;
 			currFighter.NumberOfProFights = model.NumberOfProFights;
+			currFighter.Rate = model.Rate;
+			currFighter.Comments = model.Comments;
 
 			//updating fighter profile info
 			FighterRepository fighterRepo = new FighterRepository();
