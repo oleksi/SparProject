@@ -21,8 +21,11 @@
 								<span class="fighterNameSmall"><a href="@currSparRequest.OpponentFighterUrl">@currSparRequest.OpponentFighter.Name</a></span>
 								<div class="row">
 									<div class="col-md-12">
-										from <span class="gymNameSmall">@((currSparRequest.OpponentFighter.Gym != null) ? currSparRequest.OpponentFighter.Gym.Name : "Unknown Gym")</span>
+										@if (currSparRequest.OpponentFighter.Gym != null)
+										{
+										@:from <span class="gymNameSmall">@currSparRequest.OpponentFighter.Gym.Name</span>
 										<br />
+										}
 										@currSparRequest.OpponentFighter.City, @currSparRequest.OpponentFighter.State
 									</div>
 								</div>
@@ -35,8 +38,11 @@
 							<span class="fighterNameSmall hidden-xs"><a href="@currSparRequest.OpponentFighterUrl">@currSparRequest.OpponentFighter.Name</a></span>
 							<div class="row hidden-xs">
 								<div class="col-md-12 hidden-xs">
-									from <span class="gymNameSmall hidden-xs">@((currSparRequest.OpponentFighter.Gym != null) ? currSparRequest.OpponentFighter.Gym.Name : "Unknown Gym")</span>
-									<br />
+									@if (currSparRequest.OpponentFighter.Gym != null)
+									{
+										@:from <span class="gymNameSmall">@currSparRequest.OpponentFighter.Gym.Name</span>
+										<br />
+									}
 									@currSparRequest.OpponentFighter.City, @currSparRequest.OpponentFighter.State
 								</div>
 							</div>
