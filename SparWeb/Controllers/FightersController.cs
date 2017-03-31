@@ -156,14 +156,14 @@ namespace SparWeb.Controllers
 			return View(model);
 		}
 
-		public ActionResult Fighter(string state, string name)
+		public ActionResult Fighter(string state, string name, int id)
 		{
 			string stateShort = Util.States.Where(ss => ss.Value.ToLower() == state.ToLower()).Select(ss => ss.Key).SingleOrDefault();
 			if (String.IsNullOrEmpty(stateShort) == true)
 				throw new ApplicationException("State is not valid!");
 
 			var fighterRepo = new FighterRepository();
-			var fighter = fighterRepo.GetFighterByStateAndName(stateShort, name);
+			var fighter = fighterRepo.GetFighterById(id);
 			if (fighter == null)
 				throw new ApplicationException("Fighter is not found!");
 

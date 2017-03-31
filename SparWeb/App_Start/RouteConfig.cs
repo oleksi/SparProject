@@ -39,7 +39,7 @@ namespace SparWeb
 
 			routes.MapRoute(
 				name: "Fighters",
-				url: "fighters/{state}/{name}",
+				url: "fighters/{state}/{name}/{id}",
 				defaults: new { controller = "Fighters", action = "Fighter" }
 			);
 

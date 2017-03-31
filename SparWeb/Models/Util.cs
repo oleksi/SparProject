@@ -169,6 +169,7 @@ namespace SparWeb
 			if (fighter != null)
 				model = new AccountFighterViewModel() { 
 					ID = fighter.SparIdentityUser.Id,
+					FighterId = fighter.Id.Value,
 					Name = fighter.Name, 
 					GymName = gymName,
 					Gym = fighter.Gym, 

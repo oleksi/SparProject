@@ -172,6 +172,8 @@ namespace SparWeb.Models
 
 	public class AccountFighterViewModel : AccountViewModel
 	{
+		public int FighterId { get; set; }
+
 		[Required]
 		[Display(Name = "Height:")]
 		public double Height { get; set; }
@@ -213,7 +215,7 @@ namespace SparWeb.Models
 		{
 			get 
 			{ 
-				return String.Format("/fighters/{0}/{1}", Util.States[State], Name); 
+				return String.Format("/fighters/{0}/{1}/{2}", Util.States[State], Name, FighterId); 
 			}
 		}
 

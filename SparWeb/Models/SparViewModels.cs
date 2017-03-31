@@ -22,7 +22,7 @@ namespace SparWeb.Models
 		{
 			get
 			{
-				return String.Format("/fighters/{0}/{1}", Util.States[ThisFighter.State], ThisFighter.Name);
+				return String.Format("/fighters/{0}/{1}/{2}", Util.States[ThisFighter.State], ThisFighter.Name, ThisFighter.Id.Value);
 			}
 		}
 
@@ -30,7 +30,7 @@ namespace SparWeb.Models
 		{
 			get
 			{
-				return String.Format("/fighters/{0}/{1}", Util.States[OpponentFighter.State], OpponentFighter.Name);
+				return String.Format("/fighters/{0}/{1}/{2}", Util.States[OpponentFighter.State], OpponentFighter.Name, OpponentFighter.Id.Value);
 			}
 		}
 
