@@ -226,7 +226,7 @@ namespace SparWeb.Controllers
 			}
 
 			var textInfo = CultureInfo.CurrentCulture.TextInfo;
-			model.Name = textInfo.ToTitleCase(model.Name.ToLower());
+			model.Name = textInfo.ToTitleCase(model.Name.ToLower().Trim());
 			model.City = textInfo.ToTitleCase(model.City.ToLower());
 			if (String.IsNullOrEmpty(model.GymName) == false)
 				model.GymName = textInfo.ToTitleCase(model.GymName.ToLower());
@@ -313,7 +313,7 @@ namespace SparWeb.Controllers
 					}
 
 					var textInfo = CultureInfo.CurrentCulture.TextInfo;
-					model.Name = textInfo.ToTitleCase(model.Name.ToLower());
+					model.Name = textInfo.ToTitleCase(model.Name.ToLower().Trim());
 					model.City = textInfo.ToTitleCase(model.City.ToLower());
 					if (String.IsNullOrEmpty(model.GymName) == false)
 						model.GymName = textInfo.ToTitleCase(model.GymName.ToLower());
@@ -491,7 +491,7 @@ namespace SparWeb.Controllers
 			var member = getMember(model.ID);
 			var currFighter = member as Fighter;
 
-			currFighter.Name = model.Name;
+			currFighter.Name = model.Name.Trim();
 			currFighter.City = model.City;
 			currFighter.State = model.State;
 
@@ -528,7 +528,7 @@ namespace SparWeb.Controllers
 			}
 
 			var currTrainer = getLoggedInTrainer();
-			currTrainer.Name = model.Name;
+			currTrainer.Name = model.Name.Trim();
 			currTrainer.City = model.City;
 			currTrainer.State = model.State;
 
