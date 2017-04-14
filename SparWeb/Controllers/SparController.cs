@@ -88,9 +88,9 @@ namespace SparWeb.Controllers
 		[HttpPost]
 		public ActionResult ConfirmSpar(string FighterId, string OpponentId, string SparNotes)
 		{
+			var sparConfViewModel = getSparConfirmationViewModel(FighterId, OpponentId);
 			if (ModelState.IsValid == false)
 			{
-				var sparConfViewModel = getSparConfirmationViewModel(FighterId, OpponentId);
 				return View("SparConfirmation", sparConfViewModel);
 			}
 
@@ -116,8 +116,9 @@ namespace SparWeb.Controllers
 			string emailTo = "";
 			string emailSubject = String.Format("New Spar Request");
 			Dictionary<string, string> emailPlaceholders = new Dictionary<string, string>();
-			emailPlaceholders["[FIGTHER_NAME]"] = thisFighter.Name;
-			emailPlaceholders["[GENDER]"] = (thisFighter.Sex == true) ? "Male" : "Femail";
+			emailPlaceholders["[FIGTHER_PROFILE_PICTURE_URL]"] = Util.GetProfilePictureFile(thisFighter, 150);
+			emailPlaceholders["[FIGTHER_NAME]"] = "<a href=\"" + sparConfViewModel.ThisFighterUrl + "\">" + thisFighter.Name + "</a>";
+			emailPlaceholders["[HIS_OR_HER]"] = (thisFighter.Sex == true) ? "his" : "her";
 			emailPlaceholders["[DATE_OF_BIRTH]"] = thisFighter.DateOfBirth.ToShortDateString();
 			emailPlaceholders["[CITY]"] = thisFighter.City;
 			emailPlaceholders["[STATE]"] = thisFighter.State;
@@ -125,9 +126,9 @@ namespace SparWeb.Controllers
 			emailPlaceholders["[WEIGHT]"] = Util.WeightClassMap[thisFighter.Weight];
 			emailPlaceholders["[STANCE]"] = (thisFighter.IsSouthpaw) ? "Left-handed" : "Right-handed";
 			emailPlaceholders["[NUMBER_OF_AMATEUR_FIGHTS]"] = thisFighter.NumberOfAmateurFights.ToString();
-			emailPlaceholders["[NUMBER_OF_PRO_FUIGTS]"] = thisFighter.NumberOfProFights.ToString();
-			emailPlaceholders["[GYM]"] = (thisFighter.Gym == null) ? "Unknown Gym" : thisFighter.Gym.Name;
-			emailPlaceholders["[SPAR_NOTES]"] = (String.IsNullOrEmpty(SparNotes) == false) ? "<br /><br />Notes: " + SparNotes : "";
+			emailPlaceholders["[NUMBER_OF_PRO_FUIGTS]"] = (thisFighter.NumberOfProFights > 0) ? " / " + thisFighter.NumberOfAmateurFights + " pro" : "";
+			emailPlaceholders["[GYM]"] = (thisFighter.Gym == null) ? "" : "Gym: " + thisFighter.Gym.Name + "<br />";
+			emailPlaceholders["[SPAR_NOTES]"] = (String.IsNullOrEmpty(SparNotes) == false) ? "<br /><b>Message:</b> " + SparNotes : "";
 			emailPlaceholders["[SPAR_CONFIRMATION_URL]"] = Url.Action("SparDetailsConfirmation", "Spar", new System.Web.Routing.RouteValueDictionary() { { "ID", sparRequest.Id } }, "http", Request.Url.Host);
 			//figuring out if email should be sent to fighter or fighter's trainer
 			if (opponentFighter.Trainer != null)
