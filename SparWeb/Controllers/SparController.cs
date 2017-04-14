@@ -116,7 +116,12 @@ namespace SparWeb.Controllers
 			string emailTo = "";
 			string emailSubject = String.Format("New Spar Request");
 			Dictionary<string, string> emailPlaceholders = new Dictionary<string, string>();
-			emailPlaceholders["[FIGTHER_PROFILE_PICTURE_URL]"] = "http://spargym.com" + Util.GetProfilePictureFile(thisFighter, 150);
+
+			var prifilePicUrl = Util.GetProfilePictureFile(thisFighter, 150);
+			if (prifilePicUrl.StartsWith("http://") == false)
+				prifilePicUrl = "http://spargym.com" + prifilePicUrl;
+			emailPlaceholders["[FIGTHER_PROFILE_PICTURE_URL]"] = prifilePicUrl;
+
 			emailPlaceholders["[FIGTHER_NAME]"] = "<a href=\"http://spargym.com/" + sparConfViewModel.ThisFighterUrl + "\">" + thisFighter.Name + "</a>";
 			emailPlaceholders["[HIS_OR_HER]"] = (thisFighter.Sex == true) ? "his" : "her";
 			emailPlaceholders["[DATE_OF_BIRTH]"] = thisFighter.DateOfBirth.ToShortDateString();
