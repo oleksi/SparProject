@@ -124,7 +124,7 @@ namespace SparWeb.Controllers
 
 			emailPlaceholders["[FIGTHER_NAME]"] = "<a href=\"http://spargym.com/" + sparConfViewModel.ThisFighterUrl + "\">" + thisFighter.Name + "</a>";
 			emailPlaceholders["[HIS_OR_HER]"] = (thisFighter.Sex == true) ? "his" : "her";
-			emailPlaceholders["[DATE_OF_BIRTH]"] = thisFighter.DateOfBirth.ToShortDateString();
+			emailPlaceholders["[AGE]"] = thisFighter.GetMemberAge().ToString();
 			emailPlaceholders["[CITY]"] = thisFighter.City;
 			emailPlaceholders["[STATE]"] = thisFighter.State;
 			emailPlaceholders["[HEIGHT]"] = Util.HeightToCentimetersMap[thisFighter.Height];
