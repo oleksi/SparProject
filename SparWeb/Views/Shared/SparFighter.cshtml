@@ -1,7 +1,7 @@
 ﻿@model SparWeb.Models.AccountFighterViewModel
 
 <div class="row well well-sm spar-fighter">
-	@if (Model.Rate.HasValue)
+	@if (Model.Rate.HasValue && Model.Rate.Value > 0)
 	{
 		<div style="float:right;">
 			<span class="pricetag">@Model.Rate.Value.ToString("C")</span>
