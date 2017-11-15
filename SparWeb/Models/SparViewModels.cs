@@ -86,6 +86,8 @@ namespace SparWeb.Models
 		[StringLength(1024)]
 		public string SparNotesNew { get; set; }
 
+		public DateTime LastUpdateDate { get; set; }
+
 		public bool IsThisFighterLastNegotiator()
 		{
 			return (LastNegotiatorFighterId == ThisFighter.Id.Value);

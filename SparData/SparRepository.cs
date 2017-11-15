@@ -37,6 +37,8 @@ namespace SparData
 
 		public void CreateSparRequest(SparRequest sparRequest)
 		{
+			sparRequest.LastUpdateDate = sparRequest.RequestDate;
+
 			using (var session = getSession())
 			{
 				using (var transaction = session.BeginTransaction())
@@ -51,6 +53,8 @@ namespace SparData
 
 		public void SaveSparRequest(SparRequest sparRequest)
 		{
+			sparRequest.LastUpdateDate = DateTime.Now;
+
 			using (var session = getSession())
 			{
 				session.Evict(sparRequest);
@@ -70,7 +74,7 @@ namespace SparData
 			{
 				sparRequests = session.QueryOver<SparRequest>().Where(sr => (sr.RequestorFighter.Id == fighterId || sr.OpponentFighter.Id == fighterId)
 						&& (sr.Status == SparRequestStatus.DateLocationNegotiation || sr.Status == SparRequestStatus.Requested)
-					).OrderBy(sr => sr.RequestDate).Desc.List();
+					).OrderBy(sr => sr.LastUpdateDate).Desc.List();
 			}
 
 			return sparRequests;

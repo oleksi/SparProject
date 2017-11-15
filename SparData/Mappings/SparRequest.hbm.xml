@@ -16,6 +16,7 @@
 		<many-to-one class="Gym" name="SparGym" column="SparGymId" not-null="false" lazy="false" cascade="save-update" />
 		<property name="SparNotes" column="SparNotes" not-null="false"></property>
 		<property name="LastNegotiatorFighterId" column="LastNegotiatorFighterId" not-null="false"></property>
+		<property name="LastUpdateDate" column="LastUpdateDate" not-null="true"></property>
 	</class>
   
 </hibernate-mapping>

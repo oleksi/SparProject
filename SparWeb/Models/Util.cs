@@ -296,6 +296,8 @@ namespace SparWeb
 
 			confirmSparDetailsViewModel.LastNegotiatorFighterId = sparRequest.LastNegotiatorFighterId;
 
+			confirmSparDetailsViewModel.LastUpdateDate = sparRequest.LastUpdateDate;
+
 			return confirmSparDetailsViewModel;
 		}
 
