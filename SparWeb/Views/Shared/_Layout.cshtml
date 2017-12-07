@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="@((ViewBag.MetaDescription != null) ? ViewBag.MetaDescription : "SparGym connects sparring partners in boxing, MMA and other combat sports and helps to arrange the actual sparring.")" />
-    <title>@ViewBag.Title - SparGym</title>
+	<meta name="description" content="@((ViewBag.MetaDescription != null) ? ViewBag.MetaDescription : "Fightura connects sparring partners in boxing, MMA and other combat sports and helps to arrange the actual sparring.")" />
+    <title>@ViewBag.Title - Fightura</title>
     @Styles.Render("~/Styles/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Styles/css/dropzone")
@@ -56,7 +56,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a href="@Url.Action("Index", "Home")">
-                    <img src="~/Content/Images/spargym-logo.png" class="logo" />
+                    <img src="~/Content/Images/Fightura-logo.png" class="logo" />
                 </a>
             </div>
             <div class="navbar-collapse collapse">
@@ -105,7 +105,7 @@
 			}
             <div class="row">
                 <div class="col-md-12">
-                    <p class="pull-left">&copy; @DateTime.Now.Year - SparGym | @Html.ActionLink("Terms and Conditions", "TermsAndConditions", "Home")</p>
+                    <p class="pull-left">&copy; @DateTime.Now.Year - Fightura | @Html.ActionLink("Terms and Conditions", "TermsAndConditions", "Home")</p>
                 </div>
             </div>
         </footer>

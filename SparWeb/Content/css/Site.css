@@ -265,6 +265,9 @@ a.btn.btn-default.btn-lg {
 	font-weight: bold;
 }
 
+.logo {
+	margin-top: 6px;
+}
 
 .main-menu {
 	margin-left: 20px;
@@ -281,7 +284,7 @@ a.btn.btn-default.btn-lg {
 }
 
 .header-bar {
-	
+	width: 1180px;
 }
 
 .account-info-section {

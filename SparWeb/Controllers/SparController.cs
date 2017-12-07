@@ -119,10 +119,10 @@ namespace SparWeb.Controllers
 
 			var prifilePicUrl = Util.GetProfilePictureFile(thisFighter, 150);
 			if (prifilePicUrl.StartsWith("http://") == false)
-				prifilePicUrl = "http://spargym.com" + prifilePicUrl;
+				prifilePicUrl = "http://fightura.com" + prifilePicUrl;
 			emailPlaceholders["[FIGTHER_PROFILE_PICTURE_URL]"] = prifilePicUrl;
 
-			emailPlaceholders["[FIGTHER_NAME]"] = "<a href=\"http://spargym.com/" + sparConfViewModel.ThisFighterUrl + "\">" + thisFighter.Name + "</a>";
+			emailPlaceholders["[FIGTHER_NAME]"] = "<a href=\"http://fightura.com/" + sparConfViewModel.ThisFighterUrl + "\">" + thisFighter.Name + "</a>";
 			emailPlaceholders["[HIS_OR_HER]"] = (thisFighter.Sex == true) ? "his" : "her";
 			emailPlaceholders["[AGE]"] = thisFighter.GetMemberAge().ToString();
 			emailPlaceholders["[CITY]"] = thisFighter.City;

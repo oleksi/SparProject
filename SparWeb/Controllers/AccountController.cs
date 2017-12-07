@@ -362,7 +362,7 @@ namespace SparWeb.Controllers
 			emailPlaceholders["[NAME]"] = memberName;
 			emailPlaceholders["[CONFIRMATION_URL]"] = String.Format("<a href=\"{0}\">{0}</a>", callbackUrl);
 
-			EmailManager.SendEmail(EmailManager.EmailTypes.EmailConfirmationTemplate, ConfigurationManager.AppSettings["EmailSupport"], user.UserName, "Welcome to SparGym! Please confirm your account", emailPlaceholders);
+			EmailManager.SendEmail(EmailManager.EmailTypes.EmailConfirmationTemplate, ConfigurationManager.AppSettings["EmailSupport"], user.UserName, "Welcome to Fightura! Please confirm your account", emailPlaceholders);
 		}
 
 		private Dictionary<int, string> getAllGyms()
@@ -748,7 +748,7 @@ namespace SparWeb.Controllers
 				emailPlaceholders["[NAME]"] = member.Name;
 				emailPlaceholders["[PASSWORD_RESET_URL]"] = String.Format("<a href=\"{0}\">{0}</a>", callbackUrl);
 
-				EmailManager.SendEmail(EmailManager.EmailTypes.PasswordResetTemplate, ConfigurationManager.AppSettings["EmailSupport"], user.UserName, "SparGym Reset Password", emailPlaceholders);	
+				EmailManager.SendEmail(EmailManager.EmailTypes.PasswordResetTemplate, ConfigurationManager.AppSettings["EmailSupport"], user.UserName, "Fightura Reset Password", emailPlaceholders);	
 
 				ViewBag.Link = callbackUrl;
 				return View("ForgotPasswordConfirmation");

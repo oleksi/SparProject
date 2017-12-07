@@ -89,7 +89,7 @@ namespace SparWeb.Controllers
 			emailPlaceholders["[SENDER_EMAIL]"] = model.Email;
 			emailPlaceholders["[MESSAGE]"] = model.Message.Replace("\n", "<br />");
 
-			SparWeb.EmailManager.SendEmail(EmailManager.EmailTypes.ContactFormTemplate, ConfigurationManager.AppSettings["EmailSupport"], ConfigurationManager.AppSettings["EmailAdmin"], "SparGym Contact Form", emailPlaceholders);
+			SparWeb.EmailManager.SendEmail(EmailManager.EmailTypes.ContactFormTemplate, ConfigurationManager.AppSettings["EmailSupport"], ConfigurationManager.AppSettings["EmailAdmin"], "Fightura Contact Form", emailPlaceholders);
 			ViewBag.SuccessMessage = "Thanks for sending your message. We'll get back to yiou you within 24 hours.";
 
 			ModelState.Clear();
@@ -150,7 +150,7 @@ namespace SparWeb.Controllers
 				from url in urls
 				select
 				new XElement(ns + "url",
-				new XElement(ns + "loc", String.Format("http://spargym.com{0}", url)),
+				new XElement(ns + "loc", String.Format("http://fightura.com{0}", url)),
 				new XElement(ns + "lastmod", String.Format("{0:yyyy-MM-dd}", DateTime.Now)),
 				new XElement(ns + "changefreq", "always"),
 				new XElement(ns + "priority", "0.8")
