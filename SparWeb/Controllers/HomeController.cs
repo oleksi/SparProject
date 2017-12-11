@@ -37,7 +37,7 @@ namespace SparWeb.Controllers
 
 			var sparRepo = new SparRepository();
 			var fighterRepo = new FighterRepository();
-			var sinceDate = DateTime.Now.AddDays(-14);
+			var sinceDate = DateTime.Now.AddDays(-7);
 			var siteActivitiesViewModels = new List<SiteActivityViewModel>();
 
 			var sparActivities = sparRepo.GetSparRequestActivitiesSince(sinceDate);
