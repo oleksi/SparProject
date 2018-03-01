@@ -118,7 +118,7 @@ namespace SparWeb.Controllers
 			Dictionary<string, string> emailPlaceholders = new Dictionary<string, string>();
 
 			var prifilePicUrl = Util.GetProfilePictureFile(thisFighter, 150);
-			if (prifilePicUrl.StartsWith("http://") == false)
+			if (prifilePicUrl.StartsWith("http://") == false && prifilePicUrl.StartsWith("https://") == false)
 				prifilePicUrl = "http://fightura.com" + prifilePicUrl;
 			emailPlaceholders["[FIGTHER_PROFILE_PICTURE_URL]"] = prifilePicUrl;
 
