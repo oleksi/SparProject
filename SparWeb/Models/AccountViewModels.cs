@@ -215,7 +215,7 @@ namespace SparWeb.Models
 		{
 			get 
 			{ 
-				return String.Format("/fighters/{0}/{1}/{2}", Util.States[State], Name, FighterId); 
+				return String.Format("/fighters/{0}/{1}/{2}", Util.States[State], Name.Replace(".", ""), FighterId); 
 			}
 		}
 
