@@ -212,3 +212,7 @@ SparWeb/SparWeb.csproj
 SparWeb/Content/Images/ProfilePics/*
 
 Fightura.ppk
+/.vs/SparProject/v15/Server/sqlite3/db.lock
+/.vs/SparProject/v15/Server/sqlite3/storage.ide
+/.vs/SparProject/v15/Server/sqlite3/storage.ide-shm
+/.vs/SparProject/v15/Server/sqlite3/storage.ide-wal

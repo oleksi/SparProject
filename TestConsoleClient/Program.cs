@@ -35,6 +35,7 @@ namespace TestConsoleClient
 			//IList<UserLoginInfo> list = store.GetLoginsAsync(user).Result;
 
 			//store.UpdateAsync(user);
+
 		}
 	}
 }
