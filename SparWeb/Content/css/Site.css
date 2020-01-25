@@ -501,9 +501,13 @@ a.btn.btn-default.btn-lg {
     border-bottom:  16px solid transparent;
 }
 
-@media(min-width:992px){
-	.col-md-3.col-xs-12.bottom ,
-	.col-md-2.col-xs-12.bottom{
+#display-ad-box-img {
+    width: 100%;
+    height: auto;
+}
+
+@media(min-width:992px) {
+    .col-md-3.col-xs-12.bottom, .col-md-2.col-xs-12.bottom{
 	    float: right;
 	    margin-right: 25%;
 	}
@@ -528,6 +532,9 @@ a.btn.btn-default.btn-lg {
 	.registerOr {
 		margin-top: 100px;
 	}
+    #display-ad-box {
+        display: none;
+    }
 }
 
 @media(min-width: 768px){
@@ -554,14 +561,18 @@ a.btn.btn-default.btn-lg {
     width: 70%;
     margin-left: 5px;
   }
- 
+    #display-ad-box {
+        display: none;
+    } 
 }
 @media (max-width: 320px) {
 
     dd.right{
         float: right ;
     }
-
+    #display-ad-box {
+        display: none;
+    }
 }
 @media (min-width: 240px) {
 
@@ -594,6 +605,9 @@ a.btn.btn-default.btn-lg {
 		margin-top: 20px;
 		margin-bottom: 20px;
 	}
+    #display-ad-box {
+        display: none;
+    }
 }
 @media (max-width: 500px) {
 
@@ -604,6 +618,9 @@ a.btn.btn-default.btn-lg {
 	#registerMain {
 		width: 250px;
 	}
+    #display-ad-box {
+        display: none;
+    }
 }
 @media (max-width: 640px) {
 	.row.sparConfirmationSectionRow{
@@ -637,6 +654,9 @@ a.btn.btn-default.btn-lg {
 	#registerMain {
 		width: 480px;
 	}
+    #display-ad-box {
+        display: none;
+    }
 }
 .col-xs-4.bottom {
   max-width: 120px;
