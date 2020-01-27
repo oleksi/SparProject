@@ -321,7 +321,8 @@
     <Content Include="Content\Images\anonymous-photo-trainer-250X250.jpg" />
     <Content Include="Content\Images\boxing-spar-sign.jpg" />
     <Content Include="Content\Images\BrooklynFights-banner.jpg" />
-    <Content Include="Content\Images\esp-plus-ufc.jpg" />
+    <Content Include="Content\Images\espn-plus-ufc-mobile.jpg" />
+    <Content Include="Content\Images\espn-plus-ufc.jpg" />
     <Content Include="Content\Images\Fightura-email-logo.png" />
     <Content Include="Content\Images\Fightura-logo.png" />
     <Content Include="Content\Images\powered-by-gleasons.jpg" />
