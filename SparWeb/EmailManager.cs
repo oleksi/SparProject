@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Helpers;
 
@@ -65,13 +68,36 @@ namespace SparWeb
 
 		public static void SendEmail(string fromEmail, string toEmail, string subject, string body)
 		{
-			WebMail.SmtpServer = ConfigurationManager.AppSettings["SmtpServer"];
-			WebMail.UserName = ConfigurationManager.AppSettings["SmtpUserName"];
-			WebMail.Password = ConfigurationManager.AppSettings["SmtpPassword"];
-			WebMail.SmtpPort = Convert.ToInt32(ConfigurationManager.AppSettings["SmtpPort"]);
-			WebMail.From = fromEmail;
+			NameValueCollection values = new NameValueCollection();
+			values.Add("apikey", ConfigurationManager.AppSettings["ElasticApiKey"]);
+			values.Add("from", ConfigurationManager.AppSettings["ElasticFromEmail"]);
+			values.Add("fromName", "Fightura");
+			values.Add("to", toEmail);
+			values.Add("subject", subject);
+			values.Add("bodyText", body);
+			values.Add("bodyHtml", body);
+			values.Add("isTransactional", "true");
 
-			WebMail.Send(toEmail, subject, body);
+			string address = ConfigurationManager.AppSettings["ElasticEndpoint"];
+
+			string response = Send(address, values);
+		}
+
+		public static string Send(string address, NameValueCollection values)
+		{
+			using (WebClient client = new WebClient())
+			{
+				try
+				{
+					byte[] apiResponse = client.UploadValues(address, values);
+					return Encoding.UTF8.GetString(apiResponse);
+
+				}
+				catch (Exception ex)
+				{
+					return "Exception caught: " + ex.Message + "\n" + ex.StackTrace;
+				}
+			}
 		}
 	}
 }
