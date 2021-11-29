@@ -283,10 +283,6 @@ a.btn.btn-default.btn-lg {
 	margin-top: 13px;
 }
 
-.header-bar {
-	width: 1180px;
-}
-
 .account-info-section {
 	margin-bottom: 0px;
 }
@@ -663,9 +659,10 @@ a.btn.btn-default.btn-lg {
 		margin-left: 0px;
 	}
 
-  .logo {
-    margin-left: 10px
-  }
+	.logo {
+		margin-left: 10px;
+		width: 220px;
+	}
 
 	#registerMain {
 		width: 480px;
