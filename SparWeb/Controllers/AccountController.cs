@@ -20,6 +20,11 @@ using System.Configuration;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using System.Net;
+using Newtonsoft.Json;
+using Microsoft.Azure.Management.Cdn;
+using Microsoft.Rest;
 
 namespace SparWeb.Controllers
 {
@@ -611,11 +616,12 @@ namespace SparWeb.Controllers
 				}
 
 				member = getMember(userId);
+				string accessToken = getAccessToken();
 
 				//optimizing and saving uploaded pic in full size
 				string origFileName = String.Format("{0}-orig.jpg", userId);				
 				Bitmap bitmap = new Bitmap(file.InputStream);
-				saveProfilePic(bitmap, origFileName, container);
+				saveProfilePic(bitmap, origFileName, container, accessToken);
 
 				//cropping the pic into square
 				Rectangle cropRect = Rectangle.Empty;
@@ -628,10 +634,10 @@ namespace SparWeb.Controllers
 				//resizing and saving account thumbnail version
 				bitmap = new Bitmap(bitmap, 250, 250);
 				fileName = member.GetProfileThumbnailFileName(250, true, true);
-				saveProfilePic(bitmap, fileName, container);
+				saveProfilePic(bitmap, fileName, container, accessToken);
 
 				bitmap = new Bitmap(bitmap, 150, 150);
-				saveProfilePic(bitmap, member.GetProfileThumbnailFileName(150, true, true), container);
+				saveProfilePic(bitmap, member.GetProfileThumbnailFileName(150, true, true), container, accessToken);
 
 				member.ProfilePictureUploaded = true;
 
@@ -662,8 +668,10 @@ namespace SparWeb.Controllers
 			}
 		}
 
-		private void saveProfilePic(Bitmap bitmap, string fileName, CloudBlobContainer container)
+		private void saveProfilePic(Bitmap bitmap, string fileName, CloudBlobContainer container, string accessToken)
 		{
+			purgeCDNEnpoint(accessToken, fileName);
+
 			CloudBlockBlob blockBlob = container.GetBlockBlobReference(String.Format("ProfilePics/{0}", fileName));
 
 			//converting to JPG
@@ -713,6 +721,36 @@ namespace SparWeb.Controllers
 			}
 
 			return target;
+		}
+
+		private string getAccessToken()
+        {
+			string authority = "https://login.microsoftonline.com/51b1e1f8-e39e-4acf-913b-f7d791a90d6a/supportspargym.onmicrosoft.com";
+			string clientId = "d7d4aa66-88ef-4bf5-93e0-6b58564f7be0";
+			string clientSecret = "eFM7Q~yBSPQCtOdXF2LWO_HjqqjwoXgJ~girV";
+
+			AuthenticationContext authContext = new AuthenticationContext(authority);
+			ClientCredential credential = new ClientCredential(clientId, clientSecret);
+			AuthenticationResult authResult = authContext.AcquireTokenAsync("https://management.core.windows.net/", credential).Result;
+
+			return authResult.AccessToken;
+		}
+
+		private void purgeCDNEnpoint(string accessToken, string fileName)
+        {
+			string subscriptionId = "afda4d6f-d8b8-41f7-87fe-f0c76ece8b21";
+			string endpointName = "fightura";
+			string resourceGroupName = "SparProject";
+			string profileName = "fightura";
+
+			try
+			{
+				CdnManagementClient cdn = new CdnManagementClient(new TokenCredentials(accessToken)) { SubscriptionId = subscriptionId };
+				cdn.Endpoints.PurgeContent(resourceGroupName, profileName, endpointName, new List<string>() { $"/images/ProfilePics/{fileName}" });
+			}
+			catch(Exception ex)
+            {
+            }
 		}
 
 		//
