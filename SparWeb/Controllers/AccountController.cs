@@ -23,8 +23,6 @@ using System.Globalization;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System.Net;
 using Newtonsoft.Json;
-using Microsoft.Azure.Management.Cdn;
-using Microsoft.Rest;
 
 namespace SparWeb.Controllers
 {
@@ -634,10 +632,13 @@ namespace SparWeb.Controllers
 				//resizing and saving account thumbnail version
 				bitmap = new Bitmap(bitmap, 250, 250);
 				fileName = member.GetProfileThumbnailFileName(250, true, true);
+				purgeCDNEnpoint(accessToken, fileName);
 				saveProfilePic(bitmap, fileName, container, accessToken);
 
 				bitmap = new Bitmap(bitmap, 150, 150);
-				saveProfilePic(bitmap, member.GetProfileThumbnailFileName(150, true, true), container, accessToken);
+				fileName = member.GetProfileThumbnailFileName(150, true, true);
+				purgeCDNEnpoint(accessToken, fileName);
+				saveProfilePic(bitmap, fileName, container, accessToken);
 
 				member.ProfilePictureUploaded = true;
 
@@ -670,8 +671,6 @@ namespace SparWeb.Controllers
 
 		private void saveProfilePic(Bitmap bitmap, string fileName, CloudBlobContainer container, string accessToken)
 		{
-			purgeCDNEnpoint(accessToken, fileName);
-
 			CloudBlockBlob blockBlob = container.GetBlockBlobReference(String.Format("ProfilePics/{0}", fileName));
 
 			//converting to JPG
@@ -738,17 +737,20 @@ namespace SparWeb.Controllers
 
 		private void purgeCDNEnpoint(string accessToken, string fileName)
         {
-			string subscriptionId = "afda4d6f-d8b8-41f7-87fe-f0c76ece8b21";
-			string endpointName = "fightura";
-			string resourceGroupName = "SparProject";
-			string profileName = "fightura";
-
 			try
 			{
-				CdnManagementClient cdn = new CdnManagementClient(new TokenCredentials(accessToken)) { SubscriptionId = subscriptionId };
-				cdn.Endpoints.PurgeContent(resourceGroupName, profileName, endpointName, new List<string>() { $"/images/ProfilePics/{fileName}" });
+				string uri = "https://management.azure.com/subscriptions/afda4d6f-d8b8-41f7-87fe-f0c76ece8b21/resourceGroups/SparProject/providers/Microsoft.Cdn/profiles/fightura/endpoints/fightura/purge?api-version=2019-12-31";
+
+				WebClient client = new WebClient();
+				client.Headers.Add(HttpRequestHeader.Authorization, "Bearer " + accessToken);
+				client.Headers.Add("Content-type", "application/json");
+
+				dynamic content = new { ContentPaths = new List<string>() { $"/images/ProfilePics/{fileName}" } };
+				var bodyText = JsonConvert.SerializeObject(content);
+
+				var result = client.UploadString(uri, bodyText);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
             {
             }
 		}
