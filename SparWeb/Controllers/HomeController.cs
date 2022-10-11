@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Configuration;
 using System.Xml.Linq;
+using reCAPTCHA.MVC;
 
 namespace SparWeb.Controllers
 {
@@ -78,6 +79,7 @@ namespace SparWeb.Controllers
 		}
 
 		[HttpPost]
+		[CaptchaValidator]
 		public ActionResult Contact(ContactViewModel model)
 		{
 			if (ModelState.IsValid == false)

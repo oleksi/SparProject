@@ -1,4 +1,6 @@
-﻿@model SparWeb.Models.ContactViewModel
+﻿@using reCAPTCHA.MVC
+
+@model SparWeb.Models.ContactViewModel
 
 @{
     ViewBag.Title = "Contact";
@@ -40,6 +42,10 @@
                         @Html.LabelFor(m => m.Message)
                         @Html.TextAreaFor(m => m.Message, new { @class = "form-control", rows = "5" })
                         @Html.ValidationMessageFor(m => m.Message)
+                    </div>
+                    <div class="form-group">
+                        @Html.Recaptcha()
+                        @Html.ValidationMessage("ReCaptcha")
                     </div>
                     <button type="submit" class="btn btn-primary">Send Message</button>
                 </form>
