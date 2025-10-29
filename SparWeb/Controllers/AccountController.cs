@@ -726,7 +726,7 @@ namespace SparWeb.Controllers
         {
 			string authority = "https://login.microsoftonline.com/51b1e1f8-e39e-4acf-913b-f7d791a90d6a/supportspargym.onmicrosoft.com";
 			string clientId = "d7d4aa66-88ef-4bf5-93e0-6b58564f7be0";
-			string clientSecret = "eFM7Q~yBSPQCtOdXF2LWO_HjqqjwoXgJ~girV";
+			string clientSecret = "hK18Q~Rba5E7ioOZsGd4yRi-EK-Sq03ZxoAjUduJ";
 
 			AuthenticationContext authContext = new AuthenticationContext(authority);
 			ClientCredential credential = new ClientCredential(clientId, clientSecret);
