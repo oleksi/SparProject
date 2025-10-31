@@ -187,7 +187,6 @@ Desktop.ini
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
-*.csproj.user
 packages/EntityFramework.6.0.2/content/App.config.transform
 packages/EntityFramework.6.0.2/content/Web.config.transform
 packages/EntityFramework.6.0.2/EntityFramework.6.0.2.nupkg
@@ -208,7 +207,6 @@ packages/EntityFramework.6.0.2/tools/EntityFramework.psm1
 packages/EntityFramework.6.0.2/tools/init.ps1
 packages/EntityFramework.6.0.2/tools/install.ps1
 packages/EntityFramework.6.0.2/tools/migrate.exe
-SparWeb/SparWeb.csproj
 SparWeb/Content/Images/ProfilePics/*
 
 Fightura.ppk
