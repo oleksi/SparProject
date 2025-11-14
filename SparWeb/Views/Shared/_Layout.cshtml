@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="@((ViewBag.MetaDescription != null) ? ViewBag.MetaDescription : "Fightura connects sparring partners in boxing, MMA and other combat sports and helps to arrange the actual sparring.")" />
     <title>@ViewBag.Title - Fightura</title>
-    @Styles.Render("~/Styles/css")
-    @Scripts.Render("~/bundles/modernizr")
-    @Styles.Render("~/Styles/css/dropzone")
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" />
+	<link rel="stylesheet" href="~/css/dropzone.css" />
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-
-	@Scripts.Render("~/bundles/jqueryval")
-	@Scripts.Render("~/bundles/jquerycookie")
+	<script src="~/js/modernizr-2.8.3.js"></script>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="~/js/jquery.validate.min.js"></script>
+	<script src="~/js/jquery.cookie.js"></script>
 
     @RenderSection("head", required: false)
 
