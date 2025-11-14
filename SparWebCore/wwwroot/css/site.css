@@ -1,31 +1,721 @@
-html {
-  font-size: 14px;
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
 }
 
-@media (min-width: 768px) {
-  html {
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+	padding-top: 40px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+/*input,
+select,
+textarea {
+    max-width: 280px;
+}*/
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+.profilePicture,
+.img-responsive {
+  margin: 15px auto;
+}
+.row.sparConfirmationRow h2 {
+  margin-top: -10px;
+}
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+.register-form input[type=submit] {
+	width: 100%;
+}
+
+.alert {
+	font-size: 18px;
+}
+
+.fighterName {
+	font-size: 40px;
+	font-weight: bold;
+}
+
+.fighterNameSmall {
+	font-size: 22px;
+	font-weight: bold;
+}
+
+.fighterNameSmall a {
+	color: #C9302C;
+}
+
+.gymNameTitle {
+	font-size: 22px;
+	font-weight: bold;
+	margin-bottom: 20px;
+	display: block;
+}
+
+.gymNameTitle a {
+	color: #C9302C;
+}
+
+.trainerNameTitle {
+	font-size: 22px;
+	font-weight: bold;
+	display: block;
+}
+
+.trainerNameTitle a {
+	color: #C9302C;
+}
+
+.gymAddressPhoneDivider {
+	margin-bottom: 15px;
+}
+
+.fighterCard a {
+	color: #C9302C;
+}
+
+.gymName {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.gymNameSmall {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.gymNameSmall a {
+	color: #C9302C;
+}
+
+.top-buffer { 
+	margin-top:20px; 
+}
+
+.profilePictureDefaultFighter {
+	width: 250px;
+	height: 250px;
+	background-image: url("/Content/Images/anonymous-photo-fighter-250X250.jpg");
+    background-position: 0 0;
+    background-repeat: no-repeat;
+	cursor: pointer;
+	text-align: center;
+	padding-top: 55px;
+}
+
+.profilePictureDefaultFighter150X150 {
+	height: 150px;
+	background-image: url("/Content/Images/anonymous-photo-fighter-150X150.jpg");
+    background-position: 18px 0;
+    background-repeat: no-repeat;
+	cursor: pointer;
+	text-align: center;
+	padding-top: 20px;
+}
+
+.profilePictureDefaultTrainer {
+	width: 250px;
+	height: 250px;
+	background-image: url("/Content/Images/anonymous-photo-trainer-250X250.jpg");
+    background-position: 0 0;
+    background-repeat: no-repeat;
+	cursor: pointer;
+	text-align: center;
+	padding-top: 55px;
+}
+
+.profilePictureDefaultTrainer150X150 {
+	height: 150px;
+	background-image: url("/Content/Images/anonymous-photo-trainer-150X150.jpg");
+    background-position: 18px 0;
+    background-repeat: no-repeat;
+	cursor: pointer;
+	text-align: center;
+	padding-top: 20px;
+}
+
+.profileUploadPicHeader {
+	font-size: 34px;
+	font-weight: bold;
+}
+
+.profileUploadPicHeader150X150 {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.profileUploadPicSubeader {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.update-picture {
+	margin-top: -10px;
+}
+
+.spar-fighter {
+	padding-left: 4px;
+	padding-right: 4px;
+}
+.spar-fighter .dl-horizontal dt {
+	text-align: left;
+}
+.left-space{
+    padding-right:0; 
+}
+.vAlignCenter {
+	float:none !important;
+    display:inline-block !important;
+    vertical-align:middle !important;
+}
+
+.sparConfirmationGymRow {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.sparConfirmationProfilePicture {
+    text-align: center;
+}
+
+
+/*============== glyphicon in textbox positioning ================
+*/
+/* enable absolute positioning */
+.inner-addon { 
+    position: relative; 
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+/*============== glyphicon in textbox positioning - END ================ */
+
+.fighterCard {
+  max-width: 270px;
+  margin: 0 auto;
+}
+
+.sparInformation {
+	margin-top: 20px;
+}
+.bottom{
+    margin-bottom: 15px;
+}
+.sparConfirmationInstructionRow {
+	margin-top: 10px;
+}
+
+.sparDetailsStatus {
+   margin-bottom: 20px;
+}
+
+.sparFighterCTA {
+	min-width: 140px;
+}
+a.btn.btn-default.btn-lg {
+  width: 100%;
+  min-width: 90px;
+  padding: 0px;
+  line-height: 40px;
+}
+.carousel-caption {
+	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.75);
+}
+
+.site-logo {
+	font-size: 24px;
+	margin-right: 30px;
+	font-weight: bold;
+}
+
+.logo {
+	margin-top: 6px;
+}
+
+.main-menu {
+	margin-left: 20px;
+	margin-top: 13px;
+}
+
+.main-menu li {
     font-size: 16px;
+    font-weight: bold;
+}
+
+.top-right-menu {
+	margin-top: 13px;
+}
+
+.account-info-section {
+	margin-bottom: 0px;
+}
+
+.trainer-fighters-list {
+	margin-top: 10px;
+}
+
+.update-profile-info {
+	margin-top: -15px;
+}
+.boxingSparSign {
+  margin: 0 auto;
+  display: block;
+  width: 100%;
+}
+
+.registerOr {
+  margin: 0 auto;
+  display: block;
+  width: 100%;
+}
+
+.powered-by {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.social {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: #ededed none repeat scroll 0 0;
+    border-color: #cbcbcb #cbcbcb #cbcbcb -moz-use-text-color;
+    border-image: none;
+    /*border-style: solid solid solid none;*/
+    border-width: 1px 1px 1px 0;
+    height: 94px;
+    left: 96%;
+    margin-top: -100px;
+    padding: 10px 0;
+    position: fixed;
+    top: 190px;
+    width: 55px;
+    z-index: 1;
+}
+.social a {
+    background: rgba(0, 0, 0, 0) url("/Content/Images/social.png") no-repeat scroll left top;
+    height: 32px;
+    margin: 0 0 10px 10px;
+    position: relative;
+    width: 32px;
+	float: left;
+}
+.social a.fb {
+    background-position: left top;
+}
+.social a.tw {
+    background-position: left -42px;
+}
+
+.forgotPassword {
+	margin-top: 7px;
+}
+
+.accountNotes {
+	margin-bottom: 20px;
+	margin-top: 10px;
+}
+
+.selectFightersList {
+	margin-top: 20px;
+}
+
+#registerMain {
+	width: 700px;
+	margin: 0 auto;
+}
+
+#registerMain a:hover {
+	text-decoration: none;
+}
+
+#registerPopupModal .modal-dialog {
+	width: 750px;
+}
+
+#registerPopupModal .modal-body {
+	margin-bottom: 20px;
+}
+
+.registerBox {
+	-webkit-transition:all 0.2s ease-out;
+	-moz-transition:all 0.2s ease-out;
+	-ms-transition:all 0.2s ease-out;
+	-o-transition:all 0.2s ease-out;
+	transition:all 0.2s ease-out;
+}
+
+.registerBox:hover {
+	-webkit-transform:scale(1.05);
+	-moz-transform:scale(1.05);
+	-ms-transform:scale(1.05);
+	-o-transform:scale(1.05);
+	transform:scale(1.05);
+}
+
+.joined-date {
+	margin-right: 15px;
+	margin-top: -5px;
+}
+
+.our-partners-title {
+	font-size: 18px;
+}
+
+.sparDetailsStatus a {
+    color: #c9302c;
+    text-decoration: none;
+}
+
+.sparDetailsStatus a:hover {
+    color: #c9302c;
+    text-decoration: underline;
+}
+
+.stateFilterLink, .stateFilterLink:hover {
+	color: #c9302c;
+}
+
+.stateFilterActive {
+	color: #c9302c;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.feature-box {
+	border: 1px solid #e3e3e3;
+	margin-left: -15px;
+	padding-top: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+}
+
+.feature-box .spar-fighter {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.featured-header {
+	font-size: 30px;
+	font-weight: 500;
+	margin-bottom: 15px;
+}
+
+.fighter-attributes {
+	margin-top: 10px;
+}
+
+.featured-trainers-gyms-row {
+	margin-bottom: 20px;
+	padding-left: 15px;
+}
+
+.feature-box-short .dl-horizontal dt {
+	width: 115px;
+}
+
+.feature-box-short .dl-horizontal dd {
+	margin-left: 125px;
+}
+
+.view-all-link {
+	text-align: right;
+}
+
+.pricetag{
+    white-space:nowrap;
+    position:relative;
+    margin:0 -20px 0 10px;
+    displaY:inline-block;
+    height:35px;
+    border-radius: 0 5px 5px 0;
+    padding: 5px 25px 0 15px;
+    background:#33bf62;
+    border: 0 solid;
+    border-top-width:1px;
+    border-bottom-width:1px;
+    color:#FFFFFF;
+    line-height:23px;
+	font-size: 18px;
+    font-weight: bold;
+}
+
+.pricetag:before{
+    position:absolute;
+    content:"\25CF";
+    color:white;
+    text-shadow: 0 0 1px #333;
+    font-size:11px;
+    line-height:0px;
+    text-indent:12px;
+    left:-18px;
+	top: 0;
+    width: 1px;
+    height:0px;
+    border-right:18px solid #33bf62;
+    border-top:  17px solid transparent;
+    border-bottom:  16px solid transparent;
+}
+
+#display-ad-box-img {
+    width: 100%;
+    height: auto;
+}
+
+#display-ad-box-mobile {
+    display:none;
+}
+
+@media(min-width:992px) {
+    .col-md-3.col-xs-12.bottom, .col-md-2.col-xs-12.bottom{
+	    float: right;
+	    margin-right: 25%;
+	}
+	.col-md-2.col-xs-12.bottom{
+		margin-right: 32%;
+	}
+	.boxingSparSign{
+	margin-top: 45%;
+	}
+	.registerOr {
+		margin-top: 100px;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 992px){
+	.boxingSparSign{
+		margin-top: 100%;
+	}
+	.form-group {
+	    text-align: left;
+	}
+	.registerOr {
+		margin-top: 100px;
+	}
+    #display-ad-box {
+        display: none;
+    }
+    #display-ad-box-mobile{
+        display:inline-block;
+    }
+}
+
+@media(min-width: 768px){
+	.sparConfirmationSectionRow {
+		text-align: center;
+		margin-top: 30px;
+	}
+	.sparConfirmationRow {
+		text-align: center;
+	}
+	.profilePicture {
+	text-align: center;
+	}
+	.col-md-5.col-sm-5.first-fighter .fighterCard{
+		margin-right: 0px;
+	}
+	.col-md-5.col-sm-5.last-fighter .fighterCard{
+		margin-left: 0px;
+	}
+}
+
+@media (max-width: 240px) {
+  .logo {
+    width: 70%;
+    margin-left: 5px;
   }
+    #display-ad-box {
+        display: none;
+    }
+    #display-ad-box-mobile {
+        display: block;
+    }
+}
+@media (max-width: 320px) {
+
+    dd.right{
+        float: right ;
+    }
+    #display-ad-box {
+        display: none;
+    }
+    #display-ad-box-mobile {
+        display: block;
+    }
+}
+@media (min-width: 240px) {
+
+ 
+}
+@media (min-width: 320px) {
+
+    
+
+}
+@media(max-width: 768px) {
+  .first-fighter {
+	margin-bottom: 20px;
+  }
+  #registerPopupModal .modal-dialog {
+	width: 100%;
+  }
+  .boxingSparSign{
+	max-width:160px;
+  }
+  .form-group {
+	  text-align: left;
+  }
+
+	#myCarousel {
+		margin-left: 0px;
+	}
+
+	.registerOr {
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+    #display-ad-box {
+        display: none;
+    }
+}
+@media (max-width: 500px) {
+
+    dd.right{
+        float: right ;
+    }
+
+	#registerMain {
+		width: 250px;
+	}
+    #display-ad-box {
+        display: none;
+    }
+    #display-ad-box-mobile {
+        display: block;
+    }
+}
+@media (max-width: 640px) {
+	.row.sparConfirmationSectionRow{
+		margin-top: 15px;
+	}
+    dd.right{
+        float: right ;
+    }
+	.carousel-caption {
+		padding: 0px;
+	}
+	.item.row,.carousel-inner > .item > img {
+	    min-height: 300px;
+	}
+	.dl-horizontal dt, .dl-horizontal dd, .feature-box-short .dl-horizontal dt, .feature-box-short .dl-horizontal dd {
+	    display: inline-block;
+		font-size: 12px;
+	}
+
+	.feature-box-short .dl-horizontal dt {
+		width: auto;
+	}
+	.feature-box-short .dl-horizontal dd {
+		margin-left: 0px;
+	}
+
+	.logo {
+		margin-left: 10px;
+		width: 220px;
+	}
+
+	#registerMain {
+		width: 480px;
+	}
+    #display-ad-box {
+        display: none;
+    }
+    #display-ad-box-mobile {
+        display: block;
+    }
+}
+.col-xs-4.bottom {
+  max-width: 120px;
+}
+@media (max-width: 30em) {
+	.order {
+		display: -webkit-box;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-box-orient: vertical;
+		-moz-box-orient: vertical;
+		-webkit-flex-direction: column;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		/* optional */
+		-webkit-box-align: start;
+		-moz-box-align: start;
+		-ms-flex-align: start;
+		-webkit-align-items: flex-start;
+		align-items: flex-start;
+	}
+
+		.order .image {
+			-webkit-box-ordinal-group: 2;
+			-moz-box-ordinal-group: 2;
+			-ms-flex-order: 2;
+			-webkit-order: 2;
+			order: 2;
+		}
+
+		.order .detail {
+			-webkit-box-ordinal-group: 1;
+			-moz-box-ordinal-group: 1;
+			-ms-flex-order: 1;
+			-webkit-order: 1;
+			order: 1;
+		}
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-}
-
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
-}
-
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+@media (max-width: 480px) {
+	#registerMain {
+		width: 100%;
+	}
 }
