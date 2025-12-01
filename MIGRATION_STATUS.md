@@ -1,5 +1,5 @@
 Branch: migrate/aspnetcore
-Last updated: 2025-11-13
+Last updated: 2025-11-30
 
 Summary
 -------
@@ -19,6 +19,12 @@ What we completed
 	- Neutralized `BundleConfig.cs` with a migration note and commented out bundle registration in `Global.asax`.
 	- Removed the `System.Web.Optimization` compile/reference from `SparWeb.csproj` (left a comment explaining why).
 - Verified: `dotnet build` of `SparWebCore` succeeds and running the Core app serves static assets (CSS/JS/fonts load in browser).
+
+- Ported registration UI and basic handling into `SparWebCore`:
+	- Added `SparWebCore/Models/RegisterViewModels.cs` (RegisterMainViewModel, RegisterViewModel, RegisterFighterViewModel, RegisterTrainerViewModel).
+	- Added partials and views: `Views/Shared/RegisterMain.cshtml`, `Views/Shared/RegisterFighterViewModel.cshtml`, `Views/Shared/RegisterTrainerViewModel.cshtml`, `Views/Account/Register.cshtml`, `RegisterFighter.cshtml`, `RegisterTrainer.cshtml`, and `DisplayEmail.cshtml`.
+	- Implemented `AccountController.GetRegisterPopupModal()` to return a Razor partial and added `AccountController` GET and POST actions for registration (POST handlers are placeholders that validate model and return `DisplayEmail`).
+	- Added `UtilCompat` helper and re-enabled the registration popup logic in the migrated layout.
 
 Current status (what’s still pending)
 -------------------------------------
@@ -49,6 +55,14 @@ Verification & notes
 Next recommended step (short-term)
 ---------------------------------
 1. Port the old layout and shared partials into `SparWebCore/Views/Shared`. While porting, replace System.Web-only helpers (child actions, Html.Action, Request.Browser, Url.Content) with Core equivalents or small adapter helpers. Add `_ViewImports.cshtml` and ensure tag helpers/namespaces are available.
+
+Short-term status & next actions
+--------------------------------
+- The registration form markup has been ported and is visible as partials, but the backend persistence (Identity + repositories) is not yet implemented. The POST handlers currently simulate success by returning `DisplayEmail`.
+- To get full registration working we should:
+	1. Wire up ASP.NET Core Identity (UserManager/SignInManager) in `Program.cs` and port ApplicationUser/UserManager setup.
+	2. Port or adapt the repository/data layer (FighterRepository/TrainerRepository) or choose EF Core and migrate models.
+	3. Migrate email sending and configuration to `appsettings.json` and `IConfiguration`.
 
 How to resume
 -------------

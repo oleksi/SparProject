@@ -1,0 +1,17 @@
+@model int?
+
+@{
+    ViewBag.Title = "Registration";
+}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2 text-center">
+        <h2>Join Fightura for FREE</h2>
+        <p>Select how you'd like to register:</p>
+        <p>
+            <a class="btn btn-primary btn-lg" href="@Url.Action("RegisterFighter", "Account")">Register as Fighter</a>
+            <a class="btn btn-secondary btn-lg" href="@Url.Action("RegisterTrainer", "Account")">Register as Trainer</a>
+        </p>
+        <p class="registerForFreeMessage">Have an account already? <a href="@Url.Action("Login", "Account")">Click Here to login</a></p>
+    </div>
+</div>
