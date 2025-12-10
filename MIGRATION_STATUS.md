@@ -58,11 +58,15 @@ Next recommended step (short-term)
 
 Short-term status & next actions
 --------------------------------
-- The registration form markup has been ported and is visible as partials, but the backend persistence (Identity + repositories) is not yet implemented. The POST handlers currently simulate success by returning `DisplayEmail`.
-- To get full registration working we should:
-	1. Wire up ASP.NET Core Identity (UserManager/SignInManager) in `Program.cs` and port ApplicationUser/UserManager setup.
-	2. Port or adapt the repository/data layer (FighterRepository/TrainerRepository) or choose EF Core and migrate models.
-	3. Migrate email sending and configuration to `appsettings.json` and `IConfiguration`.
+- The registration form markup has been ported and is visible as partials. Identity wiring has been implemented (ApplicationUser, ApplicationDbContext, Identity registered in `Program.cs`) and the `AccountController` POST handlers now create users via `UserManager`.
+- Remaining work to reach feature parity:
+	1. Create and apply EF Core migrations (Identity schema + domain entities) and point `SparConnection` at a dev SQL Server for testing.
+	2. Implement persistence of Fighter/Trainer domain entities (repository/service) and associate them with the created Identity user.
+	3. Wire email sending (Elastic Email) and move sensitive keys to secrets or a key vault (we added `appsettings.Development.json.example` and ignored the local dev file).
+
+Notes:
+- EF Core and Identity NuGet packages (compatible with .NET 9) were added; build succeeds locally but runtime DB is required for user creation.
+- There are non-blocking nullable warnings in the view models and POCOs that can be addressed in a tidy-up pass.
 
 How to resume
 -------------
