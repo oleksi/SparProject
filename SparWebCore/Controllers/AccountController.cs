@@ -5,6 +5,17 @@ namespace SparWebCore.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly Microsoft.AspNetCore.Identity.UserManager<SparWebCore.Models.ApplicationUser> _userManager;
+        private readonly Microsoft.AspNetCore.Identity.SignInManager<SparWebCore.Models.ApplicationUser> _signInManager;
+
+        public AccountController(
+            Microsoft.AspNetCore.Identity.UserManager<SparWebCore.Models.ApplicationUser> userManager,
+            Microsoft.AspNetCore.Identity.SignInManager<SparWebCore.Models.ApplicationUser> signInManager)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
         // Lightweight stub used during migration to supply the register popup HTML
         [HttpGet]
         public IActionResult GetRegisterPopupModal()
@@ -40,7 +51,7 @@ namespace SparWebCore.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public IActionResult RegisterFighter(SparWebCore.Models.RegisterFighterViewModel model)
+        public async System.Threading.Tasks.Task<IActionResult> RegisterFighter(SparWebCore.Models.RegisterFighterViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -48,23 +59,65 @@ namespace SparWebCore.Controllers
                 return View(model);
             }
 
-            // TODO: integrate with Identity/UserManager and repositories to create user and fighter.
-            // For now, simulate success and show confirmation.
-            return View("DisplayEmail");
+            var user = new SparWebCore.Models.ApplicationUser
+            {
+                UserName = model.UserName,
+                Email = model.UserName,
+                Name = model.Name,
+                City = model.City,
+                State = model.State,
+                GymName = model.GymName
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded)
+            {
+                foreach (var err in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, err.Description);
+                }
+                return View(model);
+            }
+
+            // Optionally sign in the user immediately
+            await _signInManager.SignInAsync(user, isPersistent: false);
+
+            return View("DisplayEmail", model.UserName);
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public IActionResult RegisterTrainer(SparWebCore.Models.RegisterTrainerViewModel model)
+        public async System.Threading.Tasks.Task<IActionResult> RegisterTrainer(SparWebCore.Models.RegisterTrainerViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            // TODO: integrate with Identity/UserManager and repositories to create user and trainer.
-            return View("DisplayEmail");
+            var user = new SparWebCore.Models.ApplicationUser
+            {
+                UserName = model.UserName,
+                Email = model.UserName,
+                Name = model.Name,
+                City = model.City,
+                State = model.State,
+                GymName = model.GymName
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded)
+            {
+                foreach (var err in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, err.Description);
+                }
+                return View(model);
+            }
+
+            await _signInManager.SignInAsync(user, isPersistent: false);
+
+            return View("DisplayEmail", model.UserName);
         }
     }
 }
