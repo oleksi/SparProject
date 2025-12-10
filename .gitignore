@@ -208,6 +208,9 @@ packages/EntityFramework.6.0.2/tools/install.ps1
 packages/EntityFramework.6.0.2/tools/migrate.exe
 SparWeb/Content/Images/ProfilePics/*
 
+# Local development overrides (do not commit secrets)
+SparWebCore/appsettings.Development.json
+
 Fightura.ppk
 /.vs/SparProject/v15/Server/sqlite3/db.lock
 /.vs/SparProject/v15/Server/sqlite3/storage.ide

@@ -2,6 +2,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+// Bind AppSettings section to a POCO and make it available via IOptions<AppSettings>
+builder.Services.Configure<SparWebCore.Models.AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
 var app = builder.Build();
 

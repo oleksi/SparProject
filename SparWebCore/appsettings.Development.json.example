@@ -1,13 +1,13 @@
 {
   "ConnectionStrings": {
-    "SparConnection": "",
+    "SparConnection": "Server=(localdb)\\mssqllocaldb;Database=SparDev;Trusted_Connection=True;MultipleActiveResultSets=true",
     "SparStorage": "UseDevelopmentStorage=true",
-    "Elmah.Sql": "TBD"
+    "Elmah.Sql": "Data Source=.;Initial Catalog=Elmah;Integrated Security=True"
   },
   "AppSettings": {
     "ProfilePicsUrl": "http://127.0.0.1:10000/devstoreaccount1/images/ProfilePics/",
     "GymPicsUrl": "http://127.0.0.1:10000/devstoreaccount1/images/GymPics/",
-    "ElasticApiKey": "",
+    "ElasticApiKey": "<your-elastic-email-api-key>",
     "ElasticEndpoint": "https://api.elasticemail.com/v2/email/send",
     "ElasticFromEmail": "support@spargym.com",
     "EmailSupport": "Fightura <support@spargym.com>",
@@ -22,15 +22,7 @@
     "elmah.mvc.allowedUsers": "*",
     "elmah.mvc.route": "elmah",
     "elmah.mvc.UserAuthCaseSensitive": true,
-    "reCaptchaPublicKey": "",
-    "reCaptchaPrivateKey": ""
-  },
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft": "Warning",
-      "Microsoft.Hosting.Lifetime": "Information"
-    }
-  },
-  "AllowedHosts": "*"
+    "reCaptchaPublicKey": "<your-recaptcha-public-key>",
+    "reCaptchaPrivateKey": "<your-recaptcha-private-key>"
+  }
 }
