@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using SparWebCore.Data;
 using SparWebCore.Models;
@@ -13,8 +14,18 @@ builder.Services.Configure<SparWebCore.Models.AppSettings>(builder.Configuration
 // Configure EF Core and Identity
 
 var connectionString = builder.Configuration.GetConnectionString("SparConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+// Allow selecting database provider via configuration for local dev (e.g. "Sqlite")
+var dbProvider = builder.Configuration["DatabaseProvider"] ?? builder.Configuration["AppSettings:DatabaseProvider"]; 
+if (!string.IsNullOrEmpty(dbProvider) && dbProvider.Equals("Sqlite", StringComparison.OrdinalIgnoreCase))
+{
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlite(connectionString));
+}
+else
+{
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlServer(connectionString));
+}
 
 builder.Services.AddIdentity<ApplicationUser, Microsoft.AspNetCore.Identity.IdentityRole>(options =>
 {

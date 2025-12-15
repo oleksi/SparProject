@@ -1,5 +1,5 @@
 Branch: migrate/aspnetcore
-Last updated: 2025-11-30
+Last updated: 2025-12-14
 
 Summary
 -------
@@ -26,14 +26,20 @@ What we completed
 	- Implemented `AccountController.GetRegisterPopupModal()` to return a Razor partial and added `AccountController` GET and POST actions for registration (POST handlers are placeholders that validate model and return `DisplayEmail`).
 	- Added `UtilCompat` helper and re-enabled the registration popup logic in the migrated layout.
 
+Latest updates
+- Identity wiring: `ApplicationUser` and `ApplicationDbContext` added; Identity registered in `Program.cs` and configured to select provider via configuration.
+- Local dev DB: added SQLite support and `DatabaseProvider: Sqlite` in `appsettings.Development.json`; added `Microsoft.EntityFrameworkCore.Sqlite` and `Microsoft.EntityFrameworkCore.Design` packages.
+- Migrations: created `InitialIdentity` migration and applied it to a local SQLite DB file (`SparWebCore/spardev.db`).
+- Remote: pushed branch `migrate/aspnetcore` to origin (SSH); a PR can be opened at https://github.com/oleksi/SparProject/pull/new/migrate/aspnetcore
+
 Current status (what’s still pending)
 -------------------------------------
 - Port layout & shared partials: NOT STARTED — We need to copy/adapt `SparWeb/Views/Shared/_Layout.cshtml` and dependent partials into `SparWebCore/Views/Shared`, add `_ViewImports.cshtml`, and replace System.Web-specific helpers.
 - Port controllers & views: IN PROGRESS (view bundle helper replacements done, but actual porting into Core and controller wiring remain).
-- Port configuration: NOT STARTED — Move settings and connection strings from `Web.config` -> `appsettings.json` and wire IConfiguration.
+- Port configuration: IN PROGRESS — `appsettings.Development.json` created for local dev (SQLite). Remaining: finalize `appsettings.json` mapping and move sensitive keys to secrets or env vars.
 - Startup/OWIN middleware migration: NOT STARTED — Replace OWIN startup with ASP.NET Core middleware (authentication, session, error handling, etc.).
 - Data layer migration: NOT STARTED — Decide EF6 vs EF Core and implement.
-- Auth & Identity migration: NOT STARTED — Move from ASP.NET Identity 2.x/OWIN to ASP.NET Core Identity or equivalent.
+- Auth & Identity migration: IN PROGRESS — Identity wired and migrations applied; remaining: confirm registration/login flows persist to DB and port any custom cookie/external provider options.
 - Logging/telemetry: NOT STARTED — Replace ELMAH with Serilog/AI or ElmahCore for Core.
 - CI/Docker/tests & Final polish: NOT STARTED
 
@@ -55,6 +61,8 @@ Verification & notes
 Next recommended step (short-term)
 ---------------------------------
 1. Port the old layout and shared partials into `SparWebCore/Views/Shared`. While porting, replace System.Web-only helpers (child actions, Html.Action, Request.Browser, Url.Content) with Core equivalents or small adapter helpers. Add `_ViewImports.cshtml` and ensure tag helpers/namespaces are available.
+2. Verify Identity end-to-end: run the app in Development (uses `appsettings.Development.json`), register a user via the registration view, and confirm the `AspNetUsers` row is created in `SparWebCore/spardev.db`.
+3. Migrate middleware (cookie options, external providers) and port remaining controllers & views so the UI can be manually exercised.
 
 Short-term status & next actions
 --------------------------------
