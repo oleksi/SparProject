@@ -76,6 +76,7 @@ namespace SparWebCore.Controllers
                 foreach (var err in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, err.Description);
+                    System.Console.WriteLine($"Identity create error: {err.Code} - {err.Description}");
                 }
                 return View(model);
             }
@@ -113,6 +114,7 @@ namespace SparWebCore.Controllers
                 foreach (var err in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, err.Description);
+                    System.Console.WriteLine($"Identity create error: {err.Code} - {err.Description}");
                 }
                 return View(model);
             }
