@@ -3,6 +3,20 @@
     padding-bottom: 20px;
 }
 
+/* Glyphicons font paths for ASP.NET Core wwwroot */
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('/fonts/glyphicons-halflings-regular.eot');
+  src: url('/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/glyphicons-halflings-regular.woff2') format('woff2'),
+       url('/fonts/glyphicons-halflings-regular.woff') format('woff'),
+       url('/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
+       url('/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -120,7 +134,7 @@ input[type="checkbox"].input-validation-error {
 .profilePictureDefaultFighter {
 	width: 250px;
 	height: 250px;
-	background-image: url("/Content/Images/anonymous-photo-fighter-250X250.jpg");
+    background-image: url("/images/anonymous-photo-fighter-250X250.jpg");
     background-position: 0 0;
     background-repeat: no-repeat;
 	cursor: pointer;
@@ -130,7 +144,7 @@ input[type="checkbox"].input-validation-error {
 
 .profilePictureDefaultFighter150X150 {
 	height: 150px;
-	background-image: url("/Content/Images/anonymous-photo-fighter-150X150.jpg");
+    background-image: url("/images/anonymous-photo-fighter-150X150.jpg");
     background-position: 18px 0;
     background-repeat: no-repeat;
 	cursor: pointer;
@@ -141,7 +155,7 @@ input[type="checkbox"].input-validation-error {
 .profilePictureDefaultTrainer {
 	width: 250px;
 	height: 250px;
-	background-image: url("/Content/Images/anonymous-photo-trainer-250X250.jpg");
+    background-image: url("/images/anonymous-photo-trainer-250X250.jpg");
     background-position: 0 0;
     background-repeat: no-repeat;
 	cursor: pointer;
@@ -151,7 +165,7 @@ input[type="checkbox"].input-validation-error {
 
 .profilePictureDefaultTrainer150X150 {
 	height: 150px;
-	background-image: url("/Content/Images/anonymous-photo-trainer-150X150.jpg");
+    background-image: url("/images/anonymous-photo-trainer-150X150.jpg");
     background-position: 18px 0;
     background-repeat: no-repeat;
 	cursor: pointer;
@@ -331,7 +345,7 @@ a.btn.btn-default.btn-lg {
     z-index: 1;
 }
 .social a {
-    background: rgba(0, 0, 0, 0) url("/Content/Images/social.png") no-repeat scroll left top;
+    background: rgba(0, 0, 0, 0) url("/images/social.png") no-repeat scroll left top;
     height: 32px;
     margin: 0 0 10px 10px;
     position: relative;
