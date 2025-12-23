@@ -733,3 +733,10 @@ a.btn.btn-default.btn-lg {
 		width: 100%;
 	}
 }
+
+/* Fix: parent .text-center breaks Bootstrap form-horizontal grid; reset alignment for form rows */
+.register-form .form-group {
+  text-align: left;
+}
+
+

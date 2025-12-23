@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SparWebCore.Controllers
 {
@@ -36,8 +38,8 @@ namespace SparWebCore.Controllers
         [AllowAnonymous]
         public IActionResult RegisterFighter()
         {
-            // Stubbed page for migration; real form implementation will be added later.
-            return View();
+            PopulateViewBagForRegistration();
+            return View(new SparWebCore.Models.RegisterFighterViewModel { Sex = true, IsSouthpaw = false });
         }
 
         [HttpGet]
@@ -120,6 +122,13 @@ namespace SparWebCore.Controllers
             await _signInManager.SignInAsync(user, isPersistent: false);
 
             return View("DisplayEmail", model.UserName);
+        }
+
+        private void PopulateViewBagForRegistration()
+        {
+            ViewBag.HeightToCentimetersMap = SparWebCore.Models.Util.HeightToCentimetersMap;
+            ViewBag.WeightClassMap = SparWebCore.Models.Util.WeightClassMap;
+            ViewBag.States = SparWebCore.Models.Util.States;
         }
     }
 }

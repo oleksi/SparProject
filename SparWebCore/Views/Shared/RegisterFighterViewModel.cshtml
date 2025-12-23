@@ -15,21 +15,40 @@
 <div class="form-group">
     @Html.LabelFor(m => m.Sex, new { @class = "col-md-4 control-label" })
     <div class="col-md-8">
-        @Html.EditorFor(m => m.Sex)
+        @if (Model.Sex == true)
+        {
+            @Html.RadioButtonFor(m => m.Sex, true, new { @checked = "checked" }) <text>Male</text>
+            <text>&nbsp;&nbsp;</text>
+            @Html.RadioButtonFor(m => m.Sex, false) <text>Female</text>
+        }
+        else
+        {
+            @Html.RadioButtonFor(m => m.Sex, true) <text>Male</text>
+            <text>&nbsp;&nbsp;</text>
+            @Html.RadioButtonFor(m => m.Sex, false, new { @checked = "checked" }) <text>Female</text>
+        }
         @Html.ValidationMessageFor(m => m.Sex)
     </div>
 </div>
 <div class="form-group">
     @Html.LabelFor(m => m.Height, new { @class = "col-md-4 control-label" })
     <div class="col-md-8">
-        @Html.TextBoxFor(m => m.Height, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.Height)
+        <div class="row">
+            <div class="col-md-12">
+                @Html.DropDownListFor(m => m.Height, (new SelectList(ViewBag.HeightToCentimetersMap, "Key", "Value", Model.Height)), "Please select", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @Html.ValidationMessageFor(m => m.Height)
+            </div>
+        </div>
     </div>
 </div>
 <div class="form-group">
     @Html.LabelFor(m => m.Weight, new { @class = "col-md-4 control-label" })
     <div class="col-md-8">
-        @Html.TextBoxFor(m => m.Weight, new { @class = "form-control" })
+        @Html.DropDownListFor(m => m.Weight, (new SelectList(ViewBag.WeightClassMap, "Key", "Value", Model.Weight)), "Please select", new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.Weight)
     </div>
 </div>
@@ -80,8 +99,16 @@
 <div class="form-group">
     @Html.LabelFor(m => m.State, new { @class = "col-md-4 control-label" })
     <div class="col-md-8">
-        @Html.TextBoxFor(m => m.State, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.State)
+        <div class="row">
+            <div class="col-md-12">
+                @Html.DropDownListFor(m => m.State, (new SelectList(ViewBag.States, "Key", "Value", Model.State)), "Please select", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @Html.ValidationMessageFor(m => m.State)
+            </div>
+        </div>
     </div>
 </div>
 <div class="form-group">
