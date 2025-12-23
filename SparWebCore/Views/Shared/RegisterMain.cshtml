@@ -12,6 +12,7 @@
                 <div class="@((Model.IsPopupMode == false)? "col-md-offset-2 col-md-8 text-center" : "col-md-offset-1 col-md-10 text-center")">
                     <h2>Ready to Spar? Register as a Fighter</h2>
                     @Html.AntiForgeryToken()
+                    @await Html.PartialAsync("RegisterFighterViewModel", new SparWebCore.Models.RegisterFighterViewModel() { Sex = true, IsSouthpaw = false })
                     <h4>Are you <b>Trainer</b> not a Fighter? <a href="#" id="registerTrainer">Click here</a> to register as a Trainer</h4>
                     <p>Have an account already? <a href="@Url.Action("Login", "Account")">Click Here to login</a></p>
                     <hr />
@@ -19,8 +20,6 @@
             </div>
             <div class="row">
                 <div class="@((Model.IsPopupMode == false)? "col-md-offset-2 col-md-6" : "col-md-10")">
-                    @{ await Html.PartialAsync("RegisterFighterViewModel", new SparWebCore.Models.RegisterFighterViewModel() { Sex = true, IsSouthpaw = false }); }
-
                     <div class="form-group">
                         <div class="col-md-offset-4 col-md-8">
                             <br />
