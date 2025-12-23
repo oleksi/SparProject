@@ -51,6 +51,11 @@ Files changed (recent)
 - `SparWeb/Global.asax.cs` — commented out `BundleConfig.RegisterBundles` call
 - `SparWeb/SparWeb.csproj` — removed `System.Web.Optimization` compile/reference (left migration comment)
 - `SparWeb/Views/Web.config` — removed System.Web.Optimization namespace entry
+- **Registration Form Updates (2025-12-14)**:
+	- `SparWebCore/Models/Util.cs` — NEW: Static dictionaries for Height, Weight Class, and State dropdowns
+	- `SparWebCore/Controllers/AccountController.cs` — Added `PopulateViewBagForRegistration()` method and updated RegisterFighter GET action
+	- `SparWebCore/Views/Shared/RegisterFighterViewModel.cshtml` — Converted to dropdowns (Height, Weight, State) and radio buttons (Gender)
+	- `SparWebCore/wwwroot/css/site.css` — Added minimal CSS fix for form-group text-align; removed all custom .register-form overrides
 
 Verification & notes
 --------------------
@@ -67,14 +72,30 @@ Next recommended step (short-term)
 Short-term status & next actions
 --------------------------------
 - The registration form markup has been ported and is visible as partials. Identity wiring has been implemented (ApplicationUser, ApplicationDbContext, Identity registered in `Program.cs`) and the `AccountController` POST handlers now create users via `UserManager`.
+- **Registration Form UI - IMPROVED (2025-12-14)**:
+	- Fixed async partial rendering issue; registration form inputs now visible and functional
+	- Resolved Bootstrap styling conflicts by removing custom CSS overrides and using Bootstrap's native form styling
+	- Added single minimal CSS rule to fix form-group text-align issue caused by parent .text-center
+	- **Created `Models/Util.cs`** with static dictionaries for dropdown data (Height, Weight Class, States/Provinces)
+	- **Updated `AccountController.RegisterFighter` GET action** to populate ViewBag with dropdown data via `PopulateViewBagForRegistration()` method
+	- **Converted form controls to match original**:
+		- Height: Now dropdown with imperial height options (4'8" to 6'3")
+		- Weight Class: Now dropdown with boxing/MMA weight classes
+		- State/Province: Now dropdown with US states and Canadian provinces
+		- Gender: Now radio buttons (Male/Female) instead of checkbox
+	- Form submission working and persists users to SQLite database (spardev.db)
+	- **Status**: Form functional with proper control types; additional UI polish needed to match original pixel-perfect
 - Remaining work to reach feature parity:
 	1. Create and apply EF Core migrations (Identity schema + domain entities) and point `SparConnection` at a dev SQL Server for testing.
 	2. Implement persistence of Fighter/Trainer domain entities (repository/service) and associate them with the created Identity user.
 	3. Wire email sending (Elastic Email) and move sensitive keys to secrets or a key vault (we added `appsettings.Development.json.example` and ignored the local dev file).
+	4. Continue UI polish on registration form to match original layout/spacing/typography exactly
 
 Notes:
 - EF Core and Identity NuGet packages (compatible with .NET 9) were added; build succeeds locally but runtime DB is required for user creation.
 - There are non-blocking nullable warnings in the view models and POCOs that can be addressed in a tidy-up pass.
+- Static assets (Bootstrap 3.x, CSS, fonts, images) are being served correctly at http://localhost:5028
+- Using minimal CSS approach: letting Bootstrap handle form styling with single targeted override for layout fix
 
 How to resume
 -------------
