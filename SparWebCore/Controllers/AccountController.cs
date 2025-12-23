@@ -50,8 +50,7 @@ namespace SparWebCore.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        // NOTE: Antiforgery validation temporarily disabled for local migration test
-        // [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async System.Threading.Tasks.Task<IActionResult> RegisterFighter(SparWebCore.Models.RegisterFighterViewModel model)
         {
             if (!ModelState.IsValid)
@@ -76,7 +75,6 @@ namespace SparWebCore.Controllers
                 foreach (var err in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, err.Description);
-                    System.Console.WriteLine($"Identity create error: {err.Code} - {err.Description}");
                 }
                 return View(model);
             }
@@ -89,8 +87,7 @@ namespace SparWebCore.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        // NOTE: Antiforgery validation temporarily disabled for local migration test
-        // [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async System.Threading.Tasks.Task<IActionResult> RegisterTrainer(SparWebCore.Models.RegisterTrainerViewModel model)
         {
             if (!ModelState.IsValid)
@@ -114,7 +111,6 @@ namespace SparWebCore.Controllers
                 foreach (var err in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, err.Description);
-                    System.Console.WriteLine($"Identity create error: {err.Code} - {err.Description}");
                 }
                 return View(model);
             }

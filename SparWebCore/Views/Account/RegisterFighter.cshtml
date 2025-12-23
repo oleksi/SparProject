@@ -2,10 +2,4 @@
     ViewBag.Title = "Register as Fighter";
 }
 
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <h2>Register as a Fighter (stub)</h2>
-        <p>This page is a migration stub. The full registration form will be added later.</p>
-        <p><a href="@Url.Action("Register", "Account")">Back to registration options</a></p>
-    </div>
-</div>
+@{ Html.RenderPartial("RegisterMain", new SparWebCore.Models.RegisterMainViewModel() { Mode = 1, IsPopupMode = false }); }

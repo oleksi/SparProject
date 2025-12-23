@@ -62,7 +62,7 @@ namespace SparWebCore.Models
         public string ConfirmPassword { get; set; }
 
         [Display(Name = "Gym name")]
-        public string GymName { get; set; }
+        public string? GymName { get; set; }
     }
 
     public class RegisterFighterViewModel : RegisterViewModel
@@ -95,10 +95,10 @@ namespace SparWebCore.Models
         public decimal? Rate { get; set; }
 
         [Display(Name = "Tell us more about yourself")]
-        public string Comments { get; set; }
+        public string? Comments { get; set; }
 
         public bool AddedByTrainer { get; set; }
-        public string TrainerId { get; set; }
+        public string? TrainerId { get; set; }
     }
 
     public class RegisterTrainerViewModel : RegisterViewModel
