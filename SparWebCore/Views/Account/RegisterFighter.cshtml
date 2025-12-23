@@ -2,4 +2,4 @@
     ViewBag.Title = "Register as Fighter";
 }
 
-@{ Html.RenderPartial("RegisterMain", new SparWebCore.Models.RegisterMainViewModel() { Mode = 1, IsPopupMode = false }); }
+<partial name="RegisterMain" model="new SparWebCore.Models.RegisterMainViewModel() { Mode = 1, IsPopupMode = false }" />
