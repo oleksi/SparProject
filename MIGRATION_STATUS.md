@@ -1,5 +1,5 @@
 Branch: migrate/aspnetcore
-Last updated: 2025-12-14
+Last updated: 2026-02-17
 
 Summary
 -------
@@ -31,6 +31,10 @@ Latest updates
 - Local dev DB: added SQLite support and `DatabaseProvider: Sqlite` in `appsettings.Development.json`; added `Microsoft.EntityFrameworkCore.Sqlite` and `Microsoft.EntityFrameworkCore.Design` packages.
 - Migrations: created `InitialIdentity` migration and applied it to a local SQLite DB file (`SparWebCore/spardev.db`).
 - Remote: pushed branch `migrate/aspnetcore` to origin (SSH); a PR can be opened at https://github.com/oleksi/SparProject/pull/new/migrate/aspnetcore
+- **EF Core Fighter persistence (2026-02-17)**:
+	- Added `Fighter` entity and EF Core mapping for `Fighters` table (from NHibernate mapping).
+	- Created and applied `AddFighters` migration to SQLite (`spardev.db`).
+	- Updated fighter registration flow to save all form fields into `Fighters` table.
 
 Current status (what’s still pending)
 -------------------------------------
@@ -38,7 +42,7 @@ Current status (what’s still pending)
 - Port controllers & views: IN PROGRESS (view bundle helper replacements done, but actual porting into Core and controller wiring remain).
 - Port configuration: IN PROGRESS — `appsettings.Development.json` created for local dev (SQLite). Remaining: finalize `appsettings.json` mapping and move sensitive keys to secrets or env vars.
 - Startup/OWIN middleware migration: NOT STARTED — Replace OWIN startup with ASP.NET Core middleware (authentication, session, error handling, etc.).
-- Data layer migration: NOT STARTED — Decide EF6 vs EF Core and implement.
+- Data layer migration: IN PROGRESS — EF Core mapping and migration added for Fighters; remaining domain entities still pending.
 - Auth & Identity migration: IN PROGRESS — Identity wired and migrations applied; remaining: confirm registration/login flows persist to DB and port any custom cookie/external provider options.
 - Logging/telemetry: NOT STARTED — Replace ELMAH with Serilog/AI or ElmahCore for Core.
 - CI/Docker/tests & Final polish: NOT STARTED
@@ -56,6 +60,11 @@ Files changed (recent)
 	- `SparWebCore/Controllers/AccountController.cs` — Added `PopulateViewBagForRegistration()` method and updated RegisterFighter GET action
 	- `SparWebCore/Views/Shared/RegisterFighterViewModel.cshtml` — Converted to dropdowns (Height, Weight, State) and radio buttons (Gender)
 	- `SparWebCore/wwwroot/css/site.css` — Added minimal CSS fix for form-group text-align; removed all custom .register-form overrides
+- **EF Core Fighter persistence (2026-02-17)**:
+	- `SparWebCore/Models/Fighter.cs` — NEW: EF Core entity for Fighters
+	- `SparWebCore/Data/ApplicationDbContext.cs` — Added `DbSet<Fighter>` and Fluent mapping for Fighters table/columns
+	- `SparWebCore/Data/Migrations/20260218041312_AddFighters.cs` — NEW: EF migration for Fighters table
+	- `SparWebCore/Controllers/AccountController.cs` — Save Fighter record on registration (all form fields)
 
 Verification & notes
 --------------------
@@ -85,6 +94,8 @@ Short-term status & next actions
 		- Gender: Now radio buttons (Male/Female) instead of checkbox
 	- Form submission working and persists users to SQLite database (spardev.db)
 	- **Status**: Form functional with proper control types; additional UI polish needed to match original pixel-perfect
+- **EF Core Fighter persistence - COMPLETE (2026-02-17)**:
+	- Fighter registration now saves all fields into `Fighters` table.
 - Remaining work to reach feature parity:
 	1. Create and apply EF Core migrations (Identity schema + domain entities) and point `SparConnection` at a dev SQL Server for testing.
 	2. Implement persistence of Fighter/Trainer domain entities (repository/service) and associate them with the created Identity user.

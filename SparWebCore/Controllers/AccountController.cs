@@ -9,13 +9,16 @@ namespace SparWebCore.Controllers
     {
         private readonly Microsoft.AspNetCore.Identity.UserManager<SparWebCore.Models.ApplicationUser> _userManager;
         private readonly Microsoft.AspNetCore.Identity.SignInManager<SparWebCore.Models.ApplicationUser> _signInManager;
+        private readonly SparWebCore.Data.ApplicationDbContext _dbContext;
 
         public AccountController(
             Microsoft.AspNetCore.Identity.UserManager<SparWebCore.Models.ApplicationUser> userManager,
-            Microsoft.AspNetCore.Identity.SignInManager<SparWebCore.Models.ApplicationUser> signInManager)
+            Microsoft.AspNetCore.Identity.SignInManager<SparWebCore.Models.ApplicationUser> signInManager,
+            SparWebCore.Data.ApplicationDbContext dbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _dbContext = dbContext;
         }
 
         // Lightweight stub used during migration to supply the register popup HTML
@@ -60,6 +63,19 @@ namespace SparWebCore.Controllers
             if (!ModelState.IsValid)
             {
                 // Re-display the register view with validation errors
+                PopulateViewBagForRegistration();
+                return View(model);
+            }
+
+            System.DateTime dateOfBirth;
+            try
+            {
+                dateOfBirth = new System.DateTime(model.DateOfBirth.Year, model.DateOfBirth.Month, model.DateOfBirth.Day);
+            }
+            catch (System.ArgumentOutOfRangeException)
+            {
+                ModelState.AddModelError("DateOfBirth", "Please enter a valid date of birth");
+                PopulateViewBagForRegistration();
                 return View(model);
             }
 
@@ -80,8 +96,34 @@ namespace SparWebCore.Controllers
                 {
                     ModelState.AddModelError(string.Empty, err.Description);
                 }
+                PopulateViewBagForRegistration();
                 return View(model);
             }
+
+            var now = System.DateTime.UtcNow;
+            var fighter = new SparWebCore.Models.Fighter
+            {
+                Name = model.Name,
+                Sex = model.Sex,
+                DateOfBirth = dateOfBirth,
+                City = model.City,
+                State = model.State,
+                Height = model.Height,
+                Weight = model.Weight,
+                IsSouthpaw = model.IsSouthpaw,
+                NumberOfAmateurFights = model.NumberOfAmateurFights,
+                NumberOfProFights = model.NumberOfProFights,
+                Rate = model.Rate,
+                Comments = model.Comments,
+                AspNetUserId = user.Id,
+                ProfilePictureUploaded = false,
+                InsertDate = now,
+                UpdateDate = now,
+                IsDemo = false
+            };
+
+            _dbContext.Fighters.Add(fighter);
+            await _dbContext.SaveChangesAsync();
 
             // Optionally sign in the user immediately
             await _signInManager.SignInAsync(user, isPersistent: false);
